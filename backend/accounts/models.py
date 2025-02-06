@@ -60,7 +60,7 @@ class Member(User):
     ]
 
     occupation = models.CharField(max_length=20, choices=OCCUPATION_CHOICES, default=OCCUPATION_CHOICES[0][0])
-    role = models.CharField(max_length=20, default='Member')
+    role = models.CharField(max_length=20, default='Member', editable=False)
 
     project = models.ForeignKey(project.Project, on_delete=models.SET_NULL, blank=True, null=True)
     assinged_date = models.DateTimeField(default=datetime.now, blank=True, null=True)
