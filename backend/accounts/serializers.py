@@ -16,12 +16,10 @@ class MemberSerializer(serializers.ModelSerializer):
     # Django ka recommended approach yeh hai ki password hashing ko serializer mein handle kiya jaye for Consistency and Flexibility concerns
     def create(self, validated_data):
         password = validated_data.pop('password', None)
-
         if password:
             member = Member(**validated_data) # Member ka object create kr rha hu, so that pwd nikal sku
             member.set_password(password)
             member.save()
-        
         return member 
     
     
@@ -42,11 +40,9 @@ class AdminSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
-
         if password:
             admin = Admin(**validated_data)
             admin.set_password(password)
             admin.save()
-        
         return admin
         
