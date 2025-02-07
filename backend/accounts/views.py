@@ -21,7 +21,7 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
-# TokenBasedAuth
+# TokenBasedAuth (login)
 class LoginAPIView(APIView):
     def post(self, request):
         email = request.data.get('email')
@@ -34,6 +34,7 @@ class LoginAPIView(APIView):
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+# logout 
 class LogoutAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated] # User Login Hona Chahiye
@@ -42,6 +43,7 @@ class LogoutAPIView(APIView):
         request.user.auth_token.delete() # User ka Token Delete
         return Response(status=status.HTTP_200_OK)
 
+# register
 class RegisterAPIView(GenericAPIView, CreateModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
