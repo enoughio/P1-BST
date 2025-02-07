@@ -24,6 +24,7 @@ class MemberSerializer(serializers.ModelSerializer):
         
         return member 
     
+    
 # Adding project to Member wala serializer    
 class MemberProjectSerializer(serializers.ModelSerializer):
     class Meta:

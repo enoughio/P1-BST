@@ -18,7 +18,7 @@ class User(AbstractUser):
         ('Other', 'Other'),
     ]
 
-    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     
     email = models.EmailField(unique=True)
     phone = models.CharField(unique=True, max_length=10)
