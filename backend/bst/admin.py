@@ -1,26 +1,9 @@
 from django.contrib import admin
 
-from bst.models import (club, club_admin, project)
-
-class CustomAdmin(admin.ModelAdmin):
-    # Specify which fields to display
-    list_display = ('username', 'email', 'club_name', 'is_active', 'is_staff',)
-
-    # exclude = ('groups',)
-
-    # You can add other customizations as needed
-    search_fields = ('email', 'username',)
-
-    ordering = ('username',)
-
-    #def model_attribute(self, obj):
-        #obj represents an instance of uss model ka jike saath isko integrate kr rhe hn
-    def club_name(self, obj):
-        return obj.club.club_id
-
+from bst.models import (club, project, meeting, event, event_registration, award)
 
 class CustomAdminProject(admin.ModelAdmin):
-    list_display = ('project_id', 'title', 'created_at',)
+    list_display = ('project_id', 'title',)
 
 
 class CustomAdminClub(admin.ModelAdmin):
@@ -28,6 +11,9 @@ class CustomAdminClub(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(club_admin.Admin, CustomAdmin)
 admin.site.register(club.Club, CustomAdminClub)
 admin.site.register(project.Project, CustomAdminProject)
+admin.site.register(meeting.Meeting)
+admin.site.register(event.Event)
+# admin.site.register(event_registration.EventRegistration)
+# admin.site.register(award.Award)
