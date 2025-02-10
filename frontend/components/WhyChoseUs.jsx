@@ -1,63 +1,82 @@
-import Image from "next/image"
+import Image from "next/image";
 import { LuMoveUpRight } from "react-icons/lu";
+import SmallFatArrow from "./ui/SmallFatArrow";
+
+// import { LuMoveUpRight } from "lucide-react"
 
 const features = [
   {
-    title: "Expert Instructors",
+    title: "Transform Your Public Speaking Skills",
     description:
-      "Est cupiditate ipsam aut nostrum unde At maiores nostrum ab eius odit est minima maxime. Qui odio voluptas et rerum sapiente eum voluptas praesentium et magnam iusto qui nihil natus aut perferendis maxime hic sunt galisum. Non veritatis laborum ex tempora nihil aut fugiat dolorem qui corporis fugit.",
+      "Everyone has a story worth telling. Our structured programs build your confidence and communication skills, whether you're a beginner or an experienced speaker. With expert guidance and a supportive community, you'll refine your craft, becoming more persuasive, confident, and impactful in any setting.",
     image: "/placeholder.svg?height=400&width=600",
   },
   {
-    title: "Expert Instructors",
+    title: "Unlock New Opportunities For Growth",
     description:
-      "Est cupiditate ipsam aut nostrum unde At maiores nostrum ab eius odit est minima maxime. Qui odio voluptas et rerum sapiente eum voluptas praesentium et magnam iusto qui nihil natus aut perferendis maxime hic sunt galisum. Non veritatis laborum ex tempora nihil aut fugiat dolorem qui corporis fugit.",
+      "Joining Bharat Storytellers goes beyond public speaking. As you refine your storytelling and communication skills, you'll gain confidence, expand career opportunities, and enhance your ability to lead and inspire—leading to professional success and stronger relationships.",
     image: "/placeholder.svg?height=400&width=600",
   },
   {
-    title: "Expert Instructors",
+    title: "Connect With A Like-Minded Community",
     description:
-      "Est cupiditate ipsam aut nostrum unde At maiores nostrum ab eius odit est minima maxime. Qui odio voluptas et rerum sapiente eum voluptas praesentium et magnam iusto qui nihil natus aut perferendis maxime hic sunt galisum. Non veritatis laborum ex tempora nihil aut fugiat dolorem qui corporis fugit.",
+      "Bharat Storytellers is more than a club—it’s a network of passionate individuals dedicated to growth and success. Surround yourself with like-minded people, collaborate, and build lasting connections while mastering storytelling and communication.",
     image: "/placeholder.svg?height=400&width=600",
   },
-]
+];
 
 export function WhyChooseUs() {
   return (
-    <section className="relative pb-20 pt-16 w-full h-screen" >
-      <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-4xl font-bold">Why Choose us?</h2>
-          <p className="text-lg text-gray-600">Quo excepturi quos eum voluptas dicta ut enim deserunt</p>
+    <section className="wrapper w-[95%]  bg-[#F9F9F9] mx-auto">
+      <div className="main-container w-full  flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full mb-4">
+          <div className="w-full flex flex-col items-center justify-center">
+            <div>
+              <h1 className="text-5xl font-bold">Why Chose Us</h1>
+              <div className="w-[70%]  h-2 bg-red-300 "> </div>
+            </div>
+          </div>
+          <div>
+            <p>Quo excepturi quos eum voluptas dicta ut enim deserunt</p>
+          </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* <div className="flex flex- items-center justify-center w-full bg-yellow-100"> */}
+        {/* //cards */}
+
+        <div className="flex flex-col md:flex-row items-start justify-center w-full rounded-lg overflow-hidden bg-red gap-2">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-3xl bg-white shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl"
+              className="flex flex-col w-full p-1 md:w-1/3 items-center justify-center bg-blue"
             >
-              <div className="relative mb-6 h- overflow-hidden rounded-2xl">
+              <div>
                 <Image
-                  src={feature.image || "/placeholder.svg"}
+                  src={feature.image}
                   alt={feature.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  height={400}
+                  width={600}
                 />
               </div>
-              <div className="relative bg-[#F7EBEC] p-6">
-                <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-xl font-bold">{feature.title}</h3>
-                  <LuMoveUpRight className="h-5 w-5 text-gray-400" />
+
+              <div className="relative bg-red-200 p-4 rounded-b-lg w-full">
+                <div >
+                  <div className="absolute top-0 right-0" >
+                    <SmallFatArrow />
+                  </div>
+                  <h1 className="text-xl mb-2 font-bold flex justify-between">
+                    {feature.title}
+                  </h1>
                 </div>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-md font-thin leading-tight tracking-tight">
+                  {feature.description}
+                </p>
               </div>
             </div>
           ))}
         </div>
+        {/* </div> */}
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-pink-50 to-transparent" />
     </section>
-  )
+  );
 }
-

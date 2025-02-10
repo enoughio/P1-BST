@@ -64,7 +64,7 @@ export default function Hero() {
       </div>
     </section> */}
 
-      <section className="relative overflow-hidden bg-background md:py-10 px-2">
+      <section className="relative overflow-hidden bg-background md:py-5 px-2">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
             <div className="left_container flex flex-col justify-start ">
@@ -117,21 +117,21 @@ export default function Hero() {
               */}
 
               <div className=" left text flex flex-col justify-center items-end">
-                <div className="relative text-right pr-3 md:py-3 flex gap-1">
-                  <h1 className="text-4xl font-bold tracking-tighter text-wrap sm:text-6xl xl:text-[4.5rem] md:mt-3">
+                <div className="relative text-right pr-3 md:py-2 flex gap-1">
+                  <h1 className="text-4xl font-bold tracking-tighter text-wrap sm:text-6xl xl:text-[3.5rem] md:mt-3">
                     We help you become everyone's favorite speaker!
                   </h1>
                   <div className=" mt-2 w-2.5 h-[87.1%]  md:w-5 md:h-[91%] bg-[#F1D2D4]"></div>
                   <div className="absolute -bottom-2 right-6 ml- mt-2 h-1.5 md:h-2 w-[82%] bg-[#C7D9FB]"></div>
                 </div>
-                <p className="w-full text-muted-foreground text- font-thin leading-tight sm:leading-[30px]  pr-4 my-3 md:my-5 hidden sm:inline-block">
+                {/* <p className="w-full  text-muted-foreground text- font-thin leading-tight sm:leading-[30px]  pr-4 my-3 md:my-5 hidden sm:inline-block">
                   Master the art of storytelling, communication, and public
                   speaking with Bharat Storytellers. Whether you're a beginner
                   overcoming stage fright or a speaker refining your craft, our
                   community empowers you with skills, confidence, and a
                   supportive stage to shine.
-                </p>
-                <p className="max-w-[600px] text-muted-foreground text-right font-normal leading-tight sm:leading-[30px]  pr-4 my-3 md:my-5 sm:hidden">
+                </p> */}
+                <p className="max-w-[600px] text-muted-foreground text-right font-normal leading-tight sm:leading-[30px]  pr-4 my-3 md:my-5 ">
                   Learn storytelling, communication, and public speaking with
                   Bharat Storytellers. Gain confidence, refine your skills, and
                   shine on stage!
@@ -238,8 +238,8 @@ export default function Hero() {
                 src="/test_hero.svg"
                 alt="Hero image"
                 className="object-cover "
-                width={1200}
-                height={1200}
+                width={1000}
+                height={1000}
               />
             </div>
           </div>
