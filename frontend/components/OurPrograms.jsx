@@ -56,6 +56,11 @@ const OurPrograms = () => {
               </div>
 
               {/* big card with bubbles */}
+
+                  {/*  
+                  
+                  */ }
+
               <div
                 className="relative overflow-hidden col-span-2 md:col-span-4 row-span-2 h-[300px]  rounded-lg shadow-md flex items-center justify-center aspect-w-1 aspect-h-1"
                 style={{
@@ -122,7 +127,7 @@ const OurPrograms = () => {
                 >
                 <>
                 <div
-                  className="absolute -right-10 top-0 w-32 h-32 rounded-full  "
+                  className="absolute -right-14 -top-2 w-32 h-32 rounded-full    "
                   style={{
                     background: "rgba(92, 149, 255, .3)",
                   }}
