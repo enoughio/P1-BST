@@ -1,5 +1,7 @@
+import Journy from "@/components/Journy";
 import OurPrograms from "@/components/OurPrograms";
 import  Hero  from "@/components/ui/Hero";
+import Testimonials from "@/components/ui/Testimonials";
 import { WhyChooseUs } from "@/components/WhyChoseUs";
 import Image from "next/image";
 
@@ -10,6 +12,9 @@ export default function Home() {
       <Hero /> 
       <WhyChooseUs />     
       <OurPrograms />
+      <Journy />
+      <Testimonials />
+
     </div>
   );
 }

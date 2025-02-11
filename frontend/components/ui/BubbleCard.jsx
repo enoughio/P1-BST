@@ -25,7 +25,7 @@ const BubbleCard = React.forwardRef(
     {
       className,
       cardSize, // "large" or "small"
-      bubbleVariant, // "default", "small", or "smallWithBubbles"
+      bubbleVariant, // "default", "small", or "normal"
       title,
       BubbleColor= { background: "rgba(92, 149, 255, 0.3)" },
       subHeading,
@@ -90,7 +90,6 @@ const BubbleCard = React.forwardRef(
         )}
         {bubbleVariant === "small" && (
           <>
-            upp
             <div
               className="absolute -right-14 -top-2 w-32 h-32 rounded-full"
             //   style={{ background: "rgba(92, 149, 255, 0.3)" }}
@@ -103,7 +102,7 @@ const BubbleCard = React.forwardRef(
             />
           </>
         )}
-        {bubbleVariant === "smallWithBubbles" && (
+        {bubbleVariant === "normal" && (
           <>
             <div
               className="absolute -right-16 top-0 w-40 h-40 rounded-full"
