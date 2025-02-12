@@ -10,8 +10,8 @@ const cardVariants = cva(
     variants: {
       // These classes control the overall grid placement, height, and aspect ratio.
       cardSize: {
-        large: "col-span-2 md:col-span-4 row-span-2 h-[300px] aspect-w-1 aspect-h-1",
-        small: "col-span-4 md:col-span-2 row-span-2 h-[300px] aspect-w-1 aspect-h-1",
+        large: "col-span-4 md:col-span-4 row-span-2 h-[300px] aspect-w-1 aspect-h-1",
+        small: "col-span-2 md:col-span-2 row-span-2 h-[300px] aspect-w-1 aspect-h-1",
       },
     },
     defaultVariants: {
