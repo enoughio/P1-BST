@@ -1,6 +1,7 @@
+import JoinUs from "@/components/JoinUs";
 import Journy from "@/components/Journy";
 import OurPrograms from "@/components/OurPrograms";
-import  Hero  from "@/components/ui/Hero";
+import Hero from "@/components/ui/Hero";
 import Testimonials from "@/components/ui/Testimonials";
 import { WhyChooseUs } from "@/components/WhyChoseUs";
 import Image from "next/image";
@@ -9,11 +10,13 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="w-full h-full">
-      <Hero /> 
-      <WhyChooseUs />     
+      <Hero />
+      <WhyChooseUs />
       <OurPrograms />
       <Journy />
       <Testimonials />
+      <JoinUs title="Visit Bharat Storytellers and Become a member today!" subHeading={"become a member"} />
+
 
     </div>
   );
