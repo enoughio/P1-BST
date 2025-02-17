@@ -44,7 +44,7 @@ export function WhyChooseUs() {
         {/* <div className="flex flex- items-center justify-center w-full bg-yellow-100"> */}
         {/* //cards */}
 
-        <div className="flex flex-col md:flex-row items-start justify-center w-full rounded-lg overflow-hidden bg-red gap-2">
+        <div className="flex flex-col md:flex-row items-start justify-center w-full rounded-lg overflow-hidden gap-2">
           {features.map((feature, index) => (
             <div
               key={index}
@@ -64,7 +64,7 @@ export function WhyChooseUs() {
                   <div className="absolute top-0 right-0" >
                     <SmallFatArrow />
                   </div>
-                  <h1 className="text-xl mb-2 font-bold flex justify-between">
+                  <h1 className="text-xl mb-3 leading-none font-bold flex justify-between ">
                     {feature.title}
                   </h1>
                 </div>

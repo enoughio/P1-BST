@@ -9,7 +9,7 @@ const MemberCard = ({ subHeading, title }) => (
     className="h-[300px] w-[55%] relative overflow-hidden rounded-lg shadow-md flex items-start flex-col gap-8 p-5"
     style={{ background: "rgba(92, 149, 255, 0.3)" }}
   >
-    <div className="flex flex-col items-start justify-start">
+    <div className="flex flex-col items-start justify-start w-[80%]">
       <p className="text-lg font-extralight">{subHeading}</p>
       <h1 className="text-3xl font-semibold leading-none">{title}</h1>
     </div>

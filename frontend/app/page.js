@@ -1,3 +1,4 @@
+import Fotter from "@/components/Fotter";
 import JoinUs from "@/components/JoinUs";
 import Journy from "@/components/Journy";
 import OurPrograms from "@/components/OurPrograms";
@@ -15,8 +16,8 @@ export default function Home() {
       <OurPrograms />
       <Journy />
       <Testimonials />
-      <JoinUs title="Visit Bharat Storytellers and Become a member today!" subHeading={"become a member"} />
-
+      <JoinUs title="Visit Bharat Storytellers and Become a member today!" subHeading={"Become a member"} />
+      <Fotter />
 
     </div>
   );
