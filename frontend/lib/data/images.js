@@ -6,7 +6,7 @@ const findAClubImg = './svgs/findAClub.svg'
 const learningImg = './svgs/learning.svg'
 const notesImg = './svgs/notes.svg'
 const podcastImg = './svgs/podcast.svg'
-const groupPhoto = './group-photo.svg'
+const groupPhoto = '/group-photo.jpg'
 
 export {
     youngOratersImg,
