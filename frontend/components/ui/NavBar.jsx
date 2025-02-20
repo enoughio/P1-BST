@@ -50,7 +50,7 @@ export function MainNav() {
             />
 
             {/* Mobile Menu */}
-            <Sheet>
+            <Sheet >
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="md:hidden">
                   <Menu className="h-6 w-6" />
@@ -58,7 +58,7 @@ export function MainNav() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <nav className="flex flex-col space-y-4">
+                <nav className="flex flex-col ">
                   {navigation.map((item) => (
                     <Link key={item.name} href={item.href} className="text-lg font-medium">
                       {item.name}

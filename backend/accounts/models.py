@@ -7,9 +7,16 @@ from .managers import UserManager
 from bst.models import club, project
 
 import uuid
+<<<<<<< HEAD
 from PIL import Image
 
 # User Model
+=======
+from datetime import datetime
+from PIL import Image
+
+# Create your models here.
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class User(AbstractUser):
     GENDER_CHOICES = [
         ('Male', 'Male'),
@@ -32,6 +39,7 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+<<<<<<< HEAD
     def save(self, *args, **kwargs):
         if not self.pk and not User.objects.filter(pk=self.pk).exists():
             self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
@@ -39,6 +47,26 @@ class User(AbstractUser):
 
 
 # Member Model
+=======
+
+    #for resizing image
+    def save(self):
+        super().save()
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+    # def save(self, *args, **kwargs):
+    #     if not self.pk and not User.objects.filter(pk=self.pk).exists():
+    #         self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
+    #     return super(User, self).save(*args, **kwargs)
+
+
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class Member(User):
     OCCUPATION_CHOICES = [
         ('Student', 'Student'),
@@ -51,13 +79,19 @@ class Member(User):
     role = models.CharField(max_length=20, default='Member', editable=False)
 
     project = models.ForeignKey(project.Project, on_delete=models.SET_NULL, blank=True, null=True)
+<<<<<<< HEAD
     assinged_date = models.DateTimeField(blank=True, null=True)
     completion_date = models.DateTimeField(blank=True, null=True)
+=======
+    assinged_date = models.DateTimeField(default=datetime.now, blank=True, null=True)
+    completion_date = models.DateTimeField(default=datetime.now, blank=True, null=True)
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 
     class Meta:
         verbose_name = "Member"
         verbose_name_plural = "Members"
 
+<<<<<<< HEAD
 
     # for resizing image
     # def save(self):
@@ -71,11 +105,16 @@ class Member(User):
     #         img.save(self.image.path)
 
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     def __str__(self):
         return f"(Member) - {self.username}"
 
 
+<<<<<<< HEAD
 # Admin - (admin, superadmin) Model
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class Admin(User):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
@@ -90,6 +129,7 @@ class Admin(User):
         verbose_name = "Admin"
         verbose_name_plural = "Admins" # Yeh admin panel mein plural name define karega
 
+<<<<<<< HEAD
 
     # for resizing image
     # def save(self):
@@ -103,6 +143,8 @@ class Admin(User):
     #         img.save(self.image.path)
 
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     def __str__(self):
         if self.is_superuser:
             return f"(SuperAdmin) - {self.username}"

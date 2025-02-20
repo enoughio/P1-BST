@@ -14,13 +14,18 @@ from rest_framework.mixins import (ListModelMixin,
                                    UpdateModelMixin,)
 
 from rest_framework.authentication import TokenAuthentication
+<<<<<<< HEAD
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
+=======
+from rest_framework.permissions import IsAuthenticated
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 from rest_framework import status
 
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
+<<<<<<< HEAD
 
 # permissions
 class AdminLevelPermission(BasePermission):
@@ -32,6 +37,8 @@ class SuperAdminLevelPermission(BasePermission):
         return request.user and request.user.is_staff
 
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 # TokenBasedAuth (login)
 class LoginAPIView(APIView):
     def post(self, request):
@@ -54,7 +61,11 @@ class LogoutAPIView(APIView):
         request.user.auth_token.delete() # User ka Token Delete
         return Response(status=status.HTTP_200_OK)
 
+<<<<<<< HEAD
 # register (create member)
+=======
+# register
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class RegisterAPIView(GenericAPIView, CreateModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
@@ -63,17 +74,24 @@ class RegisterAPIView(GenericAPIView, CreateModelMixin):
         return self.create(request)
 
 
+<<<<<<< HEAD
 # list members
 class MemberListAPIView(GenericAPIView, ListModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
     permission_classes = [IsAdminUser]
+=======
+class MemberAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     
     def get(self, request):
         return self.list(request)
     
 
+<<<<<<< HEAD
 # For member (dashboard)
 class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     queryset = Member.objects.all()
@@ -85,35 +103,52 @@ class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
         return self.retrieve(request, *args, **kwargs)
     
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
 
+<<<<<<< HEAD
     permission_classes = [IsAdminUser]
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
+<<<<<<< HEAD
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
     
+=======
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
 
+<<<<<<< HEAD
 
 # class MemberProjectRetrieve(GenericAPIView, RetrieveModelMixin):
 #     queryset = 
 
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Member
     serializer_class = MemberProjectSerializer
     lookup_field = 'username'
 
+<<<<<<< HEAD
     permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
@@ -121,6 +156,13 @@ class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+=======
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request):
+        return self.update(request)
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     
 
 
@@ -136,6 +178,7 @@ class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.list(request)
 
 
+<<<<<<< HEAD
 # For member (dashboard)
 class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     queryset = Admin.objects.all()
@@ -147,13 +190,18 @@ class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
         return self.retrieve(request, *args, **kwargs)
 
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 class AdminRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
 
+<<<<<<< HEAD
     permission_classes = [SuperAdminLevelPermission]
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
     def get(self, request, *args, **kwargs):
@@ -164,6 +212,9 @@ class AdminRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+<<<<<<< HEAD
     
 
 
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7

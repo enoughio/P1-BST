@@ -7,6 +7,7 @@ from rest_framework.mixins import (CreateModelMixin,
 
 from rest_framework import generics
 
+<<<<<<< HEAD
 from bst.models import club, event, meeting, project
 from bst.serializers import (ClubSerializer,
                              EventSerializer,
@@ -18,6 +19,14 @@ from bst.serializers import (ClubSerializer,
 from rest_framework.permissions import IsAdminUser
 
 
+=======
+from bst.models import club, event, meeting
+from bst.serializers import (ClubSerializer,
+                             EventSerializer,
+                             MeetingSerializer,
+                             )
+
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 # Create your views here.
 class ClubAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = club.Club.objects.all()
@@ -60,7 +69,11 @@ class EventAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
 class EventRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = event.Event.objects.all()
     serializer_class = EventSerializer
+<<<<<<< HEAD
     lookup_field = 'event_id'
+=======
+
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -70,6 +83,7 @@ class EventRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+<<<<<<< HEAD
 
 
 class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
@@ -98,3 +112,5 @@ class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+=======
+>>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
