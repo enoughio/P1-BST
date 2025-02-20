@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from bst.models import club, event, meeting
+from bst.models import club, event, meeting, project
 
 class ClubSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,4 +17,10 @@ class EventSerializer(serializers.ModelSerializer):
 class MeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = meeting.Meeting
+        fields = '__all__'
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = project.Project
         fields = '__all__'

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Member, Admin
+from .models import User, Member, Admin
 
 
 
@@ -39,5 +39,6 @@ class CustomAdmin(admin.ModelAdmin):
 
 # Register your models here.
 # admin.site.register(Model, CustomModelAdmin)
+# admin.site.register(User)
 admin.site.register(Member, CustomUserAdmin)
 admin.site.register(Admin, CustomUserAdmin)
