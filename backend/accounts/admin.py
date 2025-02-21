@@ -1,11 +1,6 @@
 from django.contrib import admin
 
-<<<<<<< HEAD
 from .models import User, Member, Admin
-=======
-from .models import Member, Admin
->>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
-
 
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -43,9 +38,6 @@ class CustomAdmin(admin.ModelAdmin):
 
 # Register your models here.
 # admin.site.register(Model, CustomModelAdmin)
-<<<<<<< HEAD
 # admin.site.register(User)
-=======
->>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
 admin.site.register(Member, CustomUserAdmin)
 admin.site.register(Admin, CustomUserAdmin)

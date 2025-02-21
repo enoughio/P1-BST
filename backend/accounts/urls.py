@@ -6,7 +6,6 @@ from .views import (RegisterAPIView,
     
                     MemberRetriveAPIView,
                     MemberListAPIView,
-                    MemberAPIView,
                     MemberRetrieveUpdateDestroyAPIView,
                     
                     MemberProjectRetrieveUpdateAPIView,
@@ -32,7 +31,7 @@ urlpatterns = [
     path('admins/', AdminAPIView.as_view(), name='list-admin'),
     path('register/', RegisterAPIView.as_view(), name='register-member'),
 
-    path('members/', MemberAPIView.as_view(), name='list-member'),
+    path('members/', MemberListAPIView.as_view(), name='list-member'),
     path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='get-member'),
     path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='update-member'),
     path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='remove-member'),

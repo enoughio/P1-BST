@@ -12,9 +12,5 @@ class Event(models.Model):
     location = models.TextField(blank=True, null=True)    
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 4312131207f86003a5d39219bf7db4df82b05cd7
     def __str__(self):
         return self.title
