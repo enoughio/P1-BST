@@ -14,12 +14,23 @@ from rest_framework.mixins import (ListModelMixin,
                                    UpdateModelMixin,)
 
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
 from rest_framework import status
 
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+
+
+# permissions
+class AdminLevelPermission(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.role=='Admin'
+
+class SuperAdminLevelPermission(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_staff
+
 
 # TokenBasedAuth (login)
 class LoginAPIView(APIView):
@@ -43,7 +54,7 @@ class LogoutAPIView(APIView):
         request.user.auth_token.delete() # User ka Token Delete
         return Response(status=status.HTTP_200_OK)
 
-# register
+# register (create member)
 class RegisterAPIView(GenericAPIView, CreateModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
@@ -52,12 +63,27 @@ class RegisterAPIView(GenericAPIView, CreateModelMixin):
         return self.create(request)
 
 
-class MemberAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+# list members
+class MemberListAPIView(GenericAPIView, ListModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+
+    # permission_classes = [IsAdminUser]
     
     def get(self, request):
         return self.list(request)
+    
+
+# For member (dashboard)
+class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+    lookup_field = 'username'
+
+    # permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
     
 
 class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -65,18 +91,23 @@ class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MemberSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
 
+    # permission_classes = [IsAdminUser]
+
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
     
-
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+
+# class MemberProjectRetrieve(GenericAPIView, RetrieveModelMixin):
+#     queryset = 
 
 
 class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
@@ -84,11 +115,13 @@ class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = MemberProjectSerializer
     lookup_field = 'username'
 
+    permission_classes = [IsAdminUser]
+
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request):
-        return self.update(request)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
     
 
 
@@ -104,10 +137,24 @@ class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.list(request)
 
 
+# For admin (dashboard)
+class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
+    queryset = Admin.objects.all()
+    serializer_class = AdminSerializer
+    lookup_field = 'username'
+
+    permission_classes = [AdminLevelPermission]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
 class AdminRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
+
+    permission_classes = [SuperAdminLevelPermission]
 
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
@@ -119,3 +166,6 @@ class AdminRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+    
+
+

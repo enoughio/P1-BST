@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,14 +89,27 @@ WSGI_APPLICATION = 'bst_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'bst_db',  # Tumhara PostgreSQL database ka naam
+#         'USER': 'postgres',    # PostgreSQL ka default username
+#         'PASSWORD': 'HareKrsna#123',  # Tumhara PostgreSQL password
+#         'HOST': 'localhost',   # Localhost use karo
+#         'PORT': '5432',        # Default PostgreSQL port
+#     }
+# }
+
+tmpPostgres = urlparse('postgresql://neondb_owner:npg_2WgyZYoJ3jrq@ep-blue-mountain-a1263gvk-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bst_db',  # Tumhara PostgreSQL database ka naam
-        'USER': 'postgres',    # PostgreSQL ka default username
-        'PASSWORD': 'HareKrsna#123',  # Tumhara PostgreSQL password
-        'HOST': 'localhost',   # Localhost use karo
-        'PORT': '5432',        # Default PostgreSQL port
+        'NAME': tmpPostgres.path.replace('/', ''),
+        'USER': tmpPostgres.username,
+        'PASSWORD': tmpPostgres.password,
+        'HOST': tmpPostgres.hostname,
+        'PORT': 5432,
     }
 }
 

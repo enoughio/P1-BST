@@ -7,10 +7,9 @@ from .managers import UserManager
 from bst.models import club, project
 
 import uuid
-from datetime import datetime
 from PIL import Image
 
-# Create your models here.
+# User Model
 class User(AbstractUser):
     GENDER_CHOICES = [
         ('Male', 'Male'),
@@ -33,24 +32,13 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-
-    #for resizing image
-    def save(self):
-        super().save()
-
-        img = Image.open(self.image.path)
-
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
-
-    # def save(self, *args, **kwargs):
-    #     if not self.pk and not User.objects.filter(pk=self.pk).exists():
-    #         self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
-    #     return super(User, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.pk and not User.objects.filter(pk=self.pk).exists():
+            self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
+        return super(User, self).save(*args, **kwargs)
 
 
+# Member Model
 class Member(User):
     OCCUPATION_CHOICES = [
         ('Student', 'Student'),
@@ -63,17 +51,31 @@ class Member(User):
     role = models.CharField(max_length=20, default='Member', editable=False)
 
     project = models.ForeignKey(project.Project, on_delete=models.SET_NULL, blank=True, null=True)
-    assinged_date = models.DateTimeField(default=datetime.now, blank=True, null=True)
-    completion_date = models.DateTimeField(default=datetime.now, blank=True, null=True)
+    assinged_date = models.DateTimeField(blank=True, null=True)
+    completion_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Member"
         verbose_name_plural = "Members"
 
+
+    # for resizing image
+    # def save(self):
+    #     super().save()
+
+    #     img = Image.open(self.image.path)
+
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
+
+
     def __str__(self):
         return f"(Member) - {self.username}"
 
 
+# Admin - (admin, superadmin) Model
 class Admin(User):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
@@ -87,6 +89,19 @@ class Admin(User):
     class Meta:
         verbose_name = "Admin"
         verbose_name_plural = "Admins" # Yeh admin panel mein plural name define karega
+
+
+    # for resizing image
+    # def save(self):
+    #     super().save()
+
+    #     img = Image.open(self.image.path)
+
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
+
 
     def __str__(self):
         if self.is_superuser:
