@@ -68,7 +68,7 @@ class MemberListAPIView(GenericAPIView, ListModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
     
     def get(self, request):
         return self.list(request)
@@ -78,8 +78,9 @@ class MemberListAPIView(GenericAPIView, ListModelMixin):
 class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
+    lookup_field = 'username'
 
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -90,7 +91,7 @@ class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MemberSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
@@ -136,10 +137,11 @@ class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.list(request)
 
 
-# For member (dashboard)
+# For admin (dashboard)
 class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
+    lookup_field = 'username'
 
     permission_classes = [AdminLevelPermission]
 
