@@ -5,7 +5,10 @@ from .views import (ClubAPIView,
                     ClubRetrieveUpdateDestroyAPIView,
                     
                     EventAPIView,
-                    EventRetrieveUpdateDestroyAPIView) 
+                    EventRetrieveUpdateDestroyAPIView,
+                    
+                    ProjectAPIView,
+                    ProjectRetrieveUpdateAPIView) 
 
 urlpatterns = [
     path('clubs/', ClubAPIView.as_view(), name='create-club'),
@@ -20,7 +23,11 @@ urlpatterns = [
     path('events/<str:club_name>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='get-event'),
     path('events/<str:club_name>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='update-event'),
     path('events/<str:club_name>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='remove-event'),
-
-
+    
+    
+    path('project/', ProjectAPIView.as_view(), name='create-project'),
+    path('project/', ProjectAPIView.as_view(), name='list-project'),
+    path('project/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='get-project'),
+    path('project/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='update-project'),
 ]
 
