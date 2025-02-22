@@ -1,0 +1,12 @@
+asgiref==3.8.1
+colorama==0.4.6
+decorator==5.1.1
+Django==5.1.6
+psutil==6.0.0
+pyte==0.8.2
+six==1.16.0
+sqlparse==0.5.3
+thefuck==3.32
+tzdata==2025.1
+wcwidth==0.2.13
+win_unicode_console==0.5
