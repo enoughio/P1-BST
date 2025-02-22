@@ -18,7 +18,7 @@ const LoginPage = () => {
     fetch("/api/login", {
       method: "POST",
       body
-    }
+    })
 
   };
 
