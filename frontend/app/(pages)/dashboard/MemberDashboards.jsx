@@ -2,7 +2,7 @@
 
 import UserAvatar from "./user-avatar";
 import InformationCard from "./information-card";
-import MembershipHistory from "./membership-history";
+import MembershipHistory from "../member/[username]/membership-history";
 import UserDetailsForm from "./user-details-form";
 import PasswordForm from "./password-form";
 

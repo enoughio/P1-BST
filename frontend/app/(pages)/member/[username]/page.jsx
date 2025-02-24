@@ -1,6 +1,10 @@
 import { Phone } from "lucide-react";
 import React from "react";
 import BasicInfo from "./BasicInfo";
+import MyClub from "./MyClub.jsx";
+import AdditionalInfo from "./AdditionalInfo.jsx";
+import PrivercyPolicy from "./PrivercyPolicy.jsx";
+import { MembershipHistory } from "./membership-history";
 
 const user = {
   username: "JohnDoe",
@@ -12,29 +16,46 @@ const user = {
   DOB: "01-01-1990",
   address: "123, Main Street, City, Country",
   profilePic: "https://picsum.photos/200/300",
+  club: {
+    clubName: "Club Name",
+    clubId: "Club Id",
+    clubAddress: "lorem  destructure firstName and lastName from user",
+    clubAdmin: "Avril Pavar",
+  },
 };
 
 const page = () => {
   const { firstName, lastName } = user; // destructure firstName and lastName from user
 
   return (
-    <div>
-      <div className=" w-full h-20 bg-blue-400 text-center ">
-        <h1 className="text-3xl font-bold my-auto">
-          WellCome {firstName}, {lastName}{" "}
-        </h1>{" "}
+    <div className="flex flex-col md:flex-row gap-5 mx-8 my-5 ">
+      {/* basic info   */}
+      <div className="flex flex-col gap-5 ">
+        <div className="">
+          <BasicInfo user={user} />
+        </div>
+
+        <div className="X">
+          <MyClub club={user.club} />
+        </div>
       </div>
 
-      {/* basic info   */}
-      <BasicInfo user={user} />
+      <div className="flex flex-col gap-5">
+        {/* additionla info */}
+        <div className="md:col-span-2">
+          <AdditionalInfo user={user} />
+        </div>
 
-      {/* additionla info */}
+        {/* my club  */}
 
-      {/* my club  */}
+        {/* membership history */}
+        <div className="">
+          <MembershipHistory />
+        </div>
 
-      {/* membership history */}
-
-      {/* privercy policy */}
+        {/* privercy policy  */}
+        <PrivercyPolicy />
+      </div>
     </div>
   );
 };

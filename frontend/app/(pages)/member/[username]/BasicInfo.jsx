@@ -23,10 +23,9 @@ const BasicInfo = (props) => {
   } = props.user;
 
   return (
-    <div className="max-w-[500px] bg-slate-700 flex  flex-col p-3 gap-4 rounded-2xl m-5">
-
-      <div className="flex  items-center justify-around">
-        <Avatar className="w-[150px] h-[150px]">
+    <div className="md:min-w-[450px] border shadow-xl flex  flex-col gap-2 px-5 py-3 rounded-2xl ">
+      <div className="self-start flex items-center justify-between w-full my-3">
+        <Avatar className="w-[100px] h-[100px]">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
@@ -34,18 +33,38 @@ const BasicInfo = (props) => {
       </div>
 
       <div>
-        <ul className="leading-5"> 
-            <li>First Name: {firstName}</li>
-            <li>Last Name: {lastName}</li>
-            <li>Email: {email}</li>
-            <li>Phone: {Phone}</li>
-            <li>Gender: {gender}</li>
+        <ul className="leading-6 text-sm flex flex-col gap-2">
+          <div>
+          <li className="font-light text-xs">First Name: </li>
+          <li>{firstName}</li>
+          </div>
 
+          <div>
+
+          <li className="font-light text-xs">Last Name:</li>
+          <li>{lastName}</li>
+          </div>
+
+          <div>
+
+          <li className="font-light text-xs">Email:</li>
+          <li>{email}</li>
+          </div>
+
+          <div>
+
+          <li className="font-light text-xs">Phone:</li>
+          <li>{Phone}</li>
+          </div>
+
+          <div>
+          <li className="font-light text-xs">Gender:</li>
+          <li>{gender}</li>
+          </div>
         </ul>
-       
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="self-end flex justify-center items-center mr-3 font-thin text-gray-500">
         <h1>edit</h1>
         <PenIcon />{" "}
       </div>
