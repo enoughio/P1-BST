@@ -5,10 +5,11 @@ from bst.models.club import Club
 from accounts.models import Member
 
 from datetime import datetime
-import uuid
+import random
 
 class Meeting(models.Model):
-    meeting_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # meeting_id = models.CharField(max_length=3, primary_key=True, default=random.randint(100, 999), editable=False)
+    meeting_id = models.AutoField(primary_key=True, editable=False)
     agenda = models.CharField(blank=True, null=True)
     schedule = models.DateTimeField(default=datetime.now, blank=True, null=True) # Manually editable
     location = models.TextField(blank=True, null=True)

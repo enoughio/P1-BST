@@ -15,13 +15,23 @@ from bst.serializers import (ClubSerializer,
                              )
 
 
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import BasePermission
+
+class AdminLevelPermission(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.role is 'Admin'
+
+class SuperAdminLevelPermission(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and request.user.is_staff
 
 
 # Create your views here.
 class ClubAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = club.Club.objects.all()
     serializer_class = ClubSerializer
+
+    # permission_classes = [SuperAdminLevelPermission]
 
     def post(self, request):
         return self.create(request)
@@ -33,7 +43,9 @@ class ClubAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
 class ClubRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = club.Club.objects.all()
     serializer_class = ClubSerializer
-    lookup_field = 'club_name'
+    lookup_field = 'club_id'
+
+    # permission_classes = [SuperAdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

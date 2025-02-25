@@ -7,6 +7,8 @@ from .views import (RegisterAPIView,
                     MemberRetriveAPIView,
                     MemberListAPIView,
                     MemberRetrieveUpdateDestroyAPIView,
+                    MemberUpdateBasicInfoAPIView,
+                    MemberUpdateAdditionalInfoAPIView,
                     
                     MemberProjectRetrieveUpdateAPIView,
                     
@@ -15,14 +17,24 @@ from .views import (RegisterAPIView,
 
 
 urlpatterns = [
+    # [auth]
     path("login/", LoginAPIView.as_view(), name="login"),
     path("logout/", LogoutAPIView.as_view(), name="logout"),
     path('register/', RegisterAPIView.as_view(), name='register'),
 
-    path('<str:username>/dashboard/', MemberRetriveAPIView.as_view(), name='get-member-dashboard'),
+    # [members]
     path('members/', MemberListAPIView.as_view(), name='list-member'),
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='update-member'),
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='remove-member'),
+    path('<str:username>/dashboard/', MemberRetriveAPIView.as_view(), name='member-dashboard'),
+    path('members/<str:username>/basic/', MemberUpdateBasicInfoAPIView.as_view(), name='update-member-basic-info'),
+    path('members/<str:username>/additional/', MemberUpdateAdditionalInfoAPIView.as_view(), name='update-member-additional-info'),
+    
+    # [admin, super-admin]
+    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='member-detail'),
+    
+    # path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='update-member'),
+    
+    # [only super-admin]
+    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='delete-member'),
 
     path('members/<str:username>/assign/', MemberProjectRetrieveUpdateAPIView.as_view(), name='assign-project'),
 

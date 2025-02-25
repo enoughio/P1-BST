@@ -2,7 +2,11 @@ from rest_framework.response import Response
 # from rest_framework.decorators import api_view, authentication_classes
 
 from .models import Member, Admin
-from accounts.serializers import (MemberSerializer,
+from accounts.serializers import (MemberRegisterSerializer,
+                                  MemberListSerializer,
+                                  MemberSerializer,
+                                  MemberBasicInfoSerializer,
+                                  MemberAdditionalInfoSerialzer,
                                   MemberProjectSerializer,
                                   AdminSerializer)
 
@@ -18,6 +22,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermiss
 from rest_framework import status
 
 from rest_framework.views import APIView
+from rest_framework import viewsets
+
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
@@ -25,7 +31,7 @@ from rest_framework.authtoken.models import Token
 # permissions
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.role=='Admin'
+        return request.user and request.user.role is 'Admin'
 
 class SuperAdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
@@ -57,22 +63,27 @@ class LogoutAPIView(APIView):
 # register (create member)
 class RegisterAPIView(GenericAPIView, CreateModelMixin):
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer
+    serializer_class = MemberRegisterSerializer
 
     def post(self, request):
         return self.create(request)
 
 
-# list members
+# [Member]
 class MemberListAPIView(GenericAPIView, ListModelMixin):
     queryset = Member.objects.all()
-    serializer_class = MemberSerializer
-
-    # permission_classes = [IsAdminUser]
+    serializer_class = MemberListSerializer
+    # permission_classes = [AdminLevelPermission]
     
     def get(self, request):
         return self.list(request)
     
+        # response = self.list(request)
+
+        # return Response({
+        #     'total': self.get_queryset().count(),
+        #     # response.data
+        # })
 
 # For member (dashboard)
 class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
@@ -83,15 +94,14 @@ class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     # permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-    
+        return self.retrieve(request, *args, **kwargs)    
 
 class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
 
-    # permission_classes = [IsAdminUser]
+    # permission_classes = [SuperAdminLevelPermission]
 
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
@@ -103,7 +113,33 @@ class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+    
 
+class MemberUpdateBasicInfoAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberBasicInfoSerializer
+    lookup_field = 'username'
+
+    # permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+class MemberUpdateAdditionalInfoAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberAdditionalInfoSerialzer
+    lookup_field = 'username'
+
+    # permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
 
 # class MemberProjectRetrieve(GenericAPIView, RetrieveModelMixin):
@@ -115,7 +151,7 @@ class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = MemberProjectSerializer
     lookup_field = 'username'
 
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -124,8 +160,13 @@ class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
         return self.update(request, *args, **kwargs)
     
 
+# def total_registered_members(request):
+#     cnt = Member.objects.all().count()
+#     return cnt
+    
 
-# Admin APIView
+
+# [Admin]
 class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
