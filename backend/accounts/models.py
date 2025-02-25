@@ -21,7 +21,7 @@ class User(AbstractUser):
     
     email = models.EmailField(unique=True)
     phone = models.CharField(unique=True, max_length=10)
-    image = models.ImageField(upload_to='profile_images/', default='default.jpg')
+    avatar = models.ImageField(upload_to='profile_images/', default='default.jpg')
     address = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default=GENDER_CHOICES[0][0])
     dob = models.DateField(default='2001-04-11') #Default as today's date #2001-04-11

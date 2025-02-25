@@ -7,7 +7,7 @@ class CustomAdminProject(admin.ModelAdmin):
 
 
 class CustomAdminClub(admin.ModelAdmin):
-    list_display = ('club_name', 'city', 'state', 'postal_code',)
+    list_display = ('club_id', 'club_name', 'city', 'state', 'postal_code',)
 
 
 # Register your models here.
