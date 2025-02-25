@@ -24,6 +24,7 @@ const user = {
   },
 };
 
+
 const page = () => {
   const { firstName, lastName } = user; // destructure firstName and lastName from user
 
