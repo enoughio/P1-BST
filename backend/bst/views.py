@@ -19,7 +19,7 @@ from rest_framework.permissions import BasePermission
 
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.role is 'Admin'
+        return request.user and request.user.role == 'Admin'
 
 class SuperAdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
