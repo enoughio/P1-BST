@@ -1,10 +1,10 @@
 import { Phone } from "lucide-react";
 import React from "react";
-import BasicInfo from "./BasicInfo";
-import MyClub from "./MyClub.jsx";
-import AdditionalInfo from "./AdditionalInfo.jsx";
-import PrivercyPolicy from "./PrivercyPolicy.jsx";
-import { MembershipHistory } from "./membership-history";
+import BasicInfo from "../../../../../components/ui/dashboard/BasicInfo";
+import MyClub from "../../../../../components/ui/dashboard/MyClub.jsx";
+import AdditionalInfo from "../../../../../components/ui/dashboard/AdditionalInfo.jsx";
+import PrivercyPolicy from "../../../../../components/ui/dashboard/PrivercyPolicy.jsx";
+import { MembershipHistory } from "../../../../../components/ui/dashboard/membership-history";
 
 const user = {
   username: "JohnDoe",
