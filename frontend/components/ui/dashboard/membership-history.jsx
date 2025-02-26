@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function MembershipHistory() {
+export default function MembershipHistory() {
   const pathname = usePathname();
   console.log(pathname);
 

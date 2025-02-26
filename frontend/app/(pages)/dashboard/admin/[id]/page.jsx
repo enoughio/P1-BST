@@ -6,13 +6,15 @@ const Page = async ({ params }) => {
   // console.log("Params received:", params)
   
   // Extract the id from params
-  const admin_id = await params.id
+  const {id } = await params
   // console.log("Extracted ID:", admin_id)
 
   return (
     <div>
-        {/* club details along with admin */}
-        <ClubDetails admin={admin_id} />
+        
+
+        {/* club details along */}
+        <ClubDetails admin={ id && id} />
     </div>
   )
 }

@@ -1,9 +1,19 @@
 import React from 'react'
 
-const ClubDetails = () => {
+
+//TODO : fetch club and admin details form the backedn
+
+
+const ClubDetails = (props) => {
+    const admin_id = props.admin
+    console.log("Extracted ID:", admin_id)
+
   return (
     <div>
-            
+        <h1>{admin_id}</h1>
+        {/* club details along */}
+
+
 
     </div>
   )
