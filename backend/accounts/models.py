@@ -20,7 +20,7 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     
     email = models.EmailField(unique=True)
-    phone = models.CharField(unique=True, max_length=10)
+    phone = models.CharField(max_length=10)
     avatar = models.ImageField(upload_to='profile_images/', default='default.jpg')
     address = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default=GENDER_CHOICES[0][0])
@@ -32,10 +32,10 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-    def save(self, *args, **kwargs):
-        if not self.pk and not User.objects.filter(pk=self.pk).exists():
-            self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
-        return super(User, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.pk and not User.objects.filter(pk=self.pk).exists():
+    #         self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
+    #     return super(User, self).save(*args, **kwargs)
 
 
 # Member Model

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import (RegisterAPIView,
+from .views import (RegisterMemberAPIView,
                     LoginAPIView,
                     LogoutAPIView,
     
@@ -13,6 +13,7 @@ from .views import (RegisterAPIView,
                     MemberProjectRetrieveUpdateAPIView,
                     
                     AdminAPIView,
+                    RegisterAdminAPIView,
                     AdminRetrieveUpdateDestroyAPIView)
 
 
@@ -20,7 +21,7 @@ urlpatterns = [
     # [auth]
     path("login/", LoginAPIView.as_view(), name="login"),
     path("logout/", LogoutAPIView.as_view(), name="logout"),
-    path('register/', RegisterAPIView.as_view(), name='register'),
+    path('members/create/', RegisterMemberAPIView.as_view(), name='register'),
 
     # [members]
     path('members/', MemberListAPIView.as_view(), name='list-member'),
@@ -38,21 +39,40 @@ urlpatterns = [
 
     path('members/<str:username>/assign/', MemberProjectRetrieveUpdateAPIView.as_view(), name='assign-project'),
 
+
     path('<str:username>/dashboard/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='get-admin'),
-    path('admins/', AdminAPIView.as_view(), name='create-admin'),
     path('admins/', AdminAPIView.as_view(), name='list-admin'),
-    path('register/', RegisterAPIView.as_view(), name='register-member'),
-
-    path('members/', MemberListAPIView.as_view(), name='list-member'),
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='get-member'),
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='update-member'),
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='remove-member'),
-
-    path('<str:username>/assign/', MemberProjectRetrieveUpdateAPIView.as_view(), name='assign-project'),
-
-    path('admins/', AdminAPIView.as_view(), name='create-admin'),
-    path('admins/', AdminAPIView.as_view(), name='list-admin'),
+    path('admins/create/', RegisterAdminAPIView.as_view(), name='create-admin'),
     path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='get-admin'),
     path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='update-admin'),
     path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='remove-admin'),
 ]
+
+
+'''
+[members]
+http://127.0.0.1:8000/api/accounts/
+login/
+logout/
+members/create/
+
+[to list members - admin only]
+http://127.0.0.1:8000/api/accounts/
+members/
+members/username/      for ReadUpdateDelete operations
+members/username/assign/    for assigning the project to respective member
+
+[members can do it]
+http://127.0.0.1:8000/api/accounts/
+username/dashboard/
+members/username/basic/     - to update basic info of members
+members/username/additional/     - to update basic additional of members
+
+
+
+[admin]
+http://127.0.0.1:8000/api/accounts/
+username/dashboard/
+admins/     for list admin [only via superadmin]
+admins/create/     for list admin [only via superadmin]
+'''

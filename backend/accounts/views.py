@@ -28,6 +28,12 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
 
+'''
+Jab bhi tum self.create(request), self.retrieve(request), self.update(request), ya self.destroy(request) call karte ho, 
+ye ek HTTP Response object return karta hai. Without return, API response nahi milega
+'''
+
+
 # permissions
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
@@ -38,18 +44,35 @@ class SuperAdminLevelPermission(BasePermission):
         return request.user and request.user.is_staff
 
 
+from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model  #kyoki custom usermodel banaya h
+
+class EmailBackend(ModelBackend):
+    def authenticate(self, request, username = None, password = None, **kwargs):
+        try:
+            User = get_user_model() # overriding default Django default User model
+            user = User.objects.get(email=username)
+        except User.DoesNotExist:
+            return None
+
+        if user.check_password(password):
+            return user
+        return None
+
 # TokenBasedAuth (login)
 class LoginAPIView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
 
-        user = authenticate(username=email, password=password)
+        user = authenticate(request, username=email, password=password)
 
         if user is not None:
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 # logout 
 class LogoutAPIView(APIView):
@@ -61,12 +84,12 @@ class LogoutAPIView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 # register (create member)
-class RegisterAPIView(GenericAPIView, CreateModelMixin):
+class RegisterMemberAPIView(GenericAPIView, CreateModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberRegisterSerializer
 
-    def post(self, request):
-        return self.create(request)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 # [Member]
@@ -171,11 +194,17 @@ class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
     
-    def post(self, request):
-        return self.create(request)
-    
     def get(self, request):
         return self.list(request)
+    
+# register (create admin)
+class RegisterAdminAPIView(GenericAPIView, CreateModelMixin):
+    queryset = Member.objects.all()
+    # serializer_class = MemberRegisterSerializer
+    serializer_class = AdminSerializer
+
+    def post(self, request):
+        return self.create(request)
 
 
 # For admin (dashboard)
