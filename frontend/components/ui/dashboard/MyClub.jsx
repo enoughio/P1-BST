@@ -2,7 +2,20 @@ import React from "react";
 
 // TODO: fetch the members club data from backend with his id
 
-const MyClub = (props) => {
+
+
+
+const MyClub = async (props) => {
+
+  try {
+    const clubData = await fetch()
+    
+
+  } catch (error) {
+    
+  }
+
+
   const { clubName, clubId, clubAddress, clubAdmin } = props.club;
 
   return (

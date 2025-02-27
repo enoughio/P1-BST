@@ -22,6 +22,7 @@ export function MainNav() {
 
           <div className="flex items-center space-x-2">
             <Image
+            priority={true}
               src="/logo.svg"
               alt="Bharat Storytellers Logo"
               width={80}
