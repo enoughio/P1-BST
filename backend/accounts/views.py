@@ -41,7 +41,7 @@ class AdminLevelPermission(BasePermission):
 
 class SuperAdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_staff
+        return request.user and request.user.is_superuser
 
 
 from django.contrib.auth.backends import ModelBackend
@@ -119,6 +119,21 @@ class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)    
 
+
+class MemberRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Member.objects.all()
+    serializer_class = MemberSerializer
+    lookup_field = 'username'
+
+    # permission_classes = [AdminLevelPermission]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+
 class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Member.objects.all()
     serializer_class = MemberSerializer
@@ -193,9 +208,11 @@ class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
+
+    # permission_classes = [SuperAdminLevelPermission]
     
-    def get(self, request):
-        return self.list(request)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
     
 # register (create admin)
 class RegisterAdminAPIView(GenericAPIView, CreateModelMixin):
@@ -203,8 +220,10 @@ class RegisterAdminAPIView(GenericAPIView, CreateModelMixin):
     # serializer_class = MemberRegisterSerializer
     serializer_class = AdminSerializer
 
-    def post(self, request):
-        return self.create(request)
+    # permission_classes = [SuperAdminLevelPermission]
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 # For admin (dashboard)
@@ -213,7 +232,7 @@ class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     serializer_class = AdminSerializer
     lookup_field = 'username'
 
-    permission_classes = [AdminLevelPermission]
+    # permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

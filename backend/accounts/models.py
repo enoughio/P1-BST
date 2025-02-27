@@ -32,10 +32,10 @@ class User(AbstractUser):
 
     objects = UserManager()
 
-    # def save(self, *args, **kwargs):
-    #     if not self.pk and not User.objects.filter(pk=self.pk).exists():
-    #         self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
-    #     return super(User, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.pk and not User.objects.filter(pk=self.pk).exists():
+            self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
+        return super(User, self).save(*args, **kwargs)
 
 
 # Member Model
@@ -49,6 +49,7 @@ class Member(User):
 
     occupation = models.CharField(max_length=20, choices=OCCUPATION_CHOICES, default=OCCUPATION_CHOICES[0][0])
     role = models.CharField(max_length=20, default='Member', editable=False)
+    club = models.ForeignKey(club.Club, on_delete=models.CASCADE)
 
     project = models.ForeignKey(project.Project, on_delete=models.SET_NULL, blank=True, null=True)
     assinged_date = models.DateTimeField(blank=True, null=True)

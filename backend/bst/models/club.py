@@ -16,19 +16,29 @@ C9A26C263AAE4B13AF8DA7238C56B1E2
 '''
 
 def get_alphanumeric_id():
-    return (uuid.uuid4().hex).upper()[:6]
+    last_club = Club.objects.order_by("-club_id").first()
+    if not last_club:
+        return "C001"
+    
+    last_id = int(last_club.club_id[1:])
+    return f"C{last_id + 1:03d}"
 
 
 class Club(models.Model):
-    club_id = models.CharField(max_length=6, primary_key=True, default=get_alphanumeric_id, editable=False)
+    club_id = models.CharField(max_length=4, primary_key=True, default=get_alphanumeric_id, editable=False)
     club_name = models.CharField(max_length=255, default='Bharat Storytellers')
     street = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
-    area = models.CharField(max_length=100, blank=True, null=True)
     landmark = models.CharField(max_length=100, blank=True, null=True)
+
 
     def __str__(self):
         return self.club_name
+    
+
+    def full_address(self):
+        address_parts = [self.street, self.city, self.state, self.postal_code, self.country]
+        return ", ".join(filter(None, address_parts))   # Filter removes empty values

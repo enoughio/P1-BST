@@ -110,3 +110,12 @@ class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+    
+
+
+class MeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = meeting.Meeting.objects.all()
+    serializer_class = MeetingSerializer
+
+    def post(self, request, *args, **kwargs):
+        pass

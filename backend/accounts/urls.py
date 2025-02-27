@@ -6,6 +6,7 @@ from .views import (RegisterMemberAPIView,
     
                     MemberRetriveAPIView,
                     MemberListAPIView,
+                    MemberRetrieveUpdateAPIView,
                     MemberRetrieveUpdateDestroyAPIView,
                     MemberUpdateBasicInfoAPIView,
                     MemberUpdateAdditionalInfoAPIView,
@@ -13,6 +14,7 @@ from .views import (RegisterMemberAPIView,
                     MemberProjectRetrieveUpdateAPIView,
                     
                     AdminAPIView,
+                    AdminRetriveAPIView,
                     RegisterAdminAPIView,
                     AdminRetrieveUpdateDestroyAPIView)
 
@@ -29,23 +31,17 @@ urlpatterns = [
     path('members/<str:username>/basic/', MemberUpdateBasicInfoAPIView.as_view(), name='update-member-basic-info'),
     path('members/<str:username>/additional/', MemberUpdateAdditionalInfoAPIView.as_view(), name='update-member-additional-info'),
     
-    # [admin, super-admin]
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='member-detail'),
-    
-    # path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='update-member'),
-    
-    # [only super-admin]
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='delete-member'),
-
+    # [admin] - Read,Update
+    path('members/<str:username>/', MemberRetrieveUpdateAPIView.as_view(), name='member-detail'),
     path('members/<str:username>/assign/', MemberProjectRetrieveUpdateAPIView.as_view(), name='assign-project'),
+    
+    # [super-admin] - Read,Update,Delete
+    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='rud-member'),
 
-
-    path('<str:username>/dashboard/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='get-admin'),
+    path('<str:username>/dashboard/', AdminRetriveAPIView.as_view(), name='get-admin'),
     path('admins/', AdminAPIView.as_view(), name='list-admin'),
     path('admins/create/', RegisterAdminAPIView.as_view(), name='create-admin'),
-    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='get-admin'),
-    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='update-admin'),
-    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='remove-admin'),
+    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='rud-admin'),
 ]
 
 
