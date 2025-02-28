@@ -8,7 +8,8 @@ from accounts.serializers import (MemberRegisterSerializer,
                                   MemberBasicInfoSerializer,
                                   MemberAdditionalInfoSerialzer,
                                   MemberProjectSerializer,
-                                  AdminSerializer)
+                                  AdminSerializer,
+                                  AdminBasicInfoSerializer)
 
 from rest_framework.generics import GenericAPIView
 from rest_framework import generics
@@ -34,18 +35,32 @@ ye ek HTTP Response object return karta hai. Without return, API response nahi m
 '''
 
 
+# from django.contrib.contenttypes.models import ContentType
+
+def get_real_instance(user):
+    if hasattr(user, 'member'):
+        return user.member
+    if hasattr(user, 'admin'):
+        return user.admin
+    return user
+
+
 # permissions
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.role == 'Admin'
+        # print(ContentType.objects.get_for_model(request.user)) # isse bhi kiska instance h mil jayega
+        return request.user and isinstance(get_real_instance(request.user), Admin)
+
+        # print(type(request.user)) #and isinstance(request.user, Admin)) # isinstance(object, classinfo)
 
 class SuperAdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
         return request.user and request.user.is_superuser
+    
+# request.headers.get('Authorization') to get JWT token
 
 
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model  #kyoki custom usermodel banaya h
 
 class EmailBackend(ModelBackend):
@@ -125,7 +140,7 @@ class MemberRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = MemberSerializer
     lookup_field = 'username'
 
-    # permission_classes = [AdminLevelPermission]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -184,6 +199,8 @@ class MemberUpdateAdditionalInfoAPIView(generics.RetrieveUpdateAPIView):
 #     queryset = 
 
 
+
+
 class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Member
     serializer_class = MemberProjectSerializer
@@ -236,6 +253,21 @@ class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
+    
+
+class AdminUpdateBasicInfoAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Admin.objects.all()
+    serializer_class = AdminBasicInfoSerializer
+    lookup_field = 'username'
+
+    # permission_classes = [AdminLevelPermission]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
 
 
 class AdminRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):

@@ -12,16 +12,16 @@ from django.core.exceptions import ValidationError
 def get_alphanumeric_id():
     last_club = Club.objects.order_by("-club_id").first()
     if not last_club:
-        return "M00000"
+        return "M0000"
     
     last_id = int(last_club.club_id[1:])
-    return f"M{last_id + 1:05d}"    # 6-digit consistent rkhne keLiye
+    return f"M{last_id + 1:04d}"    # 4-digit consistent rkhne keLiye
 
 
 
 class Meeting(models.Model):
     # meeting_id = models.CharField(max_length=3, primary_key=True, default=random.randint(100, 999), editable=False)
-    meeting_id = models.CharField(max_length=6, primary_key=True, default=get_alphanumeric_id, editable=False)
+    meeting_id = models.CharField(max_length=5, primary_key=True, default=get_alphanumeric_id, editable=False)
     agenda = models.CharField(blank=True, null=True)
     schedule = models.DateTimeField(default=datetime.now, blank=True, null=True) # Manually editable
     

@@ -18,14 +18,14 @@ C9A26C263AAE4B13AF8DA7238C56B1E2
 def get_alphanumeric_id():
     last_club = Club.objects.order_by("-club_id").first()
     if not last_club:
-        return "C001"
+        return "C0000"
     
     last_id = int(last_club.club_id[1:])
-    return f"C{last_id + 1:03d}"
+    return f"C{last_id + 1:04d}"
 
 
 class Club(models.Model):
-    club_id = models.CharField(max_length=4, primary_key=True, default=get_alphanumeric_id, editable=False)
+    club_id = models.CharField(max_length=5, primary_key=True, default=get_alphanumeric_id, editable=False)
     club_name = models.CharField(max_length=255, default='Bharat Storytellers')
     street = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100)

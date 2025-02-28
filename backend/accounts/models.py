@@ -8,6 +8,9 @@ from bst.models import club, project
 
 import uuid
 from PIL import Image
+import datetime
+
+from django.core.exceptions import ValidationError
 
 # User Model
 class User(AbstractUser):
@@ -20,17 +23,25 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=10)
+    phone = models.CharField(max_length=10, blank=True, null=True)
     avatar = models.ImageField(upload_to='profile_images/', default='default.jpg')
     address = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default=GENDER_CHOICES[0][0])
-    dob = models.DateField(default='2001-04-11') #Default as today's date #2001-04-11
-    id_proof = models.FileField(upload_to='id_proofs/', default=None)
+    dob = models.DateField(default=datetime.date.today) #Default as today's date #2001-04-11
+    id_proof = models.FileField(upload_to='id_proofs/', default=None, blank=True, null=True)
+
+    club = models.ForeignKey(club.Club, on_delete=models.CASCADE, null=True, blank=True)    #bcoz club_id null is not allowed, allowed kiya maine
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     objects = UserManager()
+
+
+    def clean(self):
+        if self.club is None:
+            raise ValidationError("User cannot be created without a club.")
+
 
     def save(self, *args, **kwargs):
         if not self.pk and not User.objects.filter(pk=self.pk).exists():
@@ -42,14 +53,13 @@ class User(AbstractUser):
 class Member(User):
     OCCUPATION_CHOICES = [
         ('Student', 'Student'),
-        ('Employee', 'Employeed'),
+        ('Employee', 'Employee'),
         ('Business', 'Business'),
         ('Self Employeed', 'Self Employeed'),
     ]
 
-    occupation = models.CharField(max_length=20, choices=OCCUPATION_CHOICES, default=OCCUPATION_CHOICES[0][0])
     role = models.CharField(max_length=20, default='Member', editable=False)
-    club = models.ForeignKey(club.Club, on_delete=models.CASCADE)
+    occupation = models.CharField(max_length=20, choices=OCCUPATION_CHOICES, default=OCCUPATION_CHOICES[0][0])
 
     project = models.ForeignKey(project.Project, on_delete=models.SET_NULL, blank=True, null=True)
     assinged_date = models.DateTimeField(blank=True, null=True)
@@ -83,8 +93,7 @@ class Admin(User):
         ('SuperAdmin', 'SuperAdmin'),
     ]
 
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='Admin')
-    club = models.ForeignKey(club.Club, on_delete=models.CASCADE)
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES, default=ROLE_CHOICES[0][0])
 
     #required, kyoki admin-pannel pr User likh kr aayega, due to inheritance
     class Meta:
@@ -108,5 +117,3 @@ class Admin(User):
         if self.is_superuser:
             return f"(SuperAdmin) - {self.username}"
         return f"(Admin) - {self.username}"
-
-
