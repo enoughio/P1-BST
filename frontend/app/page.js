@@ -5,14 +5,15 @@ import OurPrograms from "@/components/OurPrograms";
 import Hero from "@/components/ui/Hero";
 import Testimonials from "@/components/ui/Testimonials";
 import { WhyChooseUs } from "@/components/WhyChoseUs";
-import Image from "next/image";
 
+
+// TODO: fix why chose us Section
 
 export default function Home() {
   return (
     <div className="w-full ">
       <Hero />
-      <WhyChooseUs />
+      {/* <WhyChooseUs /> */}
       <OurPrograms />
       <Journy />
       <Testimonials />

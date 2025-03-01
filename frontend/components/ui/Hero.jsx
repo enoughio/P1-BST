@@ -9,12 +9,10 @@ import SmallFatArrow from "./SmallFatArrow";
 export default function Hero() {
   return (
     <>
-      
       <section className="relative overflow-hidden bg-background md:py-5 px-2">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
             <div className="left_container flex flex-col justify-start ">
-        
               <div className=" left text flex flex-col justify-center items-end">
                 <div className="relative text-right pr-3 md:py-2 flex gap-1">
                   <h1 className="text-4xl font-bold tracking-tighter text-wrap sm:text-6xl xl:text-[3rem] md:mt-3">
@@ -66,25 +64,40 @@ export default function Hero() {
               <div className="flex gap-4  w-full p-2 sm:py-6 ">
                 <Button
                   asChild
-                  className="bg-pink-100 text-black w-1/2 hover:bg-pink-200 h-20 rounded-3xl m-0 p-0"
+                  className="bg-pink-100 text-black w-1/2 hover:bg-pink-200 h-20 rounded-3xl m-0 p-0 relative overflow-hidden"
                   size="lg"
                 >
+                  <div>
+
+                    {/* bubbles */}
+                    <>
+                      <div className="absolute -top-2 -right-8 w-16 h-16 bg-[#1150c4] rounded-full"></div>
+                      <div className="absolute -bottom-5 -right-2 w-16 h-16 bg-[#df121f] rounded-full"></div>
+                    </>
+
                   <Link href="#">Explore Programs</Link>
+                  </div>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
-                  className="bg-blue-50 hover:bg-blue-100 w-1/2 h-20 rounded-3xl "
+                  className="bg-blue-50 hover:bg-blue-100 w-1/2 h-20 rounded-3xl  relative overflow-hidden"
                   size="lg"
                 >
-                  <Link href="#" className="">
-                    Register Now <SmallFatArrow />
-                  </Link>
+                  <div>
+                    {/* bubbles */}
+                    <>
+                      <div className="absolute -top-2 -right-8 w-16 h-16 bg-[#1150c4] rounded-full"></div>
+                      <div className="absolute -bottom-5 -right-2 w-16 h-16 bg-[#df121f] rounded-full"></div>
+                    </>
+
+                    <Link href="#" className="">
+                      Register Now <SmallFatArrow />
+                    </Link>
+                  </div>
                 </Button>
               </div>
             </div>
-
-          
 
             <div className="relative aspect-square overflow-hidden  lg:inline-block hidden">
               <Image
