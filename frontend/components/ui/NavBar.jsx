@@ -25,8 +25,8 @@ export function MainNav() {
             priority={true}
               src="/logo.svg"
               alt="Bharat Storytellers Logo"
-              width={80}
-              height={40}
+              width={100}
+              height={60}
               className="opject-cover"
             />
           </div>
