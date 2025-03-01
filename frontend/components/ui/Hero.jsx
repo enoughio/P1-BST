@@ -81,14 +81,24 @@ export default function Hero() {
                 <Button
                   asChild
                   variant="outline"
-                  className="bg-blue-50 hover:bg-blue-100 w-1/2 h-20 rounded-3xl  relative overflow-hidden"
+                  className=" w-1/2 h-20 rounded-3xl  relative overflow-hidden"
                   size="lg"
+                   style={{
+                        backgroundColor: "rgba(92, 149, 255, 1)"
+                      }}
                 >
                   <div>
                     {/* bubbles */}
                     <>
-                      <div className="absolute -top-2 -right-8 w-16 h-16 bg-[#1150c4] rounded-full"></div>
-                      <div className="absolute -bottom-5 -right-2 w-16 h-16 bg-[#df121f] rounded-full"></div>
+                      <div className="absolute -top-2 -right-8 w-16 h-16  rounded-full" 
+                      style={{
+                        backgroundColor: "rgba(92, 149, 255, 1)"
+                      }}></div>
+                      <div className="absolute -bottom-5 -right-2 w-16 h-16  rounded-full"
+                           style={{
+                            backgroundColor: "rgba(92, 149, 255, 1)"
+                          }}
+                      ></div>
                     </>
 
                     <Link href="#" className="">

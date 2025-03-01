@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="w-full ">
       <Hero />
-      {/* <WhyChooseUs /> */}
+      <WhyChooseUs />
       <OurPrograms />
       <Journy />
       <Testimonials />
