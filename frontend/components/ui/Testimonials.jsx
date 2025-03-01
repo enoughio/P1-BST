@@ -28,7 +28,8 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <div className="flex-col flex justify-center items-center bg-blue-100 py-5">
+    <div className="flex-col flex justify-center items-cente
+    r bg-blue-100 py-5">
       <div className="self-center text-center mb-5">
         <h1 className="font-semibold text-2xl">Testimonials</h1>
         <div>This what our Members say about us</div>

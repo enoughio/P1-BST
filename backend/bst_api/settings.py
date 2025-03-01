@@ -82,6 +82,15 @@ TEMPLATES = [
     },
 ]
 
+
+# for implementing custom authentication
+AUTHENTICATION_BACKENDS = [
+    'accounts.views.EmailBackend',  # Custom Email Authentication
+    'django.contrib.auth.backends.ModelBackend',  # Default Username Authentication
+]
+
+
+
 WSGI_APPLICATION = 'bst_api.wsgi.application'
 
 
