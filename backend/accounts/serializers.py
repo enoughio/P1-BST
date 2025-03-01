@@ -31,7 +31,7 @@ class MemberSerializer(serializers.ModelSerializer):
         fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'occupation', 'project_title', 'assinged_date', 'completion_date']
 
     def get_project_title(self, obj):  # 'get_' ke baad custom_field ka naam aayega
-        return obj.project.title
+        return obj.project.title if obj.project else None # Agar project exist kare to title dega, warna None
 
 
 class MemberListSerializer(serializers.HyperlinkedModelSerializer):
@@ -54,7 +54,6 @@ class MemberAdditionalInfoSerialzer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = ['address', 'dob', 'occupation']
-
 
 
     
@@ -80,4 +79,11 @@ class AdminSerializer(serializers.ModelSerializer):
             admin.set_password(password)
             admin.save()
         return admin
+    
+
+# serialize basic-info
+class AdminBasicInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = ['first_name', 'last_name', 'phone', 'avatar', 'gender', 'dob', 'address']
         

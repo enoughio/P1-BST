@@ -6,6 +6,7 @@ from .views import (RegisterMemberAPIView,
     
                     MemberRetriveAPIView,
                     MemberListAPIView,
+                    MemberRetrieveUpdateAPIView,
                     MemberRetrieveUpdateDestroyAPIView,
                     MemberUpdateBasicInfoAPIView,
                     MemberUpdateAdditionalInfoAPIView,
@@ -13,66 +14,39 @@ from .views import (RegisterMemberAPIView,
                     MemberProjectRetrieveUpdateAPIView,
                     
                     AdminAPIView,
+                    AdminRetriveAPIView,
+                    AdminUpdateBasicInfoAPIView,
                     RegisterAdminAPIView,
                     AdminRetrieveUpdateDestroyAPIView)
 
 
 urlpatterns = [
-    # [auth]
-    path("login/", LoginAPIView.as_view(), name="login"),
-    path("logout/", LogoutAPIView.as_view(), name="logout"),
-    path('members/create/', RegisterMemberAPIView.as_view(), name='register'),
+    # [Auth] - Login & Logout
+    path("login/", LoginAPIView.as_view(), name="login"),  # User Login
+    path("logout/", LogoutAPIView.as_view(), name="logout"),  # User Logout
 
-    # [members]
-    path('members/', MemberListAPIView.as_view(), name='list-member'),
-    path('<str:username>/dashboard/', MemberRetriveAPIView.as_view(), name='member-dashboard'),
-    path('members/<str:username>/basic/', MemberUpdateBasicInfoAPIView.as_view(), name='update-member-basic-info'),
-    path('members/<str:username>/additional/', MemberUpdateAdditionalInfoAPIView.as_view(), name='update-member-additional-info'),
-    
-    # [admin, super-admin]
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='member-detail'),
-    
-    # path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='update-member'),
-    
-    # [only super-admin]
-    path('members/<str:username>/', MemberRetrieveUpdateDestroyAPIView.as_view(), name='delete-member'),
+    # [Members] - Register & List
+    path("members/create/", RegisterMemberAPIView.as_view(), name="register"),  # Register Member
+    path("members/", MemberListAPIView.as_view(), name="list-member"),  # Get all Members
 
-    path('members/<str:username>/assign/', MemberProjectRetrieveUpdateAPIView.as_view(), name='assign-project'),
+    # [Member Profile & Dashboard]
+    path("members/<str:username>/dashboard/", MemberRetriveAPIView.as_view(), name="member-dashboard"),  # Get Member Dashboard
+    path("members/<str:username>/basic/", MemberUpdateBasicInfoAPIView.as_view(), name="update-member-basic-info"),  # Update Basic Info
+    path("members/<str:username>/additional/", MemberUpdateAdditionalInfoAPIView.as_view(), name="update-member-additional-info"),  # Update Additional Info
 
+    # [Admin] - Member Management (Read, Update, Assign)
+    path("members/<str:username>/", MemberRetrieveUpdateAPIView.as_view(), name="member-detail"),  # Get/Update Member Details (Admin)
+    path("members/<str:username>/assign/", MemberProjectRetrieveUpdateAPIView.as_view(), name="assign-project"),  # Assign Project (Admin)
 
-    path('<str:username>/dashboard/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='get-admin'),
-    path('admins/', AdminAPIView.as_view(), name='list-admin'),
-    path('admins/create/', RegisterAdminAPIView.as_view(), name='create-admin'),
-    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='get-admin'),
-    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='update-admin'),
-    path('admins/<str:username>/', AdminRetrieveUpdateDestroyAPIView.as_view(), name='remove-admin'),
+    # [Admin Profile & Dashboard]
+    path("admins/<str:username>/dashboard/", AdminRetriveAPIView.as_view(), name="get-admin"),  # Get Admin Dashboard
+    path("admins/<str:username>/basic/", AdminUpdateBasicInfoAPIView.as_view(), name="update-admin-basic-info"),  # Update Admin Info
+
+    # [Super Admin] - Full Access (Read, Update, Delete)
+    path("members/<str:username>/", MemberRetrieveUpdateDestroyAPIView.as_view(), name="rud-member"),  # Read, Update, Delete Member (Super Admin)
+
+    # [Admin Management] - Create, List, Update, Delete
+    path("admins/", AdminAPIView.as_view(), name="list-admin"),  # Get All Admins
+    path("admins/create/", RegisterAdminAPIView.as_view(), name="create-admin"),  # Create Admin
+    path("admins/<str:username>/", AdminRetrieveUpdateDestroyAPIView.as_view(), name="rud-admin"),  # Read, Update, Delete Admin (Super Admin)
 ]
-
-
-'''
-[members]
-http://127.0.0.1:8000/api/accounts/
-login/
-logout/
-members/create/
-
-[to list members - admin only]
-http://127.0.0.1:8000/api/accounts/
-members/
-members/username/      for ReadUpdateDelete operations
-members/username/assign/    for assigning the project to respective member
-
-[members can do it]
-http://127.0.0.1:8000/api/accounts/
-username/dashboard/
-members/username/basic/     - to update basic info of members
-members/username/additional/     - to update basic additional of members
-
-
-
-[admin]
-http://127.0.0.1:8000/api/accounts/
-username/dashboard/
-admins/     for list admin [only via superadmin]
-admins/create/     for list admin [only via superadmin]
-'''
