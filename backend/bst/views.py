@@ -17,13 +17,27 @@ from bst.serializers import (ClubSerializer,
 
 from rest_framework.permissions import BasePermission
 
+
+
+def get_real_instance(user):
+    if hasattr(user, 'member'):
+        return user.member
+    if hasattr(user, 'admin'):
+        return user.admin
+    return user
+
+
+# permissions
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.role == 'Admin'
+        # print(ContentType.objects.get_for_model(request.user)) # isse bhi kiska instance h mil jayega
+        return request.user and isinstance(get_real_instance(request.user), Admin)
+
+        # print(type(request.user)) #and isinstance(request.user, Admin)) # isinstance(object, classinfo)
 
 class SuperAdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        return request.user and request.user.is_staff
+        return request.user and request.user.is_superuser
 
 
 # Create your views here.
@@ -110,3 +124,12 @@ class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+    
+
+
+class MeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = meeting.Meeting.objects.all()
+    serializer_class = MeetingSerializer
+
+    def post(self, request, *args, **kwargs):
+        pass
