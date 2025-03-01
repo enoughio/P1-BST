@@ -5,14 +5,14 @@ import { BubbleCard } from "./ui/BubbleCard";
 
 const OurPrograms = () => {
   return (
-    <div className="mb-14">
-      <section className="wrapper  md:h-screen bg-[#FAF9F9] flex flex-col w-[95%] mx-auto">
+    <div className="mb-14 mt-4">
+      <section className="wrapper  md:h-screen bg-[#FAF9F9] flex flex-col w-[95%] mx-auto ">
         <div className="Header text-center flex flex-col items-center my-5">
           <div className="flex flex-col justify-end">
-          <h1 className="text-2xl font-semibold ">Our <span className="decoration-red-300 underline decoration-[5px]">Programs</span></h1>
+          <h1 className="text-5xl font-bold">Our <span className="decoration-red-300 underline decoration-[5px]">Programs</span></h1>
           </div>
 
-          <div className="line w-[80%]">
+          <div className="line w-[80%] mt-2 leading-5">
             Whether you’re an adult looking to build confidence or a young
             speaker eager to find your voice, our programs cater to all skill
             levels and age groups.
@@ -72,6 +72,7 @@ const OurPrograms = () => {
             </div>
           </div>
         </div>
+        
       </section>
     </div>
   );

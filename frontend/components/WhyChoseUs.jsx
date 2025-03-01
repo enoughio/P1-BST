@@ -3,6 +3,8 @@ import { LuMoveUpRight } from "react-icons/lu";
 import SmallFatArrow from "./ui/SmallFatArrow";
 
 // import { LuMoveUpRight } from "lucide-react"
+// TODO: fix card size 
+
 
 const features = [
   {
@@ -25,9 +27,11 @@ const features = [
   },
 ];
 
+// bg-[#F9F9F9]
+
 export function WhyChooseUs() {
   return (
-    <section className="wrapper w-[95%]  bg-[#F9F9F9] mx-auto">
+    <section className="wrapper w-[95%] h-screen  mx-auto">
       <div className="main-container w-full  flex flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center w-full mb-4">
           <div className="w-full flex flex-col items-center justify-center">
@@ -44,11 +48,11 @@ export function WhyChooseUs() {
         {/* <div className="flex flex- items-center justify-center w-full bg-yellow-100"> */}
         {/* //cards */}
 
-        <div className="flex flex-col md:flex-row items-start justify-center w-full rounded-lg overflow-hidden gap-2">
+        <div className="flex flex-col md:flex-row items-start justify-center w-full rounded-lg overflow-hidden gap-2 ">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col w-full p-1 md:w-1/3 items-center justify-center bg-blue"
+              className="flex flex-col w-full p-1 md:w-1/3 min-h-[100%]   "
             >
               <div>
                 <Image
@@ -68,10 +72,11 @@ export function WhyChooseUs() {
                     {feature.title}
                   </h1>
                 </div>
-                <p className="text-md font-thin leading-tight tracking-tight">
+                <p className="text-base font-light leading-tight tracking-tight">
                   {feature.description}
                 </p>
               </div>
+              
             </div>
           ))}
         </div>
