@@ -157,7 +157,7 @@ class MemberUpdateAdditionalInfoAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = MemberAdditionalInfoSerialzer
     lookup_field = 'username'
 
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -189,7 +189,7 @@ class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = MemberProjectSerializer
     lookup_field = 'username'
 
-    # permission_classes = [IsAdminUser]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -209,7 +209,7 @@ class AdminRetriveAPIView(GenericAPIView, RetrieveModelMixin):
     serializer_class = AdminSerializer
     lookup_field = 'username'
 
-    # permission_classes = [AdminLevelPermission]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -220,7 +220,7 @@ class AdminUpdateBasicInfoAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = AdminBasicInfoSerializer
     lookup_field = 'username'
 
-    # permission_classes = [AdminLevelPermission]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -234,7 +234,7 @@ class MemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MemberSerializer
     lookup_field = 'username' # Yeh username ke basis par member ko find karega (by default id)
 
-    # permission_classes = [SuperAdminLevelPermission]
+    permission_classes = [SuperAdminLevelPermission]
 
     # update, and delete ke saath get method aayenge, kyoki pahle existing data ko view then update, or remove
 
@@ -253,7 +253,7 @@ class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
 
-    # permission_classes = [SuperAdminLevelPermission]
+    permission_classes = [SuperAdminLevelPermission]
     
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -264,7 +264,7 @@ class RegisterAdminAPIView(GenericAPIView, CreateModelMixin):
     # serializer_class = MemberRegisterSerializer
     serializer_class = AdminSerializer
 
-    # permission_classes = [SuperAdminLevelPermission]
+    permission_classes = [SuperAdminLevelPermission]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

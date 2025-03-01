@@ -7,6 +7,8 @@ from rest_framework.mixins import (CreateModelMixin,
 
 from rest_framework import generics
 
+from accounts.models import Admin
+
 from bst.models import club, event, meeting, project
 from bst.serializers import (ClubSerializer,
                              EventSerializer,
@@ -16,7 +18,6 @@ from bst.serializers import (ClubSerializer,
 
 
 from rest_framework.permissions import BasePermission
-
 
 
 def get_real_instance(user):
@@ -45,7 +46,7 @@ class ClubAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = club.Club.objects.all()
     serializer_class = ClubSerializer
 
-    # permission_classes = [SuperAdminLevelPermission]
+    permission_classes = [SuperAdminLevelPermission]
 
     def post(self, request):
         return self.create(request)
@@ -59,7 +60,7 @@ class ClubRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ClubSerializer
     lookup_field = 'club_id'
 
-    # permission_classes = [SuperAdminLevelPermission]
+    permission_classes = [SuperAdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -102,7 +103,7 @@ class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = project.Project.objects.all()
     serializer_class = ProjectSerializer
 
-    # permission_classes = [IsAdminUser]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request):
         return self.list(request)
@@ -117,7 +118,7 @@ class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = ProjectSerializer
     lookup_field = 'project_id'
 
-    # permission_classes = [IsAdminUser]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
