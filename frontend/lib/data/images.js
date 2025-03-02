@@ -7,6 +7,9 @@ const learningImg = './svgs/learning.svg'
 const notesImg = './svgs/notes.svg'
 const podcastImg = './svgs/podcast.svg'
 const groupPhoto = '/group-photo.jpg'
+const aboutHeader = '/aboutHeader.svg'
+const downQuot  = '/downQuot.png'
+const mission  = '/mission.png'
 
 export {
     youngOratersImg,
@@ -17,7 +20,10 @@ export {
     learningImg,
     notesImg,
     podcastImg,
-    groupPhoto
+    groupPhoto,
+    aboutHeader,
+    downQuot,
+    mission,
 }
 
 
