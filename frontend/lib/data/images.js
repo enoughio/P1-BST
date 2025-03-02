@@ -9,7 +9,10 @@ const podcastImg = './svgs/podcast.svg'
 const groupPhoto = '/group-photo.jpg'
 const aboutHeader = '/aboutHeader.svg'
 const downQuot  = '/downQuot.png'
-const mission  = '/mission.png'
+const about  = '/about.png'
+const mission1  = '/mission1.png'
+const mission2  = '/mission2.png'
+const mission3  = '/mission3.png'
 
 export {
     youngOratersImg,
@@ -23,7 +26,10 @@ export {
     groupPhoto,
     aboutHeader,
     downQuot,
-    mission,
+    about,
+    mission1,
+    mission2,
+    mission3,
 }
 
 

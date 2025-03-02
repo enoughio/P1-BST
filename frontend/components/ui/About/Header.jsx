@@ -5,7 +5,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className=" mt-10 md:mt-16 mb-5">
+    <div className="mt-10 md:mt-16">
       <div className="relative">
        
         <div className=" absolute -top-7 left-3 md:-top-12 md:left-5 text-xl md:text-[3rem] leading-none w-96  ">
@@ -26,7 +26,7 @@ const Header = () => {
           />
         </div>
 
-        <div className="text-base leading-5 md:leading-4 ">
+        <div className="text-base leading-5 md:leading-4 hidden md:inline-block ">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate
           beatae voluptatibus illum labore, hic tenetur!
         </div>
