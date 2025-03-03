@@ -18,7 +18,7 @@ const storyTellingImage = '/storytelling-image.png'
 const podcast = '/podcast.svg'
 const learning = '/learning.svg'
 const notes = '/notes.svg'
-const contactUs = '/contactUs.svg'
+const contactUs = '/contactUs.png'
 
 export {
 
