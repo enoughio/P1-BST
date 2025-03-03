@@ -1,9 +1,46 @@
-import React from 'react'
+// pages/index.js
+import Head from 'next/head';
+import Image from 'next/image';
 
-const Aprosal = () => {
+export default function Aprosal() {
   return (
-    <div>Aprosal</div>
-  )
-}
+    <div>
+      <Head>
+        <title>Storytelling Community</title>
+        <meta name="description" content="Join our storytelling community" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-export default Aprosal
+      <main className="bg-purple-50 py-8 md:py-12 px-4 min-h-[50vh] flex items-center justify-center">
+        <div className="container max-w-6xl mx-auto">
+          <div className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
+            {/* Image Section */}
+            <div className="md:w-1/2 h-64 md:h-auto relative">
+              <Image
+                src="/storytelling-image.jpg" 
+                alt="Teacher reading a book to children"
+                layout="fill"
+                objectFit="cover"
+                priority
+                className="w-full h-full"
+              />
+            </div>
+            
+            {/* Content Section */}
+            <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-4 leading-tight">
+                Become Part of Our Storytelling Community!
+              </h1>
+              <p className="text-sm md:text-base text-gray-600 mb-6 leading-relaxed">
+                At ultrices sit consectetur ut aliquam architecto qui esse sapiente dolorem corrupti quisquam recusandae doloribus. Id dolores temporibus et tempora iste et provident explicabo est ipsum aenium. At perspiciatis nesciunt!
+              </p>
+              <button className="bg-pink-200 text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-pink-300 transition duration-300 ease-in-out transform hover:-translate-y-1 self-start">
+                BECOME A MEMBER
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
