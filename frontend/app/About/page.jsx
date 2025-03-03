@@ -18,7 +18,7 @@ const About = () => {
         <Mission />
         <OurStory />
         <Aprosal />
-        <Fotter />
+
 
         
     </div>

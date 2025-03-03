@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body className={`${roboto.className} antialiased bg-[#FAF9F9] `}>
         <MainNav />
         {children}
-        {/* <Fotter /> */}
+        <Fotter />
       </body>
     </html>
   );
