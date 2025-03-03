@@ -1,5 +1,5 @@
 
-import ContactQuestion from "./contact/contactQuestion";
+import ContactQuestion from "./contactQuestion";
 
 
 export default function ContactInfo() {

@@ -15,9 +15,6 @@ const mission2  = '/mission2.png'
 const mission3  = '/mission3.png'
 const gridImage = '/gridImage.png'
 const storyTellingImage = '/storytelling-image.png'
-const podcast = '/podcast.svg'
-const learning = '/learning.svg'
-const notes = '/notes.svg'
 const contactUs = '/contactUs.png'
 
 export {
@@ -39,9 +36,7 @@ export {
     mission3,
     gridImage,
     storyTellingImage,
-    podcast,
-    learning,
-    notes,
+
     contactUs,
     
     

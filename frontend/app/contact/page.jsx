@@ -1,8 +1,8 @@
 // pages/contact.js
 import Head from 'next/head';
-import ContactForm from '@/components/ui/ContactForm';
-import ContactInfo from '@/components/ui/ContactInfo';
-import ContactImage from '@/components/ui/ContactImage'; 
+import ContactForm from '@/components/ui/contact/ContactForm';
+import ContactInfo from '@/components/ui/contact/ContactInfo';
+import ContactImage from '@/components/ui/contact/ContactImage'; 
 import { FileQuestion, MailQuestion } from 'lucide-react';
 import { FaRegQuestionCircle } from 'react-icons/fa';
 
@@ -21,7 +21,7 @@ export default function Contact() {
         
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Desktop layout */}
-          <div className="hidden lg:block lg:w-1/2">
+          <div className="hidden lg:block lg:w-1/2 ">
             <ContactImage />
           </div>
           
