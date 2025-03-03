@@ -2,9 +2,8 @@ import { groupPhoto } from "@/lib/data/images";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaInstagram, FaFacebookF } from "react-icons/fa";
-import { CiLinkedin } from "react-icons/ci";
-import { YoutubeIcon } from "lucide-react";
+import { Linkedin, Facebook, Instagram, YoutubeIcon } from 'lucide-react';
+
 
 const Fotter = () => {
   return (
@@ -77,13 +76,13 @@ const Fotter = () => {
             <div className="flex gap-8 my-2 ">
 
               <Link href="https://www.facebook.com/bharatstorytellers/">
-                <FaFacebookF className="h-6 w-6" />
+                <Facebook className="h-6 w-6" />
               </Link>
               <Link href="https://www.linkedin.com/company/bharat-storytellers/posts/?feedView=all">
-                <CiLinkedin className="h-6 w-6" />
+                <Linkedin className="h-6 w-6" />
               </Link>
               <Link href="https://www.instagram.com/bhopalstorytellers/">
-                <FaInstagram className="h-6 w-6" />
+                <Instagram className="h-6 w-6" />
               </Link>
               <Link href="/home">
                 <YoutubeIcon className="h-6 w-6 " />

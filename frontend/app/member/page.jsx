@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from "react";
 import Image from "next/image";
 
@@ -105,86 +107,12 @@ const MembershipApplication = () => {
             </p>
           </div>
           
-          {/* Application Slider Section */}
-          <div className="lg:col-span-12 mt-6">
-            <div className="relative">
-              {/* Slider controls */}
-              <div className="absolute z-10 flex justify-between w-full top-1/2 transform -translate-y-1/2">
-                <button 
-                  onClick={prevSlide}
-                  className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-100 focus:outline-none"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
-                <button 
-                  onClick={nextSlide}
-                  className="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-100 focus:outline-none"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
+
+
               
-              {/* Slides Container */}
-              <div className="overflow-hidden">
-                <div 
-                  className="flex transition-transform duration-500 ease-in-out"
-                  style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-                >
-                  {applications.map((app, index) => (
-                    <div key={app.id} className="w-full flex-shrink-0">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="md:col-span-1 rounded-2xl overflow-hidden aspect-square md:aspect-auto">
-                          <Image
-                            src={app.image}
-                            alt={app.title}
-                            width={400}
-                            height={400}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="bg-black/40 absolute inset-0 flex items-end p-6">
-                            <h3 className="text-white font-bold text-2xl">{app.title}</h3>
-                          </div>
-                        </div>
-                        
-                        <div className="md:col-span-1 bg-blue-50 rounded-2xl p-6 flex flex-col justify-center">
-                          <h3 className="font-bold text-2xl mb-4">{app.title}</h3>
-                          <p>{app.description}</p>
-                        </div>
-                        
-                        <div className="md:col-span-1 rounded-2xl overflow-hidden">
-                          <Image
-                            src={app.image}
-                            alt={app.title}
-                            width={400}
-                            height={400}
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="bg-black/40 absolute inset-0 flex items-end p-6">
-                            <h3 className="text-white font-bold text-2xl">{app.title}</h3>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+  
               
-              {/* Slide indicators */}
-              <div className="flex justify-center mt-4 gap-2">
-                {[...Array(totalSlides)].map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentSlide(i)}
-                    className={`w-2 h-2 rounded-full transition-all ${currentSlide === i ? 'bg-blue-600 w-4' : 'bg-gray-300'}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>

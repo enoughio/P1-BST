@@ -1,4 +1,7 @@
+"use client"
+
 // pages/index.js
+import { storyTellingImage } from '@/lib/data/images';
 import Head from 'next/head';
 import Image from 'next/image';
 
@@ -11,19 +14,19 @@ export default function Aprosal() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="bg-purple-50 py-8 md:py-12 px-4 min-h-[50vh] flex items-center justify-center">
+      <main className="bg-purple-50 py-8 md:py-12 md:px-4 min-h-[50vh] flex items-center justify-center">
         <div className="container max-w-6xl mx-auto">
           <div className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
             {/* Image Section */}
             <div className="md:w-1/2 h-64 md:h-auto relative">
-              <Image
-                src="/storytelling-image.jpg" 
-                alt="Teacher reading a book to children"
-                layout="fill"
-                objectFit="cover"
-                priority
-                className="w-full h-full"
-              />
+               <Image 
+              src={storyTellingImage}  
+              alt="Teacher reading a book to children" 
+              width={200} 
+              height={200}
+              
+              className="w-full h-full object-cover bg-purple-400"
+            />
             </div>
             
             {/* Content Section */}

@@ -7,6 +7,8 @@ import Mission from '../../components/ui/About/Mission.jsx'
 import Head from 'next/head'
 import React from 'react'
 
+// TODO: there is an hydration error in this page that needs to be fixed 
+
 const About = () => {
   return (
     <div className='mx-4 md:mx-10'>
@@ -17,6 +19,7 @@ const About = () => {
         <OurStory />
         <Aprosal />
         <Fotter />
+
         
     </div>
   )

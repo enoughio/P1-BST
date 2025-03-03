@@ -18,8 +18,6 @@ export default function Home() {
       <Journy />
       <Testimonials />
       <JoinUs title="Visit Bharat Storytellers and Become a member today!" subHeading={"Become a member"} />
-      <Fotter />
-
     </div>
   );
 }
