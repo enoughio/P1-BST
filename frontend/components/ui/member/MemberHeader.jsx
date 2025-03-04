@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
+
 const MemberHeader = () => {
   return (
     <section className="w-full py-12 px-4 md:px-8 lg:px-12 bg-gray-50">
@@ -103,6 +104,9 @@ const MemberHeader = () => {
           </div>
         </div>
       </div>
+
+    
+
     </section>
   );
 };

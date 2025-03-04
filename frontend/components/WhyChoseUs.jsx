@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import Card from "./ui/Card";
+import WhyChoseUsCard from "./ui/WhyChoseUsCard.jsx";
 import {
   Carousel,
   CarouselContent,
@@ -95,7 +95,7 @@ export function WhyChooseUs() {
       <div className="flex flex-row gap-3 w-full"> 
           {
             features.map((feature, index) => (
-              <Card
+              <WhyChoseUsCard
                 key={index}
                 title={feature.title}
                 description={feature.description}

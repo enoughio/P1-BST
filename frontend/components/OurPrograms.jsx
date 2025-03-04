@@ -26,7 +26,7 @@ const OurPrograms = () => {
               <BubbleCard 
                   cardSize="large" // "large" or "small"
                   bubbleVariant="default" // "default", "small", or "normal"
-                  title="Young Oraters"
+                  title="Young Oratars"
                   subHeading="for young kids"
                   BubbleColor= {{ background: "rgba(92, 149, 255, 0.3)" }}
                   cardColor = {{ background: "rgba(92, 149, 255, 0.3)" }}
