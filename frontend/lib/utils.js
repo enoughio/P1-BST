@@ -60,3 +60,35 @@ export function convertDMStoDD(dms) {
 // const dmsString = '40°42\'46.08"N, 74°00\'21.6"W';
 // const decimalCoords = convertDMStoDD(dmsString);
 // console.log(decimalCoords); // Expected output: [40.7128, -74.006]
+
+
+
+
+export async function getServerSideProps(context) {
+  const { clubId } = context.params || {};
+
+  try {
+    // Replace with your actual API endpoint
+    const res = await fetch(`https://your-api.com/clubs/${clubId}`);
+    const club = await res.json();
+
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}
+
+// export default ClubDetailPage;
+
+
+
+const fetchClubDetails = async (clubId) => {
+  try {
+    const res = await fetch(`https://your-api.com/clubs/${clubId}`);
+    const club = await res.json();
+    return club;
+  } catch (error) {
+    return null;
+  }
+}
