@@ -213,3 +213,36 @@ export const clubsData = [
     phone: "890-123-4567",
   },
 ];
+
+
+
+
+
+export const benefits = [
+  {
+    icon: '👩‍💼', // You could replace with actual image imports or SVG components
+    title: 'Boost confidence',
+    description: 'Gain the self-assurance to speak in any situation'
+  },
+  {
+    icon: '📈',
+    title: 'Advance your career',
+    description: 'Open new opportunities through powerful presentations'
+  },
+  {
+    icon: '🤝',
+    title: 'Improve networking skills',
+    description: 'Build connections through effective communication'
+  },
+  {
+    icon: '🎤',
+    title: 'Deliver impactful speeches',
+    description: 'Inspire and influence your audience with confidence'
+  }
+];
+
+
+
+
+
+

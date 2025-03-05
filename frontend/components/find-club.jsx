@@ -130,9 +130,6 @@ export default function FindClub() {
                     <Link
                       href={{
                         pathname: `/findaclub/${club.id}`,
-                        query: {
-                          club: club,
-                        },
                       }}
                       className="text-primary border-2"
                     >

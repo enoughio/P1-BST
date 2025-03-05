@@ -1,16 +1,13 @@
 'use client'
 
-// pages/clubs/[clubId].jsx
-
 import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
-
-const ClubDetailPage = ( ) => {
-    const searchParams = useSearchParams();
-    console.log(searchParams.get('club'));
+// TODO: fetch club details from API
+const ClubDetailPage =  ( ) => {
+  const router = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-100">

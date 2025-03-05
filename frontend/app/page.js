@@ -4,6 +4,7 @@ import Journy from "@/components/Journy";
 import OurPrograms from "@/components/OurPrograms";
 import Hero from "@/components/ui/Hero";
 import Testimonials from "@/components/ui/Testimonials";
+import PublicSpeakingCard from "@/components/ui/WhyLearnPyblicSpeaking";
 import { WhyChooseUs } from "@/components/WhyChoseUs";
 
 
@@ -14,6 +15,7 @@ export default function Home() {
     <div className="w-full ">
       <Hero />
       <WhyChooseUs />
+      <PublicSpeakingCard />
       <OurPrograms />
       <Journy />
       <Testimonials />
