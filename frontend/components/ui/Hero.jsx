@@ -12,7 +12,7 @@ export default function Hero() {
       <section className="relative overflow-hidden bg-background md:py-5 px-2">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
-            <div className="left_container flex flex-col justify-start ">
+            <div className="left_container flex flex-col justify-streched  bg-red-300">
               <div className=" left text flex flex-col justify-center items-end">
                 <div className="relative text-right pr-3 md:py-2 flex gap-1">
                   <h1 className="text-4xl font-bold tracking-tighter text-wrap sm:text-6xl xl:text-[3rem] md:mt-3">
