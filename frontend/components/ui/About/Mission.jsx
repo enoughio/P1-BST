@@ -38,18 +38,16 @@ const Mission = () => {
 
             <div className="mt-6">
               <p>
-                Ad quia voluptas et consectetur iusto in repellat necessitatibus
-                qui quia dignissimos. Sit nobisssi quam non ratione dolorum et
-                reprehenderit vero qui labore aperiam? Ad galisum laborum non
-                soluta corrupti qui doloremque quam sed commodi culpa aut dolorum
-                earum.
+                At Bharat Storytellers, we believe that every voice has a story
+                to tell, and every story deserves to be heard. Everyone has a
+                unique perspective, and sharing these stories helps build
+                connections and understanding.
               </p>
               <p className="mt-6">
-                Aut dicta architecto aut distinctio voluptas utleq itaque
-                voluptates! Ut quas quaerat eum quin sils voluptatem consequatur
-                et dolorem unde exrern cupiditate rerum. Cum delectus quia est
-                enima il voluptatem expedita ab dolores enim ut rerum ni
-                recusandae laborum et unde obcaecati sed iste nostrum corporis..
+                Our mission is to empower individuals to find their voice,
+                articulate their ideas, and express themselves with confidence.
+                Through storytelling and public speaking, we help people connect
+                with the world and make a lasting impact.
               </p>
             </div>
           </div>
@@ -62,18 +60,16 @@ const Mission = () => {
 
             <div className="mt-6">
               <p>
-                Ad quia voluptas et consectetur iusto in repellat necessitatibus
-                qui quia dignissimos. Sit nobisssi quam non ratione dolorum et
-                reprehenderit vero qui labore aperiam? Ad galisum laborum non
-                soluta corrupti qui doloremque quam sed commodi culpa aut dolorum
-                earum.
+                We envision a world where communication barriers are broken,
+                enabling people from all backgrounds to express themselves with
+                confidence. Everyone should have the opportunity to share their
+                stories, connect with others, and make their voices heard.
               </p>
               <p className="mt-6">
-                Aut dicta architecto aut distinctio voluptas utleq itaque
-                voluptates! Ut quas quaerat eum quin sils voluptatem consequatur
-                et dolorem unde exrern cupiditate rerum. Cum delectus quia est
-                enima il voluptatem expedita ab dolores enim ut rerum ni
-                recusandae laborum et unde obcaecati sed iste nostrum corporis.
+                Through our programs, we strive to build a supportive community
+                that fosters mutual growth and learning. By embracing the power
+                of storytelling, we inspire individuals to develop their
+                communication skills and create meaningful connections.
               </p>
             </div>
           </div>
@@ -82,16 +78,16 @@ const Mission = () => {
         {/* right Images */}
         <div className="grid grid-cols-3 md:grid-cols-1 gap-3 w-full md:w-auto">
           <div className="w-full flex justify-center">
-            <Image 
+            <Image
               src={mission1}
               alt="mission images"
-              width={250} 
+              width={250}
               height={250}
               className="w-full h-auto max-w-[250px] object-cover rounded-lg"
             />
           </div>
           <div className="w-full flex justify-center">
-            <Image 
+            <Image
               src={mission2}
               alt="mission images"
               width={250}
@@ -100,7 +96,7 @@ const Mission = () => {
             />
           </div>
           <div className="w-full flex justify-center">
-            <Image 
+            <Image
               src={mission3}
               alt="mission images"
               width={250}

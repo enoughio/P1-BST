@@ -7,13 +7,13 @@ const AboutUs = () => {
     <div className="flex md:flex-row flex-col justify-center items-center md:gap-8 gap-4  w-full mt-6">
       <div className="border-red-200 border-2 m-2  p-2 md:p-4 w-full md:w-1/2 rounded-3xl">
         <div className="flex flex-col justify-between items-center w-full relative">
-          <p className="p-2">
+          <p className="p-2 text-sm">
             <Image
               src={downQuot}
               alt="downQuot"
               width={30}
               height={30}
-              className="rotate-180 self-start inline-block mr-6 mb-2 "
+              className="rotate-180 self-start inline-block mr-6 pt-1"
             />
             Ut voluptas quam At obcaecati consequatur ut aliquam architecto qui
             esse ducimus et omnis quia quo nisi quasi et accusamus doloribus. Ea

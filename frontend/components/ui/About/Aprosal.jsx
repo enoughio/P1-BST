@@ -4,6 +4,7 @@
 import { storyTellingImage } from '@/lib/data/images';
 import Head from 'next/head';
 import Image from 'next/image';
+import { Button } from '../button';
 
 export default function Aprosal() {
   return (
@@ -35,11 +36,10 @@ export default function Aprosal() {
                 Become Part of Our Storytelling Community!
               </h1>
               <p className="text-sm md:text-base text-gray-600 mb-6 leading-relaxed">
-                At ultrices sit consectetur ut aliquam architecto qui esse sapiente dolorem corrupti quisquam recusandae doloribus. Id dolores temporibus et tempora iste et provident explicabo est ipsum aenium. At perspiciatis nesciunt!
-              </p>
-              <button className="bg-pink-200 text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-pink-300 transition duration-300 ease-in-out transform hover:-translate-y-1 self-start">
+              Ready to enhance your public speaking, share your stories, and connect with a supportive community? Join Bharat Storytellers today for exclusive workshops, events, and a platform to make your voice heard!              </p>
+              <Button href='/member' className="bg-pink-200 text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-pink-300 transition duration-300 ease-in-out transform hover:-translate-y-1 self-start">
                 BECOME A MEMBER
-              </button>
+              </Button>
             </div>
           </div>
         </div>

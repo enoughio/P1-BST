@@ -8,12 +8,12 @@ const Header = () => {
     <div className="mt-10 md:mt-16">
       <div className="relative">
        
-        <div className=" absolute -top-7 left-3 md:-top-12 md:left-5 text-xl md:text-[3rem] leading-none w-96  ">
-        <div className="mb-1" >
+        <div className=" absolute -top-6 left-2 md:-top-12 md:left-5 text-xl md:text-[2.5rem] lg:text-[3rem] leading-none w-96  ">
+        <div className="" >
           Our Story, Vission,
         </div>
         <div>
-        and Values
+         Values
         </div>
         </div>
 
@@ -26,7 +26,7 @@ const Header = () => {
           />
         </div>
 
-        <div className="text-base leading-5 md:leading-4 hidden md:inline-block ">
+        <div className="md:text-base  leading-5 md:leading-4 hidden md:inline-block ">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate
           beatae voluptatibus illum labore, hic tenetur!
         </div>
