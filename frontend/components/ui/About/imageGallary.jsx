@@ -7,7 +7,7 @@ const ImageGrid = () => {
       {/* Top left - Orange background speaker */}
       <div className="rounded-xl overflow-hidden bg-teal-100">
         <Image
-          src="/api/placeholder/400/320"
+          src="#"
           alt="Speaker in orange sweater with microphone"
           width={400}
           height={320}
@@ -18,7 +18,7 @@ const ImageGrid = () => {
       {/* Center image spanning 2 rows - Dark background speaker */}
       <div className="row-span-2 rounded-xl overflow-hidden bg-gray-800">
         <Image
-          src="/api/placeholder/400/640"
+          src="#"
           alt="Speaker on stage"
           width={400}
           height={640}
@@ -29,7 +29,7 @@ const ImageGrid = () => {
       {/* Top right - Purple background woman */}
       <div className="rounded-xl overflow-hidden bg-purple-600">
         <Image
-          src="/api/placeholder/400/320"
+          src="#"
           alt="Woman in yellow outfit speaking"
           width={400}
           height={320}
@@ -40,7 +40,7 @@ const ImageGrid = () => {
       {/* Bottom left - Purple background child */}
       <div className="rounded-xl overflow-hidden bg-purple-400">
         <Image
-          src="/api/placeholder/400/320"
+          src="#"
           alt="Child with a pink notebook"
           width={400}
           height={320}
@@ -51,7 +51,7 @@ const ImageGrid = () => {
       {/* Bottom right - Pink background girl */}
       <div className="rounded-xl overflow-hidden bg-pink-200">
         <Image
-          src="/api/placeholder/400/320"
+          src="#"
           alt="Girl writing in a notebook"
           width={400}
           height={320}

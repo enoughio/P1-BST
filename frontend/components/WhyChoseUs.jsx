@@ -118,7 +118,7 @@ export function WhyChooseUs() {
 
       </div>
 
-      {/* <WhyWedifferent /> */}
+      <WhyWedifferent />
     </section>
   );
 }

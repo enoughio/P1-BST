@@ -11,7 +11,7 @@ import { faq } from "@/lib/data/data";
 const FAQ = () => {
   return (
 
-    <div className="my-10 ">
+    <div className="my-10 px-4 md:px-12">
         <h1 className="text-center my-5 font-medium text-2xl">Frequently Asked <span className="underline decoration-red-200"> Questions </span></h1>
       {faq.map((item) => (
         <div key={item.id}>
