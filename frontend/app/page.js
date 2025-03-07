@@ -5,7 +5,7 @@ import OurPrograms from "@/components/OurPrograms";
 import Hero from "@/components/ui/Hero";
 import Testimonials from "@/components/ui/Testimonials";
 import PublicSpeakingCard from "@/components/ui/WhyLearnPyblicSpeaking";
-import { WhyChooseUs } from "@/components/WhyChoseUs";
+import {WhyChooseUs}  from "@/components/WhyChoseUs";
 
 
 // TODO: fix why chose us Section

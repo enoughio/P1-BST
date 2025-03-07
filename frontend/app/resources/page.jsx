@@ -19,7 +19,7 @@ export default function Programmes() {
       <main className="min-h-screen py-8 px-4 md:px-8 lg:px-16 max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-1">Resources</h1>
-          <p className="text-gray-700 max-w-3xl mx-auto font-xl font-medium">
+          <p className="text-gray-700 max-w-3xl mx-auto font-xl ">
             Explore our resources to help you improve your communication skills
             and become a better storyteller
           </p>

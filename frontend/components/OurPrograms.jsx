@@ -6,7 +6,7 @@ import { BubbleCard } from "./ui/BubbleCard";
 const OurPrograms = () => {
   return (
     <div className="mb-14 mt-4">
-      <section className="wrapper  md:h-screen bg-[#FAF9F9] flex flex-col w-[95%] mx-auto ">
+      <section className="wrapper  md:h-screen bg-[#FAF9F9] flex flex-col w-[92%] mx-auto ">
         <div className="Header text-center flex flex-col items-center my-5">
           <div className="flex flex-col justify-end">
           <h1 className="text-5xl font-bold">Our <span className="decoration-red-300 underline decoration-[5px]">Programs</span></h1>
@@ -30,13 +30,15 @@ const OurPrograms = () => {
                   subHeading="for young kids"
                   BubbleColor= {{ background: "rgba(92, 149, 255, 0.3)" }}
                   cardColor = {{ background: "rgba(92, 149, 255, 0.3)" }}
+                  discription="Our Young Orators program is designed to help kids develop public speaking skills and build confidence. Through fun and engaging activities, kids learn how to express themselves clearly and confidently in front of an audience, setting them up for success in school and beyond."
                   image={youngOratersImg} // image path
               />
               <BubbleCard 
                   cardSize="small" // "large" or "small"
                   bubbleVariant="normal" // "default", "small", or "normal"
-                  title="Young Oraters"
-                  subHeading="for young kids"
+                  title="Bhopal Storytellers"
+                  subHeading="For Adults"
+                  discription="Bhopal Storytellers program is designed for Professionals seeking to enhance their public speaking and storytelling skills. Through interactive workshops and practical exercises, participants learn to communicate confidently and effectively, mastering techniques that engage and inspire audiences."
                   BubbleColor= {{ background: "rgba(92, 149, 255, 0.3)" }}
                   cardColor = {{ background: "rgba(92, 149, 255, 0.3)" }}
                   image={bhopalStorytellersImg} // image path
@@ -44,8 +46,9 @@ const OurPrograms = () => {
               <BubbleCard 
                   cardSize="small" // "large" or "small"
                   bubbleVariant="normal" // "default", "small", or "normal"
-                  title="Young Oraters"
-                  subHeading="for young kids"
+                  title="Aspiring Professionals"
+                  subHeading="For College Students"
+                  discription=""
                   BubbleColor= {{ background: "rgba(92, 149, 255, 0.3)" }}
                   cardColor = {{ background: "rgba(92, 149, 255, 0.3)" }}
                   image={aspiringProfessionalsImg} // image path
@@ -53,8 +56,9 @@ const OurPrograms = () => {
               <BubbleCard 
                   cardSize="small" // "large" or "small"
                   bubbleVariant="default" // "default", "small", or "normal"
-                  title="Young Oraters"
-                  subHeading="for young kids"
+                  title="Orato Fest"
+                  subHeading="For Everyone"
+                  discription="Orato Fest is an annual public speaking festival that brings together speakers of all ages and backgrounds to share their stories and ideas. Participants can take part in workshops, competitions, and performances, gaining valuable experience and feedback from expert coaches and judges."
                   BubbleColor= {{ background: "rgba(92, 149, 255, 0.3)" }}
                   cardColor = {{ background: "rgba(92, 149, 255, 0.3)" }}
                   image={oratoFestImg} // image path
@@ -62,8 +66,9 @@ const OurPrograms = () => {
               <BubbleCard 
                   cardSize="small" // "large" or "small"
                   bubbleVariant="normal" // "default", "small", or "normal"
-                  title="Young Oraters"
-                  subHeading="for young kids"
+                  title="Expert Sessions"
+                  subHeading="Panel Discussions"
+                  discription="Expert Sessions feature panel discussions and podcasts with industry leaders, entrepreneurs, and public speaking experts. Participants gain valuable insights and practical tips to help them succeed in their personal and professional lives."
                   BubbleColor= {{ background: "rgba(92, 149, 255, 0.3)" }}
                   cardColor = {{ background: "rgba(92, 149, 255, 0.3)" }}
                   image={podcastImg} // image path

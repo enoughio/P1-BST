@@ -162,7 +162,7 @@ const TestimonialCarousel = () => {
     : testimonials;
 
   return (
-    <section className="py-4 px-4 bg-pink-100">
+    <section className="py-4 px-4 bg-blue-100">
       <div className="container mx-auto w-full">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-2">Testimonials</h2>

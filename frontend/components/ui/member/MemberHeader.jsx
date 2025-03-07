@@ -16,12 +16,12 @@ const MembershipSection = () => {
           </div>
           
           <p className="text-gray-700 mb-6">
-            Et soluta animi ad quas quasi nam odit nihil ut consequatur explicabo. Ea nihil nobis eum explicabo corporis est nihil neque qui voluptas
+          Enhance your communication skills, gain confidence, and become a powerful speaker by joining our supportive and engaging public speaking community today!
           </p>
-          
-          <Link href="/enquire" passHref>
+            
+          <Link href="/findaclub" passHref>
             <button className="bg-pink-200 text-black py-2 px-6 rounded-full flex items-center max-w-xs">
-              ENQUIRE NOW
+              Find A Club
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -82,7 +82,7 @@ const MembershipSection = () => {
         <div className="w-full md:w-1/3 p-4 mt-4 md:mt-0">
           <div className="bg-white border border-pink-100 rounded-lg p-6">
             <p className="text-gray-700">
-              Ut voluptas quam At obcaecati consequatur ut aliquam architecto qui esse ducimus et omnis quia quo nisi quasi et accusamus doloribus. Ea magnam quasi qui quia accusantium sed aliquam ipsa! Sit doloremque unde in quibusdam corrupti est velit enim et delectus atque quo ullam incidunt. Et dolore mollitia aut excepturi facilis sed voluptate.
+            Public speaking is the art of confidently expressing ideas to an audience, engaging them with clarity and persuasion. It builds leadership, boosts confidence, and enhances communication skills for personal and professional growth.
             </p>
           </div>
         </div>

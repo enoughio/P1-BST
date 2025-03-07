@@ -2,6 +2,16 @@ import * as React from "react";
 import Image from "next/image";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+
 
 // Define variants for the card container
 const cardVariants = cva(
@@ -35,11 +45,16 @@ const BubbleCard = React.forwardRef(
       image, // image path
       bold = false,
       type="normal",
+      discription,
       ...props
     },
     ref
   ) => {
     return (
+      <Dialog className="w-full">
+          <DialogTrigger asChild>
+
+        
       <div
         ref={ref}
         className={cn(cardVariants({ cardSize, className }) ," ") }
@@ -142,21 +157,37 @@ const BubbleCard = React.forwardRef(
             width={250}
             height={250}
             style={{ objectFit: "cover" }}
-            className="absolute top-2 left-0"
+            className="absolute top-0 left-0"
           />
         )}
 
         {/* Title and SubHeading */}
         <div
-          className={"text-end absolute bottom-10 right-8 "}>
+          className={"text-end absolute bottom-3 right-2 md:right-8 "}>
           {bold == true ? (
-            <h1 className="text-6xl font-bold">{title}</h1>
+            <h1 className="text-4xl md:text-6xl font-bold">{title}</h1>
           ) : (
-            <h1 className="text-xl">{title}</h1>
+            <h1 className="text-lg leading-5 mb-1 md:text-xl">{title}</h1>
           )}
-          <p className="text-sm">{subHeading}</p>
+          <p className="text-sm leading-5">{subHeading}</p>
         </div>
       </div>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-md md:w-full bg-red-50">
+      <DialogHeader>
+        <DialogTitle>
+              { title }
+        </DialogTitle>
+        <DialogDescription>
+            {discription}
+        </DialogDescription>
+
+      </DialogHeader>
+
+      </DialogContent>
+
+      </Dialog>
     );
   }
 );
