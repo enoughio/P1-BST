@@ -4,7 +4,7 @@ import { gridImage } from "@/lib/data/images";
 
 const OurStory = () => {
   return (
-    <section className="w-full md:px-2 ">
+    <section className="w-full md:px-4 py-4 shadow-md rounded-lg shadow-gray-400 my-6">
       {/* Side accent */}
 
       {/* Title Section */}
@@ -19,7 +19,7 @@ const OurStory = () => {
         <div className="hidden lg:block lg:w-1/2">
           <div className="grid grid-cols-12 grid-rows-12 gap-4 h-full">
             {/* Top left - Large image */}
-            <div className="col-span-6 row-span-6 rounded-xl overflow-hidden">
+            <div className="col-span-6 row-span-6 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
               <Image
                 src={gridImage}
                 alt="Person in orange sweater speaking"
@@ -30,7 +30,7 @@ const OurStory = () => {
             </div>
 
             {/* Top right and middle - Tall image */}
-            <div className="col-span-6 row-span-8 rounded-xl overflow-hidden">
+            <div className="col-span-6 row-span-8 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
               <Image
                 src={gridImage}
                 alt="Person with microphone on stage"
@@ -41,7 +41,7 @@ const OurStory = () => {
             </div>
 
             {/* Bottom left - Small image */}
-            <div className="col-span-6 row-span-6 rounded-xl overflow-hidden">
+            <div className="col-span-6 row-span-6 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
               <Image
                 src={gridImage}
                 alt="Young girl reading"
@@ -52,7 +52,7 @@ const OurStory = () => {
             </div>
 
             {/* Bottom right top - Woman in yellow */}
-            <div className="col-span-6 row-span-4 rounded-xl overflow-hidden">
+            <div className="col-span-6 row-span-4 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
               <Image
                 src={gridImage}
                 alt="Woman in yellow speaking"
@@ -76,7 +76,7 @@ const OurStory = () => {
         </div>
 
         {/* Content Text Box - Right side on desktop, top on mobile */}
-        <div className="lg:w-1/2 bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200">
+        <div className="lg:w-1/2 bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-md shadow-gray-300">
           <h3 className="text-2xl md:text-3xl font-bold mb-4">
             This is How we Started
             <div className="h-1 w-40 bg-blue-300 "></div>
@@ -90,7 +90,7 @@ const OurStory = () => {
             <p>
             Over time, our small gathering transformed into a thriving network of passionate individuals from across India. Through storytelling, we have built connections, fostered learning, and encouraged self-expression, making our community a place of growth and inspiration.
             </p>
-            <p>
+            <p className="hidden md:block">
             Our journey is a testament to the power of stories and the bonds they create. As we continue to expand, we remain committed to providing a platform where individuals can express themselves, share their narratives, and inspire others along the way.
             </p>
           </div>

@@ -5,7 +5,7 @@ import React from "react";
 const Mission = () => {
   return (
     <section className="my-6 mx-2">
-      <div className="flex flex-col w-full items-center mb-8">
+      <div className="flex flex-col w-full items-center mb-8 ">
         <div className="text-3xl font-medium flex">
           <div>
             <h3>Mission</h3>
@@ -27,16 +27,16 @@ const Mission = () => {
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row w-full gap-5">
+      <div className="flex flex-col md:flex-row w-full gap-5  ">
         {/* left card */}
         <div className="flex flex-col md:flex-row gap-5 w-full">
-          <div className="border-blue-100 border-2 p-4 w-full md:w-1/2 md:py-8 bg-blue-50 rounded-3xl">
+          <div className="border-blue-100 border-2 p-4 w-full md:w-1/2 md:py-8 bg-blue-50 rounded-3xl shadow-lg shadow-gray-300 ">
             <div className="flex flex-col w-fit">
               <h1 className="font-semibold text-5xl leading-none">Mission</h1>
               <div className="bg-blue-400 w-[70%] h-1 self-end rounded-3xl"></div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 ">
               <p>
                 At Bharat Storytellers, we believe that every voice has a story
                 to tell, and every story deserves to be heard. Everyone has a
@@ -52,7 +52,7 @@ const Mission = () => {
             </div>
           </div>
 
-          <div className="border-blue-100 border-2 p-4 w-full md:w-1/2 md:py-8 bg-blue-50 rounded-3xl">
+          <div className="border-blue-100 border-2 p-4 w-full md:w-1/2 md:py-8 bg-blue-50 rounded-3xl shadow-lg shadow-gray-300 ">
             <div className="flex flex-col w-fit">
               <h1 className="font-semibold text-5xl leading-none">Vision</h1>
               <div className="bg-blue-400 w-[70%] h-1 self-end rounded-3xl"></div>
@@ -76,14 +76,14 @@ const Mission = () => {
         </div>
 
         {/* right Images */}
-        <div className="grid grid-cols-3 md:grid-cols-1 gap-3 w-full md:w-auto">
-          <div className="w-full flex justify-center">
+        <div className="grid grid-cols-3 md:grid-cols-1 gap-3 w-full md:w-auto ">
+          <div className="w-full flex justify-center ">
             <Image
               src={mission1}
               alt="mission images"
               width={250}
               height={250}
-              className="w-full h-auto max-w-[250px] object-cover rounded-lg"
+              className="w-full h-auto max-w-[250px] object-cover rounded-lg shadow-lg shadow-gray-300 "
             />
           </div>
           <div className="w-full flex justify-center">

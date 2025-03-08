@@ -12,7 +12,7 @@ const OurPrograms = () => {
           <h1 className="text-4xl font-bold">Our <span className="decoration-red-300 underline decoration-[5px]">Programs</span></h1>
           </div>
 
-          <div className="font-light max-w-[600px] mt-2 leading-5">
+          <div className="font-light max-w-[600px] md:max-w-[800px] mt-2 leading-5">
             Whether you’re an adult looking to build confidence or a young
             speaker eager to find your voice, our programs cater to all skill
             levels and age groups.
