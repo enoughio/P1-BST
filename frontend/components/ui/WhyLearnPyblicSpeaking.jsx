@@ -29,9 +29,9 @@ const PublicSpeakingSection = () => {
   ];
 
   return (
-    <section className="my-12  py-4 mx-12 border-t-2 border-gray-200 shadow-md rounded-lg bg-red-100">
+    <section className="my-12  py-4 mx-2 md:mx-12 border-t-2 border-gray-200 shadow-md rounded-lg bg-red-100">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2 text-start">{title}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-start">{title}</h2>
         <p className="text-gray-600 text-start mb-5 max-w-3xl leading-5">{description}</p>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5">
           {items.map((item, index) => (

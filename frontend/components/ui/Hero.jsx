@@ -58,10 +58,10 @@ export default function Hero() {
               </div>
 
             
-              <div className="flex gap-4  justify-center items-center  p-2 sm:py-6 lg:py-14 lg:mx-auto">
+              <div className="flex gap-4  justify-center items-center  p-2 sm:py-6 lg:py-12 lg:mx-auto lg:mb-10">
                 <Button
                   asChild
-                  className=" text-black w-1/2 md:min-w-[320px]  md:max-w-[400px] hover:bg-pink-200 h-12 md:h-20 rounded-3xl m-0 p-0 relative overflow-hidden"
+                  className=" text-black w-1/2 md:min-w-[250px]  md:max-w-[320px] hover:bg-pink-200 h-12 md:h-20 rounded-3xl m-0 p-0 relative overflow-hidden"
                   size="lg"
                   style={{ background: "rgba(193, 18, 31, .12)" }}
                 >
@@ -86,7 +86,7 @@ export default function Hero() {
                 <Button
                   asChild
                   variant="outline"
-                  className=" w-1/2 md:min-w-[320px]  md:max-w-[400px] h-12 sm:h-20 rounded-3xl  relative overflow-hidden"
+                  className=" w-1/2 md:min-w-[250px]  md:max-w-[350px] h-12 sm:h-20 rounded-3xl  relative overflow-hidden"
                   size="lg"
                   style={{
                     backgroundColor: "rgba(92, 149, 255, .2)",
