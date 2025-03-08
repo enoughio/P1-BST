@@ -16,9 +16,10 @@ const mission3  = '/mission3.png'
 const gridImage = '/gridImage.png'
 const storyTellingImage = '/storytelling-image.png'
 const contactUs = '/contactUs.png'
+const HeroImage = '/Hero.png'
 
 export {
-
+    HeroImage,
     youngOratersImg,
     aspiringProfessionalsImg,
     bhopalStorytellersImg,
