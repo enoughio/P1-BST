@@ -17,6 +17,9 @@ const gridImage = '/gridImage.png'
 const storyTellingImage = '/storytelling-image.png'
 const contactUs = '/contactUs.png'
 const HeroImage = '/Hero.png'
+const piyush = '/testimonials/piyush.jpeg'
+const vasanti = '/testimonials/vasanti.jpeg'
+const utkrishti = '/testimonials/utkrishti.jpeg'
 
 export {
     HeroImage,
@@ -37,8 +40,11 @@ export {
     mission3,
     gridImage,
     storyTellingImage,
-
     contactUs,
+
+    piyush,
+    vasanti,
+    utkrishti
     
     
 }

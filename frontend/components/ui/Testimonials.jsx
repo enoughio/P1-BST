@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeftIcon, ChevronRightIcon, Star } from "lucide-react";
 import Image from "next/image";
+import { piyush, utkrishti, vasanti } from "@/lib/data/images";
 
 
 
@@ -38,7 +39,7 @@ const testimonials = [
         "I've been in leadership roles since 2010 but struggled with precise communication. Bharat Storytellers helped me deliver impactful speeches within time, keeping my audience engaged.",
       name: "Piyush Kumar Kachhi",
       handle: "Seasoned Banker ",
-      avatar: "/placeholder.svg?height=80&width=80",
+      avatar: {piyush},
       rating: 5,
     },
     {
@@ -47,8 +48,8 @@ const testimonials = [
         "I always searched for a stage to learn and I found it with Bharat Storytellers. Here I got the people who encourages me and give their feedback so that I can improve myself. I know I am still not perfect but I can tell that I am a better speaker today.",
       name: "Vasanthi Rayapati",
       handle: "Student at MANIT",
-      avatar: "/placeholder.svg?height=80&width=80",
-      rating: 5,
+      avatar: {vasanti},
+      rating: 4,
     },
     {
         id: 3,
@@ -56,7 +57,7 @@ const testimonials = [
         "Joining Bharat Storytellers transformed my public speaking. The supportive environment refined my storytelling, making workshops engaging. I now master gestures, pauses, and impactful delivery!",
       name: "Utkrishti Katheriya",
       handle: "Counselling Psychologist",
-      avatar: "/placeholder.svg?height=80&width=80",
+      avatar: {utkrishti},
       rating: 5,
     },
   ];
@@ -162,7 +163,7 @@ const TestimonialCarousel = () => {
     : testimonials;
 
   return (
-    <section className="py-4 px-4 bg-blue-100">
+    <section className="py-4 px-4 bg-gradient-to-b from-[#E7EDFA]/30 to-[#C7D9FB]">
       <div className="container mx-auto w-full">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-2">Testimonials</h2>
@@ -197,7 +198,7 @@ const TestimonialCarousel = () => {
                 <p className="text-xs max-w-[55%] mx-2">{testimonial.text}</p>
               </div>
 
-              <div className="text-sm ml-5 self-start  flex justify-center h-full gap-3">
+              <div className="text-sm ml-5 self-start  flex justify-center h-full gap-3 mr-6">
                 <div className="text-center flex flex-col justify-center items-center gap-1">
                   <h2 className="text-[.9rem] leading-none">
                     {testimonial.name}
@@ -218,6 +219,9 @@ const TestimonialCarousel = () => {
             </div>
           ))}
         </div>
+
+
+
 
         {/* Mobile View */}
         <div
@@ -249,13 +253,13 @@ const TestimonialCarousel = () => {
                           />
                         </div>
                         <div>
-                          <p className="font-medium">{testimonial.name}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="font-normal leading-4 text-sm">{testimonial.name}</p>
+                          <p className="text-[.5rem] sm:text-sm text-gray-500">
                             {testimonial.handle}
                           </p>
                         </div>
                       </div>
-                      <p className="text-gray-700 mb-4">"{testimonial.text}"</p>
+                      <p className="text-gray-700 text-[.7rem] sm:text-sm leading-4 mb-4">"{testimonial.text}"</p>
                       <div className="flex">
                         {[...Array(5)].map((_, i) => (
                           <Star

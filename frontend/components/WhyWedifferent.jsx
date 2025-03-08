@@ -95,7 +95,7 @@ const CoachingCarousel = () => {
   }, []);
 
   return (
-    <div className="w-full mb-8 border-t-2  py-4 bg-blue-100  border-gray-200  rounded-xl px-8">
+    <div className="w-full mb-8 border-t-2  py-4 bg-gradient-to-b from-[#E7EDFA]/30 to-[#C7D9FB]  border-gray-200  rounded-xl px-8">
       {/* Main heading and text */}
       <div className="mb-8">
         <h2 className=" text-2xl md:text-3xl font-bold mb-4 hidden md:inline-block">Why we're different</h2>

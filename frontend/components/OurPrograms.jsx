@@ -7,12 +7,12 @@ const OurPrograms = () => {
   return (
     <div className="mb-14 mt-4">
       <section className="wrapper  md:h-screen bg-[#FAF9F9] flex flex-col w-[92%] mx-auto ">
-        <div className="Header text-center flex flex-col items-center my-5">
+        <div className="Header text-center flex flex-col items-center mb-2">
           <div className="flex flex-col justify-end">
           <h1 className="text-4xl font-bold">Our <span className="decoration-red-300 underline decoration-[5px]">Programs</span></h1>
           </div>
 
-          <div className="font-light w-[60%] mt-2 leading-5">
+          <div className="font-light max-w-[600px] mt-2 leading-5">
             Whether you’re an adult looking to build confidence or a young
             speaker eager to find your voice, our programs cater to all skill
             levels and age groups.
@@ -28,8 +28,8 @@ const OurPrograms = () => {
                   bubbleVariant="default" // "default", "small", or "normal"
                   title="Young Oratars"
                   subHeading="for young kids"
-                  BubbleColor= {{background: "rgba(193, 18, 31, .12)"}}
-                  cardColor = {{ background: "rgba(193, 18, 31, .12)" }}
+                  BubbleColor= {{background: "rgba(193, 18, 31, .5)"}}
+                  cardColor = {{ background: "rgba(193, 18, 31, .5)" }}
                   discription="Our Young Orators program is designed to help kids develop public speaking skills and build confidence. Through fun and engaging activities, kids learn how to express themselves clearly and confidently in front of an audience, setting them up for success in school and beyond."
                   image={youngOratersImg} // image path
                   className="cursor-pointer inline-block md:hidden"

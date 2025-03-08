@@ -7,7 +7,7 @@ import { Linkedin, Facebook, Instagram, YoutubeIcon } from 'lucide-react';
 
 const Fotter = () => {
   return (
-    <div className="flex flex-col justify-around bg-red-100 gap-2 min-h-[50vh]">
+    <div className="flex flex-col justify-around bg-gradient-to-b from-[#F7EBEC]/20 to-[#F1D2D4] gap-2 min-h-[50vh]">
       <div className="w-full flex flex-col md:flex-row justify-around items-start">
         <div
           id="left"

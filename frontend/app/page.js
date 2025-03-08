@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <div className="w-full ">
       <Hero />
-      <WhyChooseUs />
       <PublicSpeakingCard />
+      <WhyChooseUs />
       <OurPrograms />
       <Journy />
       <Testimonials />
