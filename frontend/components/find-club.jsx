@@ -11,8 +11,7 @@ import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card.jsx";
+
 
 import { clubsData } from "@/lib/data/data"; //TODO : import data from backend
 
