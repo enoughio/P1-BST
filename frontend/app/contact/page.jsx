@@ -3,8 +3,7 @@ import Head from 'next/head';
 import ContactForm from '@/components/ui/contact/ContactForm';
 import ContactInfo from '@/components/ui/contact/ContactInfo';
 import ContactImage from '@/components/ui/contact/ContactImage'; 
-import { FileQuestion, MailQuestion } from 'lucide-react';
-import { FaRegQuestionCircle } from 'react-icons/fa';
+
 
 export default function Contact() {
   return (

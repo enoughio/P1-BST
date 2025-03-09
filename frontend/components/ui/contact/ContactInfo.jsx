@@ -1,5 +1,5 @@
 
-import ContactQuestion from "./contactQuestion";
+import ContactQuestion from "@/components/ui/contact/ContactQuestion";
 
 
 export default function ContactInfo() {
