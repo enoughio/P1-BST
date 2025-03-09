@@ -28,8 +28,8 @@ const OurPrograms = () => {
                   bubbleVariant="default" // "default", "small", or "normal"
                   title="Young Oratars"
                   subHeading="for young kids"
-                  BubbleColor= {{background: "rgba(193, 18, 31, .5)"}}
-                  cardColor = {{ background: "rgba(193, 18, 31, .5)" }}
+                  BubbleColor= {{background: "rgba(193, 18, 31, .08)"}}
+                  cardColor = {{ background: "rgba(193, 18, 31, .08)" }}
                   discription="Our Young Orators program is designed to help kids develop public speaking skills and build confidence. Through fun and engaging activities, kids learn how to express themselves clearly and confidently in front of an audience, setting them up for success in school and beyond."
                   image={youngOratersImg} // image path
                   className="cursor-pointer inline-block md:hidden"
