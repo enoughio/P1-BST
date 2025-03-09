@@ -20,7 +20,7 @@ export default function Aprosal() {
         <div className=" max-w-6xl mx-auto">
           <div className="bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
             {/* Image Section */}
-            <div className=" w-[95%] md:w-1/2 h-52 md:h-auto  mx-auto pt-2 rounded-md ">
+            <div className=" w-[95%] md:w-1/2 h-32 md:h-auto  mx-auto pt-2 rounded-md ">
               <Image
                 src={storyTellingImage}
                 alt="Teacher reading a book to children"
