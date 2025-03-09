@@ -1,12 +1,16 @@
 'use client'
 
+// pages/clubs/[clubId].jsx
+
 import React from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 
-// TODO: fetch club details from API
-const ClubDetailPage =  ( ) => {
-  const router = useRouter();
+
+const ClubDetailPage = ( ) => {
+    const searchParams = useSearchParams();
+    console.log(searchParams.get('club'));
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -14,7 +18,7 @@ const ClubDetailPage =  ( ) => {
         {/* <title>{club.name} - Bharat Storytellers</title> */}
       </Head>
 
-      {/* Header Section
+       {/* Header Section */}
       <header className="bg-blue-700 text-white py-4">
         <div className="container mx-auto px-4">
           <h1 className="text-2xl font-bold">{club.name}</h1>
@@ -25,10 +29,10 @@ const ClubDetailPage =  ( ) => {
           </span>
         </div>
       </header>
-
-      Main Content
+{/* 
+      Main Content */}
       <div className="container mx-auto px-4 py-8 grid md:grid-cols-2 gap-8">
-        //  Club Details Column 
+        {/* //  Club Details Column  */}
         <div className="bg-white shadow-md rounded-lg p-6">
           <div className="mb-6">
             <h2 className="text-xl font-semibold mb-4">Club Details</h2>
@@ -58,7 +62,7 @@ const ClubDetailPage =  ( ) => {
           </div>
         </div>
 
-         Map and Additional Info Column 
+         {/* Map and Additional Info Column  */}
         <div>
            Placeholder for Map - In real implementation, use Google Maps or similar 
           <div className="bg-gray-200 h-96 mb-6 rounded-lg flex items-center justify-center">
@@ -74,11 +78,9 @@ const ClubDetailPage =  ( ) => {
             </p>
           </div>
         </div>
-      </div>*/}
+      </div> 
     </div> 
   );
 };
-
-
 
 export default ClubDetailPage;
