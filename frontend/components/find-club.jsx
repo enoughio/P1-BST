@@ -9,8 +9,8 @@ import { useMap } from "react-leaflet";
 import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
-import { Badge } from "../components/ui/Badge.jsx";
-import { Card, CardContent } from "../components/ui/card.jsx";
+import { Badge } from "./ui/Badge.jsx";
+import { Card, CardContent } from "./ui/card.jsx";
 
 import { clubsData } from "@/lib/data/data"; //TODO : import data from backend
 
