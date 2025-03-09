@@ -4,15 +4,66 @@ import { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { Search } from "lucide-react";
+import { Search, MapPin } from "lucide-react";
 import { useMap } from "react-leaflet";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card.jsx";
 
 import { clubsData } from "@/lib/data/data"; //TODO : import data from backend
+
+// Create a custom icon using Lucide icon as SVG
+const createCustomIcon = (color = "black") => {
+  // Convert the Lucide MapPin icon to an SVG string
+  const svgString = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+      <circle cx="12" cy="10" r="3"></circle>
+    </svg>
+  `;
+
+  // Create a base64 encoded data URL
+  const iconUrl = `data:image/svg+xml;base64,${btoa(svgString)}`;
+
+  return L.icon({
+    iconUrl,
+    iconSize: [38, 38],
+    iconAnchor: [19, 38],
+    popupAnchor: [0, -38]
+  });
+};
+
+// Custom marker component that uses our custom icon
+function CustomMarker({ position, club, onClick }) {
+  // You could customize the color based on club properties if desired
+  const customIcon = createCustomIcon();
+  
+  return (
+    <Marker 
+      position={position} 
+      icon={customIcon}
+      eventHandlers={{
+        click: () => onClick(club)
+      }}
+    >
+      <Popup>
+        <div className="p-1">
+          <h3 className="font-bold">{club.name}</h3>
+          <p className="text-sm">{club.address}</p>
+          <p className="text-sm mt-1">{club.meetingTime}</p>
+          <p className="text-sm mt-1">{club.members} members</p>
+          <Link href={`/findaclub/${club.id}`}>
+            <Button>View Club</Button>
+          </Link>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
 
 function MapController({ center, zoom, selectedClub }) {
   const map = useMap();
@@ -40,18 +91,8 @@ export default function FindClub() {
   const [mapCenter, setMapCenter] = useState([39.8283, -98.5795]); // Center of US
   const [mapZoom, setMapZoom] = useState(4);
   const mapRef = useRef(null);
-
-  // Fix Leaflet icon issue
-  useEffect(() => {
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl:
-        "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-      iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-      shadowUrl:
-        "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-    });
-  }, []);
+  
+  // No need for the Leaflet icon fix since we're using custom icons
 
   // Handle search
   const handleSearch = (e) => {
@@ -104,7 +145,8 @@ export default function FindClub() {
           </form>
         </div>
 
-        <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+        
+      <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2">
           {filteredClubs.length === 0 ? (
             <div className="text-center p-4 border rounded-lg">
               No clubs found in this city. Try another search.
@@ -157,27 +199,12 @@ export default function FindClub() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {filteredClubs.map((club) => (
-            <Marker
+            <CustomMarker
               key={club.id}
               position={club.position}
-              eventHandlers={{
-                click: () => {
-                  setSelectedClub(club);
-                },
-              }}
-            >
-              <Popup>
-                <div className="p-1">
-                  <h3 className="font-bold">{club.name}</h3>
-                  <p className="text-sm">{club.address}</p>
-                  <p className="text-sm mt-1">{club.meetingTime}</p>
-                  <p className="text-sm mt-1">{club.members} members</p>
-                  <Button onClick={() => router.push(`/club/${club.id}`)}>
-                    View Club
-                  </Button>
-                </div>
-              </Popup>
-            </Marker>
+              club={club}
+              onClick={selectClub}
+            />
           ))}
         </MapContainer>
       </div>
