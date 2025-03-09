@@ -20,8 +20,10 @@ const HeroImage = '/Hero.png'
 const piyush = '/testimonials/piyush.jpeg'
 const vasanti = '/testimonials/vasanti.jpeg'
 const utkrishti = '/testimonials/utkrishti.jpeg'
+const logo = '/logo.svg'
 
 export {
+    logo,
     HeroImage,
     youngOratersImg,
     aspiringProfessionalsImg,

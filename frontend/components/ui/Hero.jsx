@@ -5,12 +5,11 @@ import { HeroImage } from "@/lib/data/images";
 import { Button } from "@/components/ui/button";
 import { FaInstagram, FaFacebookF, FaTwitter } from "react-icons/fa";
 import { CiLinkedin } from "react-icons/ci";
-import SmallFatArrow from "./SmallFatArrow";
 
 export default function Hero() {
   return (
     <>
-      <section className="relative overflow-hidden bg-background lg:py-5 px-2 ">
+      <section className="relative overflow-hidden bg-background lg:py-5 px-2 h-screen">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
             <div className="left_container flex flex-col justify-between">
