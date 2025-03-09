@@ -119,9 +119,9 @@ export default function FindClub() {
                 key={club.id}
               >
                 <div className="p-4">
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-center ">
                     <h3 className="font-medium text-lg">{club.name}</h3>
-                    <Badge>{club.members} members</Badge>
+                    <div className="bg-gray-200 p-2 text-sm text-nowrap rounded-lg">{club.members} members</div>
                     <Link
                       href={`/findaclub/${club.id}`}
                       className="text-primary border rounded-md m-2 font-medium p-2"
