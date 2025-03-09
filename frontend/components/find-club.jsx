@@ -8,9 +8,11 @@ import { Search, MapPin } from "lucide-react";
 import { useMap } from "react-leaflet";
 import Link from "next/link";
 
+
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "./ui/Badge.jsx";
-import { Card, CardContent } from "./ui/card.jsx";
+import { Badge } from "@/components/ui/badge"; 
+
 
 import { clubsData } from "@/lib/data/data"; //TODO : import data from backend
 
