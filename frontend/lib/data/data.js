@@ -109,7 +109,7 @@ export const clubsData = [
   },
   {
     id: 2,
-    name: "Golden Gate Toastmasters",
+    name: "Golden Gate ",
     address: "456 Market St, San Francisco, CA",
     city: "San Francisco",
     meetingTime: "Wednesdays, 7:00 PM",
@@ -117,7 +117,7 @@ export const clubsData = [
     dmsPosition: "37°46'29.64\"N, 122°25'09.84\"W",
     members: 45,
     image: "",
-    description: "Golden Gate Toastmasters is a dynamic club dedicated to helping members enhance their communication and leadership skills in a supportive environment.",
+    description: "Golden Gate is a dynamic club dedicated to helping members enhance their communication and leadership skills in a supportive environment.",
     Admin: "Sarah Lee",
     email: "sarah.lee@example.com",
     phone: "234-567-8901",
