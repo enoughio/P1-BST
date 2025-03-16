@@ -5,62 +5,32 @@ import { ChevronLeftIcon, ChevronRightIcon, Star } from "lucide-react";
 import Image from "next/image";
 import { piyush, utkrishti, vasanti } from "@/lib/data/images";
 
-
-
-// const testimonials = [
-//   {
-//     quote:
-//       "I've been in leadership roles since 2010 but struggled with precise communication. Bharat Storytellers helped me deliver impactful speeches within time, keeping my audience engaged.",
-//     author: "Piyush Kumar Kachhi",
-//     handle: "Seasoned Banker ",
-//     avatar: "/placeholder.svg?height=80&width=80",
-//   },
-//   {
-//     quote:
-//       "I always searched for a stage to learn and I found it with Bharat Storytellers. Here I got the people who encourages me and give their feedback so that I can improve myself. I know I am still not perfect but I can tell that I am a better speaker today.",
-//     author: "Vasanthi Rayapati",
-//     handle: "Student at MANIT",
-//     avatar: "/placeholder.svg?height=80&width=80",
-//   },
-//   {
-//     quote:
-//       "Joining Bharat Storytellers transformed my public speaking. The supportive environment refined my storytelling, making workshops engaging. I now master gestures, pauses, and impactful delivery!",
-//     author: "Utkrishti Katheriya",
-//     handle: "Counselling Psychologist",
-//     avatar: "/placeholder.svg?height=80&width=80",
-//   },
-// ];
-
-
 const testimonials = [
-    {
+  {
     id: 1,
-      text:
-        "I've been in leadership roles since 2010 but struggled with precise communication. Bharat Storytellers helped me deliver impactful speeches within time, keeping my audience engaged.",
-      name: "Piyush Kumar Kachhi",
-      handle: "Seasoned Banker ",
-      avatar: {piyush},
-      rating: 5,
-    },
-    {
-        id: 2,
-      text:
-        "I always searched for a stage to learn and I found it with Bharat Storytellers. Here I got the people who encourages me and give their feedback so that I can improve myself. I know I am still not perfect but I can tell that I am a better speaker today.",
-      name: "Vasanthi Rayapati",
-      handle: "Student at MANIT",
-      avatar: {vasanti},
-      rating: 4,
-    },
-    {
-        id: 3,
-      text:
-        "Joining Bharat Storytellers transformed my public speaking. The supportive environment refined my storytelling, making workshops engaging. I now master gestures, pauses, and impactful delivery!",
-      name: "Utkrishti Katheriya",
-      handle: "Counselling Psychologist",
-      avatar: {utkrishti},
-      rating: 5,
-    },
-  ];
+    text: "I've been in leadership roles since 2010 but struggled with precise communication. Bharat Storytellers helped me deliver impactful speeches within time, keeping my audience engaged.",
+    name: "Piyush Kumar Kachhi",
+    handle: "Seasoned Banker ",
+    avatar: piyush, // Remove curly braces
+    rating: 5,
+  },
+  {
+    id: 2,
+    text: "I always searched for a stage to learn and I found it with Bharat Storytellers. Here I got the people who encourages me and give their feedback so that I can improve myself. I know I am still not perfect but I can tell that I am a better speaker today.",
+    name: "Vasanthi Rayapati",
+    handle: "Student at MANIT",
+    avatar: vasanti, // Remove curly braces
+    rating: 4,
+  },
+  {
+    id: 3,
+    text: "Joining Bharat Storytellers transformed my public speaking. The supportive environment refined my storytelling, making workshops engaging. I now master gestures, pauses, and impactful delivery!",
+    name: "Utkrishti Katheriya",
+    handle: "Counselling Psychologist",
+    avatar: utkrishti, // Remove curly braces
+    rating: 5,
+  },
+];
 
 const TestimonialCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -189,7 +159,7 @@ const TestimonialCarousel = () => {
                 <div className="w-full h-auto">
                   <Image
                     alt="member Image"
-                    src={testimonial.avatar}
+                    src={testimonial.avatar} // Use the variable directly
                     width={300}
                     height={300}
                     className="rounded-full bottom-2 w-32 h-32 border-2 border-black mx-auto"

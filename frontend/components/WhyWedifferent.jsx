@@ -3,6 +3,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { ExpertCoaches, PersonalizedFeedback, RealWorldPractice } from '@/lib/data/images';
 
 const CoachingCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -17,19 +18,19 @@ const CoachingCarousel = () => {
       id: 1,
       title: "Expert coaches",
       description: "Our coaches have helped thousands of speakers find their voice",
-      imageSrc: "/images/expert-coach.svg", // Replace with your actual image path
+      imageSrc: ExpertCoaches, 
     },
     {
       id: 2,
       title: "Real-world practice",
       description: "Practice in a safe space with real audience members and get feedback",
-      imageSrc: "/images/real-world-practice.svg", // Replace with your actual image path
+      imageSrc: RealWorldPractice,
     },
     {
       id: 3,
       title: "Personalized feedback",
       description: "We'll help you identify your strengths and areas for improvement",
-      imageSrc: "/images/personalized-feedback.svg", // Replace with your actual image path
+      imageSrc: PersonalizedFeedback,
     }
   ];
 
@@ -123,19 +124,14 @@ const CoachingCarousel = () => {
               <div key={card.id} className="w-full flex-shrink-0 px-4">
                 <div className="bg-blue-50 rounded-lg p-4 h-full">
                   <div className="mb-4 h-48 w-full relative">
-                    {/* Replace with actual image component */}
-                    <div className="bg-gray-200 w-full h-full rounded overflow-hidden">
-                      {/* If you have the actual images, uncomment this */}
-                      {/* <Image 
+                    <div className=" w-full h-full rounded overflow-hidden">
+                      <Image 
                         src={card.imageSrc}
                         alt={card.title}
                         layout="fill"
                         objectFit="cover"
-                      /> */}
-                      {/* Placeholder for illustration */}
-                      <div className="w-full h-full flex items-center justify-center">
-                        <p className="text-gray-500">[Illustration for {card.title}]</p>
-                      </div>
+                      />
+                
                     </div>
                   </div>
                   <h3 className="text-xl font-semibold text-gray-800">{card.title}</h3>
@@ -166,19 +162,15 @@ const CoachingCarousel = () => {
         {cards.map((card) => (
           <div key={card.id} className="bg-blue-50 rounded-lg p-4">
             <div className="mb-4 h-48 w-full relative">
-              {/* Replace with actual image component */}
-              <div className="bg-gray-200 w-full h-full rounded overflow-hidden">
-                {/* If you have the actual images, uncomment this */}
-                {/* <Image 
+              <div className=" w-full h-full rounded overflow-hidden">
+                
+                <Image 
                   src={card.imageSrc}
                   alt={card.title}
-                  layout="fill"
+                  fill
                   objectFit="cover"
-                /> */}
-                {/* Placeholder for illustration */}
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-gray-500">[Illustration for {card.title}]</p>
-                </div>
+                />
+               
               </div>
             </div>
             <h3 className="text-xl font-semibold text-gray-800">{card.title}</h3>

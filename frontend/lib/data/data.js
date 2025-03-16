@@ -1,4 +1,4 @@
-import { learningImg, notesImg, podcastImg } from "@/lib/data/images";
+import { BISF, learningImg, notesImg, podcastImg } from "@/lib/data/images";
 
 const people = [
   {
@@ -251,15 +251,15 @@ const pastDate3 = subDays(currentDate, 90)
 export const events = [
   {
     id: "1",
-    title: "The Art of Storytelling: Connecting Cultures",
-    slug: "art-of-storytelling",
+    title: "Bhopal International Storytelling Fest",
+    slug: "BISF",
     description:
       "Join us for an evening of captivating stories that bridge cultures and generations. Our expert storytellers will take you on a journey through time and tradition.",
     date: upcomingDate1,
     formattedDate: formatDate(upcomingDate1),
     time: `${formatTime(upcomingDate1)} - ${formatTime(new Date(upcomingDate1.setHours(upcomingDate1.getHours() + 3)))}`,
     location: "Cultural Center, New Delhi",
-    image: "/placeholder.svg?height=600&width=1200&text=Storytelling+Event",
+    image: BISF,
     highlighted: true,
     content: [
       {
@@ -273,7 +273,7 @@ export const events = [
       },
       {
         type: "image",
-        src: "/placeholder.svg?height=400&width=800&text=Storytelling+Session",
+        src: BISF,
         alt: "Storytelling session",
       },
       {

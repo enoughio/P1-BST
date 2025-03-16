@@ -1,7 +1,5 @@
-import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import WhyChoseUsCard from "./ui/WhyChoseUsCard.jsx";
 import CoachingCarousel from "./WhyWedifferent";
 
 // import { LuMoveUpRight } from "lucide-react"
@@ -32,9 +30,9 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className=" flex flex-col w-full md:w-[93%] mx-auto shadow-md my-5 border-t-4 border-gray-100">
+    <section className=" flex flex-col w-full md:w-[93%] mx-auto shadow-md my-2 border-t-4 border-gray-100">
       <div className="p-5">
-        <div className="w-[90%] md:w-full mx-auto mb-8 border-t-2  py-4  border-gray-200  rounded-xl ">
+        <div className="w-[90%] md:w-full mx-auto mb-2 border-t-2  py-4  border-gray-200  rounded-xl ">
           <div
             className="rounded-lg p-10 text-white flex flex-col items-start justify-start gap-5 "
             style={{
