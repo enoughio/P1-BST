@@ -20,7 +20,7 @@ const testimonials = [
     name: "Vasanthi Rayapati",
     handle: "Student at MANIT",
     avatar: vasanti, // Remove curly braces
-    rating: 4,
+    rating: 6,
   },
   {
     id: 3,
@@ -147,19 +147,19 @@ const TestimonialCarousel = () => {
           className={`${
             isMobile
               ? "hidden"
-              : "flex gap-4"
+              : "flex gap-4 "
           }`}
         >
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="py-6 bg-white w-full md:w-1/3 flex flex-col justify-center items-center gap-2 backdrop-blur-xl rounded-2xl overflow-hidden min-h-52"
+              className="py-6 bg-white w-full md:w-1/3 flex flex-col justify-center items-center gap-2 backdrop-blur-xl rounded-2xl overflow-hidden min-h-52  hover:scale-105 duration-300 ease-out"
             >
               <div className=" h-full flex justify-center items-center gap-2 mx-2">
                 <div className="w-full h-auto">
                   <Image
                     alt="member Image"
-                    src={testimonial.avatar} // Use the variable directly
+                    src={testimonial.avatar} 
                     width={300}
                     height={300}
                     className="rounded-full bottom-2 w-32 h-32 border-2 border-black mx-auto"
@@ -212,10 +212,12 @@ const TestimonialCarousel = () => {
                     <div className="bg-white rounded-lg p-6 shadow-md">
                       <div className="flex items-center mb-4">
                         <div className="w-16 h-16 mr-4 rounded-full overflow-hidden bg-gray-200">
-                          <img
+                          <Image
                             src={testimonial.avatar}
                             alt={testimonial.name}
-                            className="w-full h-full object-cover"
+                            width={50}
+                            height={50}
+                            className=" object-cover"
                             onError={(e) => {
                               e.target.onerror = null;
                               e.target.src = "";
@@ -268,13 +270,13 @@ const TestimonialCarousel = () => {
           </div>
 
           {/* Indicators */}
-          <div className="flex justify-center mt-6 gap-2">
+          <div className="flex justify-center mt-6 gap-2 ">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`h-2 rounded-full transition-all focus:outline-none ${
-                  index === currentIndex ? "w-6 bg-pink-500" : "w-2 bg-pink-300"
+                  index === currentIndex ? "w-6 " : "w-2 "
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />

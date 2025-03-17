@@ -1,9 +1,9 @@
 import Header from '@/components/ui/About/Header.jsx' 
 import AboutUs from '@/components/ui/About/AboutUs.jsx'
 import OurStory from '@/components/ui/About/OurStory.jsx'
-import Aprosal from '@/components/ui/About/Aprosal.jsx'
-import Mission from '@/components/ui/About/Mission'
+  import Mission from '@/components/ui/About/Mission'
 import React from 'react'
+import StorytellingCommunitySection from '@/components/ui/About/Aprosal.jsx'
 
 // TODO: there is an hydration error in this page that needs to be fixed 
 
@@ -15,7 +15,7 @@ const About = () => {
         <AboutUs />
         <Mission />
         <OurStory />
-        <Aprosal />
+        <StorytellingCommunitySection />
         
     </div>
   )

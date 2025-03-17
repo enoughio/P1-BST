@@ -1,4 +1,4 @@
-import { mission1, mission2, mission3 } from "@/lib/data/images";
+import { mission, values, vision } from "@/lib/data/images";
 import Image from "next/image";
 import React from "react";
 
@@ -20,7 +20,7 @@ const Mission = () => {
           </div>
         </div>
 
-        <p className="w-full md:w-[60%] text-center mt-1">
+        <p className="w-full md:w-[60%] text-center text-[.93rem] mt-1">
           Whether you're an adult looking to build confidence or a young speaker
           eager to find your voice, our programs cater to all skill levels and
           age groups.
@@ -36,7 +36,7 @@ const Mission = () => {
               <div className="bg-blue-400 w-[70%] h-1 self-end rounded-3xl"></div>
             </div>
 
-            <div className="mt-6 ">
+            <div className="mt-6 text-[1rem] ">
               <p>
                 At Bharat Storytellers, we believe that every voice has a story
                 to tell, and every story deserves to be heard. Everyone has a
@@ -58,7 +58,7 @@ const Mission = () => {
               <div className="bg-blue-400 w-[70%] h-1 self-end rounded-3xl"></div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 text-[1rem]">
               <p>
                 We envision a world where communication barriers are broken,
                 enabling people from all backgrounds to express themselves with
@@ -79,29 +79,29 @@ const Mission = () => {
         <div className="grid grid-cols-3 md:grid-cols-1 gap-3 w-full md:w-auto ">
           <div className="w-full flex justify-center ">
             <Image
-              src={mission1}
+              src={mission}
               alt="mission images"
               width={250}
               height={250}
-              className="w-full h-auto max-w-[250px] object-cover rounded-lg shadow-lg shadow-gray-300 "
+              className=" max-w-[250px] object-cover rounded-lg shadow-lg shadow-gray-300 "
             />
           </div>
           <div className="w-full flex justify-center">
             <Image
-              src={mission2}
+              src={vision}
               alt="mission images"
               width={250}
               height={250}
-              className="w-full h-auto max-w-[250px] object-cover rounded-lg"
+              className=" max-w-[250px] object-cover rounded-lg"
             />
           </div>
           <div className="w-full flex justify-center">
             <Image
-              src={mission3}
+              src={values}
               alt="mission images"
               width={250}
               height={250}
-              className="w-full h-auto max-w-[250px] object-cover rounded-lg"
+              className="bg-gradient-to-tl from-blue-600 to-red-500 max-w-[250px] object-cover rounded-lg"
             />
           </div>
         </div>

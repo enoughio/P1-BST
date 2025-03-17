@@ -6,15 +6,27 @@ const findAClubImg = '/svgs/findAClub.svg';
 const learningImg = '/svgs/learning.svg';
 const notesImg = '/svgs/notes.svg';
 const podcastImg = '/svgs/podcast.svg';
-const groupPhoto = '/group-photo.jpg';
-const aboutHeader = '/aboutHeader.svg';
+
+// const aboutHeader = '/';
+const aboutHero = '/about/aboutHero.png';
 const downQuot = '/downQuot.png';
 const about = '/about.png';
-const mission1 = '/mission1.png';
-const mission2 = '/mission2.png';
-const mission3 = '/mission3.png';
-const gridImage = '/gridImage.png';
+const mission = '/about/mission.png'; 
+const vision = '/about/vision.png';
+const values = '/about/values.png';
+
+const grid1 = '/about/grid1.png';
+const grid2 = '/about/grid2.png';
+const grid3 = '/about/grid3.png';
+const grid4 = '/about/grid4.png';
+const grid5 = '/about/grid5.png';
+const grid6 = '/about/grid6.png';
+const grid7 = '/about/grid7.png';
+const grid8 = '/about/grid8.png';
+const groupPhoto = '/group-photo.jpg';
+
 const storyTellingImage = '/storytelling-image.png';
+
 const contactUs = '/contactUs.png';
 const HeroImage = '/Hero.png';
 const piyush = '/testimonials/piyush.jpeg';
@@ -53,14 +65,23 @@ export {
     learningImg,
     notesImg,
     podcastImg,
-    groupPhoto,
-    aboutHeader,
+    
+    aboutHero,
     downQuot,
     about,
-    mission1,
-    mission2,
-    mission3,
-    gridImage,
+    mission,
+    vision,
+    values,
+    grid1,
+    grid2,
+    grid3,
+    grid4,
+    grid5,
+    grid6,
+    grid7,
+    grid8,
+    groupPhoto,
+
     storyTellingImage,
     contactUs,
     piyush,

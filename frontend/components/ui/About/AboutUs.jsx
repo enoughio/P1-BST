@@ -1,4 +1,4 @@
-import { about, downQuot } from "@/lib/data/images";
+import { about, aboutHero, downQuot } from "@/lib/data/images";
 import Image from "next/image";
 import React from "react";
 
@@ -7,7 +7,7 @@ const AboutUs = () => {
     <div className="flex md:flex-row flex-col justify-center items-center md:gap-8 gap-4  w-full mt-6">
       <div className="border-red-200 border-2 m-2  p-2 md:p-4 w-full md:w-1/2 rounded-3xl shadow-md ">
         <div className="flex flex-col justify-between items-center w-full relative ">
-          <p className="p-2 text-[.8rem] ">
+          <p className="p-2 text-[.93rem] ">
             <Image
               src={downQuot}
               alt="downQuot"
@@ -34,9 +34,9 @@ const AboutUs = () => {
 
         <div className="mt-2">
           <Image
-            src={about}
+            src={aboutHero}
             alt="mission"
-            className="rounded-md"
+            className="rounded-md object-cover mx-auto"
             width={670}
             height={320}
           />

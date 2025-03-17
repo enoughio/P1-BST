@@ -34,9 +34,9 @@ export function WhyChooseUs() {
       <div className="p-5">
         <div className="w-[90%] md:w-full mx-auto mb-2 border-t-2  py-4  border-gray-200  rounded-xl ">
           <div
-            className="rounded-lg p-10 text-white flex flex-col items-start justify-start gap-5 "
+            className="rounded-lg p-10  flex flex-col items-start justify-start gap-5 "
             style={{
-              backgroundImage: `url(/features/whyhero.svg)`,
+              // backgroundImage: `url(/features/whyhero.svg)`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundColor: "rgba(92, 149, 255, .2)",

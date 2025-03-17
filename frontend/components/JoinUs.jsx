@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const MemberCard = ({ subHeading, title }) => (
   <div
-    className=" h-[300px] md:w-[55%] w-full relative overflow-hidden rounded-lg shadow-md flex items-start justify-between flex-col gap-8 p-5"
+    className=" h-[300px] md:w-[55%] w-full relative overflow-hidden rounded-lg shadow-md flex items-start justify-between flex-col gap-8 p-5 hover:scale-[1.05] transition-transform duration-300 ease-in-out"
     style={{ background: "rgba(193, 18, 31, .15)" }}
   >
     <div className="flex flex-col items-start justify-start">
@@ -61,7 +61,7 @@ const MemberCard = ({ subHeading, title }) => (
 
 const ClubCard = () => (
   <div
-    className=" cursor-pointer h-[300px] w-full md:w-[35%] relative overflow-hidden rounded-lg shadow-md flex items-start flex-col gap-10 p-5"
+    className=" cursor-pointer h-[300px] w-full md:w-[35%] relative overflow-hidden rounded-lg shadow-md flex items-start flex-col gap-10 p-5 hover:scale-[1.05] transition-transform duration-300 ease-in-out"
     style={{ background: "rgba(92, 149, 255, 0.3)" }}
   >
     <div className="flex flex-col items-start justify-start">
@@ -107,7 +107,7 @@ const ClubCard = () => (
 
 const JoinUs = ({ subHeading, title }) => {
   return (
-    <div className="flex justify-center flex-col md:flex-row gap-4 mx-auto my-10">
+    <div className="flex justify-center flex-col md:flex-row gap-4 mx-auto my-10 ">  
       <MemberCard subHeading={subHeading} title={title} />
       <ClubCard />
     </div>

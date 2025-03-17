@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { gridImage } from "@/lib/data/images";
+import { grid1, grid2, grid3, grid4, grid5, grid8, gridImage } from "@/lib/data/images";
 
 const OurStory = () => {
   return (
@@ -17,66 +17,73 @@ const OurStory = () => {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Desktop Layout - Image Grid on Left */}
         <div className="hidden lg:block lg:w-1/2">
-          <div className="grid grid-cols-12 grid-rows-12 gap-4 h-full">
-            {/* Top left - Large image */}
-            <div className="col-span-6 row-span-6 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
-              <Image
-                src={gridImage}
-                alt="Person in orange sweater speaking"
-                width={300}
-                height={250}
-                className="w-full h-full object-cover bg-pink-200"
-              />
-            </div>
 
-            {/* Top right and middle - Tall image */}
-            <div className="col-span-6 row-span-8 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
-              <Image
-                src={gridImage}
-                alt="Person with microphone on stage"
-                width={300}
-                height={400}
-                className="w-full h-full object-cover bg-pink-200"
-              />
-            </div>
-
-            {/* Bottom left - Small image */}
-            <div className="col-span-6 row-span-6 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
-              <Image
-                src={gridImage}
-                alt="Young girl reading"
-                width={300}
-                height={300}
-                className="w-full h-full object-cover bg-pink-200"
-              />
-            </div>
-
-            {/* Bottom right top - Woman in yellow */}
-            <div className="col-span-6 row-span-4 rounded-xl overflow-hidden shadow-lg shadow-gray-300">
-              <Image
-                src={gridImage}
-                alt="Woman in yellow speaking"
-                width={300}
-                height={200}
-                className="w-full h-full object-cover bg-pink-200"
-              />
-            </div>
-
-            {/* Bottom right bottom - Young girl writing */}
-            {/* <div className="col-span-6 row-span-4 rounded-xl overflow-hidden">
-              <Image 
-                src="/api/placeholder/300/200" 
-                alt="Young girl writing" 
-                width={300} 
-                height={200}
-                className="w-full h-full object-cover bg-pink-200"
-              />
-            </div> */}
-          </div>
+        <div className=" h-full grid grid-cols-12 gap-2 mx-auto">
+      {/* Left column */}
+      <div className="col-span-5 grid grid-rows-2 gap-2">
+        {/* Top left image */}
+        <div className="row-span-1 relative rounded-lg overflow-hidden bg-teal-100">
+          <Image
+            src={grid4}
+            objectFit="cover"
+            fill
+            alt="Person with microphone"
+            className=""
+          />
         </div>
+        
+        {/* Bottom left image */}
+        <div className="row-span-1 relative rounded-lg overflow-hidden bg-purple-100">
+          <Image
+            src={grid3}
+            objectFit="cover"
+            fill
+            alt="Child with book"
+            className=" "
+          />
+        </div>
+      </div>
+      
+      {/* Middle column */}
+      <div className="col-span-4 relative rounded-lg overflow-hidden bg-blue-100">
+        <Image
+          src={grid1}
+          fill
+          objectFit="cover"
+          alt="Speaker on stage"
+          className=" object-cover"
+        />
+      </div>
+      
+      {/* Right column */}
+      <div className="col-span-3 grid grid-rows-2 gap-2">
+        {/* Top right image */}
+        <div className="row-span-1 relative rounded-lg overflow-hidden bg-purple-100">
+          <Image
+            src={grid5}
+            fill
+            objectFit="cover"
+            alt="Person with microphone"
+            className=" "
+          />
+        </div>
+        
+        {/* Bottom right image */}
+        <div className="row-span-1 relative rounded-lg overflow-hidden bg-pink-100">
+          <Image
+            src={grid8}
+            alt="Child writing"
+            fill
+            className=""
+          />
+        </div>
+      </div>
+    </div>
+
+                  </div>
 
         {/* Content Text Box - Right side on desktop, top on mobile */}
-        <div className="lg:w-1/2 bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-md shadow-gray-300">
+        <div className="lg:w-[45vw] bg-blue-50 rounded-3xl p-6 md:p-8 border-2 border-blue-200 shadow-md shadow-gray-300">
           <h3 className="text-2xl md:text-3xl font-bold mb-4">
             This is How we Started
             <div className="h-1 w-40 bg-blue-300 "></div>
