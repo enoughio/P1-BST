@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent } from "@/components/ui/WhyChoseUsCard";
+import { Card, CardContent } from "@/components/ui/Home/WhyChoseUsCard";
 
 const UserAvatar = ({ email, avatar, username }) => {
   return (

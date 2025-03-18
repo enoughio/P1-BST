@@ -10,7 +10,6 @@ const podcastImg = '/svgs/podcast.svg';
 // const aboutHeader = '/';
 const aboutHero = '/about/aboutHero.png';
 const downQuot = '/downQuot.png';
-const about = '/about.png';
 const mission = '/about/mission.png'; 
 const vision = '/about/vision.png';
 const values = '/about/values.png';
@@ -26,9 +25,9 @@ const grid8 = '/about/grid8.png';
 const groupPhoto = '/group-photo.jpg';
 
 const storyTellingImage = '/storytelling-image.png';
+const HeroImage = '/Hero.png';
 
 const contactUs = '/contactUs.png';
-const HeroImage = '/Hero.png';
 const piyush = '/testimonials/piyush.jpeg';
 const vasanti = '/testimonials/vasanti.jpeg';
 const utkrishti = '/testimonials/utkrishti.jpeg';
@@ -68,7 +67,6 @@ export {
     
     aboutHero,
     downQuot,
-    about,
     mission,
     vision,
     values,

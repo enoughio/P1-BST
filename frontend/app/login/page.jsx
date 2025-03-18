@@ -1,7 +1,4 @@
 "use client";
-
-import { groupPhoto } from "@/lib/data/images";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const LoginPage = () => {
@@ -47,7 +44,7 @@ const LoginPage = () => {
               <input
                 className="w-full mt-1 p-2 border rounded-md"
                 id="email"
-                placeholder="m@example.com"
+                placeholder="member@example.com"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +58,7 @@ const LoginPage = () => {
                 className="w-full mt-1 p-2 border rounded-md"
                 id="password"
                 type="password"
-                placeholder=" * * * *"
+                placeholder="Enter password provided by your club admin"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

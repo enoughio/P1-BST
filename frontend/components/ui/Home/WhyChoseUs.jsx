@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../button";
 import Link from "next/link";
 import CoachingCarousel from "./WhyWedifferent";
 

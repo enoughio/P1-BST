@@ -1,6 +1,6 @@
 import React from "react";
 import { programsData } from "@/lib/data/programsData"; // Import the programs data
-import { BubbleCard } from "./ui/BubbleCard";
+import { BubbleCard } from "../BubbleCard";
 
 const OurPrograms = () => {
   return (
