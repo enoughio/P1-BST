@@ -8,11 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useToast } from "@/hooks/use-toast"
+// import { useToast } from "@/hooks/use-toast"
 
 export default function RsvpForm({ eventId }) {
   const router = useRouter()
-  const { toast } = useToast()
+  // const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   
   // Form state
@@ -141,10 +141,10 @@ export default function RsvpForm({ eventId }) {
       // Simulate API call
       setTimeout(() => {
         setIsSubmitting(false)
-        toast({
-          title: "Registration successful!",
-          description: "Your ticket has been generated."
-        })
+        // toast({
+        //   title: "Registration successful!",
+        //   description: "Your ticket has been generated."
+        // })
         
         // Redirect to ticket page
         router.push(`/events/${eventId}/ticket?email=${encodeURIComponent(formData.email)}`)
