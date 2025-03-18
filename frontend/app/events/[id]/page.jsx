@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getEventById } from "@/lib/data/data" 
 
-export default function EventPage({ params }) {
-  const event = getEventById(params.id)
+export default async function EventPage({ params }) {
+  const {id} = await params
+  const event = getEventById(id)
   
 
   if (!event) {
@@ -200,7 +201,7 @@ export default function EventPage({ params }) {
                 <span className="text-sm">{event.ticketPrice || "Free"}</span>
               </div>
               <Button asChild className="w-full">
-                <Link href={`/events/${params.id}/rsvp`}>Register Now</Link>
+                <Link href={`/events/${id}/rsvp`}>Register Now</Link>
               </Button>
             </div>
 

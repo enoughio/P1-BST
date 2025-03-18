@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { grid1, grid2, grid3, grid4, grid5, grid8, gridImage } from "@/lib/data/images";
+import { grid1, grid2, grid3, grid4, grid5, grid8 } from "@/lib/data/images";
 
 const OurStory = () => {
   return (
