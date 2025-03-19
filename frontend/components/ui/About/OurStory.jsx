@@ -108,7 +108,7 @@ const OurStory = () => {
           {/* First row: two images */}
           <div className="col-span-3 aspect-square rounded-xl overflow-hidden">
             <Image
-              src={gridImage}
+              src={grid4}
               alt="Person in orange sweater speaking"
               width={200}
               height={200}
@@ -119,7 +119,7 @@ const OurStory = () => {
           {/* Tall center image spanning two rows */}
           <div className="col-span-3 row-span-2 rounded-xl overflow-hidden">
             <Image
-              src={gridImage}
+              src={grid3}
               alt="Person with microphone on stage"
               width={200}
               height={400}
@@ -130,7 +130,7 @@ const OurStory = () => {
           {/* Second row: two images on left */}
           <div className="col-span-3 aspect-square rounded-xl overflow-hidden">
             <Image
-              src={gridImage}
+              src={grid1}
               alt="Young girl reading"
               width={200}
               height={200}
@@ -141,7 +141,7 @@ const OurStory = () => {
           {/* Third row: two images */}
           <div className="col-span-3 aspect-square rounded-xl overflow-hidden">
             <Image
-              src={gridImage}
+              src={grid5}
               alt="Woman in yellow speaking"
               width={200}
               height={200}
@@ -151,7 +151,7 @@ const OurStory = () => {
 
           <div className="col-span-3 aspect-square rounded-xl overflow-hidden">
             <Image
-              src={gridImage}
+              src={grid8}
               alt="Young girl writing"
               width={200}
               height={200}

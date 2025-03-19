@@ -1,4 +1,4 @@
-import { about, aboutHero, downQuot } from "@/lib/data/images";
+import {  aboutHero, downQuot } from "@/lib/data/images";
 import Image from "next/image";
 import React from "react";
 
