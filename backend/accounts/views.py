@@ -1,3 +1,5 @@
+from datetime import timedelta
+from django.utils import timezone
 from rest_framework.response import Response
 # from rest_framework.decorators import api_view, authentication_classes
 
@@ -93,7 +95,24 @@ class LoginAPIView(APIView):
 
         if user is not None:
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            # return Response({'token': token.key}, status=status.HTTP_200_OK)
+
+            # Set expiry time
+            expiry_time = timezone.now() + timedelta(days=7)  # Token valid for 7 days
+
+            response = Response({'message': 'Login successful!'}, status=status.HTTP_200_OK)
+            
+            # Cookie set karna
+            response.set_cookie(
+                key='auth_token', 
+                value=token.key, 
+                httponly=True,     # JS se access nahi ho payega ab
+                secure=True,       # HTTPS use karte ho to need to enable this (production mein zaruri hai)
+                samesite='Lax',    # CSRF attacks se bachane ke liye
+                expires=expiry_time
+            )
+            return response
+
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 # logout 
@@ -102,8 +121,13 @@ class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated] # User Login Hona Chahiye
 
     def post(self, request):
-        request.user.auth_token.delete() # User ka Token Delete
-        return Response(status=status.HTTP_200_OK)
+        # request.user.auth_token.delete() # User ka Token Delete
+        # return Response(status=status.HTTP_200_OK)
+
+        response = Response({'message': 'Logout successful!'}, status=status.HTTP_200_OK)
+        # Cookie ko delete karna
+        response.delete_cookie('auth_token')
+        return response
 
 # register (create member)
 class RegisterMemberAPIView(GenericAPIView, CreateModelMixin):

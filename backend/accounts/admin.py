@@ -17,7 +17,7 @@ class CustomUserAdmin(admin.ModelAdmin):
     #def model_attribute(self, obj):
         #obj represents an instance of uss model ka jike saath isko integrate kr rhe hn
     def club_name(self, obj):
-        return obj.club.club_name #obj.club means club foreign_key se associate h in AdminClass, isaliye aisa likh pa rhe hn
+        return obj.club.club_name if obj.club is not None else "None"  #obj.club means club foreign_key se associate h in AdminClass, isaliye aisa likh pa rhe hn
 
 
 
