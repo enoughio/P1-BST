@@ -24,3 +24,4 @@ class CustomUserAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Member, CustomUserAdmin)
 admin.site.register(Admin, CustomUserAdmin)
+admin.site.register(User)

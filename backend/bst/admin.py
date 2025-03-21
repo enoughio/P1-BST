@@ -10,6 +10,10 @@ class CustomAdminClub(admin.ModelAdmin):
     list_display = ('club_id', 'club_name', 'city', 'state', 'postal_code',)
 
 
+class CustomAdminEvent(admin.ModelAdmin):
+    list_display = ('event_id', 'title', 'club', 'date', 'fee')
+
+
 class CustomAdminMembership(admin.ModelAdmin):
     list_display = ('id', 'name', 'fee', 'duration_in_months')
 
@@ -21,7 +25,7 @@ class CustomAdminMembershipHistory(admin.ModelAdmin):
 admin.site.register(club.Club, CustomAdminClub)
 admin.site.register(project.Project, CustomAdminProject)
 admin.site.register(meeting.Meeting)
-admin.site.register(event.Event)
+admin.site.register(event.Event, CustomAdminEvent)
 
 admin.site.register(membership.Membership, CustomAdminMembership)
 admin.site.register(membership_history.MembershipHistory, CustomAdminMembershipHistory)
