@@ -43,10 +43,10 @@ class User(AbstractUser):
             raise ValidationError("User cannot be created without a club.")
 
 
-    def save(self, *args, **kwargs):
-        if not self.pk and not User.objects.filter(pk=self.pk).exists():
-            self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
-        return super(User, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.pk and not User.objects.filter(pk=self.pk).exists():
+    #         self.set_password(self.password) #Password hashing sirf tab hoga jab new user ho!
+    #     return super(User, self).save(*args, **kwargs)
 
 
 # Member Model

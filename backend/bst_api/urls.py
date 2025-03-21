@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
     path('api/bst/', include('bst.urls')),
+    path('api/razorpay/', include('razorpay_backend.urls')),
 ]

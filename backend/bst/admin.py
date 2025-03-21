@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bst.models import (club, project, meeting, event, event_registration, award, membership)
+from bst.models import (club, project, meeting, event, event_registration, award, membership, membership_history)
 
 class CustomAdminProject(admin.ModelAdmin):
     list_display = ('project_id', 'title',)
@@ -11,7 +11,10 @@ class CustomAdminClub(admin.ModelAdmin):
 
 
 class CustomAdminMembership(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'duration_in_months')
+    list_display = ('id', 'name', 'fee', 'duration_in_months')
+
+class CustomAdminMembershipHistory(admin.ModelAdmin):
+    list_display = ('member', 'membership_type', 'start_date', 'end_date')
 
 
 # Register your models here.
@@ -21,5 +24,6 @@ admin.site.register(meeting.Meeting)
 admin.site.register(event.Event)
 
 admin.site.register(membership.Membership, CustomAdminMembership)
+admin.site.register(membership_history.MembershipHistory, CustomAdminMembershipHistory)
 # admin.site.register(event_registration.EventRegistration)
 # admin.site.register(award.Award)

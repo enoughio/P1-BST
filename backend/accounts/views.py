@@ -66,6 +66,7 @@ class SuperAdminLevelPermission(BasePermission):
 # request.headers.get('Authorization') to get JWT token
 
 
+# [middleware for custom-login i.e. through email and pwd]
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model  #kyoki custom usermodel banaya h
 
