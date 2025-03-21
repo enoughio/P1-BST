@@ -32,12 +32,12 @@ class Club(models.Model):
     state = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
-    landmark = models.CharField(max_length=100, blank=True, null=True)
-
+    image = models.ImageField(upload_to='club_images/', blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return self.club_name
-    
 
     def full_address(self):
         address_parts = [self.street, self.city, self.state, self.postal_code, self.country]

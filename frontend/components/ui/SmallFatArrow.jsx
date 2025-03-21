@@ -1,0 +1,16 @@
+import React from 'react'
+
+
+const SmallFatArrow = () => {
+  return (
+    <div className='w-fit h-fit'>
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.375 8.625L8.625 2.375M8.625 2.375H2.375M8.625 2.375V8.625" stroke="#1E1E1E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+        
+    </div>
+  )
+}
+
+export default SmallFatArrow

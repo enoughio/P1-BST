@@ -24,4 +24,4 @@ class Event(models.Model):
     fee = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Better price handling
 
     def __str__(self):
-        return self.title
+        return f"{self.event_id} - ₹{self.fee}"
