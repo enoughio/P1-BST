@@ -2,7 +2,6 @@ from django.db import models
 
 import uuid
 
-
 '''
 >>> print((uuid.uuid4() 
 ad7279ab-6b55-4a67-86be-b17208782871
