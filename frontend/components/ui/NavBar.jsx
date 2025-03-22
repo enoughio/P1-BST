@@ -3,13 +3,14 @@ import Image from "next/image"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { logo } from "@/lib/data/images"
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
-  { name: "Event", href: "/event" },
-  { name: "Member", href: "/member" },
+  { name: "Event", href: "/events" },
+  { name: "Membership", href: "/membership" },
   { name: "Resources", href: "/resources" },
 ]
 
@@ -17,15 +18,15 @@ export function MainNav() {
   return (
     <header className="border-b bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex h-20 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo Section */}
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 justify-center">
             <Image
-              src="/logo.svg"
+              src={logo}
               alt="Bharat Storytellers Logo"
-              width={80}
-              height={40}
+              width={100}
+              height={60}
               className="opject-cover"
             />
           </div>
