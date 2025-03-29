@@ -6,24 +6,38 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async(e) => {
     e.preventDefault();
     // Handle login logic here
     console.log("Email:", email);
     console.log("Password:", password);
 
-    fetch("/api/login", {
+    const data = await fetch("http://127.0.0.1:8000/api/accounts/login/", {
       method: "POST",
-      body
+      body : JSON.stringify({
+        email: email,
+        password: password
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
+
+    const res = await data.json();
+    console.log(res);
+    if (res.status === 200) {
+      alert("Login successful");
+      // Redirect to another page or perform any other action
+    } else {
+      alert("Login failed");
+    }
 
   };
 
   useEffect(() => {
-  
+
   }, [])
   
-
 
   return (
     <div className="flex justify-center items-center  p-4 md:p-8 mt-10">
@@ -72,10 +86,6 @@ const LoginPage = () => {
           </button>
         </form>
       </div>
-
-      {/* <div className="hidden md:block w-[] h-full overflow-hidden ">
-            <Image src={groupPhoto} fill alt="login page hero image" objectFit="cover" />
-        </div> */}
 
     </div>
   );

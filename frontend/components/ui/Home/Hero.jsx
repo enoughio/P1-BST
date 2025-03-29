@@ -11,33 +11,34 @@ export default function Hero() {
     <>
       <section className="relative overflow-hidden bg-background lg:py-5 px-2 min-h-screen">
         <div className="container relative mx-auto">
+
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
             <div className="left_container flex flex-col justify-between">
               <div className="text-center flex flex-col justify-center items-end">
-                <div className="relative text-right pr-3 md:py-2 flex gap-1">
+                <div className="relative text-right pr-3 md:py-2 flex gap-1 mt-2">
                   <h1 className="text-[2.2rem] font-bold tracking-tighter leading-[2.2rem] text-wrap sm:text-5xl sm:leading-[2.7rem] xl:text-[3rem] md:mt-3">
                     We help you become everyone's favorite speaker!
                   </h1>
                   <div className=" mt-2 w-2.5 h-[87.1%] mx-auto md:w-5 md:h-[91%] bg-[#F1D2D4]"></div>
                   <div className="absolute -bottom-2 right-6  mt-2 h-1.5 md:h-2 w-[82%] bg-[#C7D9FB]"></div>
                 </div>
-                <p className="max-w-[600px] text-muted-foreground  md:text-right font-normal leading-tight  md:leading-[30px] text-left ml-4 my-3 md:my-5 ">
+                <p className="max-w-[600px] text-muted-foreground  md:text-right font-normal leading-tight  md:leading-[30px] text-left sm:text-[1.3rem] ml-4 my-3 md:my-5 ">
                   Learn storytelling, communication, and public speaking with
                   Bharat Storytellers. Gain confidence, refine your skills, and
                   shine on stage!
                 </p>
               </div>
 
-              <div className="flex gap-2 mx-3 md:mx-10 ">
-                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000 w-8 h-8 sm:w-10 sm:h-10">
+              <div className="flex gap-2 mx-3 md:mx-10 ml-8 my-2">
+                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000 w-10 h-10 sm:w-10 sm:h-10">
                   <FaFacebookF className=" w-5 h-5 sm:h-5 sm:w-6" />
                 </div>
 
-                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000  w-8 h-8 sm:w-10 sm:h-10">
+                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000 w-10 h-10 sm:w-10 sm:h-10">
                   <CiLinkedin className=" w-5 h-5 sm:h-5 sm:w-6" />
                 </div>
 
-                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000  w-8 h-8 sm:w-10 sm:h-10">
+                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000 w-10 h-10 sm:w-10 sm:h-10">
                   <FaInstagram className=" w-5 h-5 sm:h-5 sm:w-6" />
                 </div>
               </div>

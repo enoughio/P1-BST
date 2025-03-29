@@ -26,7 +26,8 @@ const OurStory = () => {
           <Image
             src={grid4}
             objectFit="cover"
-            fill
+            width={200}
+            height={200}
             alt="Person with microphone"
             className=""
           />
@@ -37,7 +38,8 @@ const OurStory = () => {
           <Image
             src={grid3}
             objectFit="cover"
-            fill
+            width={200}
+            height={200}
             alt="Child with book"
             className=" "
           />
@@ -48,7 +50,8 @@ const OurStory = () => {
       <div className="col-span-4 relative rounded-lg overflow-hidden bg-blue-100">
         <Image
           src={grid1}
-          fill
+          width={200}
+          height={200}
           objectFit="cover"
           alt="Speaker on stage"
           className=" object-cover"
@@ -61,7 +64,8 @@ const OurStory = () => {
         <div className="row-span-1 relative rounded-lg overflow-hidden bg-purple-100">
           <Image
             src={grid5}
-            fill
+            width={200}
+            height={200}
             objectFit="cover"
             alt="Person with microphone"
             className=" "
@@ -73,7 +77,8 @@ const OurStory = () => {
           <Image
             src={grid8}
             alt="Child writing"
-            fill
+            width={200}
+            height={200}
             className=""
           />
         </div>

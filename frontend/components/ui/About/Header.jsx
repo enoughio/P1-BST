@@ -12,10 +12,7 @@ const Header = () => {
         <div className="" >
           Our Story, Vission, and Values
         </div>
-        {/* <div>
-        <span className="hidden lg:inline-block lg:mr-3">and</span>
-       
-        </div> */}
+
         </div>
 
         {/* <div>

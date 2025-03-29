@@ -18,7 +18,7 @@ const page = () => {
     <div>
 
       <ClubDetails  clubId={adminData.clubId} />
-        
+      
 
     </div>
   )
