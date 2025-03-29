@@ -1,4 +1,5 @@
 // components/MembershipSection.jsx
+import { findAClubImg } from '@/lib/data/images';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -34,7 +35,7 @@ const MembershipSection = () => {
           <div className="relative rounded-lg overflow-hidden h-full">
             <div className="relative w-full h-full">
               <Image 
-                src={{}} 
+                src={findAClubImg} 
                 alt="People shaking hands in a business meeting" 
                 layout="fill"
                 objectFit="cover"
@@ -61,7 +62,7 @@ const MembershipSection = () => {
         <div className="relative rounded-lg overflow-hidden h-48">
           <div className="relative w-full h-full">
             <Image 
-              src={{}} 
+              src={findAClubImg} 
               alt="Business meeting handshake" 
               layout="fill"
               objectFit="cover"

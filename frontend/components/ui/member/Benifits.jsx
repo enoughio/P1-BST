@@ -1,34 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRightIcon } from 'lucide-react';
+import { DeliverSpeeches, ExpertCoaches, PersonalizedFeedback, RealWorldPractice } from '@/lib/data/images';
 
 const benefits = [
   {
     id: 1,
     title: "Experiential Learning",
     description: "You can practice and improve your communication and leadership skills by giving speeches and fulfilling club roles and a lot more.",
-    icon: "", // Replace with your icon path
+    icon: RealWorldPractice, // Replace with your icon path
     color: "bg-blue-100"
   },
   {
     id: 2,
     title: "Peer Feedback",
     description: "You can grow and nurture your public speaking and communication skills through honest and supportive peer evaluation.",
-    icon: "", // Replace with your icon path
+    icon: DeliverSpeeches, // Replace with your icon path
     color: "bg-green-100"
   },
   {
     id: 3,
     title: "Mentoring",
     description: "With support from experienced mentors in your club, you can achieve more than you ever thought possible, both personally and professionally.",
-    icon: "", // Replace with your icon path
+    icon: ExpertCoaches, // Replace with your icon path
     color: "bg-purple-100"
   },
   {
     id: 4,
     title: "Self-Paced Program",
     description: "Through opportunities to develop skills at your own pace, you can experience long-lasting growth and a lot more .",
-    icon: "", // Replace with your icon path
+    icon: PersonalizedFeedback, // Replace with your icon path
     color: "bg-orange-100"
   }
 ];

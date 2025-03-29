@@ -3,7 +3,8 @@ import Image from "next/image"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { logo } from "@/lib/data/images"
+import { grid1, logo } from "@/lib/data/images"
+
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -43,7 +44,7 @@ export function MainNav() {
           {/* Profile Image */}
           <div className="flex items-center space-x-4">
             <Image
-              src="/a-kid.jpg?height=40&width=40"
+              src={grid1}
               alt="Profile"
               width={40}
               height={40}

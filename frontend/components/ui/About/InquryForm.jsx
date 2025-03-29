@@ -1,5 +1,4 @@
 //TODO: creaet route heandler for sending mail
-
 import React, { useState } from 'react';
 
 const EnquiryForm = () => {
@@ -225,7 +224,7 @@ const EnquiryForm = () => {
       <div className="hidden md:block md:w-1/4 bg-blue-50">
         <div className="grid grid-rows-3 gap-3 p-4 h-full">
           <div className="bg-white rounded-lg overflow-hidden">
-            <img src="/api/placeholder/300/200" alt="Join Us" className="w-full h-full object-cover" />
+            <img src="" alt="Join Us" className="w-full h-full object-cover" />
           </div>
           <div className="bg-white rounded-lg overflow-hidden">
             <img src="/api/placeholder/300/200" alt="Join Us Blocks" className="w-full h-full object-cover" />
