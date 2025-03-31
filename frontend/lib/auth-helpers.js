@@ -22,8 +22,9 @@ export const isSuperAdmin = async() => {
 }
 
 export const getAuthToken = () => {
-  const authToken = cookies().get("authToken")?.value;
-  return authToken || null;
+  // const authToken = cookies().get("authToken")?.value;
+  // return authToken || null;
+  return "sample-auth-token"; // Replace with actual token retrieval logic
 };
 
 export const getCurrentUser = () => {

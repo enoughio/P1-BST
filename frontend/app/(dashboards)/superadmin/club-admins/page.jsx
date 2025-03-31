@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react"
 import AdminLayout from "@/components/admin-layout"
-import { getClubs } from "@/lib/api.js"  
-
-
+import { getClubs } from "@/lib/api"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
@@ -169,4 +167,3 @@ export default function ClubAdminsPage() {
     </AdminLayout>
   )
 }
-

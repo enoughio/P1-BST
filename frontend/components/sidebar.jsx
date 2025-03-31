@@ -89,7 +89,7 @@ export function Sidebar({ className }) {
           </div>
         </div>
       </div>
-      <div className="px-4 absolute bottom-4 w-full">
+      <div className="px-4  w-full">
         <Link href="/">
           <Button variant="outline" className="w-full flex items-center gap-2">
             <LogOut className="h-4 w-4" />
