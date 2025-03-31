@@ -30,36 +30,41 @@ const ClubDetails = ({  }) => {
   // const clubData = fetchClubData(clubId)
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200 w-1/2 mx-auto mt-10">
-      <h1>Club Details </h1>
-
-      <ul>
-        <li>
-          Club Id: <strong>{props.clubName}</strong>
-        </li>
-
-        <li>
-          Club Name: <strong>{props.clubName}</strong>
-        </li>
-
-        <li>
-          Club Description: <strong>{props.clubDescription}</strong>
-        </li>
-
-        <li>
-          Club Admin: <strong>{props.clubAdmin}</strong>
-        </li>
-
-        <li>
-          metting Details: <strong>{props.mettingDetails}</strong>
-        </li>
-
-        <li>
-          Club Members: <strong>{props.clubMembers}</strong>
-        </li>
-
-      </ul>
-    </div>
+     <div className="border-2 flex items-start min-w-[500px] max-w-[500px] justify-center gap-5 p-5 rounded-lg shadow-md bg">   
+   
+         <ul>
+            <li>
+              Club Id: <strong>{props.clubId}</strong>
+            </li>
+            <li>
+              Club Name: <strong>{props.clubName}</strong>
+            </li>
+            <li>
+              Club Description: <strong>{props.clubDescription}</strong>
+            </li>
+            <li>
+              Club Admin: <strong>{props.clubAdmin}</strong>
+            </li>
+            <li>
+              Meeting Details: <strong>{props.mettingDetails}</strong>
+            </li>
+            <li>
+              Club Members: <strong>{props.clubMembers}</strong>
+            </li>
+            <li>
+              Club Email: <strong>{props.clubEmail}</strong>
+            </li>
+  
+            <li>
+              Club Phone: <strong>{props.clubPhone}</strong>
+            </li>
+  
+            <li>
+              Club Location: <strong>{props.clubLocation}</strong>
+            </li>
+         </ul>
+   
+       </div>
   );
 };
 
