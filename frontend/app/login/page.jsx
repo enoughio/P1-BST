@@ -1,94 +1,79 @@
-"use client";
-import React, { useEffect, useState } from "react";
+"use client"
 
-const LoginPage = () => {
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/auth-context"
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login() {
+  const [credentials, setCredentials] = useState({ email: "", password: "" })
+  const [error, setError] = useState("")
+  const { login, user } = useAuth()
+  const router = useRouter()
 
-  const handleSubmit =  async(e) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+  // Redirect if already logged in
 
-    const data = await fetch("http://127.0.0.1:8000/api/accounts/login/", {
-      method: "POST",
-      body : JSON.stringify({
-        email: email,
-        password: password
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+  const handleSubmit = async (e) => {
 
-    const res = await data.json();
-    console.log(res);
-    if (res.status === 200) {
-      alert("Login successful");
-      // Redirect to another page or perform any other action
-    } else {
-      alert("Login failed");
+    e.prevntDefualt()
+    setError("")
+
+    try {
+
+      if(!credentials.email || !credentials.password )
+      {
+        throw new Error("please fill all the fiels");
+      }
+
+      const response = fetch(`${BASE_URL}/api/login`)
+      const data =  await response.data;
+      
+
+
+    } catch (error) {
+      
+      
     }
 
-  };
 
-  useEffect(() => {
+  }
 
-  }, [])
-  
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials, 
+      [e.target.name]: e.target.value,
+    })
+  } 
 
   return (
-    <div className="flex justify-center items-center  p-4 md:p-8 mt-10">
-       
-      <div className="rounded-xl border bg-white text-black shadow-lg p-8 max-w-md w-full md:w-[60%]">
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold">Welome to Bharat Storytellers </h2>
-            <p className="text-sm text-gray-600">
-              Enter your email and password below to login
-            </p>
-          </div>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="w-full mt-1 p-2 border rounded-md"
-                id="email"
-                placeholder="member@example.com"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium" htmlFor="password">
-                Password
-              </label>
-              <input
-                className="w-full mt-1 p-2 border rounded-md"
-                id="password"
-                type="password"
-                placeholder="Enter password provided by your club admin"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 mt-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+    <div>
+      <h1>Login</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <form onSubmit={handleSubmit}>
 
+        <div>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email"
+            name="email"
+            value={credentials.email}
+            onChange={handleChange} required />
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+            required
+          />
+
+        </div>
+        <button type="submit">Login</button>
+      </form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
