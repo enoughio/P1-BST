@@ -10,7 +10,8 @@ class MemberRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         # fields = '__all__'
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'occupation', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation', 'password']
+        read_only_fields = ['role']
 
     # create ko call karna jruri h, kyoki field that is not writable (response mein nhi aate hn i.e. pwd). usko create() ko override krke resolve kro
     # Django ka recommended approach yeh hai ki password hashing ko serializer mein handle kiya jaye for Consistency and Flexibility concerns
