@@ -2,13 +2,12 @@ import { groupPhoto } from "@/lib/data/images";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaInstagram, FaFacebookF } from "react-icons/fa";
-import { CiLinkedin } from "react-icons/ci";
-import {  YoutubeIcon } from 'lucide-react';
+import { Linkedin, Facebook, Instagram, YoutubeIcon } from 'lucide-react';
+
 
 const Fotter = () => {
   return (
-    <div className="flex flex-col justify-around bg-red-100 gap-2 min-h-[50vh]">
+    <div className="flex flex-col justify-around bg-gradient-to-b from-[#F7EBEC]/20 to-[#F1D2D4] gap-2 min-h-[50vh]">
       <div className="w-full flex flex-col md:flex-row justify-around items-start">
         <div
           id="left"
@@ -37,7 +36,7 @@ const Fotter = () => {
             <h1 className="text-3xl font-medium">Quick Links</h1>
 
             <div className="flex justify-between items-start gap-10 w-full ">
-              <ul className="text-xs font-thin">
+              <ul className=" leading-4 text-sm">
                 <li className="hover:underline">
                   <Link href="/">Home</Link>
                 </li>
@@ -54,7 +53,7 @@ const Fotter = () => {
                   <Link href="/contact">Contact</Link>
                 </li>
               </ul>
-              <ul className="text-xs font-thin">
+              <ul className=" leading-4 text-sm">
                 <li className="hover:underline">
                   <Link href="/membership">Become a member</Link>
                 </li>
@@ -72,17 +71,27 @@ const Fotter = () => {
           </div>
 
           <div className="w-full h-auto rounded-2xl bg-red-50 py-2 px-5">
-              <h1>Socials</h1>
+            <h1>Socials</h1>
 
-              <div className="flex gap-8 my-2 ">  
-                  <FaFacebookF className="h-6 w-6" /> 
-                  <CiLinkedin className="h-6 w-6" />
-                  <FaInstagram className="h-6 w-6" />
-                  <YoutubeIcon className="h-6 w-6" />
-              </div>
+            <div className="flex gap-8 my-2 ">
 
-              <h3 className="font-thin text-sm">contact@Bharatstorytellers.com</h3>
+              <Link href="https://www.facebook.com/bharatstorytellers/">
+                <Facebook className="h-6 w-6" />
+              </Link>
+              <Link href="https://www.linkedin.com/company/bharat-storytellers/posts/?feedView=all">
+                <Linkedin className="h-6 w-6" />
+              </Link>
+              <Link href="https://www.instagram.com/bhopalstorytellers/">
+                <Instagram className="h-6 w-6" />
+              </Link>
+              <Link href="/home">
+                <YoutubeIcon className="h-6 w-6 " />
+              </Link>
+            </div>
 
+            <h3 className="text-sm mt-3">
+              contact@Bharatstorytellers.com
+            </h3>
           </div>
         </div>
       </div>
