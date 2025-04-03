@@ -5,10 +5,7 @@ const AuthContext = createContext()
 
 const router = useRouter()
 
-const BASE_URL = 'https://129.08.06/'
-
-
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
 
@@ -92,4 +89,4 @@ export const AuthProvider = ({ children }) => {
     )
 }
 
-export default useAuth = useContext(AuthContext)
+const useAuth = useContext(AuthContext)
