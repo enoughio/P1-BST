@@ -8,8 +8,6 @@ const ProtectedRoutes = ({ children, allowedRoles = [] }) => {
     const router = useRouter()
 
     useEffect(() => {
-
-
         // if it is not loading and user is not found 
         if (!loading && !user) {
             router.push("/login")
@@ -28,22 +26,23 @@ const ProtectedRoutes = ({ children, allowedRoles = [] }) => {
         //     router.push("/")
         //     console.log("unauthorized access")
         // }
-
-
-
-        if (loading)
-            <div> Loading </div>
-        
-
     }, [user, loading, allowedRoles, router]);
 
-    // if usre it authenicted and autherized role is allowed 
-    if(user && )
-    return (
-        <div>
-            {children}
-        </div>
-    )
+
+    // Show loading state while checking authentication
+    // TODO: show lodading 
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    // if usre it authenicted and autherized role is allowed, render child
+  // If user is authenticated and authorized, render children
+  if (user && (allowedRoles.length === 0 || allowedRoles.includes(user.role))) {
+    return <>{children}</>
+  }
+
+
+  return null
 }
 
 export default ProtectedRoutes

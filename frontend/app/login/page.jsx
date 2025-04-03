@@ -11,40 +11,35 @@ export default function Login() {
   const router = useRouter()
 
   // Redirect if already logged in
-
-  const handleSubmit = async (e) => {
-
-    e.prevntDefualt()
-    setError("")
-
-    try {
-
-      if(!credentials.email || !credentials.password )
-      {
-        throw new Error("please fill all the fiels");
-      }
-
-      const response = fetch(`${BASE_URL}/api/login`)
-      const data =  await response.data;
-      
-
-
-    } catch (error) {
-      
-      
+  useEffect(() => {
+    if (user) {
+      router.push(`/${user.role}/dashboard`)
     }
-
-
-  }
-
+  }, [user, router]);
 
   const handleChange = (e) => {
     setCredentials({
-      ...credentials, 
+      ...credentials,
       [e.target.name]: e.target.value,
     })
-  } 
+  }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError("")
+
+    //TODO: add toast here
+    // if (!credentials.email || !credentials.password) {
+    //   // throw new Error("Email and password are required")
+    // }
+    
+    const result = await login(credentials)
+    if (!result.success) {
+      setError(result.error || "Login failed")
+    }
+  }
+ 
+  
   return (
     <div>
       <h1>Login</h1>
