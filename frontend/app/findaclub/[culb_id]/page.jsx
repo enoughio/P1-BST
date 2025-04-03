@@ -4,9 +4,7 @@
 
 import React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-
 
 const ClubDetailPage = ( ) => {
     const searchParams = useSearchParams();
