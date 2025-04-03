@@ -1,94 +1,116 @@
-"use client";
-import React, { useEffect, useState } from "react";
+"use client"
 
-const LoginPage = () => {
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/auth-context"
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login() {
+  const [credentials, setCredentials] = useState({ email: "", password: "" })
+  const [error, setError] = useState("")
+  const { login, user } = useAuth()
+  const router = useRouter()
 
-  const handleSubmit =  async(e) => {
-    e.preventDefault();
-    // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-
-    const data = await fetch("http://127.0.0.1:8000/api/accounts/login/", {
-      method: "POST",
-      body : JSON.stringify({
-        email: email,
-        password: password
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-
-    const res = await data.json();
-    console.log(res);
-    if (res.status === 200) {
-      alert("Login successful");
-      // Redirect to another page or perform any other action
-    } else {
-      alert("Login failed");
-    }
-
-  };
-
+  // Redirect if already logged in
   useEffect(() => {
+    if (user) {
+      router.push(`/${user.role}/dashboard`)
+    }
+  }, [user, router]);
 
-  }, [])
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError("")
+
+    //TODO: add toast here
+    const result = await login(credentials)
+    if (!result.success) {
+      setError(result.error || "Login failed")
+    }
+  }
+ 
   
-
   return (
-    <div className="flex justify-center items-center  p-4 md:p-8 mt-10">
-       
-      <div className="rounded-xl border bg-white text-black shadow-lg p-8 max-w-md w-full md:w-[60%]">
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-          <div className="text-center">
-            <h2 className="text-2xl font-semibold">Welome to Bharat Storytellers </h2>
-            <p className="text-sm text-gray-600">
-              Enter your email and password below to login
-            </p>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900">Login to Your Account</h1>
+        </div>
+        
+        {error && (
+          <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+            {error}
           </div>
+        )}
+        
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium" htmlFor="email">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
-                className="w-full mt-1 p-2 border rounded-md"
-                id="email"
-                placeholder="member@example.com"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="email"
+                name="email"
+                value={credentials.email}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="your@email.com"
               />
             </div>
+
             <div>
-              <label className="text-sm font-medium" htmlFor="password">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
-                className="w-full mt-1 p-2 border rounded-md"
-                id="password"
                 type="password"
-                placeholder="Enter password provided by your club admin"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                id="password"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="••••••••"
               />
             </div>
           </div>
-          <button
-            type="submit"
-            className="w-full py-2 mt-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Login
-          </button>
+
+          <div className="flex items-center justify-between">
+
+
+            <div className="text-sm">
+              <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                Forgot your password?
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Sign in
+            </button>
+          </div>
+          
+          <div className="text-sm text-center text-gray-500">
+            Don't have an account?{" "}
+            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+              Sign up
+            </a>
+          </div>
         </form>
       </div>
-
     </div>
-  );
-};
-
-export default LoginPage;
+  )
+}

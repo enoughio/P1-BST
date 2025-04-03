@@ -27,9 +27,17 @@ export function Toaster() {
             {action}
             <ToastClose />
           </Toast>
+<<<<<<< HEAD
+        );
+      })}
+      <ToastViewport />
+    </ToastProvider>
+  );
+=======
         )
       })}
       <ToastViewport />
     </ToastProvider>
   )
+>>>>>>> main
 }

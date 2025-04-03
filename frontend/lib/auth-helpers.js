@@ -4,6 +4,9 @@
 // import { cookies } from "next/headers";
 
 
+//TODO: remove this file while deployment
+
+
 export const isSuperAdmin = async() => {
   // In a real app, this would check user claims/roles from an auth system
   // For demo purposes, we'll determine based on URL
@@ -28,27 +31,6 @@ export const getAuthToken = () => {
 };
 
 export const getCurrentUser = () => {
-  // This would fetch the current user profile from storage or context in a real app
-
-  // try {
-
-  //     const data = fetch("/api/auth/user", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       }
-  //     })
-
-  //     if (!data.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     const user = data.json();
-  //     return user;
-  // }
-  // catch (error) {
-  //   console.trace("Error fetching user data:", error);
-  // }
-
 
 
   return {
