@@ -20,7 +20,6 @@ export default function AdminDashboard() {
     pendingRequests: 0,
   })
 
-
   const [members, setMembers] = useState([])
   const [meetings, setMeetings] = useState([])
   const [events, setEvents] = useState([])
@@ -31,21 +30,10 @@ export default function AdminDashboard() {
     const fetchData = async () => {
       try {
         // Fetch data for dashboard
-        //TODO: this will create a network waterfall, we can use Promise.all to fetch all data in parallel
- 
-        // const membersData = await getMembers("1")
-        // const meetingsData = await getMeetings("1")
-        // const eventsData = await getEvents("1")
-        // const requestsData = await getRequests("1")
-
-        const [membersData, meetingsData, eventsData, requestsData] = await Promise.all([
-          getMembers('1'),
-          getMeetings('1'),
-          getEvents('1'),
-          getRequests('1'),
-        ])
-
-        // Set data to state
+        const membersData = await getMembers("1")
+        const meetingsData = await getMeetings("1")
+        const eventsData = await getEvents("1")
+        const requestsData = await getRequests("1")
 
         setMembers(membersData)
         setMeetings(meetingsData)
@@ -57,8 +45,6 @@ export default function AdminDashboard() {
         const nextMonth = new Date()
         nextMonth.setMonth(nextMonth.getMonth() + 1)
 
-        // Filter members whose membership is expiring in the next 30 days
-        // Assuming membershipExpiryDate is in YYYY-MM-DD format
         const expiringMembers = membersData.filter((member) => {
           const expiryDate = new Date(member.membershipExpiryDate)
           return expiryDate > now && expiryDate < nextMonth
@@ -213,10 +199,8 @@ export default function AdminDashboard() {
                       <div>Expires</div>
                     </div>
                   </div>
-
-          
                   <div className="divide-y">
-                    {members.slice(0, 10).map((member) => (
+                    {members.slice(0, 5).map((member) => (
                       <div key={member.id} className="grid grid-cols-4 p-4">
                         <div className="font-medium">
                           {member.first_name} {member.last_name}
@@ -242,7 +226,6 @@ export default function AdminDashboard() {
                       <div>Location</div>
                     </div>
                   </div>
-
                   <div className="divide-y">
                     {meetings.map((meeting) => (
                       <div key={meeting.id} className="grid grid-cols-3 p-4">
@@ -254,7 +237,6 @@ export default function AdminDashboard() {
                       </div>
                     ))}
                   </div>
-                
                 </div>
                 <Button asChild className="w-full sm:w-auto">
                   <Link href="/admin/meetings">View All Meetings</Link>

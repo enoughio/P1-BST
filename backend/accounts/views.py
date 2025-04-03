@@ -86,6 +86,11 @@ class EmailBackend(ModelBackend):
 
 
 # TokenBasedAuth (login)
+'''
+Agar tum token ko sirf response mein return karte ho, to token stealing ka risk hota hai. 
+Isko mitigate karne ke liye, 
+humein token ko HTTP-only cookie mein store karna chahiye, taaki client-side JavaScript se access na ho.
+'''
 class LoginAPIView(APIView):
     def post(self, request):
         email = request.data.get('email')
@@ -97,10 +102,29 @@ class LoginAPIView(APIView):
             token, created = Token.objects.get_or_create(user=user)
             # return Response({'token': token.key}, status=status.HTTP_200_OK)
 
+            # But, to secure auth_token, need to apply concept of cookie, so that JS se bhi auth_token access na ho ske
+
             # Set expiry time
             expiry_time = timezone.now() + timedelta(days=7)  # Token valid for 7 days
 
-            response = Response({'message': 'Login successful!'}, status=status.HTTP_200_OK)
+            response = Response({
+                'message': 'Login successful!',
+                'data': {
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'username': user.username,
+                    'email': user.email,
+                    'phone': user.phone,
+                    'avatar': user.avatar.url if user.avatar else None,
+                    'address': user.address,
+                    'gender': user.gender,
+                    'dob': user.dob,
+                    'id_proof': user.id_proof.url if user.id_proof else None,
+                    'club': user.club.club_name if user.club else None,
+                    'role': user.member.role if hasattr(user, 'member') else user.admin.role if hasattr(user, 'admin') else "User",
+                    'occupation': user.member.occupation if hasattr(user, 'member') else None
+                } 
+            }, status=status.HTTP_200_OK)
             
             # Cookie set karna
             response.set_cookie(
