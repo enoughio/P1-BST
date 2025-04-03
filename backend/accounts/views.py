@@ -109,7 +109,21 @@ class LoginAPIView(APIView):
 
             response = Response({
                 'message': 'Login successful!',
-                'role' : user.member.role if hasattr(user, 'member') else user.admin.role 
+                'data': {
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'username': user.username,
+                    'email': user.email,
+                    'phone': user.phone,
+                    'avatar': user.avatar.url if user.avatar else None,
+                    'address': user.address,
+                    'gender': user.gender,
+                    'dob': user.dob,
+                    'id_proof': user.id_proof.url if user.id_proof else None,
+                    'club': user.club.club_name if user.club else None,
+                    'role': user.member.role if hasattr(user, 'member') else user.admin.role if hasattr(user, 'admin') else "User",
+                    'occupation': user.member.occupation if hasattr(user, 'member') else None
+                } 
             }, status=status.HTTP_200_OK)
             
             # Cookie set karna
