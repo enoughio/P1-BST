@@ -24,26 +24,26 @@ export const AuthProvider = ({children}) => {
     }, [])
     
     const checkUserAuthentication = async () => {
-        try {
-            const response = await fetch(`${BASE_URL}/api/auth/me`, {
-                credentials: 'include'
-            })
+        // try {
+        //     const response = await fetch(`${BASE_URL}/api/auth/me`, {
+        //         credentials: 'include'
+        //     })
             
-            if (response.ok) {
-                const data = await response.json(); // Changed from response.data
-                // setUser(data);
-                setUser(dummy)
-            } else {
-                // setUser(null)
-                setUser(dummy)
-            }
-        } catch (error) {
-            console.log("Authentication check fails", error)
-            // setUser(null)
+        //     if (response.ok) {
+        //         const data = await response.json(); // Changed from response.data
+        //         // setUser(data);
+        //         setUser(dummy)
+        //     } else {
+        //         // setUser(null)
+        //         setUser(dummy)
+        //     }
+        // } catch (error) {
+        //     console.log("Authentication check fails", error)
+        //     // setUser(null)
+        // } finally {
             setUser(dummy) 
-        } finally {
             setLoading(false);
-        }
+        // }
     }
     
     const login = async (credentials) => {

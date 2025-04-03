@@ -1,7 +1,6 @@
-import React from "react"
- 
+
+import { Sidebar } from "./ui/sidebar" 
 import { Toaster } from "@/components/ui/toaster"
-import { Sidebar } from "@/components/ui/sidebar"
 
 export default function AdminLayout({ children }) {
   return (
@@ -12,4 +11,6 @@ export default function AdminLayout({ children }) {
     </div>
   )
 }
+
+
 
