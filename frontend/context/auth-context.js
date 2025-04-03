@@ -13,7 +13,7 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true)
     const dummy = {
         name: "text",
-        role: "admin",
+        role: "superadmin",
         id: 1,
     }
     
