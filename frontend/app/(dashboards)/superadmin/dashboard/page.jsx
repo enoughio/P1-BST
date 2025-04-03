@@ -19,6 +19,8 @@ export default function SuperAdminDashboard() {
     highlightedEvents: 0,
   })
 
+  console.log("at superadmin dashboard")
+
   const [clubs, setClubs] = useState([])
   const [requests, setRequests] = useState([])
   const [events, setEvents] = useState([])

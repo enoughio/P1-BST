@@ -1,48 +1,40 @@
-import React, { useEffect } from 'react'
-import useAuth from '../context/auth-context.js'
-import { useRouter } from 'next/router';
+"use client"
 
-const ProtectedRoutes = ({ children, allowedRoles = [] }) => {
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/auth-context"
 
-    const { user, loading } = useAuth();
-    const router = useRouter()
+export default function ProtectedRoute({ children, allowedRoles = [] }) {
+  const { user, loading } = useAuth()
+  const router = useRouter()
 
-    useEffect(() => {
-        // if it is not loading and user is not found 
-        if (!loading && !user) {
-            router.push("/login")
-            return
-        }
-
-        // if it not loading and user is there and if it i their appropriate routne then redieret to their corrosponding  route 
-        if (!loading && user && allowedRoles.length > 0 && allowedRoles.includes(user.role)) {
-            router.push(`${user.role}/dashboard`)
-            console.log("on dashboard pages")
-            return
-        }
-
-        //  else {
-        //     // else redirect the user to home 
-        //     router.push("/")
-        //     console.log("unauthorized access")
-        // }
-    }, [user, loading, allowedRoles, router]);
-
-
-    // Show loading state while checking authentication
-    // TODO: show lodading 
-    if (loading) {
-        return <div>Loading...</div>
+  useEffect(() => {
+    // If not loading and user is not authenticated, redirect to login
+    if (!loading && !user) {
+      router.push("/login")
+      return
     }
 
-    // if usre it authenicted and autherized role is allowed, render child
+    // If user is authenticated but not authorized for this route
+    if (!loading && user && allowedRoles.length > 0 && allowedRoles.includes(user.role)) {
+      // Redirect to their appropriate dashboard
+      router.push(`/${user.role}/dashboard`)
+    }
+  }, [user, loading, router, allowedRoles])
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   // If user is authenticated and authorized, render children
   if (user && (allowedRoles.length === 0 || allowedRoles.includes(user.role))) {
     return <>{children}</>
+  }else if (!loading && user && allowedRoles.length > 0 && !allowedRoles.includes(user.role) ){
+    router.push(`/${user.role}/dashboard`)
   }
 
-
+  // Return null while redirecting
   return null
 }
 
-export default ProtectedRoutes

@@ -80,6 +80,7 @@ const getMemberData = () => {
 export default function MemberDashboard() {
   const [memberData, setMemberData] = useState(null)
   const [loading, setLoading] = useState(true)
+  console.log("at member dashboard")
 
   useEffect(() => {
     const fetchData = async () => {
