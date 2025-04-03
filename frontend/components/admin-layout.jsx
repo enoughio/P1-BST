@@ -1,5 +1,5 @@
 
-import { Sidebar } from "./ui/sidebar" 
+import { Sidebar } from "./" 
 import { Toaster } from "@/components/ui/toaster"
 
 export default function AdminLayout({ children }) {
