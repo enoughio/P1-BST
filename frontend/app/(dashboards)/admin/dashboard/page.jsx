@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react"
 import AdminLayout from "@/components/admin-layout"
-import { Card, CardHeader, CardTitle, CardContent  } from "@/components/ui/card"
+import { Card, CardHeader, CardTitle, CardContent  } from "@/components/ui/card.jsx"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert.jsx"
 import { Button } from "@/components/ui/button"
 import { getMembers, getMeetings, getEvents, getRequests } from "@/lib/api"
 import { Calendar, UserCheck, UserMinus, Clock, Users, AlertTriangle } from "lucide-react"
