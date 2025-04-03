@@ -1,4 +1,3 @@
-import { getAuthToken } from "./auth-helpers"
 
 const API_BASE_URL = "https://api.example.com/v1"
 
@@ -14,7 +13,7 @@ async function handleRequest(
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${getAuthToken()}`,
+    Authorization: `Bearer kjaslkdfjlaskdjflkas`,
     ...customHeaders,
   }
 
@@ -411,10 +410,10 @@ const mockRequests = [
 ]
 
 // API functions
-
 // Members
 //TODO: try to use a single function for getMembers and getMember]
 //TODO: try to do it in a more generic way
+
 export const getMembers = async (clubId) => {
   const endpoint = clubId ? `/members?club=${clubId}` : "/members"
   return handleRequest(endpoint)
