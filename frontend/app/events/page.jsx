@@ -10,6 +10,8 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, ChevronLeft, ChevronRight, MapPin, Search, Star } from "lucide-react"
 import Link from "next/link"
+import { bhopalStorytellersImg, BISF } from "@/lib/data/images"
+import Image from "next/image"
 
 // Placeholder for getting events from API
 const getEvents = () => {
@@ -22,11 +24,11 @@ const getEvents = () => {
           slug: "BISF",
           description:
             "Join us for an evening of captivating stories that bridge cultures and generations. Our expert storytellers will take you on a journey through time and tradition.",
-          date: "2023-12-15",
-          formattedDate: "December 15, 2023",
+          date: "2025-3-23",
+          formattedDate: "March 23, 2025",
           time: "6:00 PM - 9:00 PM",
           location: "Cultural Center, New Delhi",
-          image: "",
+          image: BISF,
           highlighted: true,
           club: "1",
           clubName: "Bhopal Storytellers",
@@ -45,7 +47,7 @@ const getEvents = () => {
           formattedDate: "November 20, 2023",
           time: "9:00 AM - 5:00 PM",
           location: "Conference Hall, Bangalore",
-          image: "",
+          image: bhopalStorytellersImg,
           highlighted: false,
           club: "2",
           clubName: "Delhi Orators",
@@ -64,7 +66,7 @@ const getEvents = () => {
           formattedDate: "January 30, 2024",
           time: "10:00 AM - 6:00 PM",
           location: "Auditorium, Mumbai",
-          image: "",
+          image: bhopalStorytellersImg,
           highlighted: true,
           club: "3",
           clubName: "Mumbai Speakers",
@@ -83,7 +85,7 @@ const getEvents = () => {
           formattedDate: "October 5, 2023",
           time: "2:00 PM - 6:00 PM",
           location: "Business Center, Hyderabad",
-          image: "",
+          image: bhopalStorytellersImg,
           highlighted: false,
           club: "2",
           clubName: "Delhi Orators",
@@ -94,15 +96,15 @@ const getEvents = () => {
         },
         {
           id: "5",
-          title: "Annual Toastmasters Conference 2023",
+          title: "Annual Storytelling Conference 2023",
           slug: "annual-conference-2023",
           description:
-            "Join us for the annual Toastmasters conference featuring keynote speakers, workshops, networking opportunities, and the grand finals of our speaking competitions.",
+            "Join us for the annual Storytelling conference featuring keynote speakers, workshops, networking opportunities, and the grand finals of our speaking competitions.",
           date: "2023-09-15",
           formattedDate: "September 15, 2023",
           time: "9:00 AM - 8:00 PM",
           location: "Grand Hotel, Chennai",
-          image: "",
+          image: bhopalStorytellersImg,
           highlighted: true,
           club: "1",
           clubName: "Bhopal Storytellers",
@@ -112,7 +114,7 @@ const getEvents = () => {
           categories: ["Conference", "Networking", "Competition"],
         },
       ])
-    }, 1000)
+    }, 0)
   })
 }
 
@@ -279,7 +281,7 @@ export default function EventsPage() {
     <div className="min-h-screen bg-white">
       {/* Hero section with auto-sliding carousel */}
       {highlightedEvents.length > 0 && (
-        <div className="relative bg-gray-900 text-white overflow-hidden">
+        <div className="relative bg-gray-100 text-white overflow-hidden">
           <div
             ref={carouselRef}
             className="relative h-[70vh] transition-all duration-500 ease-in-out"
@@ -292,11 +294,13 @@ export default function EventsPage() {
                   className="relative min-w-full h-full flex items-center"
                   style={{ left: `${index * 100}%` }}
                 >
-                  <div className="absolute inset-0 bg-black/60 z-10"></div>
-                  <img
+                  <div className="absolute inset-0   z-10"></div>
+                  <Image
                     src={
                       event.image || `/placeholder.svg?height=700&width=1400&text=${encodeURIComponent(event.title)}`
                     }
+                    width={300}
+                    height={300}
                     alt={event.title}
                     className="absolute inset-0 h-full w-full object-cover"
                   />

@@ -113,7 +113,7 @@ const getEventDetails = (slug) => {
               <li><strong>Storytelling:</strong> 6-8 minute original or adapted stories that captivate and inspire</li>
             </ul>
             
-            <p>Participants will be judged by a panel of experienced Toastmasters and communication professionals. Winners in each category will receive recognition, prizes, and the opportunity to represent our district at the national level competition.</p>
+            <p>Participants will be judged by a panel of experienced Storytellers and communication professionals. Winners in each category will receive recognition, prizes, and the opportunity to represent our district at the national level competition.</p>
             
             <p>Even if you're not competing, attending the championship provides a valuable opportunity to witness excellent speeches, learn from skilled communicators, and be inspired to improve your own speaking abilities.</p>
           `,
