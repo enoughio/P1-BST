@@ -95,6 +95,13 @@ class EmailBackend(ModelBackend):
             return user
         return None
 
+# Custom CookieAuthentication 
+class CookieTokenAuthentication(TokenAuthentication):
+    def authenticate(self, request):
+        token = request.COOKIES.get('auth_token')
+        if not token:
+            return None  # DRF will try next authentication class or return error
+        return self.authenticate_credentials(token)
 
 # TokenBasedAuth (login)
 '''
