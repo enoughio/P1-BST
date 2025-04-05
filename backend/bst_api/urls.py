@@ -16,6 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+
+from bst_api import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,3 +26,6 @@ urlpatterns = [
     path('api/bst/', include('bst.urls')),
     path('api/razorpay/', include('razorpay_backend.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
