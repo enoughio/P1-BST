@@ -33,7 +33,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -131,18 +131,18 @@ WSGI_APPLICATION = 'bst_api.wsgi.application'
 #     }
 # }
 
-tmpPostgres = urlparse('postgresql://neondb_owner:npg_2WgyZYoJ3jrq@ep-blue-mountain-a1263gvk-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require')
+# tmpPostgres = urlparse('postgresql://neondb_owner:npg_2WgyZYoJ3jrq@ep-blue-mountain-a1263gvk-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': tmpPostgres.path.replace('/', ''),
+#         'USER': tmpPostgres.username,
+#         'PASSWORD': tmpPostgres.password,
+#         'HOST': tmpPostgres.hostname,
+#         'PORT': 5432,
+#     }
+# }
 
 
 # Password validation
@@ -184,7 +184,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # This folder should exist (even if empty)
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic command will dump admin CSS/JS here
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+MEDIA_URLS ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTH_USER_MODEL = 'accounts.User'
