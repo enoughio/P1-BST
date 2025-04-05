@@ -3,7 +3,6 @@ import Link from "next/link";
 import CoachingCarousel from "./WhyWedifferent";
 
 // import { LuMoveUpRight } from "lucide-react"
-// TODO: fix card size
 
 const features = [
   {

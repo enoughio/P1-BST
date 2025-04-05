@@ -120,7 +120,7 @@ export default function MemberDashboard() {
       <div className="flex flex-col gap-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Member Dashboard</h1>
-          <p className="text-gray-500">Welcome to your Toastmasters member dashboard.</p>
+          <p className="text-gray-500">Welcome to your Storytellers member dashboard.</p>
         </div>
 
         {loading ? (

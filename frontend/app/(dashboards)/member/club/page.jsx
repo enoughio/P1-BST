@@ -121,7 +121,7 @@ export default function ClubInfoPage() {
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Club Information</h1>
-          <p className="text-gray-500">Details about your Toastmasters club.</p>
+          <p className="text-gray-500">Details about your Storytellers club.</p>
         </div>
 
         {loading ? (

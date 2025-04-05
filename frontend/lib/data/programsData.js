@@ -67,8 +67,8 @@ export const programsData = [
   {
     cardSize: "small",
     bubbleVariant: "normal",
-    title: "Aspiring Professionals",
-    subHeading: "For College Students",
+    title: "Confident Speakers",
+    subHeading: "For Students",
     BubbleColor: { background: "rgba(193, 18, 31, .12)" },
     cardColor: { background: "rgba(193, 18, 31, .12)" },
     image: aspiringProfessionalsImg,
@@ -77,7 +77,7 @@ export const programsData = [
       images: [aspiringProfessionalsImg],
       heading: "Aspiring Professionals",
       duration: "4 months",
-      age: "18-25 years",
+      age: "16+ years",
       description:
         "Aspiring Professionals program is designed for college students and young professionals looking to enhance their public speaking and communication skills. Participants learn to craft compelling messages, deliver engaging presentations, and connect with audiences in a meaningful way, setting them up for success in their careers.",
       additionalDetails: ["Career-focused", "Presentation skills"],

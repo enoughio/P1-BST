@@ -4,9 +4,7 @@
 
 import React from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-
 
 const ClubDetailPage = ( ) => {
     const searchParams = useSearchParams();
@@ -72,7 +70,7 @@ const ClubDetailPage = ( ) => {
           <div className="bg-white shadow-md rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">What to Expect with Your Free Club Visit</h2>
             <p>
-              When you visit a Toastmasters club as a guest, there's no pressure to participate 
+              When you visit a Storytellers club as a guest, there's no pressure to participate 
               until you are ready and comfortable. Every club is unique; visit as many clubs 
               as you would like to find the right fit for you!
             </p>

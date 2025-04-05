@@ -33,7 +33,7 @@ const getMemberProfile = () => {
         occupation: "Software Engineer",
         membershipExpiryDate: "2023-05-15",
         joinDate: "2022-05-15",
-        bio: "Passionate about public speaking and leadership development. I joined Toastmasters to improve my communication skills and connect with like-minded individuals.",
+        bio: "Passionate about public speaking and leadership development. I joined Storytellers to improve my communication skills and connect with like-minded individuals.",
       })
     }, 1000)
   })

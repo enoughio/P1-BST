@@ -175,7 +175,7 @@ export const clubsData = [
   },
   {
     id: 7,
-    name: "Mile High Toastmasters",
+    name: "Mile High Storytellers",
     address: "404 16th St Mall, Denver, CO",
     city: "Denver",
     meetingTime: "Thursdays, 12:00 PM",
@@ -183,7 +183,7 @@ export const clubsData = [
     dmsPosition: "39°44'21.12\"N, 104°59'25.08\"W",
     members: 25,
     image: "",
-    description: "Mile High Toastmasters helps members achieve their communication goals while fostering a fun and engaging learning environment.",
+    description: "Mile High Storytellers helps members achieve their communication goals while fostering a fun and engaging learning environment.",
     Admin: "James Wilson",
     email: "james.w@example.com",
     phone: "789-012-3456",

@@ -58,7 +58,7 @@ const Footer = () => {
                   <Link href="/membership">Become a member</Link>
                 </li>
                 <li className="hover:underline">
-                  <Link href="/findclub">Find a Club</Link>
+                  <Link href="/findaclub">Find a Club</Link>
                 </li>
                 <li className="hover:underline">
                   <Link href="/sponsorship">Sponsorship</Link>

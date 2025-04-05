@@ -30,7 +30,7 @@ const Journy = () => {
       <h2 className=" self-start text-lg md:text-3xl font-semibold ">Our Journy till now</h2>
       <div className="md:w-full md:h-[40vh] flex justify-center items-center md:gap-20 gap-2 px-6 py-6 ">
         <StatCard number="200" label1="Happy" label2="Members" />
-        <StatCard number="100+" label1="Successful" label2="Meetings" />
+        <StatCard number="100+" label1="Successful" label2="Club Meetings" />
         <StatCard number="8" label1="Years of" label2="Experience" />
       </div>
     </section>

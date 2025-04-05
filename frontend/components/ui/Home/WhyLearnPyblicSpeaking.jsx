@@ -5,7 +5,7 @@ import React from 'react';
 
 const PublicSpeakingSection = () => {
   // Hardcoded data
-  const title = "Why learn public speaking?";
+  const title = "Why public speaking?";
   const description = "Public speaking is a valuable skill that can help you grow your career, build your brand, and make a positive impact on the world. Here are some of the key benefits of learning to speak with confidence.";
   const items = [
     {
@@ -31,7 +31,7 @@ const PublicSpeakingSection = () => {
   ];
 
   return (
-    <section className="my-2  py-4 mx-2 md:mx-12 border-t-2 border-gray-200 shadow-md rounded-lg bg-gradient-to-b from-[#F7EBEC]/20 to-[#F1D2D4]">
+    <section className="my-2  py-4 mx-2 md:mx-12 border-t-2 border-gray-200 shadow-md rounded-lg bg-gradient-to-b from-[#F7EBEC]/20 to-[#C7D9FB] ">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-start">{title}</h2>
         <p className="text-gray-600 text-start mb-5 max-w-3xl leading-5">{description}</p>

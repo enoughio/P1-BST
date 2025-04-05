@@ -17,8 +17,8 @@ export default function SettingsPage() {
   const { toast } = useToast()
 
   const [generalSettings, setGeneralSettings] = useState({
-    organizationName: "Toastmasters Club Organization",
-    supportEmail: "support@toastmasters.org",
+    organizationName: "Bharat Storytellers ",
+    supportEmail: "contact@bharatstorytellers.com",
     contactPhone: "+1-234-567-8900",
     websiteUrl: "https://bharatstorytellers.com/",
     maxClubsPerAdmin: "3",
