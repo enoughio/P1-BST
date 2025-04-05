@@ -11,6 +11,8 @@ import { CheckCircle, Clock, FileText, Award, ArrowRight } from "lucide-react"
 
 // Mock API function to get member projects
 const getMemberProjects = () => {
+
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
