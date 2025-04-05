@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken', # DRF Token Authentication Enable
 
@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
+
     'corsheaders.middleware.CorsMiddleware',  # CORS Middleware
 
     'django.middleware.common.CommonMiddleware',
@@ -81,11 +82,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://bharatstorytellers.com",  # Production URL
 ]
 
-
-
-
 ROOT_URLCONF = 'bst_api.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

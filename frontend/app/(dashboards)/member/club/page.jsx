@@ -7,8 +7,33 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CalendarClock, Mail, MapPin, Phone, Users } from "lucide-react"
 
-// Mock API function to get club information
+
 const getClubInfo = () => {
+  
+    // const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
+    // try {
+
+    //   const response = fetch(`${BASE_URL}/club-info/`,
+    //     {
+    //       method: "GET",
+    //       credentials: "include",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   )
+
+    //   if (!response.ok) {
+    //     throw new Error("Network response was not ok")
+    //   }
+
+    //   const data = response.json()
+    //   return data
+    // } catch (error) {
+    //   console.error("Error fetching club information:", error)
+    // }
+
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -101,6 +126,8 @@ export default function ClubInfoPage() {
   const [clubInfo, setClubInfo] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  
+
   useEffect(() => {
     const fetchClubInfo = async () => {
       try {
@@ -129,6 +156,7 @@ export default function ClubInfoPage() {
             <div className="animate-spin h-8 w-8 border-4 border-blue-600 rounded-full border-t-transparent"></div>
           </div>
         ) : (
+
           clubInfo && (
             <>
               <Card>
@@ -207,7 +235,11 @@ export default function ClubInfoPage() {
                 </TabsList>
 
                 <TabsContent value="committee" className="space-y-6">
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+
+                {
+                  clubInfo.executiveCommittee.length > 0 ? (
+
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {clubInfo.executiveCommittee.map((member) => (
                       <Card key={member.id}>
                         <CardContent className="p-6">
@@ -231,22 +263,41 @@ export default function ClubInfoPage() {
                       </Card>
                     ))}
                   </div>
+
+                  ) : (
+
+                    <p className="text-gray-500 text-center">Executive Committee details are not available.</p>
+
+                  )
+                }
+
+                  
+
+
                 </TabsContent>
 
                 <TabsContent value="achievements" className="space-y-6">
-                  <div className="space-y-4">
-                    {clubInfo.achievements.map((achievement) => (
-                      <Card key={achievement.id}>
-                        <CardHeader>
-                          <CardTitle>{achievement.title}</CardTitle>
-                          <CardDescription>{achievement.year}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-gray-700">{achievement.description}</p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+
+                  {
+                    clubInfo.achievements.length > 0 ? (
+                      <div className="space-y-4">
+                      {clubInfo.achievements.map((achievement) => (
+                        <Card key={achievement.id}>
+                          <CardHeader>
+                            <CardTitle>{achievement.title}</CardTitle>
+                            <CardDescription>{achievement.year}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-gray-700">{achievement.description}</p>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                    ) : (
+                      <p className="text-gray-500 text-center">Club Achievements details are not available.</p>
+                    )
+                  }
+                 
                 </TabsContent>
               </Tabs>
 

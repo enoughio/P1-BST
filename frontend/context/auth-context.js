@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation" // Changed from next/router
 import { useContext, createContext, useState, useEffect } from "react"
 
 // Missing BASE_URL definition
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000"
+const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
 
 const AuthContext = createContext()
 
@@ -38,17 +38,15 @@ export const AuthProvider = ({children}) => {
         }
     }
     
-
     const login = async (credentials) => {
         try {
-            const response = await fetch(`${BASE_URL}/api/accounts/login`, {
+            const response = await fetch(`${BASE_URL}/api/accounts/login/`, {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json' // Ensure the server knows it's receiving JSON
                 },
-                body: JSON.stringify(credentials),
-                credentials: 'include'
-            })
+                body: JSON.stringify(credentials) // Ensure credentials is an object with { username, password }
+            });
 
             console.log("Login failed try again", data)
             
