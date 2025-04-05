@@ -5,6 +5,7 @@ from bst.views import MembershipActivateAPIView, MembershipHistoryListAPIView
 from .views import (RegisterMemberAPIView,
                     LoginAPIView,
                     LogoutAPIView,
+                    get_current_user,
     
                     MemberRetriveAPIView,
                     MemberListAPIView,
@@ -27,7 +28,7 @@ urlpatterns = [
     # [Auth] - Login & Logout
     path("login/", LoginAPIView.as_view(), name="login"),  # User Login
     path("logout/", LogoutAPIView.as_view(), name="logout"),  # User Logout
-
+    path('me/', get_current_user, name='current-user'), # for current user object
     # [Members] - Register & List
     path("members/create/", RegisterMemberAPIView.as_view(), name="register"),  # Register Member
     path("members/", MemberListAPIView.as_view(), name="list-member"),  # Get all Members

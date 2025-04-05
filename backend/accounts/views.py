@@ -55,6 +55,17 @@ and, if we write (request.user.member) then iff logged-in user Member ka obj hog
 otherwise, if request.user.admin likhe, and logged-in Member ka obj hua, then will give an error
 '''
 
+# Current User API
+from accounts.serializers import UserSerializer
+from rest_framework.decorators import api_view, permission_classes
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_current_user(request):
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
+
+
 # permissions
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
