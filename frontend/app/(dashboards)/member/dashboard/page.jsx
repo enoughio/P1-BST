@@ -8,12 +8,26 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Clock, GanttChartSquare, Star, Trophy, User } from "lucide-react"
 import Link from "next/link"
+import { headers } from "next/headers"
 
 // Mock API function to get member data
-const getMemberData = () => {
+const getMemberData = async () => {
 
+  // try {
+  //   const response = await fetch(`${process.env.BACKEND_URL}/dashboard/`,{
+  //     method: "GET",
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     }
+  //   }
+  //   ) 
+  //   const data = response.json() // Assuming the API returns JSON data
+  //   return data
+  // } catch (error) {
+  //   console.error("Error fetching member data:", error)
+  // }
 
-  
 
 
   return new Promise((resolve) => {

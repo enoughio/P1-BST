@@ -11,9 +11,47 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
 import { Loader2, Save, User, Mail, Phone, MapPin, Briefcase, Calendar } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAuth } from "@/context/auth-context"
 
 // Mock API function to get member profile
-const getMemberProfile = () => {
+const getMemberProfile = async() => {
+  const user = useAuth()
+
+  try {
+
+    const response = await fetch("/api/member/profile", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const response2 = await fetch(`${process.env.BACKEND_URL}/api/accounts/members/${user.username}/additional`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok || !response2.ok) {
+      throw new Error("Failed to fetch member profile")
+    }
+
+    const data = await response.json()
+    const data2 = await response2.json()
+
+    return {
+      ...data,
+      ...data2,
+    }
+
+  } catch (error) {
+    console.error("Error fetching member profile:", error)
+  }
+
+  // Fallback data in case of error
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
