@@ -10,7 +10,28 @@ import { Input } from "@/components/ui/input"
 import { Calendar, Clock, MapPin, Search, Star, Users } from "lucide-react"
 
 // Mock API function to get meetings and events
-const getMeetingsAndEvents = () => {
+const getMeetingsAndEvents = async() => {
+
+  // try {
+    
+  //   const response = await fetch("/api/meetings", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+
+  //   if (!response.ok) {
+  //     throw new Error("Failed to fetch meetings")
+  //   }
+
+  //   const data = await response.json()
+  //   return data
+
+  // } catch (error) {
+  //   console.error("Error fetching meetings and events:", error)
+  // }
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

@@ -8,12 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CalendarClock, Mail, MapPin, Phone, Users } from "lucide-react"
 
 
-const getClubInfo = () => {
+const getClubInfo = async() => {
   
     // const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
     // try {
 
-    //   const response = fetch(`${BASE_URL}/club-info/`,
+    //   const response = await fetch(`${BASE_URL}/club-info/`,
     //     {
     //       method: "GET",
     //       credentials: "include",
