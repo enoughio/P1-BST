@@ -57,7 +57,11 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication', # Token Authentication Enable
+        'accounts.authentication.CookieTokenAuthentication',
+
+        # for Token + Session
+        # 'rest_framework.authentication.TokenAuthentication', # Token Authentication Enable
+        # 'rest_framework.authentication.SessionAuthentication', # for session-based login
     ),
 }
 
@@ -77,10 +81,12 @@ MIDDLEWARE = [
 ]
 
 
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React/Vue frontend URL
     "https://bharatstorytellers.com",  # Production URL
 ]
+
 
 ROOT_URLCONF = 'bst_api.urls'
 TEMPLATES = [

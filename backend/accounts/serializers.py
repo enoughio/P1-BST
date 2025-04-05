@@ -2,13 +2,29 @@ from rest_framework import serializers
 from .models import Member, Admin
 from bst.models.project import Project
 
+
 from django.contrib.auth import get_user_model
 
 class UserSerializer(serializers.ModelSerializer):
+    role = serializers.SerializerMethodField()
+    occupation = serializers.SerializerMethodField()
+
     class Meta:
         model = get_user_model()
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation',)
         read_only_fields = ('id', 'username', 'email')
+
+    def get_role(self, user):
+        if hasattr(user, 'member'):
+            return user.member.role
+        elif hasattr(user, 'admin'):
+            return user.admin.role
+        return "User"
+
+    def get_occupation(self, user):
+        if hasattr(user, 'member'):
+            return user.member.occupation
+        return None
 
 # creating a member uske liye serializer
 class MemberRegisterSerializer(serializers.ModelSerializer):
