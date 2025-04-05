@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Clock, GanttChartSquare, Star, Trophy, User } from "lucide-react"
 import Link from "next/link"
-import { headers } from "next/headers"
+
 
 // Mock API function to get member data
 const getMemberData = async () => {
