@@ -2,6 +2,14 @@ from rest_framework import serializers
 from .models import Member, Admin
 from bst.models.project import Project
 
+from django.contrib.auth import get_user_model
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        read_only_fields = ('id', 'username', 'email')
+
 # creating a member uske liye serializer
 class MemberRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
