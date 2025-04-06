@@ -33,7 +33,7 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -184,7 +184,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # This folder should exist (even if empty)
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # collectstatic command will dump admin CSS/JS here
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+MEDIA_URLS ='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTH_USER_MODEL = 'accounts.User'

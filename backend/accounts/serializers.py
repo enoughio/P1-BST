@@ -26,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
             return user.member.occupation
         return None
 
+
 # creating a member uske liye serializer
 class MemberRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
