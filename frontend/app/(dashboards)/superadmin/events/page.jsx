@@ -1,9 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { getEvents, getClubs, highlightEvent } from "@/lib/api"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,319 +9,204 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, ChevronDown, Filter, MapPin, MoreHorizontal, Search, Star } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Plus, Trash, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast" 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 export default function EventsPage() {
   const [events, setEvents] = useState([])
-  const [clubs, setClubs] = useState([])
-  const [filteredEvents, setFilteredEvents] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedClub, setSelectedClub] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchEvents = async () => {
       try {
-        const eventsData = await getEvents()
-        const clubsData = await getClubs()
-
-        setEvents(eventsData)
-        setFilteredEvents(eventsData)
-        setClubs(clubsData)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching events:", error)
+        const response = await fetch("/api/superadmin/events")
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const data = await response.json()
+        setEvents(data)
+      } catch (e) {
+        setError(e)
+        console.error("Could not fetch events:", e)
+      } finally {
         setLoading(false)
       }
     }
 
-    fetchData()
+    fetchEvents()
   }, [])
-
-  useEffect(() => {
-    applyFilters()
-  }, [searchTerm, selectedClub, events])
-
-  const applyFilters = () => {
-    let filtered = [...events]
-
-    // Apply search filter
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase()
-      filtered = filtered.filter(
-        (event) =>
-          event.title.toLowerCase().includes(term) ||
-          event.description.toLowerCase().includes(term) ||
-          event.location.toLowerCase().includes(term),
-      )
-    }
-
-    // Apply club filter
-    if (selectedClub) {
-      filtered = filtered.filter((event) => event.club === selectedClub)
-    }
-
-    setFilteredEvents(filtered)
-  }
-
-  const getClubName = (clubId) => {
-    const club = clubs.find((c) => c.id === clubId)
-    return club ? club.name : clubId
-  }
 
   const handleToggleHighlight = async (event) => {
     try {
-      await highlightEvent(event.id, !event.highlighted)
-
-      // Update local state
-      const updatedEvents = events.map((e) => (e.id === event.id ? { ...e, highlighted: !e.highlighted } : e))
-
-      setEvents(updatedEvents)
-
-      toast({
-        title: event.highlighted ? "Event Unhighlighted" : "Event Highlighted",
-        description: `"${event.title}" has been ${event.highlighted ? "removed from" : "added to"} highlighted events.`,
+      const response = await fetch(`/api/superadmin/events/${event.id}/highlight`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ highlighted: !event.highlighted }),
       })
-    } catch (error) {
-      console.error("Error toggling event highlight:", error)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const updatedEvent = await response.json()
+
+      setEvents((prevEvents) => prevEvents.map((e) => (e.id === updatedEvent.id ? updatedEvent : e)))
+
       toast({
-        title: "Error",
-        description: "Failed to update event highlight status. Please try again.",
+        title: "Highlight Status Updated",
+        description: `Event ${updatedEvent.highlighted ? "highlighted" : "unhighlighted"} successfully.`,
+      })
+    } catch (e) {
+      setError(e)
+      console.error("Could not toggle highlight:", e)
+      toast({
         variant: "destructive",
+        title: "Error",
+        description: "Failed to update highlight status.",
       })
     }
   }
 
-  const isUpcoming = (date) => {
-    return new Date(date) > new Date()
+  const handleDeleteEvent = async () => {
+    if (!selectedEvent) return
+
+    try {
+      const response = await fetch(`/api/superadmin/events/${selectedEvent.id}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      setEvents((prevEvents) => prevEvents.filter((e) => e.id !== selectedEvent.id))
+      setIsDeleteDialogOpen(false)
+      setSelectedEvent(null)
+
+      toast({
+        title: "Event Deleted",
+        description: "Event deleted successfully.",
+      })
+    } catch (e) {
+      setError(e)
+      console.error("Could not delete event:", e)
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to delete event.",
+      })
+    }
   }
 
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
+
   return (
-    <AdminLayout>
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">All Events</h1>
-            <p className="text-muted-foreground">Manage events across all clubs in the organization.</p>
-          </div>
+    <div className="container mx-auto py-10">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">All Events</h1>
+          <p className="text-gray-500">Manage events across all clubs in the organization.</p>
         </div>
-
-        <div className="space-y-4">
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <div className="relative w-full sm:w-64">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search events..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-8"
-              />
-            </div>
-
-            <div className="w-full sm:w-64">
-              <Select value={selectedClub || ""} onValueChange={(value) => setSelectedClub(value || null)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter by club" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Clubs</SelectItem>
-                  {clubs.map((club) => (
-                    <SelectItem key={club.id} value={club.id}>
-                      {club.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex items-center gap-2 ml-auto">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-1">
-                    <Filter className="h-4 w-4" />
-                    <span className="hidden sm:inline">Filter</span>
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => setFilteredEvents(events)}>All Events</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setFilteredEvents(events.filter((e) => isUpcoming(e.date)))}>
-                    Upcoming Events
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setFilteredEvents(events.filter((e) => e.highlighted))}>
-                    Highlighted Events
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-
-          <Tabs defaultValue="grid" className="space-y-4">
-            <TabsList className="ml-auto">
-              <TabsTrigger value="grid">Grid</TabsTrigger>
-              <TabsTrigger value="list">List</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="grid" className="space-y-4">
-              {loading ? (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {[...Array(3)].map((_, i) => (
-                    <Card key={i} className="animate-pulse">
-                      <CardHeader className="h-40 bg-muted/40"></CardHeader>
-                      <CardContent className="h-24 mt-4 space-y-2">
-                        <div className="h-4 bg-muted/60 rounded w-1/2"></div>
-                        <div className="h-4 bg-muted/60 rounded w-full"></div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              ) : filteredEvents.length === 0 ? (
-                <div className="text-center py-10">
-                  <p className="text-muted-foreground mb-4">No events found.</p>
-                </div>
-              ) : (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {filteredEvents.map((event) => (
-                    <Card key={event.id} className="flex flex-col overflow-hidden">
-                      <div className="relative aspect-video bg-muted">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <img
-                            src={
-                              event.image ||
-                              `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(event.title)}`
-                            }
-                            alt={event.title}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        {event.highlighted && (
-                          <div className="absolute top-2 right-2">
-                            <Badge className="bg-yellow-500">
-                              <Star className="mr-1 h-3 w-3" />
-                              Highlighted
-                            </Badge>
-                          </div>
-                        )}
-                      </div>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="line-clamp-1">{event.title}</CardTitle>
-                        <CardDescription className="flex items-center text-sm">
-                          <Calendar className="mr-1 h-4 w-4" />
-                          {event.formattedDate}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="pb-2">
-                        <p className="text-sm text-muted-foreground line-clamp-2">{event.description}</p>
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          <Badge variant="outline">{getClubName(event.club)}</Badge>
-                          {event.categories &&
-                            event.categories.slice(0, 2).map((category, i) => (
-                              <Badge variant="outline" key={i}>
-                                {category}
-                              </Badge>
-                            ))}
-                        </div>
-                      </CardContent>
-                      <CardFooter className="flex justify-between pt-2 mt-auto">
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <MapPin className="mr-1 h-3 w-3" />
-                          <span className="truncate max-w-[120px]">{event.location}</span>
-                        </div>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Actions</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                              <Link href={`/superadmin/events/${event.id}`}>View Details</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleToggleHighlight(event)}>
-                              {event.highlighted ? <>Remove Highlight</> : <>Highlight Event</>}
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="list">
-              <Card>
-                <CardContent className="p-0">
-                  <div className="rounded-md border">
-                    <div className="p-4">
-                      <div className="grid grid-cols-6 font-medium">
-                        <div>Event</div>
-                        <div>Date & Time</div>
-                        <div>Location</div>
-                        <div>Club</div>
-                        <div>Attendees</div>
-                        <div>Actions</div>
-                      </div>
-                    </div>
-                    <div className="divide-y">
-                      {filteredEvents.map((event) => (
-                        <div key={event.id} className="grid grid-cols-6 p-4">
-                          <div className="font-medium flex items-center">
-                            {event.highlighted && <Star className="mr-1 h-4 w-4 text-yellow-500" />}
-                            {event.title}
-                          </div>
-                          <div>
-                            {event.formattedDate}, {event.time}
-                          </div>
-                          <div>{event.location}</div>
-                          <div>{getClubName(event.club)}</div>
-                          <div>
-                            {event.attendees}/{event.maxCapacity}
-                          </div>
-                          <div>
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                  <MoreHorizontal className="h-4 w-4" />
-                                  <span className="sr-only">Actions</span>
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/events/${event.id}`}>View Details</Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => handleToggleHighlight(event)}>
-                                  {event.highlighted ? <>Remove Highlight</> : <>Highlight Event</>}
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+        <div className="flex items-center gap-2">
+          <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Link href="/superadmin/events/add">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Event
+            </Link>
+          </Button>
         </div>
       </div>
-    </AdminLayout>
+      <div className="mt-8">
+        <Table>
+          <TableCaption>A list of all events in the organization.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">ID</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Club</TableHead>
+              <TableHead>Highlighted</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {events.map((event) => (
+              <TableRow key={event.id}>
+                <TableCell className="font-medium">{event.id}</TableCell>
+                <TableCell>{event.name}</TableCell>
+                <TableCell>{event.clubName}</TableCell>
+                <TableCell>{event.highlighted ? "Yes" : "No"}</TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href={`/superadmin/events/${event.id}`}>View Details</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleToggleHighlight(event)}>
+                        {event.highlighted ? <>Remove Highlight</> : <>Highlight Event</>}
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        className="text-destructive focus:text-destructive"
+                        onClick={() => {
+                          setSelectedEvent(event)
+                          setIsDeleteDialogOpen(true)
+                        }}
+                      >
+                        <Trash className="mr-2 h-4 w-4" />
+                        Delete Event
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the event from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteEvent}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
   )
 }
 

@@ -8,11 +8,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CalendarClock, Mail, MapPin, Phone, Users } from "lucide-react"
 
 
-const getClubInfo = async() => {
+const getClubInfo = async({id}) => {
   
     // const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
     // try {
-
     //   const response = await fetch(`${BASE_URL}/club-info/`,
     //     {
     //       method: "GET",
@@ -33,7 +32,7 @@ const getClubInfo = async() => {
     //   console.error("Error fetching club information:", error)
     // }
 
-
+//fallback data
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -279,7 +278,7 @@ export default function ClubInfoPage() {
                 <TabsContent value="achievements" className="space-y-6">
 
                   {
-                    clubInfo.achievements.length > 0 ? (
+                    clubInfo.achievements && clubInfo.achievements.length > 0 ? (
                       <div className="space-y-4">
                       {clubInfo.achievements.map((achievement) => (
                         <Card key={achievement.id}>

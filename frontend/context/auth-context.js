@@ -21,13 +21,13 @@ export const AuthProvider = ({children}) => {
         gender: "male",
         dob: "1990-01-15",
         id_proof: "ABCD1234",
-        club: "1",
+        clubId: "1",
         clubName: "Bhopal Storytellers",
         occupation: "Software Engineer",
         membershipExpiryDate: "2023-05-15",
         joinDate: "2022-05-15",
         bio: "Passionate about public speaking and leadership development. I joined Storytellers to improve my communication skills and connect with like-minded individuals.",
-        role: "member"
+        role: "superadmin"
     }
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
