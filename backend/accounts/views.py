@@ -159,7 +159,7 @@ class LoginAPIView(APIView):
 
 # logout 
 class LogoutAPIView(APIView):
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [CookieTokenAuthentication]
     permission_classes = [IsAuthenticated] # User Login Hona Chahiye
 
     def post(self, request):
