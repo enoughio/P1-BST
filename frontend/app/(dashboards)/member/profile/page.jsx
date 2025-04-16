@@ -25,15 +25,6 @@ const getMemberProfile = async() => {
         "Content-Type": "application/json",
       },
     })
-
-    
-    // const response2 = await fetch(`${process.env.BACKEND_URL}/api/accounts/members/${user.username}/additional`, {
-      //   method: "GET",
-      //   credentials: "include",
-    //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
       
       if (!response.ok) {
         throw new Error("Failed to fetch member profile")

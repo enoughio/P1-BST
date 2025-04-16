@@ -6,13 +6,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CalendarClock, Mail, MapPin, Phone, Users } from "lucide-react"
+import { useAuth } from "@/context/auth-context"
 
 
-const getClubInfo = async({id}) => {
+const getClubInfo = async(id) => {
   
     // const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
     // try {
-    //   const response = await fetch(`${BASE_URL}/club-info/`,
+    //   const response = await fetch(`${BASE_URL}//api/bst/clubs/${id}/`,
     //     {
     //       method: "GET",
     //       credentials: "include",
@@ -124,13 +125,13 @@ const getClubInfo = async({id}) => {
 export default function ClubInfoPage() {
   const [clubInfo, setClubInfo] = useState(null)
   const [loading, setLoading] = useState(true)
-
+  const { user } = useAuth()
   
 
   useEffect(() => {
     const fetchClubInfo = async () => {
       try {
-        const data = await getClubInfo()
+        const data = await getClubInfo(user.clubId)
         setClubInfo(data)
         setLoading(false)
       } catch (error) {
