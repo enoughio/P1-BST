@@ -36,8 +36,8 @@ urlpatterns = [
     # [Member Profile & Dashboard]
     path("members/<str:username>/dashboard/", MemberRetriveAPIView.as_view(), name="member-dashboard"),  # Get Member Dashboard
     path("members/<str:username>/basic/", MemberUpdateBasicInfoAPIView.as_view(), name="update-member-basic-info"),  # Update Basic Info
-    path("members/<str:username>/additional/", MemberUpdateAdditionalInfoAPIView.as_view(), name="update-member-additional-info"),  # Update Additional Info
-    path("members/<str:username>/membership/", MemberUpdateAdditionalInfoAPIView.as_view(), name="update-member-additional-info"),  # membership
+    path("members/<str:username>/additional-info/", MemberUpdateAdditionalInfoAPIView.as_view(), name="update-member-additional-info"),  # Update Additional Info
+    path("members/<str:username>/membership-info/", MemberUpdateAdditionalInfoAPIView.as_view(), name="update-member-additional-info"),  # membership
 
     # [Admin] - Member Management (Read, Update, Assign)
     path('members/<str:username>/activate-membership/', MembershipActivateAPIView.as_view(), name='activate-membership'),

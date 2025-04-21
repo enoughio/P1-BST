@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import UserManager
-from bst.models import club, project
+
+from bst.models import club, award
+
 import uuid
 from PIL import Image
-import datetime
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 # User Model
@@ -17,13 +19,14 @@ class User(AbstractUser):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=10, blank=True, null=True)
+    mobile = models.CharField(max_length=10, blank=True, null=True)
     avatar = models.ImageField(upload_to='profile_images/', default='default.jpg', blank=True)
     address = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='Male')
-    dob = models.DateField(default=datetime.date.today)
+    dob = models.DateField(default=timezone.now)
     id_proof = models.FileField(upload_to='id_proofs/', blank=True, null=True)
     club = models.ForeignKey(club.Club, on_delete=models.CASCADE, null=True, blank=True)
+    join_date = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -64,10 +67,7 @@ class Member(User):
 
     role = models.CharField(max_length=20, default='Member')
     occupation = models.CharField(max_length=20, choices=OCCUPATION_CHOICES, default='Student')
-
-    project = models.ForeignKey(project.Project, on_delete=models.SET_NULL, blank=True, null=True)
-    assigned_date = models.DateTimeField(blank=True, null=True)
-    completion_date = models.DateTimeField(blank=True, null=True)
+    awards = models.ManyToManyField(award.Award, related_name='members',blank=True, null=True)
 
     class Meta:
         verbose_name = "Member"

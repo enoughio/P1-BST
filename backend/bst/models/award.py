@@ -1,10 +1,11 @@
 from django.db import models
 
-# from accounts.models import 
+from django.utils import timezone
 
-# class Award(models.Model):
-#     title = models.CharField(max_length=255, blank=True, null=True)
-#     description = models.TextField(blank=True, null=True)
-#     user = models.ForeignKey(User, related_name="user_award", on_delete=models.CASCADE)
-#     awarded_by = models.ForeignKey(User, related_name="awarded_by_user", on_delete=models)
-#     awarded_at = models.DateField(default='01-01-2025')
+class Award(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateField(default=timezone.now)
+    type = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return self.title or ""

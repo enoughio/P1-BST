@@ -11,23 +11,27 @@ from rest_framework import generics, response, status
 
 from accounts.models import Member, Admin
 
-from bst.models import club, event, event_registration, meeting, project, membership, membership_history
-from bst.models.event_registration import Payment
+from bst.models import club, event, event_registration, meeting, project, award, membership, membership_history
 
+from accounts.serializers import MemberSerializer
 from bst.serializers import (ClubSerializer,
                              EventSerializer,
                              EventRegisterSerializer,
                              MeetingSerializer,
                              ProjectSerializer,
+                             ProjectHistorySerializer,
                              MembershipSerializer,
                              MembershipActivateSerializer,
-                             MembershipHistorySerializer
+                             MembershipHistorySerializer,
+                             AwardSerializer,
+
+                             InitiativeSerializer,   
+
                              )
 
 
 from rest_framework.permissions import BasePermission
 from django.utils import timezone
-
 from django.shortcuts import get_object_or_404
 
 def get_real_instance(user):
@@ -163,10 +167,10 @@ class EventRegisterAPIView(generics.CreateAPIView):
 
 
 class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
-    queryset = project.Project.objects.all()
-    serializer_class = ProjectSerializer
+    queryset = project.ProjectHistory.objects.all()
+    serializer_class = ProjectHistorySerializer
 
-    permission_classes = [AdminLevelPermission]
+    # permission_classes = [AdminLevelPermission]
 
     def get(self, request):
         return self.list(request)
@@ -237,3 +241,47 @@ class MembershipHistoryListAPIView(GenericAPIView, ListModelMixin):
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+
+
+class MembersByClubAPIView(APIView):
+    def get(self, request):
+        club_id = request.GET.get('club_id')
+        if not club_id:
+            return Response({"error": "Club ID required"}, status=400)
+
+        members = Member.objects.filter(club_id=club_id)
+        serializer = MemberSerializer(members, many=True)
+        return Response(serializer.data)
+
+
+
+
+class AwardAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = award.Award.objects.all()
+    serializer_class = AwardSerializer
+
+    def post(self, request):
+        return self.create(request)
+    
+    def get(self, request):
+        return self.list(request)
+    
+
+class MeetingAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = meeting.Meeting.objects.all()
+    serializer_class = MeetingSerializer
+
+    def post(self, request):
+        return self.create(request)
+    
+    def get(self, request):
+        return self.list(request)
+
+
+class InitiativeAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = club.Initiative.objects.all()
+    serializer_class = InitiativeSerializer
+
+    def get(self, request):
+        return self.list(request)
