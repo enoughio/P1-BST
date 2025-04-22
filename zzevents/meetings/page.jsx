@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import AdminLayout from "@/components/admin-layout";
-import { getMeetings, assignRole } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react"
+import AdminLayout from "@/components/admin-layout"
+import { getMeetings, assignRole } from "@/lib/api"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -12,111 +12,111 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
-import { Calendar, Clock, MapPin, Plus, Users } from "lucide-react";
-import Link from "next/link";
-import { getMembers } from "@/lib/api";
+} from "@/components/ui/dialog"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useToast } from "@/hooks/use-toast"
+import { Calendar, Clock, MapPin, Plus, Users } from "lucide-react"
+import Link from "next/link"
+import { getMembers } from "@/lib/api"
 
 export default function MeetingsPage() {
-  const [meetings, setMeetings] = useState([]);
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedMeeting, setSelectedMeeting] = useState(null);
-  const [selectedRoleIndex, setSelectedRoleIndex] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isAssigning, setIsAssigning] = useState(false);
-  const { toast } = useToast();
+  const [meetings, setMeetings] = useState([])
+  const [members, setMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [selectedMeeting, setSelectedMeeting] = useState(null)
+  const [selectedRoleIndex, setSelectedRoleIndex] = useState(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isAssigning, setIsAssigning] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const meetingsData = await getMeetings("1");
-        const membersData = await getMembers("1");
+        const meetingsData = await getMeetings("1")
+        const membersData = await getMembers("1")
 
-        setMeetings(meetingsData);
-        setMembers(membersData);
-        setLoading(false);
+        setMeetings(meetingsData)
+        setMembers(membersData)
+        setLoading(false)
       } catch (error) {
-        console.error("Error fetching meeting data:", error);
-        setLoading(false);
+        console.error("Error fetching meeting data:", error)
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   const handleAssignRole = (meeting, roleIndex) => {
-    setSelectedMeeting(meeting);
-    setSelectedRoleIndex(roleIndex);
-    setIsDialogOpen(true);
-  };
+    setSelectedMeeting(meeting)
+    setSelectedRoleIndex(roleIndex)
+    setIsDialogOpen(true)
+  }
 
   const handleSubmitRoleAssignment = async (memberId) => {
-    if (!selectedMeeting || selectedRoleIndex === null) return;
+    if (!selectedMeeting || selectedRoleIndex === null) return
 
-    setIsAssigning(true);
+    setIsAssigning(true)
 
     try {
-      await assignRole(selectedMeeting.id, selectedRoleIndex, memberId);
+      await assignRole(selectedMeeting.id, selectedRoleIndex, memberId)
 
       // Update local state
       const updatedMeetings = meetings.map((meeting) => {
         if (meeting.id === selectedMeeting.id) {
-          const updatedRoles = [...meeting.roles];
+          const updatedRoles = [...meeting.roles]
           updatedRoles[selectedRoleIndex] = {
             ...updatedRoles[selectedRoleIndex],
             assignedTo: memberId,
-          };
-          return { ...meeting, roles: updatedRoles };
+          }
+          return { ...meeting, roles: updatedRoles }
         }
-        return meeting;
-      });
+        return meeting
+      })
 
-      setMeetings(updatedMeetings);
-      setIsDialogOpen(false);
+      setMeetings(updatedMeetings)
+      setIsDialogOpen(false)
 
       toast({
         title: "Role Assigned",
         description: "The role has been successfully assigned.",
-      });
+      })
     } catch (error) {
-      console.error("Error assigning role:", error);
+      console.error("Error assigning role:", error)
       toast({
         title: "Error",
         description: "Failed to assign role. Please try again.",
         variant: "destructive",
-      });
+      })
     } finally {
-      setIsAssigning(false);
+      setIsAssigning(false)
     }
-  };
+  }
 
   const getMemberName = (memberId) => {
-    if (!memberId) return "Unassigned";
-    const member = members.find((m) => m.id === memberId);
-    return member ? `${member.first_name} ${member.last_name}` : "Unknown";
-  };
+    if (!memberId) return "Unassigned"
+    const member = members.find((m) => m.id === memberId)
+    return member ? `${member.first_name} ${member.last_name}` : "Unknown"
+  }
 
   const groupMeetingsByMonth = () => {
-    const grouped = {};
+    const grouped = {}
 
     meetings.forEach((meeting) => {
-      const date = new Date(meeting.date);
-      const month = date.toLocaleString("default", { month: "long", year: "numeric" });
+      const date = new Date(meeting.date)
+      const month = date.toLocaleString("default", { month: "long", year: "numeric" })
 
       if (!grouped[month]) {
-        grouped[month] = [];
+        grouped[month] = []
       }
 
-      grouped[month].push(meeting);
-    });
+      grouped[month].push(meeting)
+    })
 
-    return grouped;
-  };
+    return grouped
+  }
 
   return (
     <AdminLayout>
@@ -326,6 +326,6 @@ export default function MeetingsPage() {
         </DialogContent>
       </Dialog>
     </AdminLayout>
-  );
+  )
 }
 

@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import AdminLayout from "@/components/admin-layout";
-import { getEvents, deleteEvent } from "@/lib/api";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react"
+import AdminLayout from "@/components/admin-layout"
+import { getEvents, deleteEvent } from "@/lib/api"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu"
 import {
   Dialog,
   DialogContent,
@@ -19,85 +19,85 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, ChevronDown, Filter, MapPin, MoreHorizontal, Plus, Star, Users } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import Link from "next/link";
+} from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Calendar, ChevronDown, Filter, MapPin, MoreHorizontal, Plus, Star, Users } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import Link from "next/link"
 
 export default function EventsPage() {
-  const [events, setEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const { toast } = useToast();
+  const [events, setEvents] = useState([])
+  const [filteredEvents, setFilteredEvents] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const data = await getEvents("1");
-        setEvents(data);
-        setFilteredEvents(data);
-        setLoading(false);
+        const data = await getEvents("1")
+        setEvents(data)
+        setFilteredEvents(data)
+        setLoading(false)
       } catch (error) {
-        console.error("Error fetching events:", error);
-        setLoading(false);
+        console.error("Error fetching events:", error)
+        setLoading(false)
       }
-    };
+    }
 
-    fetchEvents();
-  }, []);
+    fetchEvents()
+  }, [])
 
   useEffect(() => {
     // Filter events when search term changes
     if (searchTerm) {
-      const term = searchTerm.toLowerCase();
+      const term = searchTerm.toLowerCase()
       const filtered = events.filter(
         (event) =>
           event.title.toLowerCase().includes(term) ||
           event.description.toLowerCase().includes(term) ||
-          event.location.toLowerCase().includes(term)
-      );
-      setFilteredEvents(filtered);
+          event.location.toLowerCase().includes(term),
+      )
+      setFilteredEvents(filtered)
     } else {
-      setFilteredEvents(events);
+      setFilteredEvents(events)
     }
-  }, [searchTerm, events]);
+  }, [searchTerm, events])
 
   const handleDelete = async () => {
-    if (!selectedEvent) return;
+    if (!selectedEvent) return
 
     try {
-      await deleteEvent(selectedEvent.id);
+      await deleteEvent(selectedEvent.id)
 
       // Update local state
-      setEvents(events.filter((e) => e.id !== selectedEvent.id));
-      setFilteredEvents(filteredEvents.filter((e) => e.id !== selectedEvent.id));
+      setEvents(events.filter((e) => e.id !== selectedEvent.id))
+      setFilteredEvents(filteredEvents.filter((e) => e.id !== selectedEvent.id))
 
-      setIsDeleteDialogOpen(false);
+      setIsDeleteDialogOpen(false)
 
       toast({
         title: "Event Deleted",
         description: "The event has been successfully deleted.",
-      });
+      })
     } catch (error) {
-      console.error("Error deleting event:", error);
+      console.error("Error deleting event:", error)
       toast({
         title: "Error",
         description: "Failed to delete event. Please try again.",
         variant: "destructive",
-      });
+      })
     }
-  };
+  }
 
   const isUpcoming = (date) => {
-    return new Date(date) > new Date();
-  };
+    return new Date(date) > new Date()
+  }
 
   return (
     <AdminLayout>
@@ -247,8 +247,8 @@ export default function EventsPage() {
                             <DropdownMenuItem
                               className="text-destructive focus:text-destructive"
                               onClick={() => {
-                                setSelectedEvent(event);
-                                setIsDeleteDialogOpen(true);
+                                setSelectedEvent(event)
+                                setIsDeleteDialogOpen(true)
                               }}
                             >
                               Delete Event
@@ -310,8 +310,8 @@ export default function EventsPage() {
                                 <DropdownMenuItem
                                   className="text-destructive focus:text-destructive"
                                   onClick={() => {
-                                    setSelectedEvent(event);
-                                    setIsDeleteDialogOpen(true);
+                                    setSelectedEvent(event)
+                                    setIsDeleteDialogOpen(true)
                                   }}
                                 >
                                   Delete Event
@@ -349,5 +349,6 @@ export default function EventsPage() {
         </DialogContent>
       </Dialog>
     </AdminLayout>
-  );
+  )
 }
+
