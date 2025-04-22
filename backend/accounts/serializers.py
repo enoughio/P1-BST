@@ -1,10 +1,15 @@
 from rest_framework import serializers
-from .models import Member, Admin
-from bst.models.project import Project
 
+from bst.serializers import AwardSerializer, MeetingSerializer
+from .models import Member, Admin
+from bst.models import project, meeting
+
+from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 
+
+# current_user (i.e. user) object keLiye 
 class UserSerializer(serializers.ModelSerializer):
     role = serializers.SerializerMethodField()
     occupation = serializers.SerializerMethodField()
@@ -35,7 +40,7 @@ class MemberRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         # fields = '__all__'
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'mobile', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation', 'password']
         read_only_fields = ['role']
 
     # create ko call karna jruri h, kyoki field that is not writable (response mein nhi aate hn i.e. pwd). usko create() ko override krke resolve kro
@@ -50,14 +55,63 @@ class MemberRegisterSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
-    project_title = serializers.SerializerMethodField() # Custom field
+    # project_title = serializers.SerializerMethodField() # Custom field
+    name = serializers.SerializerMethodField()
+    club_name = serializers.SerializerMethodField()
+    join_date = serializers.DateTimeField(format="%d-%b-%Y %I:%M %p")
+    membership_start_date = serializers.SerializerMethodField()
+    membership_expiry_date = serializers.SerializerMethodField()
+    completed_projects = serializers.SerializerMethodField()
+    active_projects = serializers.SerializerMethodField()
+    upcoming_meetings = serializers.SerializerMethodField()
+    achievements = AwardSerializer(source='awards', many=True)
 
     class Meta:
         model = Member
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'occupation', 'project_title', 'assinged_date', 'completion_date']
+        fields = ['name', 'username', 'email', 'mobile', 'club_name', 'join_date', 'membership_start_date', 'membership_expiry_date', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'occupation', 'completed_projects', 'active_projects', 'upcoming_meetings', 'achievements']
+    
+    def get_name(self, obj):
+        return f"{obj.first_name} {obj.last_name if obj.last_name is not None else ""}"
+    
+    def get_club_name(self, obj):
+        return obj.club.club_name
+    
+    def get_membership_start_date(self, obj):
+        history = obj.membershiphistory_set.order_by('-start_date').first()
+        return history.start_date if history else None
 
-    def get_project_title(self, obj):  # 'get_' ke baad custom_field ka naam aayega
-        return obj.project.title if obj.project else None # Agar project exist kare to title dega, warna None
+    def get_membership_expiry_date(self, obj):
+        history = obj.membershiphistory_set.order_by('-start_date').first()
+        return history.end_date if history else None
+    
+    def get_completed_projects(self, obj):
+        now = timezone.now()
+        return project.ProjectHistory.objects.filter(
+            member=obj,
+            deadline__lt=now
+        ).count()
+    
+    def get_active_projects(self, obj):
+        now = timezone.localtime(timezone.now())
+        projects = project.ProjectHistory.objects.filter(
+            member=obj, 
+            deadline__gte=now
+        )
+
+        return [
+            {
+                "id": project.project.project_id,
+                "title": project.project.title,
+                "assigned_date": project.assigned_date.strftime("%d-%b-%Y %I:%M %p"),   # "09-Apr-2025 07:42 PM"
+                "deadline": project.deadline.strftime("%d-%b-%Y %I:%M %p"),
+                "current_time": now.strftime("%d-%b-%Y %I:%M %p")
+            } for project in projects
+        ]
+    
+    def get_upcoming_meetings(self, obj):
+        today = timezone.localtime().date()
+        meetings = meeting.Meeting.objects.filter(club=obj.club, date__gte=today).order_by('date')
+        return MeetingSerializer(meetings, many=True).data
 
 
 class MemberListSerializer(serializers.HyperlinkedModelSerializer):
@@ -65,6 +119,7 @@ class MemberListSerializer(serializers.HyperlinkedModelSerializer):
         view_name = 'member-detail',
         lookup_field = 'username'
     )
+
     class Meta:
         model = Member
         fields = ['username', 'dashboard']
@@ -79,7 +134,7 @@ class MemberBasicInfoSerializer(serializers.ModelSerializer):
 class MemberAdditionalInfoSerialzer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ['address', 'dob', 'occupation']
+        fields = ['address', 'dob', 'occupation', 'awards']
 
 
     

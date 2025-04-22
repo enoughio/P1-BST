@@ -19,6 +19,12 @@ from .views import (ClubCreateAPIView,
                     MembershipAPIView,
                     MembershipActivateAPIView,
                     MembershipHistoryListAPIView,
+
+                    MembersByClubAPIView,    
+                    AwardAPIView,
+                    MeetingAPIView,
+
+                    InitiativeAPIView,
                     ) 
 
 urlpatterns = [
@@ -37,11 +43,18 @@ urlpatterns = [
     # path('payments/verify/', VerifyPaymentView.as_view(), name='verify-payment'),
     
     
-    path('project/', ProjectAPIView.as_view(), name='create-project'),
-    path('project/', ProjectAPIView.as_view(), name='list-project'),
-    path('project/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='get-project'),
-    path('project/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='update-project'),
+    path('projects/', ProjectAPIView.as_view(), name='create-project'),
+    path('projects/', ProjectAPIView.as_view(), name='list-project'),
+    path('projects/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='get-project'),
+    path('projects/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='update-project'),
+
+    path('members/by-club/', MembersByClubAPIView.as_view()),
+    
+    path('awards/', AwardAPIView.as_view(), name='create-award'),
+    path('meetings/', MeetingAPIView.as_view(), name='create-meeting'),
 
     path('membership/create/', MembershipAPIView.as_view(), name='create-membership'),
+
+    path('initiatives/', InitiativeAPIView.as_view(), name='list-initiatives')
 ]
 

@@ -132,7 +132,7 @@ class LoginAPIView(APIView):
                     'last_name': user.last_name,
                     'username': user.username,
                     'email': user.email,
-                    'phone': user.phone,
+                    'phone': user.mobile,
                     'avatar': user.avatar.url if user.avatar else None,
                     'address': user.address,
                     'gender': user.gender,
@@ -216,7 +216,7 @@ class MemberUpdateBasicInfoAPIView(generics.RetrieveUpdateAPIView):
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
     
 class MemberUpdateAdditionalInfoAPIView(generics.RetrieveUpdateAPIView):
@@ -224,12 +224,12 @@ class MemberUpdateAdditionalInfoAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = MemberAdditionalInfoSerialzer
     lookup_field = 'username'
 
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
     
 
@@ -331,7 +331,7 @@ class RegisterAdminAPIView(GenericAPIView, CreateModelMixin):
     # serializer_class = MemberRegisterSerializer
     serializer_class = AdminSerializer
 
-    permission_classes = [SuperAdminLevelPermission]
+    # permission_classes = [SuperAdminLevelPermission]
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)

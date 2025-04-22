@@ -1,29 +1,18 @@
 from django.db import models
 
 from bst.models.club import Club
-
 from accounts.models import Member
 
-from datetime import datetime
-
+from django.utils import timezone
 from django.core.exceptions import ValidationError
 
-
-def get_alphanumeric_id():
-    last_club = Club.objects.order_by("-club_id").first()
-    if not last_club:
-        return "M0000"
-    
-    last_id = int(last_club.club_id[1:])
-    return f"M{last_id + 1:04d}"    # 4-digit consistent rkhne keLiye
-
-
-
 class Meeting(models.Model):
-    # meeting_id = models.CharField(max_length=3, primary_key=True, default=random.randint(100, 999), editable=False)
-    meeting_id = models.CharField(max_length=5, primary_key=True, default=get_alphanumeric_id, editable=False)
-    agenda = models.CharField(blank=True, null=True)
-    schedule = models.DateTimeField(default=datetime.now, blank=True, null=True) # Manually editable
+    meeting_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateField(default=timezone.now)
+    start_time = models.TimeField(default=timezone.now)
+    end_time = models.TimeField(default=timezone.now)
+    description = models.CharField(max_length=255, blank=True, null=True)
     
     @property
     def location(self):
@@ -40,7 +29,6 @@ class Meeting(models.Model):
 
     created_at = models.DateField(auto_now_add=True, blank=True, null=True) #Sirf first time create hone par date set hogi, baad me change nahi hogi.
 
-
     def clean(self):
         if self.MOC and self.MOC.club != self.club:
             raise ValidationError("MOC must belong to the selected club.")
@@ -48,13 +36,11 @@ class Meeting(models.Model):
             raise ValidationError("OMC must belong to the selected club.")
         if self.CE and self.CE.club != self.club:
             raise ValidationError("CE must belong to the selected club.")
-        
     
     def save(self, *args, **kwargs):
         """ Calling clean() before saving the model to enforce validation """
         self.clean()
         super(Meeting, self).save(*args, **kwargs)
 
-
     def __str__(self):
-        return self.agenda
+        return self.title
