@@ -16,6 +16,7 @@ export const AuthProvider = ({children}) => {
         username: "johndoe",
         email: "john.doe@example.com",
         phone: "123-456-7890",
+        inicative: "Bhopal Storytellers",
         avatar: null,
         address: "123 Main St, Bhopal, MP",
         gender: "male",
@@ -27,7 +28,7 @@ export const AuthProvider = ({children}) => {
         membershipExpiryDate: "2023-05-15",
         joinDate: "2022-05-15",
         bio: "Passionate about public speaking and leadership development. I joined Storytellers to improve my communication skills and connect with like-minded individuals.",
-        role: "superadmin"
+        role: "superadmin",
     }
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
