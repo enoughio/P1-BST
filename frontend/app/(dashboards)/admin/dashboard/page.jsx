@@ -47,6 +47,8 @@ export default function AdminDashboard() {
           getRequests('1'),
         ])
 
+        console.log("membersData", membersData)
+
         // Set data to state
 
         setMembers(membersData)
