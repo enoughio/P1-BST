@@ -281,7 +281,7 @@ const mockMeetings = [
     description: "Regular weekly meeting with prepared speeches and evaluations",
     club: "1",
     roles: [
-      { role: "Toastmaster of the Evening", assignedTo: "1" },
+      { role: "master of ceramony", assignedTo: "1" },
       { role: "Timer", assignedTo: "2" },
       { role: "Ah Counter", assignedTo: "4" },
       { role: "Grammarian", assignedTo: null },

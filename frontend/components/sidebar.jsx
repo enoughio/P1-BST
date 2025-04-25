@@ -14,6 +14,7 @@ import {
   Building2,
   Bell,
   Flag,
+  Book,
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -25,15 +26,17 @@ export function Sidebar({ className }) {
 
   // Determine navigation links based on role
   const navigationLinks = isSuperAdminPage
-    ? [
-        { name: "Dashboard", href: "/superadmin/dashboard", icon: LayoutDashboard },
-        { name: "Clubs", href: "/superadmin/clubs", icon: Building2 },
-        { name: "All Members", href: "/superadmin/members", icon: Users },
-        { name: "Club Admins", href: "/superadmin/club-admins", icon: Users },
-        { name: "Events", href: "/superadmin/events", icon: CalendarRange },
-        { name: "Requests", href: "/superadmin/requests", icon: Bell },
-        { name: "Settings", href: "/superadmin/settings", icon: Settings },
-      ]
+  ? [
+    { name: "Dashboard", href: "/superadmin/dashboard", icon: LayoutDashboard },
+    { name: "Clubs", href: "/superadmin/clubs", icon: Building2 },
+    { name: "All Members", href: "/superadmin/members", icon: Users },
+    { name: "Club Admins", href: "/superadmin/club-admins", icon: Users },
+    { name: "Events", href: "/superadmin/events", icon: CalendarRange },
+    { name: "Projects", href: "/superadmin/projects", icon: GanttChartSquare },
+    { name: "Programs", href: "/superadmin/programs", icon: Book },
+    { name: "Requests", href: "/superadmin/requests", icon: Bell },
+    { name: "Settings", href: "/superadmin/settings", icon: Settings },
+  ]
     : [
         { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
         { name: "Members", href: "/admin/members", icon: Users },

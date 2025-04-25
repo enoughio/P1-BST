@@ -1,20 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useToast } from "@/hooks/use-toast"
-import { Loader2, Save } from "lucide-react"
+import { useState } from "react";
+import AdminLayout from "@/components/admin-layout";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2, Save } from "lucide-react";
 
 export default function SettingsPage() {
-  const [isSaving, setIsSaving] = useState(false)
-  const { toast } = useToast()
+  const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
 
   const [generalSettings, setGeneralSettings] = useState({
     organizationName: "Bharat Storytellers ",
@@ -23,7 +30,7 @@ export default function SettingsPage() {
     websiteUrl: "https://bharatstorytellers.com/",
     maxClubsPerAdmin: "3",
     maxMembersPerClub: "100",
-  })
+  });
 
   const [notificationSettings, setNotificationSettings] = useState({
     emailNotifications: true,
@@ -31,52 +38,55 @@ export default function SettingsPage() {
     eventReminders: true,
     requestNotifications: true,
     adminActivityAlerts: true,
-  })
+  });
 
   const [securitySettings, setSecuritySettings] = useState({
     twoFactorAuth: false,
     passwordExpiryDays: "90",
     sessionTimeoutMinutes: "30",
     allowMultipleLogins: true,
-  })
+  });
 
   const handleGeneralSettingsChange = (e) => {
-    const { name, value } = e.target
-    setGeneralSettings((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setGeneralSettings((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleNotificationToggle = (name, checked) => {
-    setNotificationSettings((prev) => ({ ...prev, [name]: checked }))
-  }
+    setNotificationSettings((prev) => ({ ...prev, [name]: checked }));
+  };
 
   const handleSecuritySettingsChange = (e) => {
-    const { name, value } = e.target
-    setSecuritySettings((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setSecuritySettings((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSecurityToggle = (name, checked) => {
-    setSecuritySettings((prev) => ({ ...prev, [name]: checked }))
-  }
+    setSecuritySettings((prev) => ({ ...prev, [name]: checked }));
+  };
 
   const handleSaveSettings = () => {
-    setIsSaving(true)
+    setIsSaving(true);
 
     // Simulate API call
     setTimeout(() => {
-      setIsSaving(false)
+      setIsSaving(false);
       toast({
         title: "Settings Saved",
         description: "Your settings have been successfully updated.",
-      })
-    }, 1000)
-  }
+      });
+    }, 1000);
+  };
 
+  //  <AdminLayout>
   return (
-    <AdminLayout>
+    <div>
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-          <p className="text-muted-foreground">Manage system-wide settings and configurations.</p>
+          <p className="text-muted-foreground">
+            Manage system-wide settings and configurations.
+          </p>
         </div>
 
         <Tabs defaultValue="general" className="space-y-4">
@@ -90,7 +100,9 @@ export default function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle>General Settings</CardTitle>
-                <CardDescription>Configure basic organization settings.</CardDescription>
+                <CardDescription>
+                  Configure basic organization settings.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -141,7 +153,9 @@ export default function SettingsPage() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="maxClubsPerAdmin">Max Clubs Per Admin</Label>
+                    <Label htmlFor="maxClubsPerAdmin">
+                      Max Clubs Per Admin
+                    </Label>
                     <Input
                       id="maxClubsPerAdmin"
                       name="maxClubsPerAdmin"
@@ -151,7 +165,9 @@ export default function SettingsPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="maxMembersPerClub">Max Members Per Club</Label>
+                    <Label htmlFor="maxMembersPerClub">
+                      Max Members Per Club
+                    </Label>
                     <Input
                       id="maxMembersPerClub"
                       name="maxMembersPerClub"
@@ -184,18 +200,26 @@ export default function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Notification Settings</CardTitle>
-                <CardDescription>Configure system-wide notification preferences.</CardDescription>
+                <CardDescription>
+                  Configure system-wide notification preferences.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="emailNotifications">Email Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Enable email notifications for system events.</p>
+                    <Label htmlFor="emailNotifications">
+                      Email Notifications
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Enable email notifications for system events.
+                    </p>
                   </div>
                   <Switch
                     id="emailNotifications"
                     checked={notificationSettings.emailNotifications}
-                    onCheckedChange={(checked) => handleNotificationToggle("emailNotifications", checked)}
+                    onCheckedChange={(checked) =>
+                      handleNotificationToggle("emailNotifications", checked)
+                    }
                   />
                 </div>
 
@@ -203,13 +227,19 @@ export default function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="membershipReminders">Membership Reminders</Label>
-                    <p className="text-sm text-muted-foreground">Send reminders for expiring memberships.</p>
+                    <Label htmlFor="membershipReminders">
+                      Membership Reminders
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Send reminders for expiring memberships.
+                    </p>
                   </div>
                   <Switch
                     id="membershipReminders"
                     checked={notificationSettings.membershipReminders}
-                    onCheckedChange={(checked) => handleNotificationToggle("membershipReminders", checked)}
+                    onCheckedChange={(checked) =>
+                      handleNotificationToggle("membershipReminders", checked)
+                    }
                   />
                 </div>
 
@@ -218,12 +248,16 @@ export default function SettingsPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label htmlFor="eventReminders">Event Reminders</Label>
-                    <p className="text-sm text-muted-foreground">Send reminders for upcoming events.</p>
+                    <p className="text-sm text-muted-foreground">
+                      Send reminders for upcoming events.
+                    </p>
                   </div>
                   <Switch
                     id="eventReminders"
                     checked={notificationSettings.eventReminders}
-                    onCheckedChange={(checked) => handleNotificationToggle("eventReminders", checked)}
+                    onCheckedChange={(checked) =>
+                      handleNotificationToggle("eventReminders", checked)
+                    }
                   />
                 </div>
 
@@ -231,13 +265,19 @@ export default function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="requestNotifications">Request Notifications</Label>
-                    <p className="text-sm text-muted-foreground">Notify admins about new requests.</p>
+                    <Label htmlFor="requestNotifications">
+                      Request Notifications
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Notify admins about new requests.
+                    </p>
                   </div>
                   <Switch
                     id="requestNotifications"
                     checked={notificationSettings.requestNotifications}
-                    onCheckedChange={(checked) => handleNotificationToggle("requestNotifications", checked)}
+                    onCheckedChange={(checked) =>
+                      handleNotificationToggle("requestNotifications", checked)
+                    }
                   />
                 </div>
 
@@ -245,13 +285,19 @@ export default function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="adminActivityAlerts">Admin Activity Alerts</Label>
-                    <p className="text-sm text-muted-foreground">Send alerts for important admin activities.</p>
+                    <Label htmlFor="adminActivityAlerts">
+                      Admin Activity Alerts
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Send alerts for important admin activities.
+                    </p>
                   </div>
                   <Switch
                     id="adminActivityAlerts"
                     checked={notificationSettings.adminActivityAlerts}
-                    onCheckedChange={(checked) => handleNotificationToggle("adminActivityAlerts", checked)}
+                    onCheckedChange={(checked) =>
+                      handleNotificationToggle("adminActivityAlerts", checked)
+                    }
                   />
                 </div>
               </CardContent>
@@ -277,18 +323,26 @@ export default function SettingsPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Security Settings</CardTitle>
-                <CardDescription>Configure system-wide security settings.</CardDescription>
+                <CardDescription>
+                  Configure system-wide security settings.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="twoFactorAuth">Two-Factor Authentication</Label>
-                    <p className="text-sm text-muted-foreground">Require two-factor authentication for all users.</p>
+                    <Label htmlFor="twoFactorAuth">
+                      Two-Factor Authentication
+                    </Label>
+                    <p className="text-sm text-muted-foreground">
+                      Require two-factor authentication for all users.
+                    </p>
                   </div>
                   <Switch
                     id="twoFactorAuth"
                     checked={securitySettings.twoFactorAuth}
-                    onCheckedChange={(checked) => handleSecurityToggle("twoFactorAuth", checked)}
+                    onCheckedChange={(checked) =>
+                      handleSecurityToggle("twoFactorAuth", checked)
+                    }
                   />
                 </div>
 
@@ -296,7 +350,9 @@ export default function SettingsPage() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="passwordExpiryDays">Password Expiry (Days)</Label>
+                    <Label htmlFor="passwordExpiryDays">
+                      Password Expiry (Days)
+                    </Label>
                     <Input
                       id="passwordExpiryDays"
                       name="passwordExpiryDays"
@@ -305,11 +361,14 @@ export default function SettingsPage() {
                       onChange={handleSecuritySettingsChange}
                     />
                     <p className="text-xs text-muted-foreground">
-                      Number of days before passwords expire. Set to 0 to disable.
+                      Number of days before passwords expire. Set to 0 to
+                      disable.
                     </p>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="sessionTimeoutMinutes">Session Timeout (Minutes)</Label>
+                    <Label htmlFor="sessionTimeoutMinutes">
+                      Session Timeout (Minutes)
+                    </Label>
                     <Input
                       id="sessionTimeoutMinutes"
                       name="sessionTimeoutMinutes"
@@ -317,7 +376,9 @@ export default function SettingsPage() {
                       value={securitySettings.sessionTimeoutMinutes}
                       onChange={handleSecuritySettingsChange}
                     />
-                    <p className="text-xs text-muted-foreground">Minutes of inactivity before a user is logged out.</p>
+                    <p className="text-xs text-muted-foreground">
+                      Minutes of inactivity before a user is logged out.
+                    </p>
                   </div>
                 </div>
 
@@ -325,15 +386,20 @@ export default function SettingsPage() {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <Label htmlFor="allowMultipleLogins">Allow Multiple Logins</Label>
+                    <Label htmlFor="allowMultipleLogins">
+                      Allow Multiple Logins
+                    </Label>
                     <p className="text-sm text-muted-foreground">
-                      Allow users to be logged in from multiple devices simultaneously.
+                      Allow users to be logged in from multiple devices
+                      simultaneously.
                     </p>
                   </div>
                   <Switch
                     id="allowMultipleLogins"
                     checked={securitySettings.allowMultipleLogins}
-                    onCheckedChange={(checked) => handleSecurityToggle("allowMultipleLogins", checked)}
+                    onCheckedChange={(checked) =>
+                      handleSecurityToggle("allowMultipleLogins", checked)
+                    }
                   />
                 </div>
               </CardContent>
@@ -356,7 +422,7 @@ export default function SettingsPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </AdminLayout>
-  )
+    </div>
+    // </AdminLayout>
+  );
 }
-

@@ -102,7 +102,7 @@ export default function AdminDashboard() {
   }, [])
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Club Admin Dashboard</h1>
@@ -294,7 +294,7 @@ export default function AdminDashboard() {
           </>
         )}
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
 

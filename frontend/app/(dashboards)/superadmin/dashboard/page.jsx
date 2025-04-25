@@ -34,6 +34,10 @@ export default function SuperAdminDashboard() {
           getEvents(),
         ])
 
+        console.log("Clubs Data:", clubsData)
+        // console.log("Requests Data:", requestsData)
+        console.log("Events Data:", eventsData)
+
         setClubs(clubsData)
         setRequests(requestsData)
         setEvents(eventsData)
@@ -71,7 +75,8 @@ export default function SuperAdminDashboard() {
   }, [])
 
   return (
-    <AdminLayout>
+   // <AdminLayout>
+      <div>
       <div className="flex flex-col gap-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Super Admin Dashboard</h1>
@@ -256,7 +261,8 @@ export default function SuperAdminDashboard() {
           </>
         )}
       </div>
-    </AdminLayout>
+      </div>
+    //</AdminLayout>
   )
 }
 

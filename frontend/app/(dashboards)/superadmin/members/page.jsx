@@ -95,8 +95,10 @@ export default function AllMembersPage() {
     return club ? club.name : clubId
   }
 
+  // <//AdminLayout>
   return (
-    <AdminLayout>
+    <div>
+
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -276,7 +278,8 @@ export default function AllMembersPage() {
           </Card>
         </div>
       </div>
-    </AdminLayout>
+      </div>
+    //</AdminLayout>
   )
 }
 

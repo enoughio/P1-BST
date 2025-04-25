@@ -85,17 +85,17 @@ export default function EditClubAdminPage() {
 
   if (loading) {
     return (
-      <AdminLayout>
+     // <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      </AdminLayout>
+      //</AdminLayout>
     )
   }
 
   if (!club) {
     return (
-      <AdminLayout>
+    //  <AdminLayout>
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold mb-4">Club Admin Not Found</h1>
           <p className="text-gray-500 mb-6">The club admin you're looking for doesn't exist or has been removed.</p>
@@ -106,12 +106,12 @@ export default function EditClubAdminPage() {
             </Link>
           </Button>
         </div>
-      </AdminLayout>
+     // </AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
+   //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -217,7 +217,7 @@ export default function EditClubAdminPage() {
           </Card>
         </form>
       </div>
-    </AdminLayout>
+    // </AdminLayout>
   )
 }
 

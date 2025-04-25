@@ -144,7 +144,7 @@ export default function ClubInfoPage() {
   }, [])
 
   return (
-    <MemberLayout>
+   // <MemberLayout>
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Club Information</h1>
@@ -341,7 +341,7 @@ export default function ClubInfoPage() {
           )
         )}
       </div>
-    </MemberLayout>
+    //</MemberLayout>
   )
 }
 

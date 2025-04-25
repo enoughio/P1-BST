@@ -1,14 +1,17 @@
 "use client"
 
+import { CardFooter } from "@/components/ui/card"
+
+import { CardDescription } from "@/components/ui/card"
+
+import { CardTitle } from "@/components/ui/card"
+
+import { CardHeader } from "@/components/ui/card"
+
 import { useEffect, useState } from "react"
 import AdminLayout from "@/components/admin-layout"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -17,16 +20,40 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/hooks/use-toast"
-import { CheckCircle, Download, Filter, Link, Loader2, Plus, Search, Trash } from "lucide-react"
-import NextLink from "next/link"
+import { CheckCircle, Filter, Loader2, Plus, Search, Trash } from "lucide-react"
+import Link from "next/link"
 
-// Mock API function to get all projects across clubs
-const getAllProjects = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        projects: [
+export default function SuperAdminProjectsPage() {
+  const [data, setData] = useState(null)
+  const [filteredProjects, setFilteredProjects] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedClub, setSelectedClub] = useState("")
+  const [selectedStatus, setSelectedStatus] = useState("")
+  const [selectedProgram, setSelectedProgram] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [selectedProject, setSelectedProject] = useState(null)
+  const { toast } = useToast()
+  const [programs, setPrograms] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Mock programs data
+        const mockPrograms = [
+          { id: "1", name: "Young Orators" },
+          { id: "2", name: "Young Leaders" },
+          { id: "3", name: "Storytellers" },
+        ]
+
+        // Mock projects data with program information
+        const mockProjects = [
           {
             id: "1",
             title: "Ice Breaker",
@@ -41,6 +68,7 @@ const getAllProjects = () => {
             status: "Completed",
             completedDate: "2023-10-15",
             feedback: "Great first speech! Effectively introduced yourself and showed your enthusiasm.",
+            program: { id: "1", name: "Young Orators" },
           },
           {
             id: "2",
@@ -56,6 +84,7 @@ const getAllProjects = () => {
             status: "In Progress",
             completedDate: null,
             feedback: "",
+            program: { id: "1", name: "Young Orators" },
           },
           {
             id: "3",
@@ -71,6 +100,7 @@ const getAllProjects = () => {
             status: "Completed",
             completedDate: "2023-09-22",
             feedback: "Excellent use of positive language. Very motivational and uplifting.",
+            program: { id: "2", name: "Young Leaders" },
           },
           {
             id: "4",
@@ -81,6 +111,7 @@ const getAllProjects = () => {
             status: "Not Started",
             completedDate: null,
             feedback: "",
+            program: { id: "3", name: "Storytellers" },
           },
           {
             id: "5",
@@ -96,6 +127,7 @@ const getAllProjects = () => {
             status: "In Progress",
             completedDate: null,
             feedback: "",
+            program: { id: "2", name: "Young Leaders" },
           },
           {
             id: "6",
@@ -111,35 +143,23 @@ const getAllProjects = () => {
             status: "Completed",
             completedDate: "2023-10-10",
             feedback: "Good use of vocal variety. Work on pauses for dramatic effect.",
+            program: { id: "3", name: "Storytellers" },
           },
-        ],
-        clubs: [
+        ]
+
+        // Mock clubs data
+        const mockClubs = [
           { id: "1", name: "Bhopal Storytellers" },
           { id: "2", name: "Delhi Orators" },
           { id: "3", name: "Mumbai Speakers" },
-        ],
-      })
-    }, 1000)
-  })
-}
+        ]
 
-export default function SuperAdminProjectsPage() {
-  const [data, setData] = useState(null)
-  const [filteredProjects, setFilteredProjects] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedClub, setSelectedClub] = useState("")
-  const [selectedStatus, setSelectedStatus] = useState("")
-  const [loading, setLoading] = useState(true)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [selectedProject, setSelectedProject] = useState(null)
-  const { toast } = useToast()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getAllProjects()
-        setData(result)
-        setFilteredProjects(result.projects)
+        setData({
+          projects: mockProjects,
+          clubs: mockClubs,
+        })
+        setPrograms(mockPrograms)
+        setFilteredProjects(mockProjects)
         setLoading(false)
       } catch (error) {
         console.error("Error fetching projects:", error)
@@ -172,9 +192,14 @@ export default function SuperAdminProjectsPage() {
         filtered = filtered.filter((project) => project.status === selectedStatus)
       }
 
+      // Apply program filter
+      if (selectedProgram) {
+        filtered = filtered.filter((project) => project.program && project.program.id === selectedProgram)
+      }
+
       setFilteredProjects(filtered)
     }
-  }, [searchTerm, selectedClub, selectedStatus, data])
+  }, [searchTerm, selectedClub, selectedStatus, selectedProgram, data])
 
   const handleDeleteClick = (project) => {
     setSelectedProject(project)
@@ -219,20 +244,21 @@ export default function SuperAdminProjectsPage() {
     }
   }
 
+  //  <AdminLayout>
   return (
-    <AdminLayout>
-      <div className="flex flex-col gap-6">
+  <div>
+      <div className="flex flex-col gap-6 max-w-[80%]">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">All Projects</h1>
-            <p className="text-gray-500">View and manage projects across all clubs</p>
+            <p className="text-gray-500">Manage projects across all clubs in the organization</p>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-              <NextLink href="/superadmin/projects/add">
+              <Link href="/superadmin/projects/add">
                 <Plus className="mr-2 h-4 w-4" />
                 Create New Project
-              </NextLink>
+              </Link>
             </Button>
           </div>
         </div>
@@ -265,6 +291,22 @@ export default function SuperAdminProjectsPage() {
           </div>
 
           <div className="w-full md:w-64">
+            <Select value={selectedProgram} onValueChange={setSelectedProgram}>
+              <SelectTrigger>
+                <SelectValue placeholder="Filter by program" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Programs</SelectItem>
+                {programs.map((program) => (
+                  <SelectItem key={program.id} value={program.id}>
+                    {program.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="w-full md:w-64">
             <Select value={selectedStatus} onValueChange={setSelectedStatus}>
               <SelectTrigger>
                 <SelectValue placeholder="Filter by status" />
@@ -284,6 +326,7 @@ export default function SuperAdminProjectsPage() {
               setSearchTerm("")
               setSelectedClub("")
               setSelectedStatus("")
+              setSelectedProgram("")
             }}
             className="text-gray-700 border-gray-200 hover:bg-gray-50"
           >
@@ -301,74 +344,73 @@ export default function SuperAdminProjectsPage() {
 
           <TabsContent value="all" className="space-y-4">
             <Card>
-              <CardHeader>
-                <CardTitle>Project List</CardTitle>
-                <CardDescription>View and manage all projects</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {loading ? (
-                  <div className="flex justify-center p-8">
-                    <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-                  </div>
-                ) : filteredProjects.length === 0 ? (
-                  <div className="text-center p-8">
-                    <p className="text-gray-500">No projects found matching your filters.</p>
-                  </div>
-                ) : (
-                  <div className="relative overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Project Title</TableHead>
-                          <TableHead>Level</TableHead>
-                          <TableHead>Assigned To</TableHead>
-                          <TableHead>Club</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead>Actions</TableHead>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Project Title</TableHead>
+                      <TableHead>Level</TableHead>
+                      <TableHead>Program</TableHead>
+                      <TableHead>Assigned To</TableHead>
+                      <TableHead>Club</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {loading ? (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center py-10">
+                          <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto" />
+                        </TableCell>
+                      </TableRow>
+                    ) : filteredProjects.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={7} className="text-center py-10">
+                          <p className="text-gray-500">No projects found matching your filters.</p>
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredProjects.map((project) => (
+                        <TableRow key={project.id}>
+                          <TableCell className="font-medium">{project.title}</TableCell>
+                          <TableCell>{project.level}</TableCell>
+                          <TableCell>
+                            {project.program ? (
+                              <Badge variant="outline" className="border-blue-200 text-blue-700">
+                                {project.program.name}
+                              </Badge>
+                            ) : (
+                              "-"
+                            )}
+                          </TableCell>
+                          <TableCell>{project.assignedTo ? project.assignedTo.name : "Unassigned"}</TableCell>
+                          <TableCell>{project.assignedTo ? project.assignedTo.clubName : "-"}</TableCell>
+                          <TableCell>{getStatusBadge(project.status)}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-2">
+                              <Button variant="ghost" size="sm" asChild className="text-blue-600">
+                                <Link href={`/superadmin/projects/${project.id}`}>View</Link>
+                              </Button>
+                              <Button variant="ghost" size="sm" asChild className="text-blue-600">
+                                <Link href={`/superadmin/projects/${project.id}/edit`}>Edit</Link>
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteClick(project)}
+                                className="text-red-600"
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          </TableCell>
                         </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {filteredProjects.map((project) => (
-                          <TableRow key={project.id}>
-                            <TableCell className="font-medium">{project.title}</TableCell>
-                            <TableCell>{project.level}</TableCell>
-                            <TableCell>{project.assignedTo ? project.assignedTo.name : "Unassigned"}</TableCell>
-                            <TableCell>{project.assignedTo ? project.assignedTo.clubName : "-"}</TableCell>
-                            <TableCell>{getStatusBadge(project.status)}</TableCell>
-                            <TableCell>
-                              <div className="flex items-center gap-2">
-                                <Button variant="ghost" size="sm" asChild className="text-blue-600">
-                                  <NextLink href={`/superadmin/projects/${project.id}`}>View</NextLink>
-                                </Button>
-                                <Button variant="ghost" size="sm" asChild className="text-blue-600">
-                                  <NextLink href={`/superadmin/projects/${project.id}/edit`}>Edit</NextLink>
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => handleDeleteClick(project)}
-                                  className="text-red-600"
-                                >
-                                  Delete
-                                </Button>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )}
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <div className="text-sm text-gray-500">
-                  Showing {filteredProjects.length} of {data?.projects.length || 0} projects
-                </div>
-                <Button variant="outline" className="text-gray-700 border-gray-200 hover:bg-gray-50">
-                  <Download className="mr-2 h-4 w-4" />
-                  Export
-                </Button>
-              </CardFooter>
             </Card>
           </TabsContent>
 
@@ -386,12 +428,23 @@ export default function SuperAdminProjectsPage() {
                       .map((project) => (
                         <Card key={project.id}>
                           <CardHeader>
-                            <CardTitle>{project.title}</CardTitle>
-                            <CardDescription>{project.level}</CardDescription>
+                            <div className="flex justify-between">
+                              <div>
+                                <CardTitle>{project.title}</CardTitle>
+                                <CardDescription>{project.level}</CardDescription>
+                              </div>
+                              {getStatusBadge(project.status)}
+                            </div>
                           </CardHeader>
                           <CardContent>
                             <p className="text-sm text-gray-500 mb-4">{project.description}</p>
                             <div className="flex flex-col gap-2">
+                              <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Program:</span>
+                                <span className="text-sm font-medium">
+                                  {project.program ? project.program.name : "None"}
+                                </span>
+                              </div>
                               <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Assigned to:</span>
                                 <span className="text-sm font-medium">
@@ -404,10 +457,6 @@ export default function SuperAdminProjectsPage() {
                                   {project.assignedTo ? project.assignedTo.clubName : "-"}
                                 </span>
                               </div>
-                              <div className="flex justify-between">
-                                <span className="text-sm text-gray-500">Status:</span>
-                                <span>{getStatusBadge(project.status)}</span>
-                              </div>
                             </div>
                           </CardContent>
                           <CardFooter className="flex justify-between">
@@ -417,10 +466,10 @@ export default function SuperAdminProjectsPage() {
                               asChild
                               className="text-gray-700 border-gray-200 hover:bg-gray-50"
                             >
-                              <NextLink href={`/superadmin/projects/${project.id}`}>View Details</NextLink>
+                              <Link href={`/superadmin/projects/${project.id}`}>View Details</Link>
                             </Button>
                             <Button size="sm" asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-                              <NextLink href={`/superadmin/projects/${project.id}/edit`}>Edit Project</NextLink>
+                              <Link href={`/superadmin/projects/${project.id}/edit`}>Edit Project</Link>
                             </Button>
                           </CardFooter>
                         </Card>
@@ -457,6 +506,12 @@ export default function SuperAdminProjectsPage() {
                             <p className="text-sm text-gray-500 mb-4">{project.description}</p>
                             <div className="flex flex-col gap-2">
                               <div className="flex justify-between">
+                                <span className="text-sm text-gray-500">Program:</span>
+                                <span className="text-sm font-medium">
+                                  {project.program ? project.program.name : "None"}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
                                 <span className="text-sm text-gray-500">Completed by:</span>
                                 <span className="text-sm font-medium">
                                   {project.assignedTo ? project.assignedTo.name : "Unassigned"}
@@ -489,15 +544,17 @@ export default function SuperAdminProjectsPage() {
                               asChild
                               className="text-gray-700 border-gray-200 hover:bg-gray-50"
                             >
-                              <NextLink href={`/superadmin/projects/${project.id}`}>View Details</NextLink>
+                              <Link href={`/superadmin/projects/${project.id}`}>View Details</Link>
                             </Button>
                             <Button
                               variant="outline"
                               size="sm"
+                              asChild
                               className="text-gray-700 border-gray-200 hover:bg-gray-50"
                             >
-                              <Link className="mr-2 h-4 w-4" />
-                              Generate Certificate
+                              <Link href={`#`} className="mr-2 h-4 w-4">
+                                Generate Certificate
+                              </Link>
                             </Button>
                           </CardFooter>
                         </Card>
@@ -529,6 +586,12 @@ export default function SuperAdminProjectsPage() {
                   <span className="font-medium">Level: </span>
                   <span>{selectedProject.level}</span>
                 </div>
+                {selectedProject.program && (
+                  <div>
+                    <span className="font-medium">Program: </span>
+                    <span>{selectedProject.program.name}</span>
+                  </div>
+                )}
                 {selectedProject.assignedTo && (
                   <div>
                     <span className="font-medium">Assigned to: </span>
@@ -544,7 +607,7 @@ export default function SuperAdminProjectsPage() {
             <Button
               variant="outline"
               onClick={() => setIsDeleteDialogOpen(false)}
-              className="text-gray-700 border-gray-200 hover:bg-gray-50"
+              className="border-gray-200 text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </Button>
@@ -555,7 +618,8 @@ export default function SuperAdminProjectsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+   
+   </div>
+   // </AdminLayout>
   )
 }
-
