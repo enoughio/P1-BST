@@ -44,7 +44,7 @@ const getMeetingsAndEvents = async() => {
             location: "Main Club Room",
             description: "Regular weekly meeting with prepared speeches and evaluations",
             roles: [
-              { role: "Toastmaster of the Evening", assignedTo: "2" },
+              { role: "master of ceramony", assignedTo: "2" },
               { role: "Timer", assignedTo: "3" },
               { role: "Ah Counter", assignedTo: "4" },
               { role: "Grammarian", assignedTo: null },
@@ -209,7 +209,7 @@ export default function MemberEventsPage() {
   }
 
   return (
-    <MemberLayout>
+   // <MemberLayout>
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Meetings & Events</h1>
@@ -384,7 +384,7 @@ export default function MemberEventsPage() {
           </TabsContent>
         </Tabs>
       </div>
-    </MemberLayout>
+    //</MemberLayout>
   )
 }
 

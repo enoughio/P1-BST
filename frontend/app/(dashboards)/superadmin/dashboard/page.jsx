@@ -28,9 +28,15 @@ export default function SuperAdminDashboard() {
     const fetchData = async () => {
       try {
         // Fetch data for dashboard
-        const clubsData = await getClubs()
-        const requestsData = await getRequests()
-        const eventsData = await getEvents()
+        const [clubsData, requestsData, eventsData] = await Promise.all([
+          getClubs(),
+          getRequests(),
+          getEvents(),
+        ])
+
+        console.log("Clubs Data:", clubsData)
+        // console.log("Requests Data:", requestsData)
+        console.log("Events Data:", eventsData)
 
         setClubs(clubsData)
         setRequests(requestsData)
@@ -57,8 +63,8 @@ export default function SuperAdminDashboard() {
           totalEvents: eventsData.length,
           highlightedEvents: highlightedEvents.length,
         })
-
         setLoading(false)
+        
       } catch (error) {
         console.error("Error fetching dashboard data:", error)
         setLoading(false)
@@ -69,7 +75,8 @@ export default function SuperAdminDashboard() {
   }, [])
 
   return (
-    <AdminLayout>
+   // <AdminLayout>
+      <div>
       <div className="flex flex-col gap-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Super Admin Dashboard</h1>
@@ -161,7 +168,7 @@ export default function SuperAdminDashboard() {
             <Tabs defaultValue="clubs" className="w-full">
               <TabsList className="grid w-full md:w-auto grid-cols-3">
                 <TabsTrigger value="clubs">Clubs</TabsTrigger>
-                <TabsTrigger value="requests">Recent Requests</TabsTrigger>
+                <TabsTrigger value="requests">Recent Requests</TabsTrigger>  
                 <TabsTrigger value="events">Highlighted Events</TabsTrigger>
               </TabsList>
 
@@ -254,7 +261,8 @@ export default function SuperAdminDashboard() {
           </>
         )}
       </div>
-    </AdminLayout>
+      </div>
+    //</AdminLayout>
   )
 }
 

@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { Building, CalendarClock, Loader2, Mail, MapPin, Phone, Save, User, Users } from "lucide-react"
+import { useAuth } from "@/context/auth-context"
 
 export default function ClubDetailsPage() {
   const [club, setClub] = useState(null)
@@ -18,11 +19,12 @@ export default function ClubDetailsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const { toast } = useToast()
+  const { user } = useAuth()
 
   useEffect(() => {
-    const fetchClubDetails = async () => {
+    const fetchClubDetails = async () => {    
       try {
-        const data = await getClub("1")
+        const data = await getClub(user.clubId)
         setClub(data)
         setIsLoading(false)
       } catch (error) {
@@ -39,12 +41,11 @@ export default function ClubDetailsPage() {
     setClub((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSave = async () => {
+  const handleSave = async () => {   // updates club details
     setIsSaving(true)
 
     try {
-      await updateClub("1", club)
-
+      await updateClub("1", club)       // updates club
       setIsEditing(false)
 
       toast({
@@ -65,16 +66,16 @@ export default function ClubDetailsPage() {
 
   if (isLoading) {
     return (
-      <AdminLayout>
+      // <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8  text-muted-foreground" />
         </div>
-      </AdminLayout>
+      // </AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -285,7 +286,7 @@ export default function ClubDetailsPage() {
           </Card>
         </div>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
 

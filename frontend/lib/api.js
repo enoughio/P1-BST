@@ -281,7 +281,7 @@ const mockMeetings = [
     description: "Regular weekly meeting with prepared speeches and evaluations",
     club: "1",
     roles: [
-      { role: "Toastmaster of the Evening", assignedTo: "1" },
+      { role: "master of ceramony", assignedTo: "1" },
       { role: "Timer", assignedTo: "2" },
       { role: "Ah Counter", assignedTo: "4" },
       { role: "Grammarian", assignedTo: null },
@@ -414,9 +414,24 @@ const mockRequests = [
 //TODO: try to use a single function for getMembers and getMember]
 //TODO: try to do it in a more generic way
 
+const BASE_URL = process.env.BACKEND_URL
+
 export const getMembers = async (clubId) => {
   const endpoint = clubId ? `/members?club=${clubId}` : "/members"
   return handleRequest(endpoint)
+
+  //  const BASE_URL =  process.env.BACKEND_URL
+  //   const response = await fetch(`${BASE_URL}/api/members`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       credientials: "include",
+  //     },
+  //   })
+
+  //   console.log("response", response)
+    
+  //   return response.json()
 }
 
 export const getMember = async (id) => {
@@ -442,6 +457,32 @@ export const reinstateMember = async (id) => {
 // Clubs
 export const getClubs = async () => {
   return handleRequest("/clubs")
+
+  /*
+  try {
+    const response = await fetch(`${BASE_URL}/api/clubs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+    })
+    
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`)
+    }
+    
+    console.log("response", response)
+    return await response.json()
+    
+  } catch (error) {
+    console.error("Error fetching clubs:", error)
+    throw error
+  }
+  */
+  
+
+
 }
 
 export const getClub = async (id) => {

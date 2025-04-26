@@ -30,8 +30,6 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
   // If user is authenticated and authorized, render children
   if (user && (allowedRoles.length === 0 || allowedRoles.includes(user.role))) {
     return <>{children}</>
-  }else if (!loading && user && allowedRoles.length > 0 && !allowedRoles.includes(user.role) ){
-    router.push(`/${user.role}/dashboard`)
   }
 
   // Return null while redirecting

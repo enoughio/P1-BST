@@ -8,7 +8,7 @@ const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
 
 const AuthContext = createContext()
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const dummy = {
         id: "1",
         first_name: "John",
@@ -16,49 +16,53 @@ export const AuthProvider = ({children}) => {
         username: "johndoe",
         email: "john.doe@example.com",
         phone: "123-456-7890",
+        inicative: "Bhopal Storytellers",
         avatar: null,
         address: "123 Main St, Bhopal, MP",
         gender: "male",
         dob: "1990-01-15",
         id_proof: "ABCD1234",
-        club: "1",
+        clubId: "1",
         clubName: "Bhopal Storytellers",
         occupation: "Software Engineer",
         membershipExpiryDate: "2023-05-15",
         joinDate: "2022-05-15",
         bio: "Passionate about public speaking and leadership development. I joined Storytellers to improve my communication skills and connect with like-minded individuals.",
-        role: "member"
+        role: "superadmin",
     }
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const router = useRouter()
-    
+
     useEffect(() => {
         checkUserAuthentication()
     }, [])
-    
+
     const checkUserAuthentication = async () => {
+
         // try {
-        //     const response = await fetch(`${BASE_URL}/api/accouts/me`, {
-        //         credentials: 'include'
-        //     })
-            
-        //     if (response.ok) {
-        //         const data = await response.json(); // Changed from response.data
-        //         setUser(data);
-        //     } else {
-        //         setUser(null)
-        //     }
-        // } catch (error) {
-        //     console.log("Authentication check fails", error)
+        //   const response = await fetch(`${BASE_URL}/api/accounts/me`, {
+        //     credentials: "include",
+        //   })
+
+        //   if (response.ok) {
+        //     const data = await response.json()
+        //     setUser(data)
+        //     localStorage.setItem("user", JSON.stringify(data))
+        //   } else {
         //     setUser(null)
-        // } finally { 
-        //     setLoading(false);
+        //   }
+        // } catch (error) {
+        //   console.log("Auth check failed", error)
+        //   setUser(null)
+        // } finally {
+        //   setLoading(false)
         // }
+
         setLoading(false);
         setUser(dummy)
     }
-    
+
     const login = async (credentials) => {
         // try {
         //     const response = await fetch(`${BASE_URL}/api/accounts/login/`, {
@@ -70,10 +74,10 @@ export const AuthProvider = ({children}) => {
         //     });
 
         //     console.log("Login failed try again", data)
-            
+
         //     if (response.ok) {
         //         const data = await response.json()
-                 
+
         //         setUser(data);
         //         if (data.role) {
         //             router.push(`/${data.role}/dashboard`)
@@ -91,7 +95,7 @@ export const AuthProvider = ({children}) => {
 
         setUser(dummy)
     }
-    
+
 
     const logout = async () => {
         try {
@@ -99,13 +103,16 @@ export const AuthProvider = ({children}) => {
             //     method: "POST",
             //     credentials: "include"
             // })
+
+            localStorage.removeItem("user")
             setUser(null)
-            router.push('/');
+            router.push("/")
+
         } catch (error) {
             console.error("Error while Logout", error)
         }
     }
-    
+
     return (
         <AuthContext.Provider value={{ user, loading, login, logout, checkUserAuthentication }} >
             {children}
@@ -113,6 +120,6 @@ export const AuthProvider = ({children}) => {
     )
 }
 
-export const useAuth = () =>{
+export const useAuth = () => {
     return useContext(AuthContext)
 }

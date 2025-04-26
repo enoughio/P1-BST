@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { getClubs } from "@/lib/api"
-import { Card, CardContent } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import AdminLayout from "@/components/admin-layout";
+import { getClubs } from "@/lib/api";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,59 +11,68 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Search, MoreHorizontal, Plus } from "lucide-react"
-import Link from "next/link"
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, MoreHorizontal, Plus } from "lucide-react";
+import Link from "next/link";
 
 export default function ClubAdminsPage() {
-  const [clubs, setClubs] = useState([])
-  const [filteredClubs, setFilteredClubs] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [loading, setLoading] = useState(true)
+  const [clubs, setClubs] = useState([]);
+  const [filteredClubs, setFilteredClubs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchClubs = async () => {
       try {
-        const data = await getClubs()
-        setClubs(data)
-        setFilteredClubs(data)
-        setLoading(false)
+        const data = await getClubs();
+        setClubs(data);
+        setFilteredClubs(data);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching clubs:", error)
-        setLoading(false)
+        console.error("Error fetching clubs:", error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchClubs()
-  }, [])
+    fetchClubs();
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {
-      const term = searchTerm.toLowerCase()
+      const term = searchTerm.toLowerCase();
       const filtered = clubs.filter(
         (club) =>
           club.name.toLowerCase().includes(term) ||
           club.Admin.toLowerCase().includes(term) ||
           club.email.toLowerCase().includes(term) ||
-          club.city.toLowerCase().includes(term),
-      )
-      setFilteredClubs(filtered)
+          club.city.toLowerCase().includes(term)
+      );
+      setFilteredClubs(filtered);
     } else {
-      setFilteredClubs(clubs)
+      setFilteredClubs(clubs);
     }
-  }, [searchTerm, clubs])
+  }, [searchTerm, clubs]);
 
   return (
-    <AdminLayout>
+   // <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Club Admins</h1>
-            <p className="text-muted-foreground">Manage club administrators across the organization.</p>
+            <p className="text-muted-foreground">
+              Manage club administrators across the organization.
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild>
@@ -144,13 +153,19 @@ export default function ClubAdminsPage() {
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem asChild>
-                                <Link href={`/superadmin/club-admins/${club.id}`}>View Details</Link>
+                                <Link href={`/superadmin/club-admins/${club.id}`}>
+                                  View Details
+                                </Link>
                               </DropdownMenuItem>
                               <DropdownMenuItem asChild>
-                                <Link href={`/superadmin/club-admins/${club.id}/edit`}>Edit Admin</Link>
+                                <Link href={`/superadmin/club-admins/${club.id}/edit`}>
+                                  Edit Admin
+                                </Link>
                               </DropdownMenuItem>
                               <DropdownMenuItem asChild>
-                                <Link href={`/superadmin/clubs/${club.id}`}>View Club</Link>
+                                <Link href={`/superadmin/clubs/${club.id}`}>
+                                  View Club
+                                </Link>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -164,6 +179,6 @@ export default function ClubAdminsPage() {
           </Card>
         </div>
       </div>
-    </AdminLayout>
-  )
+    //</AdminLayout>
+  );
 }

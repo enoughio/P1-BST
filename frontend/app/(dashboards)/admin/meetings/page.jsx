@@ -1,10 +1,17 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { getMeetings, assignRole } from "@/lib/api"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import AdminLayout from "@/components/admin-layout";
+import { getMeetings, assignRole } from "@/lib/api";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -12,119 +19,138 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useToast } from "@/hooks/use-toast"
-import { Calendar, Clock, MapPin, Plus, Users } from "lucide-react"
-import Link from "next/link"
-import { getMembers } from "@/lib/api"
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { Calendar, Clock, MapPin, Plus, Users } from "lucide-react";
+import Link from "next/link";
+import { getMembers } from "@/lib/api";
 
 export default function MeetingsPage() {
-  const [meetings, setMeetings] = useState([])
-  const [members, setMembers] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedMeeting, setSelectedMeeting] = useState(null)
-  const [selectedRoleIndex, setSelectedRoleIndex] = useState(null)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [isAssigning, setIsAssigning] = useState(false)
-  const { toast } = useToast()
+  const [meetings, setMeetings] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedMeeting, setSelectedMeeting] = useState(null);
+  const [selectedRoleIndex, setSelectedRoleIndex] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isAssigning, setIsAssigning] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const meetingsData = await getMeetings("1")
-        const membersData = await getMembers("1")
+        const meetingsData = await getMeetings("1");
+        const membersData = await getMembers("1");
 
-        setMeetings(meetingsData)
-        setMembers(membersData)
-        setLoading(false)
+        setMeetings(meetingsData);
+        setMembers(membersData);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching meeting data:", error)
-        setLoading(false)
+        console.error("Error fetching meeting data:", error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const handleAssignRole = (meeting, roleIndex) => {
-    setSelectedMeeting(meeting)
-    setSelectedRoleIndex(roleIndex)
-    setIsDialogOpen(true)
-  }
+    setSelectedMeeting(meeting);
+    setSelectedRoleIndex(roleIndex);
+    setIsDialogOpen(true);
+  };
 
   const handleSubmitRoleAssignment = async (memberId) => {
-    if (!selectedMeeting || selectedRoleIndex === null) return
+    if (!selectedMeeting || selectedRoleIndex === null) return;
 
-    setIsAssigning(true)
+    setIsAssigning(true);
 
     try {
-      await assignRole(selectedMeeting.id, selectedRoleIndex, memberId)
+      await assignRole(selectedMeeting.id, selectedRoleIndex, memberId);
 
       // Update local state
       const updatedMeetings = meetings.map((meeting) => {
         if (meeting.id === selectedMeeting.id) {
-          const updatedRoles = [...meeting.roles]
+          const updatedRoles = [...meeting.roles];
           updatedRoles[selectedRoleIndex] = {
             ...updatedRoles[selectedRoleIndex],
             assignedTo: memberId,
-          }
-          return { ...meeting, roles: updatedRoles }
+          };
+          return { ...meeting, roles: updatedRoles };
         }
-        return meeting
-      })
+        return meeting;
+      });
 
-      setMeetings(updatedMeetings)
-      setIsDialogOpen(false)
+      setMeetings(updatedMeetings);
+      setIsDialogOpen(false);
 
       toast({
         title: "Role Assigned",
         description: "The role has been successfully assigned.",
-      })
+      });
     } catch (error) {
-      console.error("Error assigning role:", error)
+      console.error("Error assigning role:", error);
       toast({
         title: "Error",
         description: "Failed to assign role. Please try again.",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsAssigning(false)
+      setIsAssigning(false);
     }
-  }
+  };
 
   const getMemberName = (memberId) => {
-    if (!memberId) return "Unassigned"
-    const member = members.find((m) => m.id === memberId)
-    return member ? `${member.first_name} ${member.last_name}` : "Unknown"
-  }
+    if (!memberId) return "Unassigned";
+    const member = members.find((m) => m.id === memberId);
+    return member ? `${member.first_name} ${member.last_name}` : "Unknown";
+  };
 
   const groupMeetingsByMonth = () => {
-    const grouped = {}
+    const grouped = {};
 
     meetings.forEach((meeting) => {
-      const date = new Date(meeting.date)
-      const month = date.toLocaleString("default", { month: "long", year: "numeric" })
+      const date = new Date(meeting.date);
+      const month = date.toLocaleString("default", {
+        month: "long",
+        year: "numeric",
+      });
 
       if (!grouped[month]) {
-        grouped[month] = []
+        grouped[month] = [];
       }
 
-      grouped[month].push(meeting)
-    })
+      grouped[month].push(meeting);
+    });
 
-    return grouped
-  }
+    return grouped;
+  };
 
+  //  <AdminLayout>
   return (
-    <AdminLayout>
+    <div>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Meetings</h1>
-            <p className="text-muted-foreground">View and manage club meetings and role assignments.</p>
+            <p className="text-muted-foreground">
+              View and manage club meetings and role assignments.
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild>
@@ -151,7 +177,9 @@ export default function MeetingsPage() {
             ) : meetings.length === 0 ? (
               <Card>
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <p className="mb-4 text-center text-muted-foreground">No upcoming meetings scheduled.</p>
+                  <p className="mb-4 text-center text-muted-foreground">
+                    No upcoming meetings scheduled.
+                  </p>
                   <Button asChild>
                     <Link href="/admin/meetings/add">
                       <Plus className="mr-2 h-4 w-4" />
@@ -161,85 +189,103 @@ export default function MeetingsPage() {
                 </CardContent>
               </Card>
             ) : (
-              Object.entries(groupMeetingsByMonth()).map(([month, monthMeetings]) => (
-                <div key={month} className="space-y-4">
-                  <h2 className="text-xl font-semibold">{month}</h2>
+              Object.entries(groupMeetingsByMonth()).map(
+                ([month, monthMeetings]) => (
+                  <div key={month} className="space-y-4">
+                    <h2 className="text-xl font-semibold">{month}</h2>
 
-                  {monthMeetings.map((meeting) => (
-                    <Card key={meeting.id}>
-                      <CardHeader>
-                        <CardTitle>{meeting.title}</CardTitle>
-                        <CardDescription className="flex flex-col gap-2 sm:flex-row sm:items-center text-sm text-muted-foreground">
-                          <span className="flex items-center">
-                            <Calendar className="mr-1 h-4 w-4" />
-                            {new Date(meeting.date).toLocaleDateString()}
-                          </span>
-                          <span className="flex items-center">
-                            <Clock className="mr-1 h-4 w-4" />
-                            {meeting.time}
-                          </span>
-                          <span className="flex items-center">
-                            <MapPin className="mr-1 h-4 w-4" />
-                            {meeting.location}
-                          </span>
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          <p>{meeting.description}</p>
+                    {monthMeetings.map((meeting) => (
+                      <Card key={meeting.id}>
+                        <CardHeader>
+                          <CardTitle>{meeting.title}</CardTitle>
+                          <CardDescription className="flex flex-col gap-2 sm:flex-row sm:items-center text-sm text-muted-foreground">
+                            <span className="flex items-center">
+                              <Calendar className="mr-1 h-4 w-4" />
+                              {new Date(meeting.date).toLocaleDateString()}
+                            </span>
+                            <span className="flex items-center">
+                              <Clock className="mr-1 h-4 w-4" />
+                              {meeting.time}
+                            </span>
+                            <span className="flex items-center">
+                              <MapPin className="mr-1 h-4 w-4" />
+                              {meeting.location}
+                            </span>
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <p>{meeting.description}</p>
 
-                          <div>
-                            <h3 className="text-sm font-medium mb-2">Role Assignments</h3>
-                            <div className="rounded-md border">
-                              <Table>
-                                <TableHeader>
-                                  <TableRow>
-                                    <TableHead>Role</TableHead>
-                                    <TableHead>Assigned To</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
-                                  </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                  {meeting.roles.map((role, index) => (
-                                    <TableRow key={index}>
-                                      <TableCell>{role.role}</TableCell>
-                                      <TableCell>{getMemberName(role.assignedTo)}</TableCell>
-                                      <TableCell className="text-right">
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          onClick={() => handleAssignRole(meeting, index)}
-                                        >
-                                          {role.assignedTo ? "Reassign" : "Assign"}
-                                        </Button>
-                                      </TableCell>
+                            <div>
+                              <h3 className="text-sm font-medium mb-2">
+                                Role Assignments
+                              </h3>
+                              <div className="rounded-md border">
+                                <Table>
+                                  <TableHeader>
+                                    <TableRow>
+                                      <TableHead>Role</TableHead>
+                                      <TableHead>Assigned To</TableHead>
+                                      <TableHead className="text-right">
+                                        Actions
+                                      </TableHead>
                                     </TableRow>
-                                  ))}
-                                </TableBody>
-                              </Table>
+                                  </TableHeader>
+                                  <TableBody>
+                                    {meeting.roles.map((role, index) => (
+                                      <TableRow key={index}>
+                                        <TableCell>{role.role}</TableCell>
+                                        <TableCell>
+                                          {getMemberName(role.assignedTo)}
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() =>
+                                              handleAssignRole(meeting, index)
+                                            }
+                                          >
+                                            {role.assignedTo
+                                              ? "Reassign"
+                                              : "Assign"}
+                                          </Button>
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="flex justify-end gap-2">
-                        <Button variant="outline" asChild>
-                          <Link href={`/admin/meetings/${meeting.id}/edit`}>Edit Meeting</Link>
-                        </Button>
-                        <Button variant="outline" asChild>
-                          <Link href={`/admin/meetings/${meeting.id}`}>View Details</Link>
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
-              ))
+                        </CardContent>
+                        <CardFooter className="flex justify-end gap-2">
+                          <Button variant="outline" asChild>
+                            <Link href={`/admin/meetings/${meeting.id}/edit`}>
+                              Edit Meeting
+                            </Link>
+                          </Button>
+                          <Button variant="outline" asChild>
+                            <Link href={`/admin/meetings/${meeting.id}`}>
+                              View Details
+                            </Link>
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    ))}
+                  </div>
+                )
+              )
             )}
           </TabsContent>
 
           <TabsContent value="past" className="space-y-4">
             <Card>
               <CardContent className="p-6">
-                <p className="text-center text-muted-foreground">Past meetings will appear here.</p>
+                <p className="text-center text-muted-foreground">
+                  Past meetings will appear here.
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
@@ -261,8 +307,12 @@ export default function MeetingsPage() {
                   <TableBody>
                     {meetings.map((meeting) => (
                       <TableRow key={meeting.id}>
-                        <TableCell className="font-medium">{meeting.title}</TableCell>
-                        <TableCell>{new Date(meeting.date).toLocaleDateString()}</TableCell>
+                        <TableCell className="font-medium">
+                          {meeting.title}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(meeting.date).toLocaleDateString()}
+                        </TableCell>
                         <TableCell>{meeting.time}</TableCell>
                         <TableCell>{meeting.location}</TableCell>
                         <TableCell>
@@ -273,7 +323,9 @@ export default function MeetingsPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="ghost" size="sm" asChild>
-                            <Link href={`/admin/meetings/${meeting.id}`}>View</Link>
+                            <Link href={`/admin/meetings/${meeting.id}`}>
+                              View
+                            </Link>
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -293,7 +345,11 @@ export default function MeetingsPage() {
             <DialogDescription>
               {selectedMeeting && selectedRoleIndex !== null ? (
                 <span>
-                  Assign the role of <strong>{selectedMeeting.roles[selectedRoleIndex].role}</strong> to a member.
+                  Assign the role of{" "}
+                  <strong>
+                    {selectedMeeting.roles[selectedRoleIndex].role}
+                  </strong>{" "}
+                  to a member.
                 </span>
               ) : (
                 "Select a member to assign to this role."
@@ -325,7 +381,7 @@ export default function MeetingsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
-  )
+    </div>
+    // </AdminLayout>
+  );
 }
-

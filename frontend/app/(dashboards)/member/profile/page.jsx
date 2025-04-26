@@ -15,36 +15,28 @@ import { useAuth } from "@/context/auth-context"
 
 // Mock API function to get member profile
 const getMemberProfile = async() => {
-  const user = useAuth()
+  
 
   try {
-
-    const response = await fetch("/api/member/profile", {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/accounts/me`, {
       method: "GET",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
     })
-
-    const response2 = await fetch(`${process.env.BACKEND_URL}/api/accounts/members/${user.username}/additional`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-
-    if (!response.ok || !response2.ok) {
-      throw new Error("Failed to fetch member profile")
-    }
-
-    const data = await response.json()
-    const data2 = await response2.json()
+      
+      if (!response.ok) {
+        throw new Error("Failed to fetch member profile")
+      }
+      
+      const data = await response.json()
+      console.log("Response:", data)
+    // const data2 = await response2.json()
 
     return {
       ...data,
-      ...data2,
+      // ...data2,
     }
 
   } catch (error) {
@@ -84,11 +76,14 @@ export default function MemberProfile() {
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const { toast } = useToast()
-
+  const {user} = useAuth()
+  
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await getMemberProfile()
+        // const data = await getMemberProfile()
+        const data = user;
+        console.log("User:", data)
         setProfile(data)
         setEditedProfile(data)
         setLoading(false)
@@ -107,39 +102,45 @@ export default function MemberProfile() {
   }
 
   const handleSave = () => {
+
+
+
     setIsSaving(true)
 
     // Simulate API call
-    setTimeout(() => {
-      setProfile(editedProfile)
-      setIsEditing(false)
-      setIsSaving(false)
+    // setTimeout(() => {
+    //   setProfile(editedProfile)
+    //   setIsEditing(false)
+    //   setIsSaving(false)
 
-      toast({
-        title: "Profile Updated",
-        description: "Your profile has been successfully updated.",
-      })
-    }, 1000)
+    //   toast({
+    //     title: "Profile Updated",
+    //     description: "Your profile has been successfully updated.",
+    //   })
+    // }, 1000)
+
   }
 
   if (loading) {
     return (
-      <MemberLayout>
+      // <MemberLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      </MemberLayout>
+      // </MemberLayout>
     )
   }
 
   return (
-    <MemberLayout>
+    // <MemberLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">My Profile</h1>
             <p className="text-gray-500">View and manage your personal information.</p>
           </div>
+
           <div className="flex items-center gap-2">
             {!isEditing ? (
               <Button onClick={() => setIsEditing(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -188,8 +189,8 @@ export default function MemberProfile() {
                   <Avatar className="h-16 w-16">
                     <AvatarImage src="/placeholder.svg?height=64&width=64" alt="Profile" />
                     <AvatarFallback className="text-lg">
-                      {profile.first_name[0]}
-                      {profile.last_name[0]}
+                      {profile.first_name}
+                      {profile.last_name}
                     </AvatarFallback>
                   </Avatar>
                   <div>
@@ -404,7 +405,6 @@ export default function MemberProfile() {
           </TabsContent>
         </Tabs>
       </div>
-    </MemberLayout>
+    // </MemberLayout> 
   )
 }
-
