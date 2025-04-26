@@ -25,7 +25,10 @@ from bst.serializers import (ClubSerializer,
                              MembershipHistorySerializer,
                              AwardSerializer,
 
-                             InitiativeSerializer,   
+                             InitiativeSerializer, 
+
+                             WeeklyMeetingMeetingSerializer,
+                             ExecutiveCommitteeMeetingSerializer,  
 
                              )
 
@@ -74,8 +77,6 @@ class ClubListAPIView(GenericAPIView, ListModelMixin):
     queryset = club.Club.objects.all()
     serializer_class = ClubSerializer
 
-    # permission_classes = [SuperAdminLevelPermission]
-
     def get(self, request):
         return self.list(request)
     
@@ -107,21 +108,27 @@ class ClubRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     
 
 
-class EventCreateAPIView(generics.CreateAPIView):
-    queryset = event.Event.objects.all()
+class EventListCreateAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = event.Event.objects.all().order_by('-date')
     serializer_class = EventSerializer
-
     # permission_classes = [AdminSuperAdminLevelPersmission]
 
-    def perform_create(self, serializer):
-        admin_user = self.request.user  # Current logged-in admin
-        serializer.save(club=admin_user.club)  # Automatically set club
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+    # def perform_create(self, serializer):
+    #     admin_user = self.request.user  # Current logged-in admin
+    #     serializer.save(club=admin_user.club)  # Automatically set club
 
 
 class EventListAPIView(GenericAPIView, ListModelMixin):
     queryset = event.Event.objects.all()
     serializer_class = EventSerializer
-    
+
     def get(self, request):
         return self.list(request)
     
@@ -245,8 +252,7 @@ class MembershipHistoryListAPIView(GenericAPIView, ListModelMixin):
 
 
 class MembersByClubAPIView(APIView):
-    def get(self, request):
-        club_id = request.GET.get('club_id')
+    def get(self, request, club_id):
         if not club_id:
             return Response({"error": "Club ID required"}, status=400)
 
@@ -268,9 +274,19 @@ class AwardAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.list(request)
     
 
-class MeetingAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+class WeeklyMeetingAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = meeting.Meeting.objects.all()
-    serializer_class = MeetingSerializer
+    serializer_class = WeeklyMeetingMeetingSerializer
+
+    def post(self, request):
+        return self.create(request)
+    
+    def get(self, request):
+        return self.list(request)
+
+class ExecutiveCommitteeMeetingAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = meeting.Meeting.objects.all()
+    serializer_class = ExecutiveCommitteeMeetingSerializer
 
     def post(self, request):
         return self.create(request)
