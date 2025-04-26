@@ -71,7 +71,9 @@ class MemberSerializer(serializers.ModelSerializer):
         fields = ['name', 'username', 'email', 'mobile', 'club_name', 'join_date', 'membership_start_date', 'membership_expiry_date', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'occupation', 'completed_projects', 'active_projects', 'upcoming_meetings', 'achievements']
     
     def get_name(self, obj):
-        return f"{obj.first_name} {obj.last_name if obj.last_name is not None else ""}"
+        if obj.first_name or obj.last_name:
+            return f"{obj.first_name} {obj.last_name}".strip()
+        return obj.username
     
     def get_club_name(self, obj):
         return obj.club.club_name
@@ -114,15 +116,26 @@ class MemberSerializer(serializers.ModelSerializer):
         return MeetingSerializer(meetings, many=True).data
 
 
-class MemberListSerializer(serializers.HyperlinkedModelSerializer):
-    dashboard = serializers.HyperlinkedIdentityField(
-        view_name = 'member-detail',
-        lookup_field = 'username'
-    )
+class MemberListSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    club_name = serializers.SerializerMethodField()
+    membership_expiry_date = serializers.SerializerMethodField()
 
     class Meta:
         model = Member
-        fields = ['username', 'dashboard']
+        fields = ['id', 'username', 'name', 'email', 'mobile', 'club_name', 'membership_expiry_date',]
+    
+    def get_name(self, obj):
+        if obj.first_name or obj.last_name:
+            return f"{obj.first_name} {obj.last_name}".strip()
+        return obj.username
+    
+    def get_club_name(self, obj):
+        return obj.club.club_name
+    
+    def get_membership_expiry_date(self, obj):
+        history = obj.membershiphistory_set.order_by('-start_date').first()
+        return history.end_date if history else None
 
 
 # basic-info and aditional-info
@@ -151,7 +164,7 @@ class AdminSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Admin
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'role', 'club', 'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'mobile', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'role', 'club', 'password']
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)

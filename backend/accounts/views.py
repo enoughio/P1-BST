@@ -178,22 +178,26 @@ class RegisterMemberAPIView(GenericAPIView, CreateModelMixin):
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+    
+
+# get all members with Pagination, 20 members at once
+from rest_framework.pagination import PageNumberPagination
+
+class MemberPagination(PageNumberPagination):
+    page_size = 20  # Default: 20 members per page
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 # [Member]
 class MemberListAPIView(GenericAPIView, ListModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberListSerializer
+    pagination_class = MemberPagination
     # permission_classes = [AdminLevelPermission]
-    
-    def get(self, request):
-        return self.list(request)
-    
-        # response = self.list(request)
 
-        # return Response({
-        #     'total': self.get_queryset().count(),
-        #     # response.data
-        # })
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
 
 # For member (dashboard)
 class MemberRetriveAPIView(GenericAPIView, RetrieveModelMixin):

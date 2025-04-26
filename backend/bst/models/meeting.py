@@ -22,25 +22,37 @@ class Meeting(models.Model):
 
     MOC = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="moc_meetings")
     OMC = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="omc_meetings")
-    CE = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="ce_meetings")
+    # CE = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="ce_meetings")
     '''why related_name? becoz, django in sabhi relationships ke liye reverse accessors create karta hai, aur kyunki aapne related_name specify nahi kiya, 
     Django in sabhi ke liye default reverse accessor meeting_set bana dega.
     '''
 
-    created_at = models.DateField(auto_now_add=True, blank=True, null=True) #Sirf first time create hone par date set hogi, baad me change nahi hogi.
+    # Role-wise Member assignments
+    moderator = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="moderator_meetings")
+    coordinator = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="coordinator_meetings")
+    timekeeper = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="timekeeper_meetings")
+    listener = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="listener_meetings")
+    filler_counter = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="filler_counter_meetings")
 
-    def clean(self):
-        if self.MOC and self.MOC.club != self.club:
-            raise ValidationError("MOC must belong to the selected club.")
-        if self.OMC and self.OMC.club != self.club:
-            raise ValidationError("OMC must belong to the selected club.")
-        if self.CE and self.CE.club != self.club:
-            raise ValidationError("CE must belong to the selected club.")
-    
-    def save(self, *args, **kwargs):
-        """ Calling clean() before saving the model to enforce validation """
-        self.clean()
-        super(Meeting, self).save(*args, **kwargs)
+    # Speakers
+    speaker1 = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="speaker1_meetings")
+    speaker2 = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="speaker2_meetings")
+    speaker3 = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="speaker3_meetings")
+
+    # Evaluators
+    speech_evaluator1 = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="speech_evaluator1_meetings")
+    speech_evaluator2 = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="speech_evaluator2_meetings")
+
+    # Executive roles
+    president = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="president_meetings")
+    vice_president_education = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="vpe_meetings")
+    vice_president_membership = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="vpm_meetings")
+    vice_president_public_relations = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="vppr_meetings")
+    secretary = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="secretary_meetings")
+    sergeant_at_arms = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="saa_meetings")
+
+    # Metadata
+    created_at = models.DateField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.title

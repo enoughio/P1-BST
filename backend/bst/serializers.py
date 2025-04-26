@@ -19,7 +19,9 @@ class ClubSerializer(serializers.ModelSerializer):
     address = serializers.SerializerMethodField()
     executive_committee = serializers.SerializerMethodField()
     initiative = serializers.SerializerMethodField()
-    
+
+    admin = serializers.SerializerMethodField()
+
     class Meta:
         model = club.Club
         fields = [
@@ -35,8 +37,18 @@ class ClubSerializer(serializers.ModelSerializer):
             "image",
             "email",
             "mobile",
-            "executive_committee"
+            "executive_committee",
+            "admin",
         ]
+
+    def get_admin(self, obj):
+        from accounts.models import Admin
+
+        admin = Admin.objects.filter(club=obj).first()
+        if admin:
+            return admin.get_full_name()
+        return None
+
 
     def get_members(self, obj):
         return Member.objects.filter(club=obj).count()
@@ -68,11 +80,38 @@ class ClubSerializer(serializers.ModelSerializer):
         return obj.initiative.title
 
 
+class SpeakerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = event.Speaker
+        fields = ['name', 'role', 'bio', 'image']
+
+
+class ScheduleItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = event.ScheduleItem
+        fields = ['time', 'title', 'description']
+
+
+class EventPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = event.EventPhoto
+        fields = ['url', 'alt']
+
+
 class EventSerializer(serializers.ModelSerializer):
+    speakers = SpeakerSerializer(many=True)
+    schedule = ScheduleItemSerializer(many=True)
+    photos = EventPhotoSerializer(many=True)
+
     class Meta:
         model = event.Event
-        fields = '__all__' 
-        read_only_fields = ['club']
+        fields = [
+            'event_id', 'title', 'description',
+            'date', 'time', 'location', 'image',
+            'highlighted', 'club', 'attendees', 'max_capacity',
+            'ticket_price', 'categories',
+            'speakers', 'schedule', 'photos'
+        ]
 
 
 class EventRegisterSerializer(serializers.ModelSerializer):
@@ -133,12 +172,9 @@ class AwardSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'date', 'type']
 
 
-class MeetingSerializer(serializers.ModelSerializer):
+class WeeklyMeetingMeetingSerializer(serializers.ModelSerializer):
     time = serializers.SerializerMethodField()
     location = serializers.ReadOnlyField()
-    MOC = serializers.SerializerMethodField()
-    OMC = serializers.SerializerMethodField()
-    CE = serializers.SerializerMethodField()
     roles = serializers.SerializerMethodField()
 
     class Meta:
@@ -150,55 +186,65 @@ class MeetingSerializer(serializers.ModelSerializer):
         end = obj.end_time.strftime("%I:%M %p")
         return f"{start} - {end}"
 
-    def get_MOC(self, obj):
-        return obj.MOC.username if obj.MOC else None
+    def get_roles(self, obj):
+        role_fields = {
+            "master_of_ceremony": obj.MOC,
+            "open_mic_coordinator": obj.OMC,
+            "moderator": obj.moderator,
+            "coordinator": obj.coordinator,
+            "timekeeper": obj.timekeeper,
+            "listener": obj.listener,
+            "filler_counter": obj.filler_counter,
+            "speaker1": obj.speaker1,
+            "speaker2": obj.speaker2,
+            "speaker3": obj.speaker3,
+            "speech_evaluator1": obj.speech_evaluator1,
+            "speech_evaluator2": obj.speech_evaluator2,
+        }
 
-    def get_OMC(self, obj):
-        return obj.OMC.username if obj.OMC else None
+        roles_list = []
+        for role_name, member in role_fields.items():
+            roles_list.append({
+                "role": role_name.replace("_", " "),
+                "assignedTo": member.username if member else None
+            })
 
-    def get_CE(self, obj):
-        return obj.CE.username if obj.CE else None
+        return roles_list
+    
+
+class ExecutiveCommitteeMeetingSerializer(serializers.ModelSerializer):
+    time = serializers.SerializerMethodField()
+    location = serializers.ReadOnlyField()
+    roles = serializers.SerializerMethodField()
+
+    class Meta:
+        model = meeting.Meeting
+        fields = ['meeting_id', 'title', 'date', 'time', 'location', 'description', 'roles']
+
+    def get_time(self, obj):
+        start = obj.start_time.strftime("%I:%M %p")
+        end = obj.end_time.strftime("%I:%M %p")
+        return f"{start} - {end}"
 
     def get_roles(self, obj):
-        return [
-            {
-                "role": "MOC",
-                "assignedTo": str(obj.MOC.username) if obj.MOC else None
-            },
-            {
-                "role": "OMC",
-                "assignedTo": str(obj.OMC.username) if obj.OMC else None
-            },
-            {
-                "role": "CE",
-                "assignedTo": str(obj.CE.username) if obj.CE else None
-            },
-            {
-                "role": "Grammarian",
-                "assignedTo": None  # not assigned yet
-            },
+        role_fields = {
+            "president": obj.president,
+            "vice_president_education": obj.vice_president_education,
+            "vice_president_membership": obj.vice_president_membership,
+            "vice_president_public_relations": obj.vice_president_public_relations,
+            "secretary": obj.secretary,
+            "sergeant_at_arms": obj.sergeant_at_arms,
+        }
 
-            # {
-            #     "role": "Toastmaster of the Evening",
-            #     "assignedTo": str(obj.MOC.id) if obj.MOC else None
-            # },
-            # {
-            #     "role": "Timer",
-            #     "assignedTo": str(obj.OMC.id) if obj.OMC else None
-            # },
-            # {
-            #     "role": "Ah Counter",
-            #     "assignedTo": str(obj.CE.id) if obj.CE else None
-            # },
-            # {
-            #     "role": "Grammarian",
-            #     "assignedTo": None  # not assigned yet
-            # },
-            # {
-            #     "role": "Speaker 1",
-            #     "assignedTo": str(obj.OMC.id) if obj.OMC else None  # just an example
-            # }
-        ]
+        roles_list = []
+        for role_name, member in role_fields.items():
+            roles_list.append({
+                "role": role_name.replace("_", " "),
+                "assignedTo": member.username if member else None
+            })
+
+        return roles_list
+
 
 
 class InitiativeSerializer(serializers.ModelSerializer):
