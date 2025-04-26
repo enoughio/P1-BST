@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { getClubs, getRequests, getEvents } from "@/lib/api"
 import { AlertTriangle, Building, Calendar, Flag, Star, Users } from "lucide-react"
 import Link from "next/link"
+import { toast } from "@/hooks/use-toast"
 
 export default function SuperAdminDashboard() {
   const [stats, setStats] = useState({
@@ -30,13 +31,13 @@ export default function SuperAdminDashboard() {
         // Fetch data for dashboard
         const [clubsData, requestsData, eventsData] = await Promise.all([
           getClubs(),
-          getRequests(),
+          getRequests(),        //TODO - add getRequests() and getEvents to real api
           getEvents(),
         ])
 
         console.log("Clubs Data:", clubsData)
         // console.log("Requests Data:", requestsData)
-        console.log("Events Data:", eventsData)
+        // console.log("Events Data:", eventsData)
 
         setClubs(clubsData)
         setRequests(requestsData)
@@ -67,6 +68,7 @@ export default function SuperAdminDashboard() {
         
       } catch (error) {
         console.error("Error fetching dashboard data:", error)
+        // toast.error("Error fetching dashboard data. Please try again.")
         setLoading(false)
       }
     }
