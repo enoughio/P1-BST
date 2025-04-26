@@ -66,16 +66,16 @@ export default function ClubDetailsPage() {
 
   if (isLoading) {
     return (
-      <AdminLayout>
+      // <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8  text-muted-foreground" />
         </div>
-      </AdminLayout>
+      // </AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -286,7 +286,7 @@ export default function ClubDetailsPage() {
           </Card>
         </div>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
 

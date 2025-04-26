@@ -158,8 +158,9 @@ export default function RequestsPage() {
     return club ? club.name : clubId
   }
 
+  //  <AdminLayout>
   return (
-    <AdminLayout>
+  <div>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -418,7 +419,8 @@ export default function RequestsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+   </div>
+   // </AdminLayout>
   )
 }
 

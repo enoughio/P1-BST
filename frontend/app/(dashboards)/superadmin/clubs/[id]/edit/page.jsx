@@ -13,33 +13,33 @@ import { ArrowLeft, Loader2, Save } from "lucide-react"
 import Link from "next/link"
 import { getClub } from "@/lib/api"
 
-export default function EditClubPage() {
+export default function EditClubPage({clubData}) {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
-  const [club, setClub] = useState(null)
+  const [club, setClub] = useState(clubData || null)
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
 
-  useEffect(() => {
-    const fetchClub = async () => {
-      try {
-        const data = await getClub(params.id)
-        setClub(data)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching club:", error)
-        toast({
-          title: "Error",
-          description: "Failed to load club details",
-          variant: "destructive",
-        })
-        setLoading(false)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchClub = async () => {
+  //     try {
+  //       const data = await getClub(params.id)
+  //       setClub(data)
+  //       setLoading(false)
+  //     } catch (error) {
+  //       console.error("Error fetching club:", error)
+  //       toast({
+  //         title: "Error",
+  //         description: "Failed to load club details",
+  //         variant: "destructive",
+  //       })
+  //       setLoading(false)
+  //     }
+  //   }
 
-    fetchClub()
-  }, [params.id, toast])
+  //   fetchClub()
+  // }, [params.id, toast])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -59,33 +59,71 @@ export default function EditClubPage() {
   }
 
   const handleSubmit = async (e) => {
+
     e.preventDefault()
     setIsSaving(true)
 
     // In a real app, this would be an API call
-    setTimeout(() => {
+    // setTimeout(() => {
+    //   toast({
+    //     title: "Club Updated",
+    //     description: "The club has been successfully updated.",
+    //   })
+    //   router.push(`/superadmin/clubs/${params.id}`)
+    //   setIsSaving(false)
+    // }, 1500)
+
+
+    try {
+      const response = await fetch(`/api/clubs/${params.id}`, {
+        method: "PUT",
+      
+        headers: {
+          "Content-Type": "application/json",
+          credientials: "include",
+        },
+        body: JSON.stringify(club),
+      })
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok")
+      }
+
+      // const data = await response.json()
+      console.log("Club updated successfully:",)
       toast({
         title: "Club Updated",
         description: "The club has been successfully updated.",
       })
-      router.push(`/superadmin/clubs/${params.id}`)
+      router.push(`/superadmin/clubs/`)
       setIsSaving(false)
-    }, 1500)
+
+    } catch (error) {
+      console.error("Error updating club:", error)
+      toast({
+        title: "Error",
+        description: "Failed to update club details",
+        variant: "destructive",
+      })
+      setIsSaving(false)  
+    }
+
+
   }
 
-  if (loading) {
-    return (
-      <AdminLayout>
-        <div className="flex items-center justify-center h-96">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-        </div>
-      </AdminLayout>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <AdminLayout>
+  //       <div className="flex items-center justify-center h-96">
+  //         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+  //       </div>
+  //     </AdminLayout>
+  //   )
+  // }
 
   if (!club) {
     return (
-      <AdminLayout>
+    //  <AdminLayout>
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold mb-4">Club Not Found</h1>
           <p className="text-gray-500 mb-6">The club you're looking for doesn't exist or has been removed.</p>
@@ -96,12 +134,12 @@ export default function EditClubPage() {
             </Link>
           </Button>
         </div>
-      </AdminLayout>
+     // </AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
+   //   <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -242,7 +280,7 @@ export default function EditClubPage() {
           </Card>
         </form>
       </div>
-    </AdminLayout>
+    //  </AdminLayout>
   )
 }
 

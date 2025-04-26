@@ -135,7 +135,7 @@ export default function MemberDashboard() {
   }
 
   return (
-    <MemberLayout>
+   // <MemberLayout>
       <div className="flex flex-col gap-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Member Dashboard</h1>
@@ -361,7 +361,7 @@ export default function MemberDashboard() {
           )
         )}
       </div>
-    </MemberLayout>
+    //</MemberLayout>
   )
 }
 

@@ -24,7 +24,7 @@ export default function AddMeetingPage() {
     location: "Main Club Room",
     description: "",
     roles: [
-      { role: "Toastmaster of the Evening", assignedTo: null },
+      { role: "master of ceramony", assignedTo: null },
       { role: "Timer", assignedTo: null },
       { role: "Ah Counter", assignedTo: null },
       { role: "Grammarian", assignedTo: null },
@@ -91,7 +91,7 @@ export default function AddMeetingPage() {
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function AddMeetingPage() {
           </Card>
         </form>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
 

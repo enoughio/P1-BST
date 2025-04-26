@@ -99,8 +99,9 @@ export default function EventsPage() {
     return new Date(date) > new Date();
   };
 
+  // <AdminLayout>
   return (
-    <AdminLayout>
+  <div>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -348,6 +349,7 @@ export default function EventsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+    </div>
   );
 }
+//</AdminLayout>

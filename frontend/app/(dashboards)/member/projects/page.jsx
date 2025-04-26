@@ -118,7 +118,7 @@ export default function MemberProjectsPage() {
   }
 
   return (
-    <MemberLayout>
+    // <MemberLayout>
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">My Projects</h1>
@@ -339,7 +339,7 @@ export default function MemberProjectsPage() {
           )
         )}
       </div>
-    </MemberLayout>
+    // </MemberLayout>
   )
 }
 

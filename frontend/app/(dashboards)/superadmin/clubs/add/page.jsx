@@ -56,7 +56,7 @@ export default function AddClubPage() {
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -67,7 +67,7 @@ export default function AddClubPage() {
             </Button>
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">Add Club</h1>
-              <p className="text-gray-500">Create a new Toastmasters club</p>
+              <p className="text-gray-500">Create a new storyteller club</p>
             </div>
           </div>
         </div>
@@ -213,7 +213,7 @@ export default function AddClubPage() {
           </Card>
         </form>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
 
