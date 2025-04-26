@@ -6,7 +6,7 @@ from .views import (ClubCreateAPIView,
                     ClubRetrieveAPIView,
                     ClubRetrieveUpdateDestroyAPIView,
                     
-                    EventCreateAPIView,
+                    EventListCreateAPIView,
                     EventListAPIView,
                     EventRetrieveAPIView,
                     EventRegisterAPIView,
@@ -22,18 +22,19 @@ from .views import (ClubCreateAPIView,
 
                     MembersByClubAPIView,    
                     AwardAPIView,
-                    MeetingAPIView,
+                    WeeklyMeetingAPIView,
+                    ExecutiveCommitteeMeetingAPIView,
 
                     InitiativeAPIView,
                     ) 
 
 urlpatterns = [
-    path('clubs/', ClubListAPIView.as_view(), name='create-club'),
+    path('clubs/', ClubListAPIView.as_view(), name='list-club'),
     path('clubs/create/', ClubCreateAPIView.as_view(), name='create-club'),
     path('clubs/<str:club_id>/', ClubRetrieveAPIView.as_view(), name='get-club'),
     path('clubs/<str:club_id>/', ClubRetrieveUpdateDestroyAPIView.as_view(), name='rud-club'),
 
-    path('events/create/', EventCreateAPIView.as_view(), name='create-event'),
+    path('events/create/', EventListCreateAPIView.as_view(), name='create-event'),
     path('events/', EventListAPIView.as_view(), name='list-event'),
     path('events/<str:event_id>/', EventRetrieveAPIView.as_view(), name='get-event'),
     path('events/<str:event_id>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='rud-event'),
@@ -46,12 +47,13 @@ urlpatterns = [
     path('projects/', ProjectAPIView.as_view(), name='create-project'),
     path('projects/', ProjectAPIView.as_view(), name='list-project'),
     path('projects/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='get-project'),
-    path('projects/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='update-project'),
+    path('projects/<int:project_id/', ProjectRetrieveUpdateAPIView.as_view(), name='update-project'),
 
-    path('members/by-club/', MembersByClubAPIView.as_view()),
+    path('clubs/<str:club_id>/members/', MembersByClubAPIView.as_view()),
     
     path('awards/', AwardAPIView.as_view(), name='create-award'),
-    path('meetings/', MeetingAPIView.as_view(), name='create-meeting'),
+    path('meetings/weekly/', WeeklyMeetingAPIView.as_view(), name='weekly-meeting'),
+    path('meetings/executive-committee/', ExecutiveCommitteeMeetingAPIView.as_view(), name='executive-meeting'),
 
     path('membership/create/', MembershipAPIView.as_view(), name='create-membership'),
 

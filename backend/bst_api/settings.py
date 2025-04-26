@@ -192,12 +192,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'accounts.User'
 
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+# Email Backend
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# # SMTP Server Details
+# EMAIL_HOST = 'smtp.gmail.com'  # for gmail
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+# EMAIL_HOST_USER = 'your_email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your_app_password_here'
+
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 RAZORPAY_KEY_ID = config("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")

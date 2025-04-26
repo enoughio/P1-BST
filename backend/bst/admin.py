@@ -13,8 +13,8 @@ class CustomAdminInitiative(admin.ModelAdmin):
     list_display = ('title', 'eligible_age', 'max_club_size',)
 
 
-class CustomAdminEvent(admin.ModelAdmin):
-    list_display = ('event_id', 'title', 'club', 'date', 'fee')
+# class CustomAdminEvent(admin.ModelAdmin):
+#     list_display = ('event_id', 'title', 'club', 'date', 'fee')
 
 
 class CustomAdminMembership(admin.ModelAdmin):
@@ -29,7 +29,10 @@ admin.site.register(club.Club, CustomAdminClub)
 admin.site.register(club.Initiative, CustomAdminInitiative)
 admin.site.register(project.Project, CustomAdminProject)
 admin.site.register(meeting.Meeting)
-admin.site.register(event.Event, CustomAdminEvent)
+admin.site.register(event.Event)
+admin.site.register(event.Speaker)
+admin.site.register(event.ScheduleItem)
+admin.site.register(event.EventPhoto)
 
 admin.site.register(membership.Membership, CustomAdminMembership)
 admin.site.register(membership_history.MembershipHistory, CustomAdminMembershipHistory)
