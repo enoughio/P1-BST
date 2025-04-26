@@ -23,7 +23,7 @@ const getMeetingsAndEvents = () => {
             location: "Main Club Room",
             description: "Regular weekly meeting with prepared speeches and evaluations",
             roles: [
-              { role: "Toastmaster of the Evening", assignedTo: "2" },
+              { role: "master of ceramony", assignedTo: "2" },
               { role: "Timer", assignedTo: "3" },
               { role: "Ah Counter", assignedTo: "4" },
               { role: "Grammarian", assignedTo: null },

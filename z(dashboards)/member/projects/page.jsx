@@ -120,7 +120,7 @@ export default function MemberProjectsPage() {
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">My Projects</h1>
-          <p className="text-gray-500">Track your progress on Toastmasters educational projects.</p>
+          <p className="text-gray-500">Track your progress on storyteller educational projects.</p>
         </div>
 
         {loading ? (

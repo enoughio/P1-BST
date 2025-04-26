@@ -20,7 +20,7 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
       // Redirect to their appropriate dashboard
       router.push(`/${user.role}/dashboard`)
     }
-  }, [user, loading, router, allowedRoles])
+  }, [user, allowedRoles])
 
   // Show loading state while checking authentication
   if (loading) {

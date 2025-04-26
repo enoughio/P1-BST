@@ -179,7 +179,7 @@ class MeetingSerializer(serializers.ModelSerializer):
             },
 
             # {
-            #     "role": "Toastmaster of the Evening",
+            #     "role": "master of ceramony",
             #     "assignedTo": str(obj.MOC.id) if obj.MOC else None
             # },
             # {

@@ -94,10 +94,10 @@ const getEvents = () => {
         },
         {
           id: "5",
-          title: "Annual Toastmasters Conference 2023",
+          title: "Annual storyteller Conference 2023",
           slug: "annual-conference-2023",
           description:
-            "Join us for the annual Toastmasters conference featuring keynote speakers, workshops, networking opportunities, and the grand finals of our speaking competitions.",
+            "Join us for the annual storyteller conference featuring keynote speakers, workshops, networking opportunities, and the grand finals of our speaking competitions.",
           date: "2023-09-15",
           formattedDate: "September 15, 2023",
           time: "9:00 AM - 8:00 PM",
