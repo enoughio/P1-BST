@@ -258,23 +258,64 @@ class ExecutiveCommitteeMeetingSerializer(serializers.ModelSerializer):
         return f"{start} - {end}"
 
     def get_roles(self, obj):
-        role_fields = {
-            "president": obj.president,
-            "vice_president_education": obj.vice_president_education,
-            "vice_president_membership": obj.vice_president_membership,
-            "vice_president_public_relations": obj.vice_president_public_relations,
-            "secretary": obj.secretary,
-            "sergeant_at_arms": obj.sergeant_at_arms,
-        }
+        return [
+            {
+                "role": "MOC",
+                "assignedTo": str(obj.MOC.username) if obj.MOC else None
+            },
+            {
+                "role": "OMC",
+                "assignedTo": str(obj.OMC.username) if obj.OMC else None
+            },
+            {
+                "role": "CE",
+                "assignedTo": str(obj.CE.username) if obj.CE else None
+            },
+            {
+                "role": "Grammarian",
+                "assignedTo": None  # not assigned yet
+            },
 
-        roles_list = []
-        for role_name, member in role_fields.items():
-            roles_list.append({
-                "role": role_name.replace("_", " "),
-                "assignedTo": member.username if member else None
-            })
+            # {
+            #     "role": "master of ceramony",
+            #     "assignedTo": str(obj.MOC.id) if obj.MOC else None
+            # },
+            # {
+            #     "role": "Timer",
+            #     "assignedTo": str(obj.OMC.id) if obj.OMC else None
+            # },
+            # {
+            #     "role": "Ah Counter",
+            #     "assignedTo": str(obj.CE.id) if obj.CE else None
+            # },
+            # {
+            #     "role": "Grammarian",
+            #     "assignedTo": None  # not assigned yet
+            # },
+            # {
+            #     "role": "Speaker 1",
+            #     "assignedTo": str(obj.OMC.id) if obj.OMC else None  # just an example
+            # }
+        ]
 
-        return roles_list
+#         role_fields = {
+#             "president": obj.president,
+#             "vice_president_education": obj.vice_president_education,
+#             "vice_president_membership": obj.vice_president_membership,
+#             "vice_president_public_relations": obj.vice_president_public_relations,
+#             "secretary": obj.secretary,
+#             "sergeant_at_arms": obj.sergeant_at_arms,
+#         }
+
+#         roles_list = []
+#         for role_name, member in role_fields.items():
+#             roles_list.append({
+#                 "role": role_name.replace("_", " "),
+#                 "assignedTo": member.username if member else None
+#             })
+
+#         return roles_list
+
 
 
 

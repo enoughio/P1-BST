@@ -414,7 +414,7 @@ const mockRequests = [
 //TODO: try to use a single function for getMembers and getMember]
 //TODO: try to do it in a more generic way
 
-const BASE_URL = process.env.BACKEND_URL
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export const getMembers = async (clubId) => {
   const endpoint = clubId ? `/members?club=${clubId}` : "/members"
@@ -456,11 +456,10 @@ export const reinstateMember = async (id) => {
 
 // Clubs
 export const getClubs = async () => {
-  return handleRequest("/clubs")
 
-  /*
-  try {
-    const response = await fetch(`${BASE_URL}/api/clubs`, {
+  // return handleRequest("/clubs")
+
+    const response = await fetch(`${BASE_URL}/api/bst/clubs/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -474,15 +473,7 @@ export const getClubs = async () => {
     
     console.log("response", response)
     return await response.json()
-    
-  } catch (error) {
-    console.error("Error fetching clubs:", error)
-    throw error
-  }
-  */
   
-
-
 }
 
 export const getClub = async (id) => {
@@ -501,6 +492,32 @@ export const updateClub = async (id, data) => {
 export const getEvents = async (clubId) => {
   const endpoint = clubId ? `/events?club=${clubId}` : "/events"
   return handleRequest(endpoint)
+
+
+  /*
+  try {
+    const response = await fetch(`${BASE_URL}/api/bst/events/`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        credentials: "include",
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`)
+    }
+    console.log("response", response)
+
+    return await response.json()
+  
+  } catch (error) {
+    console.error("Error fetching events:", )
+    throw error
+  }
+  */
+
+
 }
 
 export const getEvent = async (id) => {
