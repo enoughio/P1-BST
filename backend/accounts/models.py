@@ -99,3 +99,22 @@ class Admin(User):
         if self.is_superuser:
             return f"(SuperAdmin) - {self.username}"
         return f"(Admin) - {self.username}"
+
+
+
+class MemberRemovalRequest(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected')
+    ]
+
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='removal_requests')
+    requested_by = models.ForeignKey(Admin, on_delete=models.CASCADE, related_name='removal_requests_created')
+    reason = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Remove {self.member.username} from {self.member.club.club_name} (Status: {self.status})"

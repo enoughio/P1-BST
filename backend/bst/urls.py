@@ -3,7 +3,6 @@ from django.urls import path
 
 from .views import (ClubCreateAPIView,
                     ClubListAPIView,
-                    ClubRetrieveAPIView,
                     ClubRetrieveUpdateDestroyAPIView,
                     
                     EventListCreateAPIView,
@@ -31,7 +30,6 @@ from .views import (ClubCreateAPIView,
 urlpatterns = [
     path('clubs/', ClubListAPIView.as_view(), name='list-club'),
     path('clubs/create/', ClubCreateAPIView.as_view(), name='create-club'),
-    path('clubs/<str:club_id>/', ClubRetrieveAPIView.as_view(), name='get-club'),
     path('clubs/<str:club_id>/', ClubRetrieveUpdateDestroyAPIView.as_view(), name='rud-club'),
 
     path('events/create/', EventListCreateAPIView.as_view(), name='create-event'),

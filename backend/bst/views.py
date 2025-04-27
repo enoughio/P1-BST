@@ -14,7 +14,7 @@ from accounts.models import Member, Admin
 from bst.models import club, event, event_registration, meeting, project, award, membership, membership_history
 
 from accounts.serializers import MemberSerializer
-from bst.serializers import (ClubSerializer,
+from bst.serializers import (ClubCreateSerializer, ClubSerializer,
                              EventSerializer,
                              EventRegisterSerializer,
                              MeetingSerializer,
@@ -66,7 +66,7 @@ class AdminSuperAdminLevelPersmission(BasePermission):
 # Create your views here.
 class ClubCreateAPIView(GenericAPIView, CreateModelMixin):
     queryset = club.Club.objects.all()
-    serializer_class = ClubSerializer
+    serializer_class = ClubCreateSerializer
 
     # permission_classes = [SuperAdminLevelPermission]
 
@@ -81,30 +81,16 @@ class ClubListAPIView(GenericAPIView, ListModelMixin):
         return self.list(request)
     
 
-class ClubRetrieveAPIView(GenericAPIView, RetrieveModelMixin):
-    queryset = club.Club.objects.all()
-    serializer_class = ClubSerializer
-    lookup_field = 'club_id'
-    
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-    
-
 class ClubRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = club.Club.objects.all()
-    serializer_class = ClubSerializer
     lookup_field = 'club_id'
 
-    # permission_classes = [SuperAdminLevelPermission]
+    # permission_classes = [AdminSuperAdminLevelPersmission]
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
+    def get_serializer_class(self):
+        if self.request.method in ['PUT']:
+            return ClubCreateSerializer   # for update
+        return ClubSerializer             # retrieve ke liye full detailed serializer
     
 
 

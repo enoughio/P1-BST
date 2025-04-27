@@ -57,7 +57,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'accounts.authentication.CookieTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',  #postman like authentication ke liye
+        'accounts.authentication.CookieTokenAuthentication',    # for cookie-based auth
 
         # for Token + Session
         # 'rest_framework.authentication.TokenAuthentication', # Token Authentication Enable
@@ -176,8 +177,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -190,21 +189,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTH_USER_MODEL = 'accounts.User'
-
-
-
-# Email Backend
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-# # SMTP Server Details
-# EMAIL_HOST = 'smtp.gmail.com'  # for gmail
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-
-# EMAIL_HOST_USER = 'your_email@gmail.com'
-# EMAIL_HOST_PASSWORD = 'your_app_password_here'
-
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 
