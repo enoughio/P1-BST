@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from bst.serializers import AwardSerializer, MeetingSerializer
-from .models import Member, Admin
+from .models import Member, Admin, MemberRemovalRequest
 from bst.models import project, meeting
 
 from django.utils import timezone
@@ -180,4 +180,42 @@ class AdminBasicInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Admin
         fields = ['first_name', 'last_name', 'phone', 'avatar', 'gender', 'dob', 'address']
+
+
+
+
+class MemberRemovalRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MemberRemovalRequest
+        fields = '__all__'
+        read_only_fields = ['status', 'created_at', 'updated_at']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request:
+            admin = request.user
+            self.fields['member'].queryset = Member.objects.filter(club=admin.club)
+
+    def validate(self, data):
+        user = self.context['request'].user
+        try:
+            requested_by = Admin.objects.get(id=user.id)
+        except Admin.DoesNotExist:
+            raise serializers.ValidationError("Only admins can create removal requests.")
+        
+        member = data.get('member')
+
+        if requested_by.club != member.club:
+            raise serializers.ValidationError("Admin and Member must belong to the same club.")
+
+        data['requested_by'] = requested_by
+        return data
+    
+
+class RequestApproveRejectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MemberRemovalRequest
+        fields = '__all__'
+        read_only_fields = ['created_at', 'updated_at']
         

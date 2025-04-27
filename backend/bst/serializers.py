@@ -14,6 +14,27 @@ from bst.models import (club,
                         membership_history)
 
 
+
+class ClubCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = club.Club
+        fields = [
+            "initiative",
+            "club_name",
+            "street",
+            "city",
+            "state",
+            "postal_code",
+            "country",
+            "map",
+            "meeting_time",
+            "description",
+            "image",
+            "email",
+            "mobile",
+        ]
+
+
 class ClubSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
     address = serializers.SerializerMethodField()
@@ -21,6 +42,7 @@ class ClubSerializer(serializers.ModelSerializer):
     initiative = serializers.SerializerMethodField()
 
     admin = serializers.SerializerMethodField()
+    admin_username = serializers.SerializerMethodField()
 
     class Meta:
         model = club.Club
@@ -30,15 +52,16 @@ class ClubSerializer(serializers.ModelSerializer):
             "club_name",
             "address",
             "city",
+            "map",
             "meeting_time",
-            "position",
-            "dms_position",
+            "description",
             "members",
             "image",
             "email",
             "mobile",
             "executive_committee",
             "admin",
+            "admin_username",
         ]
 
     def get_admin(self, obj):
@@ -47,6 +70,14 @@ class ClubSerializer(serializers.ModelSerializer):
         admin = Admin.objects.filter(club=obj).first()
         if admin:
             return admin.get_full_name()
+        return None
+    
+    def get_admin_username(self, obj):
+        from accounts.models import Admin
+
+        admin = Admin.objects.filter(club=obj).first()
+        if admin:
+            return admin.username
         return None
 
 

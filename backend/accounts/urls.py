@@ -2,7 +2,9 @@ from django.urls import path
 
 from bst.views import MembershipActivateAPIView, MembershipHistoryListAPIView
 
-from .views import (RegisterMemberAPIView,
+from .views import (MemberRemovalRequestCreateAPIView, PendingRemovalRequestsView, ApproveRejectRequestView, 
+                    
+                    RegisterMemberAPIView,
                     LoginAPIView,
                     LogoutAPIView,
                     get_current_user,
@@ -56,4 +58,9 @@ urlpatterns = [
     path("admins/", AdminAPIView.as_view(), name="list-admin"),  # Get All Admins
     path("admins/create/", RegisterAdminAPIView.as_view(), name="create-admin"),  # Create Admin
     path("admins/<str:username>/", AdminRetrieveUpdateDestroyAPIView.as_view(), name="rud-admin"),  # Read, Update, Delete Admin (Super Admin)
+
+
+    path('create-removal-request/', MemberRemovalRequestCreateAPIView.as_view(), name='create_removal_request'),
+    path('pending-removal-requests/', PendingRemovalRequestsView.as_view(), name='pending_removal_requests'),
+    path('approve-reject-request/<str:pk>/', ApproveRejectRequestView.as_view(), name='approve_reject_request'),
 ]
