@@ -396,7 +396,7 @@ class ApproveRejectRequestView(generics.RetrieveUpdateDestroyAPIView):
     queryset = MemberRemovalRequest.objects.filter(status='Pending')
     serializer_class = RequestApproveRejectSerializer
     permission_classes = [SuperAdminLevelPermission]
-    lookup_field = 'pk'  # IMPORTANT: taaki URL se pk match ho
+    lookup_field = 'pk'
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
