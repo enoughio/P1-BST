@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -31,13 +30,11 @@ export default function SuperAdminDashboard() {
         // Fetch data for dashboard
         const [clubsData, requestsData, eventsData] = await Promise.all([
           getClubs(),
-          getRequests(),        //TODO - add getRequests() and getEvents to real api
+          getRequests(),        //TODO - add getRequests() and getEvents() to real api
           getEvents(),
         ])
 
         console.log("Clubs Data:", clubsData)
-        // console.log("Requests Data:", requestsData)
-        // console.log("Events Data:", eventsData)
 
         setClubs(clubsData)
         setRequests(requestsData)
@@ -68,7 +65,11 @@ export default function SuperAdminDashboard() {
         
       } catch (error) {
         console.error("Error fetching dashboard data:", error)
-        // toast.error("Error fetching dashboard data. Please try again.")
+        toast({
+          title: "Error",
+          description: "An error occurred while fetching data.",
+          variant: "destructive",
+        });
         setLoading(false)
       }
     }

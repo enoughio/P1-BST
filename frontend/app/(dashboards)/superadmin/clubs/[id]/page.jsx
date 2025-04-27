@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import AdminLayout from "@/components/admin-layout"
-import { getClub, updateClub } from "@/lib/api"
+import { getClub, getClubMembers } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -15,6 +15,40 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast"
 import { Building, CalendarClock, Loader2, Mail, MapPin, Phone, Save, User, Users, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+
+
+        // name: "",
+        // address: "",
+        // city: "",
+        // meetingTime: "",
+        // position: [0, 0],
+        // dmsPosition: "",
+        // description: "",
+        // Admin: "",
+        // adminId: "",
+        // inicative: "",
+        // adminUsername: "",
+        // email: "",
+        // phone: "",
+
+        const clubData = {
+          club_id: "C0001",
+          initiative: "Bhopal Storytellers",
+          club_name: "XYZ Storytellers",
+          address: "GTB NAGAR MONORAIL STATION, INDIRA NAGAR, KOLIWADA, SION, Mumbai, English, 400037, India",
+          city: "Mumbai",
+          meeting_time: null,
+          position: [],
+          dms_position: "",
+          members: 0,
+          image: null,
+          email: "c2@example.com",
+          mobile: "9594548313",
+          executive_committee: [],
+          admin: 'John Doe',
+          admin_id: "A0001",
+      }
+
 
 export default function ClubDetailPage() {
   const params = useParams()
@@ -32,55 +66,56 @@ export default function ClubDetailPage() {
       try {
         // In a real app, these would be separate API calls
         const clubData = await getClub(params.id)
+        const membersData = await getClubMembers(params.id) 
 
-        // Mock members data
-        const mockMembers = [
-          {
-            id: "1",
-            first_name: "Alice",
-            last_name: "Johnson",
-            email: "alice@example.com",
-            phone: "123-456-7890",
-            role: "Member",
-            membershipExpiryDate: "2024-12-31",
-          },
-          {
-            id: "2",
-            first_name: "Bob",
-            last_name: "Smith",
-            email: "bob@example.com",
-            phone: "987-654-3210",
-            role: "Secretary",
-            membershipExpiryDate: "2023-11-15",
-          },
-          {
-            id: "3",
-            first_name: "Charlie",
-            last_name: "Brown",
-            email: "charlie@example.com",
-            phone: "555-123-4567",
-            role: "Treasurer",
-            membershipExpiryDate: "2024-03-22",
-          },
-          {
-            id: "4",
-            first_name: "Diana",
-            last_name: "Miller",
-            email: "diana@example.com",
-            phone: "333-888-9999",
-            role: "Vice President",
-            membershipExpiryDate: "2023-12-15",
-          },
-          {
-            id: "5",
-            first_name: "Edward",
-            last_name: "Garcia",
-            email: "edward@example.com",
-            phone: "777-222-3333",
-            role: "Member",
-            membershipExpiryDate: "2024-06-30",
-          },
-        ]
+        // // Mock members data
+        // const mockMembers = [
+        //   {
+        //     id: "1",
+        //     first_name: "Alice",
+        //     last_name: "Johnson",
+        //     email: "alice@example.com",
+        //     phone: "123-456-7890",
+        //     role: "Member",
+        //     membershipExpiryDate: "2024-12-31",
+        //   },
+        //   {
+        //     id: "2",
+        //     first_name: "Bob",
+        //     last_name: "Smith",
+        //     email: "bob@example.com",
+        //     phone: "987-654-3210",
+        //     role: "Secretary",
+        //     membershipExpiryDate: "2023-11-15",
+        //   },
+        //   {
+        //     id: "3",
+        //     first_name: "Charlie",
+        //     last_name: "Brown",
+        //     email: "charlie@example.com",
+        //     phone: "555-123-4567",
+        //     role: "Treasurer",
+        //     membershipExpiryDate: "2024-03-22",
+        //   },
+        //   {
+        //     id: "4",
+        //     first_name: "Diana",
+        //     last_name: "Miller",
+        //     email: "diana@example.com",
+        //     phone: "333-888-9999",
+        //     role: "Vice President",
+        //     membershipExpiryDate: "2023-12-15",
+        //   },
+        //   {
+        //     id: "5",
+        //     first_name: "Edward",
+        //     last_name: "Garcia",
+        //     email: "edward@example.com",
+        //     phone: "777-222-3333",
+        //     role: "Member",
+        //     membershipExpiryDate: "2024-06-30",
+        //   },
+        // ]
 
         setClub(clubData)
         setEditedClub(clubData)

@@ -25,6 +25,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { getEvents } from "@/lib/api"
 
 export default function EventsPage() {
   const [events, setEvents] = useState([])
@@ -37,15 +38,20 @@ export default function EventsPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("/api/superadmin/events")
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        const data = await response.json()
+
+        const data = await getEvents()
         setEvents(data)
-      } catch (e) {
-        setError(e)
-        console.error("Could not fetch events:", e)
+
+      } catch (error) {
+
+        console.error("Could not fetch events:", error)
+        setError(error)
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to fetch events.",
+        })
+
       } finally {
         setLoading(false)
       }
