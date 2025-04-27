@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import AdminLayout from "@/components/admin-layout"
 import { Button } from "@/components/ui/button"
@@ -8,15 +8,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Calendar, Loader2, Plus, Star, Trash } from "lucide-react"
 import Link from "next/link"
-import { createEvent } from "@/lib/api"
+import { getClubs, createEvent } from "@/lib/api"
 
 export default function AddEventPage() {
   const router = useRouter()
   const { toast } = useToast()
+  const [clubs, setClubs] = useState([])
+  const [loading, setLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
@@ -26,6 +29,7 @@ export default function AddEventPage() {
     date: "",
     time: "",
     location: "",
+    club: "",
     maxCapacity: "100",
     ticketPrice: "",
     categories: [],
@@ -34,6 +38,21 @@ export default function AddEventPage() {
     schedule: [{ time: "", title: "", description: "" }],
     photos: [{ url: "", alt: "" }],
   })
+
+  useEffect(() => {
+    const fetchClubs = async () => {
+      try {
+        const data = await getClubs()
+        setClubs(data)
+        setLoading(false)
+      } catch (error) {
+        console.error("Error fetching clubs:", error)
+        setLoading(false)
+      }
+    }
+
+    fetchClubs()
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -90,6 +109,10 @@ export default function AddEventPage() {
       .filter(Boolean)
 
     setFormData((prev) => ({ ...prev, categories }))
+  }
+
+  const handleSelectChange = (name, value) => {
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
   // Handle speaker changes
@@ -157,20 +180,14 @@ export default function AddEventPage() {
     setIsLoading(true)
 
     try {
-      // Add club ID for the current admin's club
-      const eventData = {
-        ...formData,
-        club: "1", // In a real app, this would be the current admin's club ID
-      }
-
-      await createEvent(eventData)
+      await createEvent(formData)
 
       toast({
         title: "Event Created",
         description: "The event has been successfully created.",
       })
 
-      router.push("/admin/events")
+      router.push("/superadmin/events")
     } catch (error) {
       console.error("Error creating event:", error)
       toast({
@@ -189,13 +206,13 @@ export default function AddEventPage() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" asChild>
-              <Link href="/admin/events">
+              <Link href="/superadmin/events">
                 <ArrowLeft className="h-4 w-4" />
               </Link>
             </Button>
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-gray-900">Add Event</h1>
-              <p className="text-gray-500">Create a new event for your club</p>
+              <p className="text-gray-500">Create a new event</p>
             </div>
           </div>
         </div>
@@ -264,6 +281,22 @@ export default function AddEventPage() {
                     <Label htmlFor="location">Location *</Label>
                     <Input id="location" name="location" value={formData.location} onChange={handleChange} required />
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="club">Hosting Club *</Label>
+                  <Select value={formData.club} onValueChange={(value) => handleSelectChange("club", value)} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a club" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {clubs.map((club) => (
+                        <SelectItem key={club.id} value={club.id}>
+                          {club.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -546,7 +579,7 @@ export default function AddEventPage() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push("/admin/events")}
+                onClick={() => router.push("/superadmin/events")}
                 className="border-gray-200 text-gray-700 hover:bg-gray-50"
               >
                 Cancel
@@ -571,3 +604,4 @@ export default function AddEventPage() {
     </AdminLayout>
   )
 }
+

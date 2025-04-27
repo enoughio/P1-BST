@@ -604,4 +604,3 @@ export default function AddEventPage() {
     </AdminLayout>
   )
 }
-

@@ -1,6 +1,9 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import AdminLayout from "@/components/admin-layout"
+import { getAllEvents, deleteEvent, getClubs } from "@/lib/api"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,211 +12,442 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Trash, MoreHorizontal } from "lucide-react"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { useToast } from "@/hooks/use-toast" 
-
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { getEvents } from "@/lib/api"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Calendar, ChevronDown, MoreHorizontal, Plus, Star, Users, Briefcase, Building } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import Link from "next/link"
 
-export default function EventsPage() {
-  const [events, setEvents] = useState([])
+export default function SuperAdminEventsPage() {
+  const [items, setItems] = useState([])
+  const [filteredItems, setFilteredItems] = useState([])
+  const [clubs, setClubs] = useState([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [activeType, setActiveType] = useState("all")
+  const [activeClub, setActiveClub] = useState("all")
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [selectedItem, setSelectedItem] = useState(null)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchData = async () => {
       try {
+        const [eventsData, clubsData] = await Promise.all([getAllEvents(), getClubs()])
 
-        const data = await getEvents()
-        setEvents(data)
-
+        setItems(eventsData)
+        setFilteredItems(eventsData)
+        setClubs(clubsData)
+        setLoading(false)
       } catch (error) {
-
-        console.error("Could not fetch events:", error)
-        setError(error)
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to fetch events.",
-        })
-
-      } finally {
+        console.error("Error fetching data:", error)
         setLoading(false)
       }
     }
 
-    fetchEvents()
+    fetchData()
   }, [])
 
-  const handleToggleHighlight = async (event) => {
-    try {
-      const response = await fetch(`/api/superadmin/events/${event.id}/highlight`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ highlighted: !event.highlighted }),
-      })
+  useEffect(() => {
+    // Filter items when search term, type, or club changes
+    if (searchTerm || activeType !== "all" || activeClub !== "all") {
+      let filtered = [...items]
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
+      // Apply search filter
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase()
+        filtered = filtered.filter(
+          (item) =>
+            item.title.toLowerCase().includes(term) ||
+            item.description.toLowerCase().includes(term) ||
+            item.location.toLowerCase().includes(term),
+        )
       }
 
-      const updatedEvent = await response.json()
+      // Apply type filter
+      if (activeType !== "all") {
+        filtered = filtered.filter((item) => item.type === activeType)
+      }
 
-      setEvents((prevEvents) => prevEvents.map((e) => (e.id === updatedEvent.id ? updatedEvent : e)))
+      // Apply club filter
+      if (activeClub !== "all") {
+        filtered = filtered.filter((item) => item.club === activeClub)
+      }
 
-      toast({
-        title: "Highlight Status Updated",
-        description: `Event ${updatedEvent.highlighted ? "highlighted" : "unhighlighted"} successfully.`,
-      })
-    } catch (e) {
-      setError(e)
-      console.error("Could not toggle highlight:", e)
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update highlight status.",
-      })
+      setFilteredItems(filtered)
+    } else {
+      setFilteredItems(items)
     }
-  }
+  }, [searchTerm, activeType, activeClub, items])
 
-  const handleDeleteEvent = async () => {
-    if (!selectedEvent) return
+  const handleDelete = async () => {
+    if (!selectedItem) return
 
     try {
-      const response = await fetch(`/api/superadmin/events/${selectedEvent.id}`, {
-        method: "DELETE",
-      })
+      await deleteEvent(selectedItem.id)
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
+      // Update local state
+      setItems(items.filter((e) => e.id !== selectedItem.id))
+      setFilteredItems(filteredItems.filter((e) => e.id !== selectedItem.id))
 
-      setEvents((prevEvents) => prevEvents.filter((e) => e.id !== selectedEvent.id))
       setIsDeleteDialogOpen(false)
-      setSelectedEvent(null)
 
       toast({
-        title: "Event Deleted",
-        description: "Event deleted successfully.",
+        title: "Deleted",
+        description: `The ${selectedItem.type} has been successfully deleted.`,
       })
-    } catch (e) {
-      setError(e)
-      console.error("Could not delete event:", e)
+    } catch (error) {
+      console.error("Error deleting:", error)
       toast({
-        variant: "destructive",
         title: "Error",
-        description: "Failed to delete event.",
+        description: "Failed to delete. Please try again.",
+        variant: "destructive",
       })
     }
   }
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error.message}</div>
+  const getClubName = (clubId) => {
+    const club = clubs.find((c) => c.id === clubId)
+    return club ? club.name : "Unknown Club"
+  }
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">All Events</h1>
-          <p className="text-gray-500">Manage events across all clubs in the organization.</p>
+    <AdminLayout>
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">All Events & Workshops</h1>
+            <p className="text-muted-foreground">Manage events and workshops across all clubs</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create New
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/superadmin/events/add?type=event">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    New Event
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/superadmin/events/add?type=workshop">
+                    <Briefcase className="mr-2 h-4 w-4" />
+                    New Workshop
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-            <Link href="/superadmin/events/add">
-              <Plus className="mr-2 h-4 w-4" />
-              Add Event
-            </Link>
-          </Button>
-        </div>
-      </div>
-      <div className="mt-8">
-        <Table>
-          <TableCaption>A list of all events in the organization.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">ID</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Club</TableHead>
-              <TableHead>Highlighted</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {events.map((event) => (
-              <TableRow key={event.id}>
-                <TableCell className="font-medium">{event.id}</TableCell>
-                <TableCell>{event.name}</TableCell>
-                <TableCell>{event.clubName}</TableCell>
-                <TableCell>{event.highlighted ? "Yes" : "No"}</TableCell>
-                <TableCell className="text-right">
+
+        <div className="space-y-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="relative w-full sm:w-64">
+              <Input
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full"
+              />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Select value={activeClub} onValueChange={setActiveClub}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Filter by club" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Clubs</SelectItem>
+                  {clubs.map((club) => (
+                    <SelectItem key={club.id} value={club.id}>
+                      {club.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center gap-2 ml-auto">
+              <Tabs value={activeType} onValueChange={setActiveType} className="w-full">
+                <TabsList>
+                  <TabsTrigger value="all">All</TabsTrigger>
+                  <TabsTrigger value="event">
+                    <Calendar className="mr-1 h-4 w-4" />
+                    Events
+                  </TabsTrigger>
+                  <TabsTrigger value="workshop">
+                    <Briefcase className="mr-1 h-4 w-4" />
+                    Workshops
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+
+          <Tabs defaultValue="grid" className="space-y-4">
+            <TabsList className="ml-auto">
+              <TabsTrigger value="grid">Grid</TabsTrigger>
+              <TabsTrigger value="list">List</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="grid" className="space-y-4">
+              {loading ? (
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {[...Array(3)].map((_, i) => (
+                    <Card key={i} className="animate-pulse">
+                      <CardHeader className="h-40 bg-muted/40"></CardHeader>
+                      <CardContent className="h-24 mt-4 space-y-2">
+                        <div className="h-4 bg-muted/60 rounded w-1/2"></div>
+                        <div className="h-4 bg-muted/60 rounded w-full"></div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : filteredItems.length === 0 ? (
+                <div className="text-center py-10">
+                  <p className="text-muted-foreground mb-4">No events or workshops found.</p>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal className="h-4 w-4" />
+                      <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+                        <Plus className="mr-2 h-4 w-4" />
+                        Create New
+                        <ChevronDown className="ml-2 h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link href={`/superadmin/events/${event.id}`}>View Details</Link>
+                        <Link href="/superadmin/events/add?type=event">
+                          <Calendar className="mr-2 h-4 w-4" />
+                          New Event
+                        </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleToggleHighlight(event)}>
-                        {event.highlighted ? <>Remove Highlight</> : <>Highlight Event</>}
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        className="text-destructive focus:text-destructive"
-                        onClick={() => {
-                          setSelectedEvent(event)
-                          setIsDeleteDialogOpen(true)
-                        }}
-                      >
-                        <Trash className="mr-2 h-4 w-4" />
-                        Delete Event
+                      <DropdownMenuItem asChild>
+                        <Link href="/superadmin/events/add?type=workshop">
+                          <Briefcase className="mr-2 h-4 w-4" />
+                          New Workshop
+                        </Link>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                </div>
+              ) : (
+                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {filteredItems.map((item) => (
+                    <Card
+                      key={item.id}
+                      className={`flex flex-col overflow-hidden ${
+                        item.type === "workshop" ? "border-purple-200" : "border-blue-200"
+                      }`}
+                    >
+                      <div className="relative aspect-video bg-muted">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <img
+                            src={
+                              item.image ||
+                              `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(item.title) || "/placeholder.svg"}`
+                            }
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="absolute top-2 right-2 flex gap-2">
+                          {item.highlighted && (
+                            <Badge className="bg-yellow-500">
+                              <Star className="mr-1 h-3 w-3" />
+                              Featured
+                            </Badge>
+                          )}
+                          <Badge
+                            className={item.type === "event" ? "bg-blue-500 text-white" : "bg-purple-500 text-white"}
+                          >
+                            {item.type === "event" ? "Event" : "Workshop"}
+                          </Badge>
+                        </div>
+                      </div>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="line-clamp-1">{item.title}</CardTitle>
+                        <CardDescription className="flex items-center text-sm">
+                          <Calendar className="mr-1 h-4 w-4" />
+                          {item.formattedDate}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="pb-2">
+                        <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                        <div className="mt-2 flex items-center text-sm text-muted-foreground">
+                          <Building className="mr-1 h-4 w-4" />
+                          {getClubName(item.club)}
+                        </div>
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {item.categories &&
+                            item.categories.slice(0, 2).map((category, i) => (
+                              <Badge variant="outline" key={i}>
+                                {category}
+                              </Badge>
+                            ))}
+                        </div>
+                      </CardContent>
+                      <CardFooter className="flex justify-between pt-2 mt-auto">
+                        <div className="flex items-center text-sm text-muted-foreground">
+                          <Users className="mr-1 h-3 w-3" />
+                          <span>
+                            {item.attendees}/{item.maxCapacity}
+                          </span>
+                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Actions</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem asChild>
+                              <Link href={`/superadmin/events/${item.id}`}>View Details</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link href={`/superadmin/events/${item.id}/edit`}>Edit</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <Link href={`/superadmin/events/${item.id}/participants`}>View Participants</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              className="text-destructive focus:text-destructive"
+                              onClick={() => {
+                                setSelectedItem(item)
+                                setIsDeleteDialogOpen(true)
+                              }}
+                            >
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="list">
+              <Card>
+                <CardContent className="p-0">
+                  <div className="rounded-md border">
+                    <div className="p-4">
+                      <div className="grid grid-cols-6 font-medium">
+                        <div>Title</div>
+                        <div>Type</div>
+                        <div>Club</div>
+                        <div>Date & Time</div>
+                        <div>Location</div>
+                        <div>Attendees</div>
+                      </div>
+                    </div>
+                    <div className="divide-y">
+                      {filteredItems.map((item) => (
+                        <div key={item.id} className="grid grid-cols-6 p-4">
+                          <div className="font-medium flex items-center">
+                            {item.highlighted && <Star className="mr-1 h-4 w-4 text-yellow-500" />}
+                            {item.title}
+                          </div>
+                          <div>
+                            <Badge
+                              className={item.type === "event" ? "bg-blue-500 text-white" : "bg-purple-500 text-white"}
+                            >
+                              {item.type === "event" ? "Event" : "Workshop"}
+                            </Badge>
+                          </div>
+                          <div>{getClubName(item.club)}</div>
+                          <div>
+                            {item.formattedDate}, {item.time}
+                          </div>
+                          <div className="truncate">{item.location}</div>
+                          <div className="flex justify-between items-center">
+                            <span className="flex items-center">
+                              <Users className="mr-1 h-4 w-4" />
+                              {item.attendees}/{item.maxCapacity}
+                            </span>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                  <MoreHorizontal className="h-4 w-4" />
+                                  <span className="sr-only">Actions</span>
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/superadmin/events/${item.id}`}>View Details</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/superadmin/events/${item.id}/edit`}>Edit</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                  <Link href={`/superadmin/events/${item.id}/participants`}>View Participants</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-destructive focus:text-destructive"
+                                  onClick={() => {
+                                    setSelectedItem(item)
+                                    setIsDeleteDialogOpen(true)
+                                  }}
+                                >
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
 
-      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the event from our servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteEvent}>Delete</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </div>
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete {selectedItem?.type === "event" ? "Event" : "Workshop"}</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this {selectedItem?.type === "event" ? "event" : "workshop"}? This action
+              cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </AdminLayout>
   )
 }
-

@@ -105,16 +105,17 @@ export default function EditEventPage() {
 
   if (loading) {
     return (
-      <AdminLayout>
+      // <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      </AdminLayout>
+
+      // </AdminLayout> 
     )
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -268,6 +269,7 @@ export default function EditEventPage() {
           </Card>
         </form>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
+
