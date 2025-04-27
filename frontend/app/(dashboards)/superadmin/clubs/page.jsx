@@ -50,14 +50,25 @@ export default function ClubsPage() {
     const fetchClubs = async () => {
       try {
         const data = await getClubs();
+
+        if (!data) {
+          throw new Error("Data not found");
+        }
+
         setClubs(data);
-        setLoading(false);
+  
       } catch (error) {
-        // console.error("Error fetching clubs:", error);
+        console.error("Error fetching clubs:", error);
+        toast({
+          title: "Error fetching clubs",
+          description: "Unable to fetch clubs. Please reload.",
+          variant: "destructive",
+        });
+
+      } finally {
         setLoading(false);
       }
     };
-
     fetchClubs();
   }, []);
 

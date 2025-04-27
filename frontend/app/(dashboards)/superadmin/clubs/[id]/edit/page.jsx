@@ -11,9 +11,44 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Loader2, Save } from "lucide-react"
 import Link from "next/link"
-import { getClub } from "@/lib/api"
+import { updateClub } from "@/lib/api"
+// import { getClub } from "@/lib/api"
 
-export default function EditClubPage({clubData}) {
+// name: "",
+// address: "",
+// city: "",
+// meetingTime: "",
+// position: [0, 0],
+// dmsPosition: "",
+// description: "",
+// Admin: "",
+// adminId: "",
+// inicative: "",
+// adminUsername: "",
+// email: "",
+// phone: "",
+
+let sampleData = {
+
+  name: "Sample Club",
+  address: "123 Sample St, Sample City, SC 12345",
+  city: "Sample City",
+  meetingTime: "Every Tuesday at 6 PM",
+  position: [34.0522, -118.2437], // Sample coordinates (latitude, longitude)
+  dmsPosition: "34.0522° N, 118.2437° W",
+  description: "",
+  Admin: "",
+  adminId: "",
+  inicative: "",
+  adminUsername: "",
+  email: "",
+  phone: "",
+  
+} 
+
+
+export default function EditClubPage({clubData : sampleData}) {
+
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
@@ -21,25 +56,6 @@ export default function EditClubPage({clubData}) {
   const [loading, setLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
 
-  // useEffect(() => {
-  //   const fetchClub = async () => {
-  //     try {
-  //       const data = await getClub(params.id)
-  //       setClub(data)
-  //       setLoading(false)
-  //     } catch (error) {
-  //       console.error("Error fetching club:", error)
-  //       toast({
-  //         title: "Error",
-  //         description: "Failed to load club details",
-  //         variant: "destructive",
-  //       })
-  //       setLoading(false)
-  //     }
-  //   }
-
-  //   fetchClub()
-  // }, [params.id, toast])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -58,43 +74,27 @@ export default function EditClubPage({clubData}) {
     }
   }
 
+
+
   const handleSubmit = async (e) => {
 
     e.preventDefault()
     setIsSaving(true)
+  
 
-    // In a real app, this would be an API call
-    // setTimeout(() => {
-    //   toast({
-    //     title: "Club Updated",
-    //     description: "The club has been successfully updated.",
-    //   })
-    //   router.push(`/superadmin/clubs/${params.id}`)
-    //   setIsSaving(false)
-    // }, 1500)
-
-
+    // TODO: complete this edit club function
     try {
-      const response = await fetch(`/api/clubs/${params.id}`, {
-        method: "PUT",
       
-        headers: {
-          "Content-Type": "application/json",
-          credientials: "include",
-        },
-        body: JSON.stringify(club),
-      })
+      const data = updateClub(params.id, club)
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok")
-      }
+      
+      console.log("Club updated successfully:")
 
-      // const data = await response.json()
-      console.log("Club updated successfully:",)
       toast({
         title: "Club Updated",
         description: "The club has been successfully updated.",
       })
+
       router.push(`/superadmin/clubs/`)
       setIsSaving(false)
 
@@ -108,22 +108,10 @@ export default function EditClubPage({clubData}) {
       setIsSaving(false)  
     }
 
-
   }
-
-  // if (loading) {
-  //   return (
-  //     <AdminLayout>
-  //       <div className="flex items-center justify-center h-96">
-  //         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-  //       </div>
-  //     </AdminLayout>
-  //   )
-  // }
 
   if (!club) {
     return (
-    //  <AdminLayout>
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold mb-4">Club Not Found</h1>
           <p className="text-gray-500 mb-6">The club you're looking for doesn't exist or has been removed.</p>
@@ -134,12 +122,11 @@ export default function EditClubPage({clubData}) {
             </Link>
           </Button>
         </div>
-     // </AdminLayout>
     )
   }
 
   return (
-   //   <AdminLayout>
+
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -162,73 +149,137 @@ export default function EditClubPage({clubData}) {
               <CardDescription>Edit the basic details for this club</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="name">Club Name *</Label>
-                <Input id="name" name="name" value={club.name} onChange={handleChange} required />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="name">Club Name *</Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                value={club.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="address">Address *</Label>
+              <Textarea
+                id="address"
+                name="address"
+                value={club.address}
+                onChange={handleChange}
+                placeholder="e.g., 123 Main St, Apt 4B"
+                rows={3}
+                required
+              />
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2">
 
               <div className="space-y-2">
-                <Label htmlFor="address">Address *</Label>
-                <Textarea id="address" name="address" value={club.address} onChange={handleChange} rows={3} required />
-              </div>
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="city">City *</Label>
-                  <Input id="city" name="city" value={club.city} onChange={handleChange} required />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="meetingTime">Meeting Time *</Label>
-                  <Input
-                    id="meetingTime"
-                    name="meetingTime"
-                    value={club.meetingTime}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label>Location Coordinates</Label>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="lat">Latitude</Label>
-                    <Input
-                      id="lat"
-                      value={club.position ? club.position[0] : ""}
-                      onChange={(e) => handlePositionChange(0, e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lng">Longitude</Label>
-                    <Input
-                      id="lng"
-                      value={club.position ? club.position[1] : ""}
-                      onChange={(e) => handlePositionChange(1, e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="dmsPosition">DMS Position</Label>
-                <Input id="dmsPosition" name="dmsPosition" value={club.dmsPosition || ""} onChange={handleChange} />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description">Description *</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  value={club.description}
+                <Label htmlFor="city">City *</Label>
+                <Input
+                  id="city"
+                  name="city"
+                  value={club.city}
                   onChange={handleChange}
-                  rows={4}
                   required
                 />
               </div>
-            </CardContent>
+
+              <div className="space-y-2">
+                <Label htmlFor="meetingTime">Meeting Time *</Label>
+                <Input
+                  id="meetingTime"
+                  name="meetingTime"
+                  placeholder="e.g., Tuesdays, 6:30 PM"
+                  value={club.meetingTime}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="inicative">
+                </Label>
+                {/* <Input
+                    id="inicative"
+                    name="inicative"
+                    placeholder=""
+                    value={club.meetingTime}
+                    onChange={handleChange}
+                    required
+                  /> */}
+
+                <Select
+                  id="inicative"
+                  name="inicative"
+                  value={club.inicative}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <SelectTrigger className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <SelectValue placeholder="Select an Inicative" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Storytellers">Storytellers</SelectItem>
+                    <SelectItem value="Young Orater's">
+                      Young Orater's
+                    </SelectItem>
+                    <SelectItem value="Young Leaders">Young Leaders</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+            </div>
+
+            <div className="space-y-2">
+              <Label>Location Coordinates</Label>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="lat">Latitude</Label>
+                  <Input
+                    id="lat"
+                    value={club.position[0]}
+                    onChange={(e) => handlePositionChange(0, e.target.value)}
+                    placeholder="e.g., 23.2339"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lng">Longitude</Label>
+                  <Input
+                    id="lng"
+                    value={club.position[1]}
+                    onChange={(e) => handlePositionChange(1, e.target.value)}
+                    placeholder="e.g., 77.4401"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="dmsPosition">DMS Position (Optional)</Label>
+              <Input
+                id="dmsPosition"
+                name="dmsPosition"
+                placeholder="e.g., 40°42'46.08&quot;N, 74°00'21.6&quot;W"
+                value={club.dmsPosition}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="description">Description *</Label>
+              <Textarea
+                id="description"
+                name="description"
+                value={club.description}
+                onChange={handleChange}
+                rows={4}
+                required
+              />
+            </div>
+          </CardContent>
           </Card>
 
           <Card>
@@ -236,24 +287,69 @@ export default function EditClubPage({clubData}) {
               <CardTitle>Admin Information</CardTitle>
               <CardDescription>Contact details for the club administrator</CardDescription>
             </CardHeader>
+
             <CardContent className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="Admin">Admin Name *</Label>
+              <Input
+                id="Admin"
+                name="Admin"
+                value={club.Admin}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="adminId">Admin Id *</Label>
+              <Input
+                id="adminId"
+                name="adminId"
+                value={club.Admin}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="adminUsername">Admin Username *</Label>
+              <Input
+                id="adminUsername"
+                name="adminUsername"
+                value={club.adminUsername}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="Admin">Admin Name *</Label>
-                <Input id="Admin" name="Admin" value={club.Admin} onChange={handleChange} required />
+                <Label htmlFor="email">Email *</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={club.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
 
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
-                  <Input id="email" name="email" type="email" value={club.email} onChange={handleChange} required />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone *</Label>
-                  <Input id="phone" name="phone" value={club.phone} onChange={handleChange} required />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone *</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={club.phone}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </CardContent>
+            </div>
+          </CardContent>
+
+
+
             <CardFooter className="flex justify-between">
               <Button
                 type="button"
@@ -280,7 +376,7 @@ export default function EditClubPage({clubData}) {
           </Card>
         </form>
       </div>
-    //  </AdminLayout>
+    
   )
 }
 

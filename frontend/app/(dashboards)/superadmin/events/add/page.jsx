@@ -201,7 +201,7 @@ export default function AddEventPage() {
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -601,7 +601,6 @@ export default function AddEventPage() {
           </div>
         </form>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }
-

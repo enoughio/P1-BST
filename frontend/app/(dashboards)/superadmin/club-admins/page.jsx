@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminLayout from "@/components/admin-layout";
 import { getClubs } from "@/lib/api";
 import { Card, CardContent } from "@/components/ui/card";
 import {
