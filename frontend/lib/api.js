@@ -222,53 +222,151 @@ const mockEvents = [
     slug: "BISF",
     description:
       "Join us for an evening of captivating stories that bridge cultures and generations. Our expert storytellers will take you on a journey through time and tradition.",
+    longDescription: `
+      <p>The Bhopal International Storytelling Fest (BISF) is a celebration of the art of storytelling from around the world. This premier event brings together master storytellers, emerging talents, and enthusiastic audiences for an unforgettable evening of narrative magic.</p>
+      
+      <p>This year's theme, "Stories Across Borders," emphasizes the universal power of storytelling to connect us across cultural, geographic, and generational divides. Our carefully curated lineup features traditional folk tales, personal narratives, and innovative storytelling formats that push the boundaries of the craft.</p>
+      
+      <p>Whether you're a seasoned storyteller or simply someone who appreciates the magic of a well-told tale, BISF offers something for everyone. Come be part of this unique celebration of one of humanity's oldest and most enduring art forms.</p>
+    `,
     date: "2023-12-15",
     formattedDate: "December 15, 2023",
     time: "6:00 PM - 9:00 PM",
     location: "Cultural Center, New Delhi",
     image: "",
+    type: "event" / "workshop",
+    createdBy: "adminId",
     highlighted: true,
     club: "1",
+    clubName: "Bhopal Storytellers",
     attendees: 120,
     maxCapacity: 200,
     ticketPrice: "₹500-1500",
     categories: ["Cultural", "Performance", "Educational"],
+    speakers: [
+      {
+        name: "Anita Desai",
+        role: "International Storyteller",
+        bio: "Award-winning storyteller with 20 years of experience performing across Asia and Europe",
+        image: "",
+      },
+      {
+        name: "Rajiv Sharma",
+        role: "Folk Tale Specialist",
+        bio: "Expert in Indian folk tales and their cultural significance",
+        image: "",
+      },
+      {
+        name: "Sarah Johnson",
+        role: "Modern Narrative Expert",
+        bio: "Pushing the boundaries of storytelling through digital media and interactive narratives",
+        image: "",
+      },
+    ],
+    schedule: [
+      {
+        time: "6:00 PM - 6:30 PM",
+        title: "Welcome Reception",
+        description: "Registration and refreshments",
+      },
+      {
+        time: "6:30 PM - 7:30 PM",
+        title: "Traditional Tales",
+        description: "Folk stories from across India presented by our master storytellers",
+      },
+      {
+        time: "7:30 PM - 8:00 PM",
+        title: "Intermission",
+        description: "Refreshments and networking",
+      },
+      {
+        time: "8:00 PM - 9:00 PM",
+        title: "Contemporary Narratives",
+        description: "Modern storytelling formats and interactive experiences",
+      },
+    ],
+    photos: [
+      { url: "", alt: "Last year's storytelling session" },
+      { url: "", alt: "Audience engagement" },
+      { url: "", alt: "Award ceremony from previous edition" },
+    ],
   },
   {
     id: "2",
-    title: "Leadership Workshop",
-    slug: "leadership-workshop-2023",
+    title: "Bhopal International Storytelling Fest",
+    slug: "BISF",
     description:
-      "An intensive workshop focusing on essential leadership skills for today's professionals. Learn how to inspire teams and navigate challenges effectively.",
-    date: "2023-11-20",
-    formattedDate: "November 20, 2023",
-    time: "9:00 AM - 5:00 PM",
-    location: "Conference Hall, Bangalore",
+      "Join us for an evening of captivating stories that bridge cultures and generations. Our expert storytellers will take you on a journey through time and tradition.",
+    longDescription: `
+      <p>The Bhopal International Storytelling Fest (BISF) is a celebration of the art of storytelling from around the world. This premier event brings together master storytellers, emerging talents, and enthusiastic audiences for an unforgettable evening of narrative magic.</p>
+      
+      <p>This year's theme, "Stories Across Borders," emphasizes the universal power of storytelling to connect us across cultural, geographic, and generational divides. Our carefully curated lineup features traditional folk tales, personal narratives, and innovative storytelling formats that push the boundaries of the craft.</p>
+      
+      <p>Whether you're a seasoned storyteller or simply someone who appreciates the magic of a well-told tale, BISF offers something for everyone. Come be part of this unique celebration of one of humanity's oldest and most enduring art forms.</p>
+    `,
+    date: "2023-12-15",
+    formattedDate: "December 15, 2023",
+    time: "6:00 PM - 9:00 PM",
+    location: "Cultural Center, New Delhi",
     image: "",
-    highlighted: false,
-    club: "2",
-    attendees: 85,
-    maxCapacity: 100,
-    ticketPrice: "₹1000",
-    categories: ["Workshop", "Professional Development", "Leadership"],
-  },
-  {
-    id: "3",
-    title: "Public Speaking Championship",
-    slug: "speaking-championship-2024",
-    description:
-      "The annual competition where the best speakers compete for recognition and prizes. Categories include prepared speeches, impromptu speaking, and storytelling.",
-    date: "2024-01-30",
-    formattedDate: "January 30, 2024",
-    time: "10:00 AM - 6:00 PM",
-    location: "Auditorium, Mumbai",
-    image: "",
+    type: "event" / "workshop",
+    createdBy: "adminId",
     highlighted: true,
-    club: "3",
-    attendees: 0,
-    maxCapacity: 300,
-    ticketPrice: "₹750",
-    categories: ["Competition", "Speaking", "Awards"],
+    club: "1",
+    clubName: "Bhopal Storytellers",
+    attendees: 120,
+    maxCapacity: 200,
+    ticketPrice: "₹500-1500",
+    categories: ["Cultural", "Performance", "Educational"],
+    speakers: [
+      {
+        name: "Anita Desai",
+        role: "International Storyteller",
+        bio: "Award-winning storyteller with 20 years of experience performing across Asia and Europe",
+        image: "",
+      },
+      {
+        name: "Rajiv Sharma",
+        role: "Folk Tale Specialist",
+        bio: "Expert in Indian folk tales and their cultural significance",
+        image: "",
+      },
+      {
+        name: "Sarah Johnson",
+        role: "Modern Narrative Expert",
+        bio: "Pushing the boundaries of storytelling through digital media and interactive narratives",
+        image: "",
+      },
+    ],
+    schedule: [
+      {
+        time: "6:00 PM - 6:30 PM",
+        title: "Welcome Reception",
+        description: "Registration and refreshments",
+      },
+      {
+        time: "6:30 PM - 7:30 PM",
+        title: "Traditional Tales",
+        description: "Folk stories from across India presented by our master storytellers",
+      },
+      {
+        time: "7:30 PM - 8:00 PM",
+        title: "Intermission",
+        description: "Refreshments and networking",
+      },
+      {
+        time: "8:00 PM - 9:00 PM",
+        title: "Contemporary Narratives",
+        description: "Modern storytelling formats and interactive experiences",
+      },
+    ],
+    
+    photos: [
+      { url: "", alt: "Last year's storytelling session" },
+      { url: "", alt: "Audience engagement" },
+      { url: "", alt: "Award ceremony from previous edition" },
+    ],
+
   },
 ]
 
@@ -431,7 +529,7 @@ export const getMembers = async (clubId) => {
   //   })
 
   //   console.log("response", response)
-    
+
   //   return response.json()
 }
 
@@ -459,7 +557,7 @@ export const reinstateMember = async (id) => {
 // Clubs
 export const getClubs = async () => {
 
-  // return handleRequest("/clubs")
+  return handleRequest("/clubs")
 
   try {
 
@@ -471,20 +569,20 @@ export const getClubs = async () => {
       },
     })
 
-        
+
     if (!response.ok) {
       const errText = await response.text();
       throw new Error(`Failed to fetch clubs (${response.status}): ${errText}`);
     }
 
     return await response.json();
-    
+
   } catch (error) {
     console.error("getClubs error:", error);
     // re-throw so callers can handle/display it
-    throw error;    
+    throw error;
   }
-  
+
 }
 
 export const getClub = async (clubId) => {
@@ -507,9 +605,9 @@ export const getClub = async (clubId) => {
 
   } catch (error) {
     console.error("getClub error:", error);
-    throw error 
+    throw error
   }
-  
+
 }
 
 export const getClubMembers = async (clubId) => {
@@ -528,10 +626,10 @@ export const getClubMembers = async (clubId) => {
     }
 
     return await response.json();
-    
+
   } catch (error) {
     console.error("getClubMembers error:", error);
-    throw error 
+    throw error
   }
 }
 
@@ -566,7 +664,7 @@ export const createClub = async (data) => {
 
 export const updateClub = async (id, data) => {
   // return handleRequest(`/clubs/${id}`, "PUT", data)
-  try {    
+  try {
     const response = await fetch(`/api/clubs/${params.id}`, {
       method: "PUT",
       headers: {
@@ -580,38 +678,36 @@ export const updateClub = async (id, data) => {
     }
   } catch (error) {
     console.error("updateClub error:", error);
-    throw error 
+    throw error
   }
 }
 
 
 // Events
 export const getEvents = async (clubId) => {
-  // const endpoint = clubId ? `/events?club=${clubId}` : "/events"
-  // return handleRequest(endpoint)
+  const endpoint = clubId ? `/events?club=${clubId}` : "/events"
+  return handleRequest(endpoint)
 
-  try {
-    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/`,{
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+  // try {
+  //   const response = await fetch(`http://127.0.0.1:8000/api/bst/events/`,{
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
 
-    if(!response.ok){
-      const errText = await response.text();
-      throw new Error(`Failed to fetch events (${response.status}): ${errText}`);
-    }
+  //   if(!response.ok){
+  //     const errText = await response.text();
+  //     throw new Error(`Failed to fetch events (${response.status}): ${errText}`);
+  //   }
 
 
-    return await response.json();
-  
-  } catch (error) {
-    
-    console.error("getEvents error:", error);
-    throw error  // re-throw so callers can handle/display it
+  //   return await response.json();
 
-  }
+  // } catch (error) {
+  //   console.error("getEvents error:", error);
+  //   throw error  // re-throw so callers can handle/display it
+  // }
 }
 
 
@@ -622,6 +718,15 @@ export const getEvent = async (id) => {
 
 export const createEvent = async (data) => {
   return handleRequest("/events", "POST", data)
+
+  try {
+    
+  } catch (error) {
+    console.error("createEvent error:", error);
+    throw error
+    
+  }
+
 }
 
 export const updateEvent = async (id, data) => {
