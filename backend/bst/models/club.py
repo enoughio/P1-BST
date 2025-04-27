@@ -52,11 +52,9 @@ class Club(models.Model):
     postal_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
     
-    meeting_time = models.CharField(max_length=100, blank=True, null=True) # "Tuesdays, 6:30 PM",
+    meeting_time = models.CharField(max_length=100, default='Tuesdays, 6:30 PM') # "Tuesdays, 6:30 PM",
     
-    # If using PostgreSQL
-    position = ArrayField(models.FloatField(), size=2, blank=True, null=True)  # [latitude, longitude]
-    dms_position = models.CharField(max_length=100, blank=True, null=True)
+    map = models.CharField(max_length=255, blank=True, null=True)
    
     # members = models.PositiveIntegerField(default=0)
     

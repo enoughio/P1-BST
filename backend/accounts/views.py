@@ -183,7 +183,7 @@ class RegisterMemberAPIView(GenericAPIView, CreateModelMixin):
 # get all members with Pagination, 20 members at once
 from rest_framework.pagination import PageNumberPagination
 
-class MemberPagination(PageNumberPagination):
+class UserPagination(PageNumberPagination):
     page_size = 20  # Default: 20 members per page
     page_size_query_param = 'page_size'
     max_page_size = 100
@@ -192,7 +192,7 @@ class MemberPagination(PageNumberPagination):
 class MemberListAPIView(GenericAPIView, ListModelMixin):
     queryset = Member.objects.all()
     serializer_class = MemberListSerializer
-    pagination_class = MemberPagination
+    pagination_class = UserPagination
     # permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
@@ -324,10 +324,11 @@ class AdminAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
 
-    permission_classes = [SuperAdminLevelPermission]
+    # permission_classes = [SuperAdminLevelPermission]
+    pagination_class = UserPagination
     
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get(self, request):
+        return self.list(request)
     
 # register (create admin)
 class RegisterAdminAPIView(GenericAPIView, CreateModelMixin):
@@ -358,3 +359,51 @@ class AdminRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+    
+
+
+
+
+from .models import MemberRemovalRequest
+from .serializers import MemberRemovalRequestSerializer
+
+# Request creation view
+class MemberRemovalRequestCreateAPIView(generics.CreateAPIView):
+    serializer_class = MemberRemovalRequestSerializer
+
+    permission_classes = [AdminLevelPermission]
+
+    def get_queryset(self):
+        admin = self.request.user
+        return Member.objects.filter(club=admin.club)
+
+# List pending requests for SuperAdmin
+class PendingRemovalRequestsView(generics.ListAPIView):
+    queryset = MemberRemovalRequest.objects.filter(status='Pending')
+    serializer_class = MemberRemovalRequestSerializer
+    permission_classes = [SuperAdminLevelPermission]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return MemberRemovalRequest.objects.filter(status='Pending')
+        return MemberRemovalRequest.objects.none()
+
+# Approve or Reject a request
+class ApproveRejectRequestView(generics.RetrieveUpdateDestroyAPIView):
+    from .serializers import RequestApproveRejectSerializer
+
+    queryset = MemberRemovalRequest.objects.filter(status='Pending')
+    serializer_class = RequestApproveRejectSerializer
+    permission_classes = [SuperAdminLevelPermission]
+    lookup_field = 'pk'  # IMPORTANT: taaki URL se pk match ho
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return Response({'error': 'Only SuperAdmin can approve/reject.'}, status=status.HTTP_403_FORBIDDEN)
+        
+        return self.update(request, *args, **kwargs)
+
