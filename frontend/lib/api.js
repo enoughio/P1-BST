@@ -557,7 +557,7 @@ export const reinstateMember = async (id) => {
 // Clubs
 export const getClubs = async () => {
 
-  return handleRequest("/clubs")
+  // return handleRequest("/clubs")
 
   try {
 
@@ -685,29 +685,29 @@ export const updateClub = async (id, data) => {
 
 // Events
 export const getEvents = async (clubId) => {
-  const endpoint = clubId ? `/events?club=${clubId}` : "/events"
-  return handleRequest(endpoint)
+  // const endpoint = clubId ? `/events?club=${clubId}` : "/events"
+  // return handleRequest(endpoint)
 
-  // try {
-  //   const response = await fetch(`http://127.0.0.1:8000/api/bst/events/`,{
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
 
-  //   if(!response.ok){
-  //     const errText = await response.text();
-  //     throw new Error(`Failed to fetch events (${response.status}): ${errText}`);
-  //   }
+    if(!response.ok){
+      const errText = await response.text();
+      throw new Error(`Failed to fetch events (${response.status}): ${errText}`);
+    }
 
 
-  //   return await response.json();
+    return await response.json();
 
-  // } catch (error) {
-  //   console.error("getEvents error:", error);
-  //   throw error  // re-throw so callers can handle/display it
-  // }
+  } catch (error) {
+    console.error("getEvents error:", error);
+    throw error  // re-throw so callers can handle/display it
+  }
 }
 
 
