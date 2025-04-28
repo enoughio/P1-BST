@@ -196,6 +196,7 @@ class MemberRemovalRequestSerializer(serializers.ModelSerializer):
         if request:
             admin = request.user
             self.fields['member'].queryset = Member.objects.filter(club=admin.club)
+            self.fields['requested_by'].queryset = Admin.objects.filter(username=admin.username)
 
     def validate(self, data):
         user = self.context['request'].user
@@ -217,5 +218,5 @@ class RequestApproveRejectSerializer(serializers.ModelSerializer):
     class Meta:
         model = MemberRemovalRequest
         fields = '__all__'
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['member', 'requested_by', 'created_at', 'updated_at']
         

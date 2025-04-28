@@ -7,7 +7,6 @@ from .views import (ClubCreateAPIView,
                     
                     EventListCreateAPIView,
                     EventListAPIView,
-                    EventRetrieveAPIView,
                     EventRegisterAPIView,
                     
                     EventRetrieveUpdateDestroyAPIView,
@@ -34,7 +33,6 @@ urlpatterns = [
 
     path('events/create/', EventListCreateAPIView.as_view(), name='create-event'),
     path('events/', EventListAPIView.as_view(), name='list-event'),
-    path('events/<str:event_id>/', EventRetrieveAPIView.as_view(), name='get-event'),
     path('events/<str:event_id>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='rud-event'),
 
     path('events/<str:event_id>/register/', EventRegisterAPIView.as_view(), name='event-register'),
@@ -43,9 +41,7 @@ urlpatterns = [
     
     
     path('projects/', ProjectAPIView.as_view(), name='create-project'),
-    path('projects/', ProjectAPIView.as_view(), name='list-project'),
-    path('projects/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='get-project'),
-    path('projects/<int:project_id/', ProjectRetrieveUpdateAPIView.as_view(), name='update-project'),
+    path('projects/<int:project_id>/', ProjectRetrieveUpdateAPIView.as_view(), name='rud-project'),
 
     path('clubs/<str:club_id>/members/', MembersByClubAPIView.as_view()),
     

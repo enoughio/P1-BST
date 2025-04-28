@@ -1,6 +1,8 @@
 from django.db import models
 from accounts.models import Member
 
+from rest_framework.permissions import BasePermission
+
 
 class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
