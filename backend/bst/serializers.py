@@ -4,7 +4,6 @@ from accounts.models import Member
 from bst.models import executive_committee
 
 from bst.models import (club, 
-                        event, 
                         event_registration, 
                         meeting, 
                         project,
@@ -13,6 +12,7 @@ from bst.models import (club,
                         membership,
                         membership_history)
 
+from bst.models.event import Event, Speaker, ScheduleItem, EventPhoto
 
 
 class ClubCreateSerializer(serializers.ModelSerializer):
@@ -113,20 +113,20 @@ class ClubSerializer(serializers.ModelSerializer):
 
 class SpeakerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = event.Speaker
+        model = Speaker
         fields = ['name', 'role', 'bio', 'image']
 
 
 class ScheduleItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = event.ScheduleItem
+        model = ScheduleItem
         fields = ['time', 'title', 'description']
 
 
 class EventPhotoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = event.EventPhoto
-        fields = ['url', 'alt']
+        model = EventPhoto
+        fields = ['image', 'alt']
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -135,7 +135,7 @@ class EventSerializer(serializers.ModelSerializer):
     photos = EventPhotoSerializer(many=True)
 
     class Meta:
-        model = event.Event
+        model = Event
         fields = [
             'event_id', 'title', 'description',
             'date', 'time', 'location', 'image',
@@ -143,6 +143,27 @@ class EventSerializer(serializers.ModelSerializer):
             'ticket_price', 'categories',
             'speakers', 'schedule', 'photos'
         ]
+
+    def create(self, validated_data):
+        speakers_data = validated_data.pop('speakers', [])
+        schedule_data = validated_data.pop('schedule', [])
+        photos_data = validated_data.pop('photos', [])
+
+        event = Event.objects.create(**validated_data)
+
+        for speaker_data in speakers_data:
+            speaker = Speaker.objects.create(**speaker_data)
+            event.speakers.add(speaker)
+
+        for schedule_item_data in schedule_data:
+            schedule_item = ScheduleItem.objects.create(**schedule_item_data)
+            event.schedule.add(schedule_item)
+
+        for photo_data in photos_data:
+            photo = EventPhoto.objects.create(**photo_data)
+            event.photos.add(photo)
+
+        return event
 
 
 class EventRegisterSerializer(serializers.ModelSerializer):
@@ -166,7 +187,14 @@ class ProjectSerializer(serializers.ModelSerializer):
 class ProjectHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = project.ProjectHistory
-        fields = ['member', 'project', 'assigned_date', 'completion_date']
+        fields = ['member', 'project', 'assigned_date', 'deadline']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request:
+            admin = request.user
+            self.fields['member'].queryset = Member.objects.filter(club=admin.club)
 
 
 class MembershipSerializer(serializers.ModelSerializer):

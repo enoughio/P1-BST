@@ -119,15 +119,6 @@ class EventListAPIView(GenericAPIView, ListModelMixin):
         return self.list(request)
     
 
-class EventRetrieveAPIView(GenericAPIView, RetrieveModelMixin):
-    queryset = event.Event.objects.all()
-    serializer_class = EventSerializer
-    lookup_field = 'event_id'
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-    
-
 class EventRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = event.Event.objects.all()
     serializer_class = EventSerializer
@@ -163,7 +154,7 @@ class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     queryset = project.ProjectHistory.objects.all()
     serializer_class = ProjectHistorySerializer
 
-    # permission_classes = [AdminLevelPermission]
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request):
         return self.list(request)
@@ -173,7 +164,7 @@ class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     
 
     
-class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = project.Project.objects.all()
     serializer_class = ProjectSerializer
     lookup_field = 'project_id'
@@ -185,6 +176,9 @@ class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
     
 
 
