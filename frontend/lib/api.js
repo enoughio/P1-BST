@@ -82,90 +82,37 @@ function getMockResponse(endpoint, method, data) {
 // Mock data
 const mockMembers = [
   {
-    id: "1",
-    first_name: "Alice",
-    last_name: "Johnson",
-    username: "alicejohnson",
-    email: "alice@example.com",
-    phone: "123-456-7890",
-    avatar: null,
-    address: "123 Main St",
-    gender: "female",
-    dob: "1990-01-15",
-    id_proof: "ABCD1234",
-    club: "1",
-    occupation: "Software Engineer",
-    membershipExpiryDate: "2024-12-31",
-  },
-  {
-    id: "2",
-    first_name: "Bob",
-    last_name: "Smith",
-    username: "bobsmith",
-    email: "bob@example.com",
-    phone: "987-654-3210",
-    avatar: null,
-    address: "456 Elm St",
-    gender: "male",
-    dob: "1985-05-20",
-    id_proof: "EFGH5678",
-    club: "1",
-    occupation: "Marketing Manager",
-    membershipExpiryDate: "2023-11-15",
-  },
-  {
-    id: "3",
-    first_name: "Charlie",
-    last_name: "Brown",
-    username: "charliebrown",
-    email: "charlie@example.com",
-    phone: "555-123-4567",
-    avatar: null,
-    address: "789 Oak St",
-    gender: "male",
-    dob: "1992-10-08",
-    id_proof: "IJKL9012",
-    club: "2",
-    occupation: "Architect",
-    membershipExpiryDate: "2024-03-22",
-  },
-  {
-    id: "4",
-    first_name: "Diana",
-    last_name: "Miller",
-    username: "dianamiller",
-    email: "diana@example.com",
-    phone: "333-888-9999",
-    avatar: null,
-    address: "101 Pine St",
-    gender: "female",
-    dob: "1988-04-30",
-    id_proof: "MNOP3456",
-    club: "1",
-    occupation: "Financial Analyst",
-    membershipExpiryDate: "2023-12-15",
-  },
-  {
-    id: "5",
-    first_name: "Edward",
-    last_name: "Garcia",
-    username: "edwardgarcia",
-    email: "edward@example.com",
-    phone: "777-222-3333",
-    avatar: null,
-    address: "202 Maple St",
-    gender: "male",
-    dob: "1995-11-12",
-    id_proof: "QRST7890",
-    club: "2",
-    occupation: "Teacher",
-    membershipExpiryDate: "2024-06-30",
-  },
+    "id": "fba36fee-077f-4a29-b6b9-ee8f35b211dc",
+    "username": "u000",
+    "name": "Vikikumar",
+    "email": "u000@example.com",
+    "mobile": "9594548313",
+    "club_name": "Bharat Storytellers",
+    "membership_expiry_date": null
+},
+{
+    "id": "e8f3240f-36ad-4dd9-a4a5-058323d271a0",
+    "username": "u001",
+    "name": "abc def",
+    "email": "u001@example.com",
+    "mobile": "9594548313",
+    "club_name": "Bharat Storytellers",
+    "membership_expiry_date": null
+},
+{
+    "id": "a5bff85e-b680-469c-822d-6ebedcd1d830",
+    "username": "u002",
+    "name": "abc def",
+    "email": "u002@example.com",
+    "mobile": "9594548313",
+    "club_name": "XYZ Storytellers",
+    "membership_expiry_date": null
+}
 ]
 
 const mockClubs = [
   {
-    id: "1",
+    id: "C0001",
     name: "Bhopal Storytellers",
     address:
       "First Floor, Bharat Storytellers, B-66, near Chetak Bridge, Housing Board Colony, Kasturba Nagar, Bhopal, Madhya Pradesh 462022",
@@ -182,7 +129,7 @@ const mockClubs = [
     phone: "123-456-7890",
   },
   {
-    id: "2",
+    id: "C0002",
     name: "Delhi Orators",
     address: "123 MG Road, Connaught Place, New Delhi",
     city: "New Delhi",
@@ -198,7 +145,7 @@ const mockClubs = [
     phone: "999-888-7777",
   },
   {
-    id: "3",
+    id: "C0003",
     name: "Mumbai Speakers",
     address: "Andheri West, Mumbai, Maharashtra",
     city: "Mumbai",
@@ -515,22 +462,32 @@ const mockRequests = [
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
-export const getMembers = async (clubId) => {
+export const getAllMembers = async (clubId) => {
   const endpoint = clubId ? `/members?club=${clubId}` : "/members"
-  return handleRequest(endpoint)
+  return handleRequest(endpoint) 
 
-  //  const BASE_URL =  process.env.BACKEND_URL
-  //   const response = await fetch(`${BASE_URL}/api/members`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       credientials: "include",
-  //     },
-  //   })
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
 
-  //   console.log("response", response)
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to fetch members (${response.status}): ${errText}`);
+    }
 
-  //   return response.json()
+    return await response.json();
+
+  } catch (error) {
+    console.error("getMembers error:", error);
+    // re-throw so callers can handle/display it
+    throw error;
+  }
+
 }
 
 export const getMember = async (id) => {
@@ -557,15 +514,14 @@ export const reinstateMember = async (id) => {
 // Clubs
 export const getClubs = async () => {
 
-  // return handleRequest("/clubs")
+  return handleRequest("/clubs")
 
   try {
-
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
     })
 
@@ -591,9 +547,9 @@ export const getClub = async (clubId) => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${clubId}/`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
     })
 
@@ -642,8 +598,8 @@ export const createClub = async (data) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
+      credentials: "include",
       body: JSON.stringify(data),
     })
 
@@ -665,12 +621,12 @@ export const createClub = async (data) => {
 export const updateClub = async (id, data) => {
   // return handleRequest(`/clubs/${id}`, "PUT", data)
   try {
-    const response = await fetch(`/api/clubs/${params.id}`, {
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
+      credentials: "include",
       body: JSON.stringify(data),
     })
     if (!response.ok) {
@@ -805,8 +761,8 @@ export const updateRequestStatus = async (id, status) => {
 }
 
 export default {
-  getMembers,
   getMember,
+  getAllMembers,
   createMember,
   updateMember,
   renewMember,

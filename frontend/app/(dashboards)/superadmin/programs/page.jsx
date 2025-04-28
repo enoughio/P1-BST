@@ -97,8 +97,7 @@ export default function ProgramsPage() {
   }
 
   return (
-  //  <AdminLayout>
-  <div>
+    <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -237,8 +236,6 @@ export default function ProgramsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-    </div>
-   // </AdminLayout>
+    </AdminLayout>
   )
 }

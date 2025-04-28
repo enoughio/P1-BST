@@ -244,10 +244,9 @@ export default function SuperAdminProjectsPage() {
     }
   }
 
-  //  <AdminLayout>
   return (
-  <div>
-      <div className="flex flex-col gap-6 max-w-[80%]">
+    <AdminLayout>
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">All Projects</h1>
@@ -618,8 +617,6 @@ export default function SuperAdminProjectsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-   
-   </div>
-   // </AdminLayout>
+    </AdminLayout>
   )
 }

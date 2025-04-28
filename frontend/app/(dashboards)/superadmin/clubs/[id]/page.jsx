@@ -38,15 +38,15 @@ import Link from "next/link"
           address: "GTB NAGAR MONORAIL STATION, INDIRA NAGAR, KOLIWADA, SION, Mumbai, English, 400037, India",
           city: "Mumbai",
           meeting_time: null,
-          position: [],
-          dms_position: "",
+          map: "",
+          description: "A club for storytelling enthusiasts",
           members: 0,
           image: null,
           email: "c2@example.com",
-          mobile: "9594548313",
           executive_committee: [],
           admin: 'John Doe',
           admin_id: "A0001",
+          phone: "",
       }
 
 
