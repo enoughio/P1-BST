@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,8 +26,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function EditClubPage({ params }) {
-  const clubId = params.id;
+export default function EditClubPage() {
+  const clubId = useParams().id;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
@@ -46,13 +46,32 @@ export default function EditClubPage({ params }) {
     mobile: "",
     image: "",
   });
+  const [newImage, setNewImage] = useState(null);
 
   // Fetch club data on component mount
   useEffect(() => {
     async function fetchClubData() {
       try {
         const data = await getClub(clubId);
-        setClubData(data);
+        if (data) {
+          setClubData({
+            club_name: data.club_name || "",
+            street: data.street || "",
+            city: data.city || "",
+            state: data.state || "",
+            country: data.country || "",
+            postal_code: data.postal_code || "",
+            map: data.map || "",
+            meeting_time: data.meeting_time || "",
+            description: data.description || "",
+            initiative: data.initiative || "",
+            email: data.email || "",
+            mobile: data.mobile || "",
+            image: data.image || "",
+          });
+        } else {
+          throw new Error("Club data is undefined");
+        }
       } catch (error) {
         console.error("Error fetching club data:", error);
         toast({
@@ -82,22 +101,57 @@ export default function EditClubPage({ params }) {
 
   // Handler for file input
   const handleFileChange = (e) => {
-    const { name, files } = e.target;
-    if (files && files[0]) {
-      // For a real implementation, you'd likely want to handle file uploads
-      // differently, perhaps with clubData or a dedicated upload service
-      setClubData((prev) => ({ ...prev, [name]: files[0].name }));
+    const file = e.target.files[0];
+    if (file) {
+      setNewImage(file);
     }
-  };
+    // if (files && files[0]) {
+    //   // For a real implementation, you'd likely want to handle file uploads
+    //   // differently, perhaps with clubData or a dedicated upload service
+    //   setNewImage(files[0]);
+    //   // setClubData((prev) => ({ ...prev, [name]: files[0] }));
+    // }
+  };  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!clubData || !clubData.club_name) {
+      toast({
+        title: "Invalid Data",
+        description: "Club data is missing or invalid.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await updateClub(clubId, clubData);
+      const formPayload = new FormData();
+
+      // Append all the fields manually
+      formPayload.append("club_name", clubData.club_name);
+      formPayload.append("street", clubData.street);
+      formPayload.append("city", clubData.city);
+      formPayload.append("state", clubData.state);
+      formPayload.append("country", clubData.country);
+      formPayload.append("postal_code", clubData.postal_code);
+      formPayload.append("map", clubData.map);
+      formPayload.append("meeting_time", clubData.meeting_time);
+      formPayload.append("description", clubData.description);
+      formPayload.append("initiative", clubData.initiative);
+      formPayload.append("email", clubData.email);
+      formPayload.append("mobile", clubData.mobile);
+
+      // For file (image) input
+      if (newImage) {
+        formPayload.append("image", newImage);
+      }
+      const response = await updateClub(clubId, formPayload);
+
       toast({
-        title: "Club Updated",
+        title: `${response.club_name} Club data Updated`,
         description: "The club has been successfully updated.",
         variant: "default",
       });
@@ -145,9 +199,7 @@ export default function EditClubPage({ params }) {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle>Club Information</CardTitle>
-            <CardDescription>
-              Update the details for this club
-            </CardDescription>
+            <CardDescription>Update the details for this club</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
@@ -157,7 +209,7 @@ export default function EditClubPage({ params }) {
                 name="club_name"
                 type="text"
                 placeholder="e.g., Bhopal Storytellers"
-                value={clubData.club_name}
+                value={clubData.club_name || ""}
                 onChange={handleChange}
                 required
               />
@@ -166,7 +218,9 @@ export default function EditClubPage({ params }) {
             <div className="space-y-2">
               <Label htmlFor="initiative">Initiative</Label>
               <Select
-                onValueChange={(value) => handleSelectChange(value, "initiative")}
+                onValueChange={(value) =>
+                  handleSelectChange(value, "initiative")
+                }
                 value={clubData.initiative}
                 defaultValue={clubData.initiative}
               >
@@ -174,9 +228,9 @@ export default function EditClubPage({ params }) {
                   <SelectValue placeholder="Select an Initiative" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Storytellers">Storytellers</SelectItem>
-                  <SelectItem value="Young Oraters">Young Oraters</SelectItem>
-                  <SelectItem value="Young Leaders">Young Leaders</SelectItem>
+                  <SelectItem value="1">Storytellers</SelectItem>
+                  <SelectItem value="2">Young Oraters</SelectItem>
+                  <SelectItem value="3">Young Leaders</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -191,7 +245,7 @@ export default function EditClubPage({ params }) {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="city">City</Label>
               <Input
@@ -202,7 +256,7 @@ export default function EditClubPage({ params }) {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="postal_code">Postal Code</Label>
               <Input
@@ -257,7 +311,7 @@ export default function EditClubPage({ params }) {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="description">Description *</Label>
               <Textarea
@@ -269,12 +323,14 @@ export default function EditClubPage({ params }) {
                 required
               />
             </div>
-    
+
             <div className="space-y-2">
               <Label htmlFor="image">Image</Label>
               {clubData.image && (
                 <div className="mb-2">
-                  <p className="text-sm text-gray-500">Current image: {clubData.image}</p>
+                  <p className="text-sm text-gray-500">
+                    Current image: {clubData.image}
+                  </p>
                 </div>
               )}
               <Input
@@ -283,7 +339,9 @@ export default function EditClubPage({ params }) {
                 type="file"
                 onChange={handleFileChange}
               />
-              <p className="text-xs text-gray-500 mt-1">Leave empty to keep current image</p>
+              <p className="text-xs text-gray-500 mt-1">
+                Leave empty to keep current image
+              </p>
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2">
@@ -312,7 +370,7 @@ export default function EditClubPage({ params }) {
             </div>
 
             <div>
-
+              {/* 
             <div className="space-y-2">
               <Label htmlFor="admin">still under testing....</Label>
               <Label htmlFor="Admin">Admin Name *</Label>
@@ -334,12 +392,8 @@ export default function EditClubPage({ params }) {
                 onChange={handleChange}
                 required
               />
+            </div> */}
             </div>
-             
-            </div>
-            
-
-
           </CardContent>
 
           <CardFooter className="flex justify-between">

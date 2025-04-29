@@ -463,8 +463,41 @@ const mockRequests = [
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
 export const getAllMembers = async (clubId) => {
-  const endpoint = clubId ? `/members?club=${clubId}` : "/members"
-  return handleRequest(endpoint) 
+  // const endpoint = clubId ? `/members?club=${clubId}` : "/members"
+//   return {
+//     "count": 3,
+//     "next": null,
+//     "previous": null,
+//     "results": [
+//         {
+//             "id": "fba36fee-077f-4a29-b6b9-ee8f35b211dc",
+//             "username": "u000",
+//             "name": "Vikikumar",
+//             "email": "u000@example.com",
+//             "mobile": "9594548313",
+//             "club_name": "Bharat Storytellers",
+//             "membership_expiry_date": null
+//         },
+//         {
+//             "id": "e8f3240f-36ad-4dd9-a4a5-058323d271a0",
+//             "username": "u001",
+//             "name": "abc def",
+//             "email": "u001@example.com",
+//             "mobile": "9594548313",
+//             "club_name": "Bharat Storytellers",
+//             "membership_expiry_date": null
+//         },
+//         {
+//             "id": "a5bff85e-b680-469c-822d-6ebedcd1d830",
+//             "username": "u002",
+//             "name": "abc def",
+//             "email": "u002@example.com",
+//             "mobile": "9594548313",
+//             "club_name": "XYZ Storytellers",
+//             "membership_expiry_date": null
+//         }
+//     ]
+// }
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/`, {
@@ -490,16 +523,59 @@ export const getAllMembers = async (clubId) => {
 
 }
 
-export const getMember = async (id) => {
-  return handleRequest(`/members/${id}`)
+export const getMember = async (username) => {
+  // return handleRequest(`/members/${username}`)
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/${username}/dashboard/`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to fetch member (${response.status}): ${errText}`);
+    }
+    return await response.json();
+
+  } catch (error) {
+    console.error("getMember error:", error);
+    throw error
+  }
+
 }
 
 export const createMember = async (data) => {
   return handleRequest("/members", "POST", data)
 }
 
-export const updateMember = async (id, data) => {
-  return handleRequest(`/members/${id}`, "PUT", data)
+export const updateMember = async (username, data) => {
+  // return handleRequest(`/members/${id}`, "PUT", data)
+
+  try {
+    
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/${username}/`,{
+      method: "PUT",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: json.stringify(data)
+    } )
+
+    if(!response.ok){
+      const errText = await response.text()
+      throw new Error(`Failed to Update ${username}'s data ${response.status}, ${errText}`)
+    }
+
+  } catch (error) {
+    console.error("updateMember error:", error);
+    throw error
+  }
+
 }
 
 export const renewMember = async (id, expiryDate) => {
@@ -590,17 +666,14 @@ export const getClubMembers = async (clubId) => {
 }
 
 
-export const createClub = async (data) => {
+export const createClub = async (formData ) => {
   // return handleRequest("/clubs", "POST", data)
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/create/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(data),
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
     })
 
     if (!response.ok) {
@@ -618,19 +691,17 @@ export const createClub = async (data) => {
 }
 
 
-export const updateClub = async (id, data) => {
-  // return handleRequest(`/clubs/${id}`, "PUT", data)
+export const updateClub = async (id, formData) => {
+  // return handleRequest(`/clubs/${id}`, "PUT", formData)
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${id}/`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
       credentials: "include",
-      body: JSON.stringify(data),
+      body: formData,
     })
     if (!response.ok) {
-      throw new Error("Network response was not ok")
+      const errText = await response.text();
+      throw new Error(`Failed to update club (${response.status}): ${errText}`);  
     }
   } catch (error) {
     console.error("updateClub error:", error);

@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Loader2, Save } from "lucide-react"
 import Link from "next/link"
+import { getClubs, getMember, updateMember } from "@/lib/api"
 
 // Mock function to get member details
 const getMemberDetails = (id) => {
@@ -35,17 +36,7 @@ const getMemberDetails = (id) => {
 }
 
 // Mock function to get clubs
-const getClubs = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([
-        { id: "1", name: "Bhopal Storytellers" },
-        { id: "2", name: "Delhi Orators" },
-        { id: "3", name: "Mumbai Speakers" },
-      ])
-    }, 800)
-  })
-}
+
 
 export default function EditMemberPage() {
   const params = useParams()
@@ -67,7 +58,7 @@ export default function EditMemberPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [memberData, clubsData] = await Promise.all([getMemberDetails(params.id), getClubs()])
+        const [memberData, clubsData] = await Promise.all([getMember(params.username || params.id), getClubs()])
 
         setFormData({
           name: memberData.name,
@@ -91,7 +82,6 @@ export default function EditMemberPage() {
         setLoading(false)
       }
     }
-
     fetchData()
   }, [params.id, toast])
 
@@ -109,14 +99,9 @@ export default function EditMemberPage() {
     setIsSaving(true)
 
     try {
-      // In a real app, this would be an API call
-      // await updateMember(params.id, formData)
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
+      const response = await updateMember(params.id, formData)
       toast({
-        title: "Member Updated",
+        title: `${response.name} data Updated`,
         description: "The member has been successfully updated.",
       })
 
@@ -135,16 +120,16 @@ export default function EditMemberPage() {
 
   if (loading) {
     return (
-      <AdminLayout>
+    //  <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      </AdminLayout>
+     // </AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -302,6 +287,6 @@ export default function EditMemberPage() {
           </div>
         </form>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }

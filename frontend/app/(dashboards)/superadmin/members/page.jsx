@@ -129,7 +129,9 @@ export default function AllMembersPage() {
     } else {
       return { label: "Active", variant: "success" }
     }
+
   }
+
 
   return (
     <div>
@@ -290,10 +292,10 @@ export default function AllMembersPage() {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/members/${member.id}`}>View Details</Link>
+                                  <Link href={`/superadmin/members/${member.username}`}>View Details</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/members/${member.id}/edit`}>Edit Details</Link>
+                                  <Link href={`/superadmin/members/${member.username}/edit`}>Edit Details</Link>
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>

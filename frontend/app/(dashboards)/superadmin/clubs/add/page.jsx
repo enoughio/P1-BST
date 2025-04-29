@@ -61,18 +61,41 @@ export default function AddClubPage() {
     if (files && files[0]) {
       // Handle file upload logic here
       // For now, we'll just store the file name
-      setFormData((prev) => ({ ...prev, [name]: files[0].name }));
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
-      const response = await createClub(formData);
+      const formPayload = new FormData();
+  
+      // Append all the fields manually
+      formPayload.append("club_name", formData.club_name);
+      formPayload.append("street", formData.street);
+      formPayload.append("city", formData.city);
+      formPayload.append("state", formData.state);
+      formPayload.append("country", formData.country);
+      formPayload.append("postal_code", formData.postal_code);
+      formPayload.append("map", formData.map);
+      formPayload.append("meeting_time", formData.meeting_time);
+      formPayload.append("description", formData.description);
+      formPayload.append("initiative", formData.initiative);
+      formPayload.append("email", formData.email);
+      formPayload.append("mobile", formData.mobile);
+  
+      // For file (image) input
+      if (formData.image && formData.image[0]) {
+        formPayload.append("image", formData.image[0]);
+      }
+  
+      // Send FormData instead of plain object
+      const response = await createClub(formPayload);
+  
       toast({
-        title: "Club Created",
+        title: `${response?.club_name} Club Created`,
         description: "The club has been successfully created.",
         variant: "default",
       });
@@ -88,6 +111,7 @@ export default function AddClubPage() {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="flex flex-col gap-6">
@@ -130,17 +154,19 @@ export default function AddClubPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="initiative">Initiative</Label> 
+              <Label htmlFor="initiative">Initiative</Label>
               <Select
-                onValueChange={(value) => handleSelectChange(value, "initiative")}
+                onValueChange={(value) =>
+                  handleSelectChange(value, "initiative")
+                }
                 value={formData.initiative}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select an Initiative" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Storytellers">Storytellers</SelectItem>
-                  <SelectItem value="Young Oraters">Young Oraters</SelectItem> 
+                  <SelectItem value="1">Bhopal Storytellers</SelectItem>
+                  <SelectItem value="Young Oraters">Young Oraters</SelectItem>
                   <SelectItem value="Young Leaders">Young Leaders</SelectItem>
                 </SelectContent>
               </Select>
@@ -156,9 +182,9 @@ export default function AddClubPage() {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
-              <Label htmlFor="city">City</Label> 
+              <Label htmlFor="city">City</Label>
               <Input
                 id="city"
                 name="city"
@@ -167,7 +193,7 @@ export default function AddClubPage() {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="postal_code">Postal Code</Label>
               <Input
@@ -213,7 +239,7 @@ export default function AddClubPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="map">Google Map Iframe Link</Label> 
+              <Label htmlFor="map">Google Map Iframe Link</Label>
               <Textarea
                 id="map"
                 name="map"
@@ -222,7 +248,7 @@ export default function AddClubPage() {
                 onChange={handleChange}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="description">Description *</Label>
               <Textarea
@@ -234,7 +260,7 @@ export default function AddClubPage() {
                 required
               />
             </div>
-    
+
             <div className="space-y-2">
               <Label htmlFor="image">Image </Label>
               <Input
