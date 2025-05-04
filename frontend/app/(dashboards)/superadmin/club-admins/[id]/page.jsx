@@ -18,6 +18,7 @@ import {
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Building, Calendar, Edit, Loader2, Mail, MapPin, Phone, Trash, Users } from "lucide-react"
 import Link from "next/link"
+import { getAdmin } from "@/lib/api"
 
 // Mock function to get admin details
 const getAdminDetails = (id) => {
@@ -57,7 +58,7 @@ export default function ClubAdminDetailsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getAdminDetails(params.id)
+        const data = await getAdmin(params.id)
         setAdmin(data)
         setLoading(false)
       } catch (error) {

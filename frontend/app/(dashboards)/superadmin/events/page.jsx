@@ -94,11 +94,11 @@ export default function SuperAdminEventsPage() {
     if (!selectedItem) return
 
     try {
-      await deleteEvent(selectedItem.id)
+      await deleteEvent(selectedItem.event_id)
 
       // Update local state
-      setItems(items.filter((e) => e.id !== selectedItem.id))
-      setFilteredItems(filteredItems.filter((e) => e.id !== selectedItem.id))
+      setItems(items.filter((e) => e.event_id !== selectedItem.event_id))
+      setFilteredItems(filteredItems.filter((e) => e.event_id !== selectedItem.event_id))
 
       setIsDeleteDialogOpen(false)
 
@@ -117,7 +117,7 @@ export default function SuperAdminEventsPage() {
   }
 
   const getClubName = (clubId) => {
-    const club = clubs.find((c) => c.id === clubId)
+    const club = clubs.find((c) => c.event_id === clubId)
     return club ? club.name : "Unknown Club"
   }
 
@@ -176,7 +176,7 @@ export default function SuperAdminEventsPage() {
                 <SelectContent>
                   <SelectItem value="all">All Clubs</SelectItem>
                   {clubs.map((club) => (
-                    <SelectItem key={club.id} value={club.id}>
+                    <SelectItem key={club.event_id} value={club.event_id}>
                       {club.name}
                     </SelectItem>
                   ))}
@@ -251,7 +251,7 @@ export default function SuperAdminEventsPage() {
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {filteredItems.map((item) => (
                     <Card
-                      key={item.id}
+                      key={item.event_id}
                       className={`flex flex-col overflow-hidden ${
                         item.type === "workshop" ? "border-purple-200" : "border-blue-200"
                       }`}
@@ -321,13 +321,13 @@ export default function SuperAdminEventsPage() {
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                              <Link href={`/superadmin/events/${item.id}`}>View Details</Link>
+                              <Link href={`/superadmin/events/${item.event_id}`}>View Details</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link href={`/superadmin/events/${item.id}/edit`}>Edit</Link>
+                              <Link href={`/superadmin/events/${item.event_id}/edit`}>Edit</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link href={`/superadmin/events/${item.id}/participants`}>View Participants</Link>
+                              <Link href={`/superadmin/events/${item.event_id}/participants`}>View Participants</Link>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
@@ -364,7 +364,7 @@ export default function SuperAdminEventsPage() {
                     </div>
                     <div className="divide-y">
                       {filteredItems.map((item) => (
-                        <div key={item.id} className="grid grid-cols-6 p-4">
+                        <div key={item.event_id} className="grid grid-cols-6 p-4">
                           <div className="font-medium flex items-center">
                             {item.highlighted && <Star className="mr-1 h-4 w-4 text-yellow-500" />}
                             {item.title}
@@ -397,13 +397,13 @@ export default function SuperAdminEventsPage() {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/events/${item.id}`}>View Details</Link>
+                                  <Link href={`/superadmin/events/${item.event_id}`}>View Details</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/events/${item.id}/edit`}>Edit</Link>
+                                  <Link href={`/superadmin/events/${item.event_id}/edit`}>Edit</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/events/${item.id}/participants`}>View Participants</Link>
+                                  <Link href={`/superadmin/events/${item.event_id}/participants`}>View Participants</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem

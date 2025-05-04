@@ -1,9 +1,15 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { getEventsByAdmin, deleteEvent, getCurrentUser } from "@/lib/api"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useEffect, useState } from "react";
+import { deleteEvent, getEvents } from "@/lib/api";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -19,109 +25,122 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, ChevronDown, MoreHorizontal, Plus, Star, Users, Briefcase } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
-import Link from "next/link"
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Calendar,
+  ChevronDown,
+  MoreHorizontal,
+  Plus,
+  Star,
+  Users,
+  Briefcase,
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { useAuth } from "@/context/auth-context";
 
 export default function EventsPage() {
-  const [items, setItems] = useState([])
-  const [filteredItems, setFilteredItems] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [activeType, setActiveType] = useState("all")
-  const [loading, setLoading] = useState(true)
-  const [selectedItem, setSelectedItem] = useState(null)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [currentUser, setCurrentUser] = useState(null)
-  const { toast } = useToast()
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeType, setActiveType] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const { toast } = useToast();
+  const { user: admin } = useAuth(); // Assuming this function fetches the current user  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = await getCurrentUser()
-        setCurrentUser(user)
-
-        const data = await getEventsByAdmin(user.id)
-        setItems(data)
-        setFilteredItems(data)
-        setLoading(false)
+        setCurrentUser(admin);
+        const data = await getEvents();
+        setItems(data);
+        setFilteredItems(data);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching events:", error)
-        setLoading(false)
+        console.error("Error fetching events:", error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, [admin]);
 
   useEffect(() => {
     // Filter items when search term or type changes
     if (searchTerm || activeType !== "all") {
-      let filtered = [...items]
+      let filtered = [...items];
 
       // Apply search filter
       if (searchTerm) {
-        const term = searchTerm.toLowerCase()
+        const term = searchTerm.toLowerCase();
         filtered = filtered.filter(
           (item) =>
             item.title.toLowerCase().includes(term) ||
             item.description.toLowerCase().includes(term) ||
-            item.location.toLowerCase().includes(term),
-        )
+            item.location.toLowerCase().includes(term)
+        );
       }
 
       // Apply type filter
       if (activeType !== "all") {
-        filtered = filtered.filter((item) => item.type === activeType)
+        filtered = filtered.filter((item) => item.type === activeType);
       }
 
-      setFilteredItems(filtered)
+      setFilteredItems(filtered);
     } else {
-      setFilteredItems(items)
+      setFilteredItems(items);
     }
-  }, [searchTerm, activeType, items])
+  }, [searchTerm, activeType, items]);
 
   const handleDelete = async () => {
-    if (!selectedItem) return
+    if (!selectedItem) return;
 
     try {
-      await deleteEvent(selectedItem.id)
+      await deleteEvent(selectedItem.id);
 
       // Update local state
-      setItems(items.filter((e) => e.id !== selectedItem.id))
-      setFilteredItems(filteredItems.filter((e) => e.id !== selectedItem.id))
+      setItems(items.filter((e) => e.id !== selectedItem.id));
+      setFilteredItems(filteredItems.filter((e) => e.id !== selectedItem.id));
 
-      setIsDeleteDialogOpen(false)
+      setIsDeleteDialogOpen(false);
 
       toast({
         title: "Deleted",
         description: `The ${selectedItem.type} has been successfully deleted.`,
-      })
+      });
     } catch (error) {
-      console.error("Error deleting:", error)
+      console.error("Error deleting:", error);
       toast({
         title: "Error",
         description: "Failed to delete. Please try again.",
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const isUpcoming = (date) => {
-    return new Date(date) > new Date()
-  }
+    return new Date(date) > new Date();
+  };
 
   return (
-    <AdminLayout>
+    //   <AdminLayout>
+    <div>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Events & Workshops</h1>
-            <p className="text-muted-foreground">Manage your events and workshops</p>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Events & Workshops
+            </h1>
+            <p className="text-muted-foreground">
+              Manage your events and workshops
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <DropdownMenu>
@@ -161,7 +180,11 @@ export default function EventsPage() {
               />
             </div>
             <div className="flex items-center gap-2 ml-auto">
-              <Tabs value={activeType} onValueChange={setActiveType} className="w-full">
+              <Tabs
+                value={activeType}
+                onValueChange={setActiveType}
+                className="w-full"
+              >
                 <TabsList>
                   <TabsTrigger value="all">All</TabsTrigger>
                   <TabsTrigger value="event">
@@ -198,7 +221,9 @@ export default function EventsPage() {
                 </div>
               ) : filteredItems.length === 0 ? (
                 <div className="text-center py-10">
-                  <p className="text-muted-foreground mb-4">No events or workshops found.</p>
+                  <p className="text-muted-foreground mb-4">
+                    No events or workshops found.
+                  </p>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button className="bg-blue-600 hover:bg-blue-700 text-white">
@@ -229,7 +254,9 @@ export default function EventsPage() {
                     <Card
                       key={item.id}
                       className={`flex flex-col overflow-hidden ${
-                        item.type === "workshop" ? "border-purple-200" : "border-blue-200"
+                        item.type === "workshop"
+                          ? "border-purple-200"
+                          : "border-blue-200"
                       }`}
                     >
                       <div className="relative aspect-video bg-muted">
@@ -237,7 +264,10 @@ export default function EventsPage() {
                           <img
                             src={
                               item.image ||
-                              `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(item.title) || "/placeholder.svg"}`
+                              `/placeholder.svg?height=200&width=400&text=${
+                                encodeURIComponent(item.title) ||
+                                "/placeholder.svg"
+                              }`
                             }
                             alt={item.title}
                             className="w-full h-full object-cover"
@@ -251,21 +281,29 @@ export default function EventsPage() {
                             </Badge>
                           )}
                           <Badge
-                            className={item.type === "event" ? "bg-blue-500 text-white" : "bg-purple-500 text-white"}
+                            className={
+                              item.type === "event"
+                                ? "bg-blue-500 text-white"
+                                : "bg-purple-500 text-white"
+                            }
                           >
                             {item.type === "event" ? "Event" : "Workshop"}
                           </Badge>
                         </div>
                       </div>
                       <CardHeader className="pb-2">
-                        <CardTitle className="line-clamp-1">{item.title}</CardTitle>
+                        <CardTitle className="line-clamp-1">
+                          {item.title}
+                        </CardTitle>
                         <CardDescription className="flex items-center text-sm">
                           <Calendar className="mr-1 h-4 w-4" />
                           {item.formattedDate}
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="pb-2">
-                        <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {item.description}
+                        </p>
                         <div className="mt-2 flex flex-wrap gap-1">
                           {item.categories &&
                             item.categories.slice(0, 3).map((category, i) => (
@@ -293,20 +331,28 @@ export default function EventsPage() {
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                              <Link href={`/admin/events/${item.id}`}>View Details</Link>
+                              <Link href={`/admin/events/${item.event_id}`}>
+                                View Details
+                              </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link href={`/admin/events/${item.id}/edit`}>Edit</Link>
+                              <Link href={`/admin/events/${item.event_id}/edit`}>
+                                Edit
+                              </Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                              <Link href={`/admin/events/${item.id}/participants`}>View Participants</Link>
+                              <Link
+                                href={`/admin/events/${item.event_id}/participants`}
+                              >
+                                View Participants
+                              </Link>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                               className="text-destructive focus:text-destructive"
                               onClick={() => {
-                                setSelectedItem(item)
-                                setIsDeleteDialogOpen(true)
+                                setSelectedItem(item);
+                                setIsDeleteDialogOpen(true);
                               }}
                             >
                               Delete
@@ -335,14 +381,20 @@ export default function EventsPage() {
                     </div>
                     <div className="divide-y">
                       {filteredItems.map((item) => (
-                        <div key={item.id} className="grid grid-cols-5 p-4">
+                        <div key={item.event_id} className="grid grid-cols-5 p-4">
                           <div className="font-medium flex items-center">
-                            {item.highlighted && <Star className="mr-1 h-4 w-4 text-yellow-500" />}
+                            {item.highlighted && (
+                              <Star className="mr-1 h-4 w-4 text-yellow-500" />
+                            )}
                             {item.title}
                           </div>
                           <div>
                             <Badge
-                              className={item.type === "event" ? "bg-blue-500 text-white" : "bg-purple-500 text-white"}
+                              className={
+                                item.type === "event"
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-purple-500 text-white"
+                              }
                             >
                               {item.type === "event" ? "Event" : "Workshop"}
                             </Badge>
@@ -367,20 +419,28 @@ export default function EventsPage() {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/admin/events/${item.id}`}>View Details</Link>
+                                  <Link href={`/admin/events/${item.event_id}`}>
+                                    View Details
+                                  </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/admin/events/${item.id}/edit`}>Edit</Link>
+                                  <Link href={`/admin/events/${item.event_id}/edit`}>
+                                    Edit
+                                  </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/admin/events/${item.id}/participants`}>View Participants</Link>
+                                  <Link
+                                    href={`/admin/events/${item.event_id}/participants`}
+                                  >
+                                    View Participants
+                                  </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem
                                   className="text-destructive focus:text-destructive"
                                   onClick={() => {
-                                    setSelectedItem(item)
-                                    setIsDeleteDialogOpen(true)
+                                    setSelectedItem(item);
+                                    setIsDeleteDialogOpen(true);
                                   }}
                                 >
                                   Delete
@@ -402,14 +462,20 @@ export default function EventsPage() {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete {selectedItem?.type === "event" ? "Event" : "Workshop"}</DialogTitle>
+            <DialogTitle>
+              Delete {selectedItem?.type === "event" ? "Event" : "Workshop"}
+            </DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this {selectedItem?.type === "event" ? "event" : "workshop"}? This action
-              cannot be undone.
+              Are you sure you want to delete this{" "}
+              {selectedItem?.type === "event" ? "event" : "workshop"}? This
+              action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleDelete}>
@@ -418,6 +484,7 @@ export default function EventsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
-  )
+    </div>
+    //  </AdminLayout>
+  );
 }

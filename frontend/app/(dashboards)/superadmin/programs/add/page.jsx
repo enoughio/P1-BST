@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import AdminLayout from "@/components/admin-layout"
+// import AdminLayout from "@/components/admin-layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -54,7 +54,7 @@ export default function AddProgramPage() {
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -128,6 +128,6 @@ export default function AddProgramPage() {
           </Card>
         </form>
       </div>
-    </AdminLayout>
+   // </AdminLayout>
   )
 }

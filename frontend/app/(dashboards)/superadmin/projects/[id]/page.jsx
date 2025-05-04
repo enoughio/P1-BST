@@ -112,31 +112,19 @@ export default function ProjectDetailsPage() {
     }, 1000)
   }
 
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case "Completed":
-        return <Badge className="bg-green-100 text-green-800">Completed</Badge>
-      case "In Progress":
-        return <Badge className="bg-blue-100 text-blue-800">In Progress</Badge>
-      case "Not Started":
-        return <Badge className="bg-gray-100 text-gray-800">Not Started</Badge>
-      default:
-        return <Badge className="bg-gray-100 text-gray-800">{status}</Badge>
-    }
-  }
-
   if (loading) {
     return (
-      <AdminLayout>
+     // <AdminLayout>
         <div className="flex items-center justify-center h-96">
           <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
         </div>
-      </AdminLayout>
+      //</AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
+  //  <AdminLayout>
+  <div>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -392,6 +380,7 @@ export default function ProjectDetailsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AdminLayout>
+      </div>
+   // </AdminLayout>
   )
 }

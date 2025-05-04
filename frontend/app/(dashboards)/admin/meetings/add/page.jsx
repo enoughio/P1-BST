@@ -12,9 +12,11 @@ import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Loader2, Save } from "lucide-react"
 import Link from "next/link"
 import { createMeeting } from "@/lib/api"
+import { useAuth } from "@/context/auth-context"
 
 export default function AddMeetingPage() {
   const router = useRouter()
+  const { user:admin } = useAuth()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -24,9 +26,12 @@ export default function AddMeetingPage() {
     location: "Main Club Room",
     description: "",
     roles: [
-      { role: "master of ceramony", assignedTo: null },
-      { role: "Timer", assignedTo: null },
-      { role: "Ah Counter", assignedTo: null },
+      { role: "master of ceremony", assignedTo: null },
+      {role: "Moderator", assignedTo: null },
+      {role: "Time Keeper", assignedTo: null },
+      {role: "Open Mic Coordinator", assignedTo: null },
+      { role: "Filler Counter", assignedTo: null },
+      {role: "Listener", assignedTo: null },
       { role: "Grammarian", assignedTo: null },
       { role: "Speaker 1", assignedTo: null },
       { role: "Speaker 2", assignedTo: null },
@@ -64,14 +69,12 @@ export default function AddMeetingPage() {
     setIsLoading(true)
 
     try {
-      // Add club ID for the current admin's club
+      
       const meetingData = {
         ...formData,
-        club: "1", // In a real app, this would be the current admin's club ID
+        clubId: admin.clubId, 
       }
-
       await createMeeting(meetingData)
-
       toast({
         title: "Meeting Created",
         description: "The meeting has been successfully created.",

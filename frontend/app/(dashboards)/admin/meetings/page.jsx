@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdminLayout from "@/components/admin-layout";
-import { getMeetings, assignRole } from "@/lib/api";
+import { getMeetings, assignRole, getClubMembers } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,7 +38,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Clock, MapPin, Plus, Users } from "lucide-react";
 import Link from "next/link";
-import { getMembers } from "@/lib/api";
+import { useAuth } from "@/context/auth-context";
 
 export default function MeetingsPage() {
   const [meetings, setMeetings] = useState([]);
@@ -50,12 +49,13 @@ export default function MeetingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAssigning, setIsAssigning] = useState(false);
   const { toast } = useToast();
+  const { user: admin } = useAuth(); // Assuming you have a useAuth hook to get the current user
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const meetingsData = await getMeetings("1");
-        const membersData = await getMembers("1");
+        const meetingsData = await getMeetings(admin.clubId);
+        const membersData = await getClubMembers(admin.clubId);
 
         setMeetings(meetingsData);
         setMembers(membersData);
@@ -67,7 +67,7 @@ export default function MeetingsPage() {
     };
 
     fetchData();
-  }, []);
+  }, [admin.clubId]);
 
   const handleAssignRole = (meeting, roleIndex) => {
     setSelectedMeeting(meeting);
@@ -81,11 +81,11 @@ export default function MeetingsPage() {
     setIsAssigning(true);
 
     try {
-      await assignRole(selectedMeeting.id, selectedRoleIndex, memberId);
+      await assignRole(selectedMeeting.meeting_id, selectedRoleIndex, memberId);
 
       // Update local state
       const updatedMeetings = meetings.map((meeting) => {
-        if (meeting.id === selectedMeeting.id) {
+        if (meeting.meeting_id === selectedMeeting.meeting_id) {
           const updatedRoles = [...meeting.roles];
           updatedRoles[selectedRoleIndex] = {
             ...updatedRoles[selectedRoleIndex],
@@ -117,8 +117,8 @@ export default function MeetingsPage() {
 
   const getMemberName = (memberId) => {
     if (!memberId) return "Unassigned";
-    const member = members.find((m) => m.id === memberId);
-    return member ? `${member.first_name} ${member.last_name}` : "Unknown";
+    const member = members.find((m) => m.username === memberId);
+    return member ? member.name : "Unknown";
   };
 
   const groupMeetingsByMonth = () => {
@@ -141,7 +141,6 @@ export default function MeetingsPage() {
     return grouped;
   };
 
-  //  <AdminLayout>
   return (
     <div>
       <div className="flex flex-col gap-6">
@@ -172,7 +171,7 @@ export default function MeetingsPage() {
           <TabsContent value="upcoming" className="space-y-4">
             {loading ? (
               <div className="flex justify-center p-8">
-                <div className="animate-spin">Loading...</div>
+                <div className="animate-pulse">Loading...</div>
               </div>
             ) : meetings.length === 0 ? (
               <Card>
@@ -195,7 +194,7 @@ export default function MeetingsPage() {
                     <h2 className="text-xl font-semibold">{month}</h2>
 
                     {monthMeetings.map((meeting) => (
-                      <Card key={meeting.id}>
+                      <Card key={meeting.meeting_id}>
                         <CardHeader>
                           <CardTitle>{meeting.title}</CardTitle>
                           <CardDescription className="flex flex-col gap-2 sm:flex-row sm:items-center text-sm text-muted-foreground">
@@ -215,7 +214,7 @@ export default function MeetingsPage() {
                         </CardHeader>
                         <CardContent>
                           <div className="space-y-4">
-                            <p>{meeting.description}</p>
+                            {meeting.description && <p>{meeting.description}</p>}
 
                             <div>
                               <h3 className="text-sm font-medium mb-2">
@@ -235,7 +234,9 @@ export default function MeetingsPage() {
                                   <TableBody>
                                     {meeting.roles.map((role, index) => (
                                       <TableRow key={index}>
-                                        <TableCell>{role.role}</TableCell>
+                                        <TableCell className="capitalize">
+                                          {role.role}
+                                        </TableCell>
                                         <TableCell>
                                           {getMemberName(role.assignedTo)}
                                         </TableCell>
@@ -262,12 +263,12 @@ export default function MeetingsPage() {
                         </CardContent>
                         <CardFooter className="flex justify-end gap-2">
                           <Button variant="outline" asChild>
-                            <Link href={`/admin/meetings/${meeting.id}/edit`}>
+                            <Link href={`/admin/meetings/${meeting.meeting_id}/edit`}>
                               Edit Meeting
                             </Link>
                           </Button>
                           <Button variant="outline" asChild>
-                            <Link href={`/admin/meetings/${meeting.id}`}>
+                            <Link href={`/admin/meetings/${meeting.meeting_id}`}>
                               View Details
                             </Link>
                           </Button>
@@ -306,7 +307,7 @@ export default function MeetingsPage() {
                   </TableHeader>
                   <TableBody>
                     {meetings.map((meeting) => (
-                      <TableRow key={meeting.id}>
+                      <TableRow key={meeting.meeting_id}>
                         <TableCell className="font-medium">
                           {meeting.title}
                         </TableCell>
@@ -323,7 +324,7 @@ export default function MeetingsPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="ghost" size="sm" asChild>
-                            <Link href={`/admin/meetings/${meeting.id}`}>
+                            <Link href={`/admin/meetings/${meeting.meeting_id}`}>
                               View
                             </Link>
                           </Button>
@@ -365,8 +366,8 @@ export default function MeetingsPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {members.map((member) => (
-                    <SelectItem key={member.id} value={member.id}>
-                      {member.first_name} {member.last_name}
+                    <SelectItem key={member.username} value={member.username}>
+                      {member.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -382,6 +383,5 @@ export default function MeetingsPage() {
         </DialogContent>
       </Dialog>
     </div>
-    // </AdminLayout>
   );
 }
