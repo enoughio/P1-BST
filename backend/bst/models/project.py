@@ -13,7 +13,7 @@ class Project(models.Model):
         return self.title
     
 
-class ProjectHistory(models.Model):
+class ProjectAssignment(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     assigned_date = models.DateTimeField(blank=True, null=True)

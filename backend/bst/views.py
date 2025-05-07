@@ -17,9 +17,8 @@ from accounts.serializers import MemberSerializer
 from bst.serializers import (ClubCreateSerializer, ClubSerializer,
                              EventSerializer,
                              EventRegisterSerializer,
-                             MeetingSerializer,
                              ProjectSerializer,
-                             ProjectHistorySerializer,
+                             ProjectAssignmentSerializer,
                              MembershipSerializer,
                              MembershipActivateSerializer,
                              MembershipHistorySerializer,
@@ -27,8 +26,11 @@ from bst.serializers import (ClubCreateSerializer, ClubSerializer,
 
                              InitiativeSerializer, 
 
-                             WeeklyMeetingMeetingSerializer,
-                             ExecutiveCommitteeMeetingSerializer,  
+                             MeetingSerializer,
+                             WeeklyMeetingCreateSerializer,
+                             WeeklyMeetingRetrieveSerializer,
+                             ExecutiveCommitteeMeetingCreateSerializer,  
+                             ExecutiveCommitteeMeetingRetrieveSerializer,  
 
                              )
 
@@ -151,10 +153,10 @@ class EventRegisterAPIView(generics.CreateAPIView):
 
 
 class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
-    queryset = project.ProjectHistory.objects.all()
-    serializer_class = ProjectHistorySerializer
+    queryset = project.Project.objects.all()
+    serializer_class = ProjectSerializer
 
-    permission_classes = [AdminLevelPermission]
+    permission_classes = [SuperAdminLevelPermission]
 
     def get(self, request):
         return self.list(request)
@@ -179,15 +181,6 @@ class ProjectRetrieveUpdateAPIView(generics.RetrieveUpdateDestroyAPIView):
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
-    
-
-
-class MeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = meeting.Meeting.objects.all()
-    serializer_class = MeetingSerializer
-
-    def post(self, request, *args, **kwargs):
-        pass
 
 
 class MembershipAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
@@ -252,27 +245,84 @@ class AwardAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
     
     def get(self, request):
         return self.list(request)
+
+
+
+class WeeklyMeetingCreateAPIView(GenericAPIView, CreateModelMixin):
+    queryset = meeting.Meeting.objects.all()
+    serializer_class = WeeklyMeetingCreateSerializer
+
+    def post(self, request):
+        return self.create(request)
+
+
+# class WeeklyMeetingListAPIView(GenericAPIView, ListModelMixin):
+#     serializer_class = WeeklyMeetingRetrieveSerializer
+
+#     def get_queryset(self):
+#         return meeting.Meeting.objects.filter(meeting_type='Weekly')
+
+#     def get(self, request):
+#         return self.list(request)
     
 
-class WeeklyMeetingAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+class MeetingListAPIView(GenericAPIView, ListModelMixin):
     queryset = meeting.Meeting.objects.all()
-    serializer_class = WeeklyMeetingMeetingSerializer
+    serializer_class = MeetingSerializer
+
+    def get(self, request):
+        return self.list(request)
+
+
+class ExecutiveCommitteeMeetingCreateAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+    queryset = meeting.Meeting.objects.all()
+    serializer_class = ExecutiveCommitteeMeetingCreateSerializer
 
     def post(self, request):
         return self.create(request)
     
+class ExecutiveCommitteeMeetingListAPIView(GenericAPIView, ListModelMixin):
+    serializer_class = ExecutiveCommitteeMeetingRetrieveSerializer
+
+    def get_queryset(self):
+        return meeting.Meeting.objects.filter(meeting_type='Executive Committee')
+
     def get(self, request):
         return self.list(request)
 
-class ExecutiveCommitteeMeetingAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
-    queryset = meeting.Meeting.objects.all()
-    serializer_class = ExecutiveCommitteeMeetingSerializer
 
-    def post(self, request):
-        return self.create(request)
+class WeeklyMeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WeeklyMeetingCreateSerializer
+    lookup_field = 'meeting_id'
+
+    def get_queryset(self):
+        return meeting.Meeting.objects.filter(meeting_type='Weekly')
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
     
-    def get(self, request):
-        return self.list(request)
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+    
+
+class ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ExecutiveCommitteeMeetingCreateSerializer
+    lookup_field = 'meeting_id'
+
+    def get_queryset(self):
+        return meeting.Meeting.objects.filter(meeting_type='Executive Committee')
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class InitiativeAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
