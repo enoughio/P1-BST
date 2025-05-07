@@ -88,14 +88,14 @@ class MemberSerializer(serializers.ModelSerializer):
     
     def get_completed_projects(self, obj):
         now = timezone.now()
-        return project.ProjectHistory.objects.filter(
+        return project.ProjectAssignment.objects.filter(
             member=obj,
             deadline__lt=now
         ).count()
     
     def get_active_projects(self, obj):
         now = timezone.localtime(timezone.now())
-        projects = project.ProjectHistory.objects.filter(
+        projects = project.ProjectAssignment.objects.filter(
             member=obj, 
             deadline__gte=now
         )
@@ -152,10 +152,10 @@ class MemberAdditionalInfoSerialzer(serializers.ModelSerializer):
 
     
 # Adding project to Member wala serializer    
-class MemberProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Member
-        fields = ['username', 'project', 'assinged_date', 'completion_date']
+# class MemberProjectSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = project.ProjectHistory
+#         fields = ['member', 'project', 'assigned_date', 'deadline']
 
 
 # AdminSerializer

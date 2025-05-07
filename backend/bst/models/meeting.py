@@ -7,6 +7,12 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 
 class Meeting(models.Model):
+
+    MEETING_TYPE_CHOICES = [
+        ('Weekly', 'Weekly'),
+        ('Executive Committee', 'Executive Committee'),
+    ]
+
     meeting_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateField(default=timezone.now)
@@ -19,6 +25,13 @@ class Meeting(models.Model):
         return self.club.full_address()
 
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
+
+
+    meeting_type = models.CharField(
+        max_length=50,
+        choices=MEETING_TYPE_CHOICES,
+        default='Weekly'
+    )
 
     MOC = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="moc_meetings")
     OMC = models.ForeignKey(Member, on_delete=models.SET_NULL, blank=True, null=True, related_name="omc_meetings")

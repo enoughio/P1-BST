@@ -16,7 +16,7 @@ from .views import (MemberRemovalRequestCreateAPIView, PendingRemovalRequestsVie
                     MemberUpdateBasicInfoAPIView,
                     MemberUpdateAdditionalInfoAPIView,
                     
-                    MemberProjectRetrieveUpdateAPIView,
+                    MemberProjectAssignAPIView,
                     
                     AdminAPIView,
                     AdminRetriveAPIView,
@@ -44,8 +44,8 @@ urlpatterns = [
     # [Admin] - Member Management (Read, Update, Assign)
     path('members/<str:username>/activate-membership/', MembershipActivateAPIView.as_view(), name='activate-membership'),
     path('members/<str:username>/membership-history/', MembershipHistoryListAPIView.as_view(), name='list-membership'),
+    path("members/assign-project/", MemberProjectAssignAPIView.as_view(), name="assign-project"),  # Assign Project (Admin)
     path("members/<str:username>/", MemberRetrieveUpdateAPIView.as_view(), name="member-detail"),  # Get/Update Member Details (Admin)
-    path("members/<str:username>/assign/", MemberProjectRetrieveUpdateAPIView.as_view(), name="assign-project"),  # Assign Project (Admin)
 
     # [Admin Profile & Dashboard]
     path("admins/<str:username>/dashboard/", AdminRetriveAPIView.as_view(), name="get-admin"),  # Get Admin Dashboard

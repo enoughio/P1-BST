@@ -9,9 +9,13 @@ from accounts.serializers import (MemberRegisterSerializer,
                                   MemberSerializer,
                                   MemberBasicInfoSerializer,
                                   MemberAdditionalInfoSerialzer,
-                                  MemberProjectSerializer,
                                   AdminSerializer,
                                   AdminBasicInfoSerializer)
+
+
+from bst.models.project import ProjectAssignment
+from bst.serializers import ProjectAssignmentSerializer
+
 
 from rest_framework.generics import GenericAPIView
 from rest_framework import generics
@@ -255,18 +259,17 @@ class MemberRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 #     queryset = 
 
 
-class MemberProjectRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
-    queryset = Member
-    serializer_class = MemberProjectSerializer
-    lookup_field = 'username'
-
+class MemberProjectAssignAPIView(GenericAPIView, ListModelMixin, CreateModelMixin):
+    queryset = ProjectAssignment.objects.all()
+    serializer_class = ProjectAssignmentSerializer
     permission_classes = [AdminLevelPermission]
 
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
+    def get(self, request):
+        return self.list(request)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def post(self, request):
+        return self.create(request)
+
     
 
 # def total_registered_members(request):

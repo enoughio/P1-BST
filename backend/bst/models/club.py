@@ -30,15 +30,15 @@ def get_alphanumeric_id():
 
 
 class Initiative(models.Model):
-    title = models.CharField(max_length=255)
-    eligible_age = models.CharField(max_length=10)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    eligible_age = models.CharField(max_length=10, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     membership = models.ForeignKey(membership.Membership, on_delete=models.SET_NULL, null=True)
     max_club_size = models.IntegerField(default=0)
     # active_clubs = 
 
     def __str__(self):
-        return self.title or "" 
+        return self.title or ""
 
 
 class Club(models.Model):

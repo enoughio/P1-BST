@@ -40,5 +40,5 @@ admin.site.register(membership_history.MembershipHistory, CustomAdminMembershipH
 # admin.site.register(award.Award)
 
 admin.site.register(executive_committee.ExecutiveCommittee)
-admin.site.register(project.ProjectHistory)
+admin.site.register(project.ProjectAssignment)
 admin.site.register(award.Award)
