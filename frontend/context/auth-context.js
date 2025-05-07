@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
         gender: "male",
         dob: "1990-01-15",
         id_proof: "ABCD1234",
-        clubId: "1",
+        clubId: "C0001",
         clubName: "Bhopal Storytellers",
         occupation: "Software Engineer",
         membershipExpiryDate: "2023-05-15",

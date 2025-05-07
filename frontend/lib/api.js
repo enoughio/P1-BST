@@ -82,90 +82,37 @@ function getMockResponse(endpoint, method, data) {
 // Mock data
 const mockMembers = [
   {
-    id: "1",
-    first_name: "Alice",
-    last_name: "Johnson",
-    username: "alicejohnson",
-    email: "alice@example.com",
-    phone: "123-456-7890",
-    avatar: null,
-    address: "123 Main St",
-    gender: "female",
-    dob: "1990-01-15",
-    id_proof: "ABCD1234",
-    club: "1",
-    occupation: "Software Engineer",
-    membershipExpiryDate: "2024-12-31",
+    "id": "fba36fee-077f-4a29-b6b9-ee8f35b211dc",
+    "username": "u000",
+    "name": "Vikikumar",
+    "email": "u000@example.com",
+    "mobile": "9594548313",
+    "club_name": "Bharat Storytellers",
+    "membership_expiry_date": null
   },
   {
-    id: "2",
-    first_name: "Bob",
-    last_name: "Smith",
-    username: "bobsmith",
-    email: "bob@example.com",
-    phone: "987-654-3210",
-    avatar: null,
-    address: "456 Elm St",
-    gender: "male",
-    dob: "1985-05-20",
-    id_proof: "EFGH5678",
-    club: "1",
-    occupation: "Marketing Manager",
-    membershipExpiryDate: "2023-11-15",
+    "id": "e8f3240f-36ad-4dd9-a4a5-058323d271a0",
+    "username": "u001",
+    "name": "abc def",
+    "email": "u001@example.com",
+    "mobile": "9594548313",
+    "club_name": "Bharat Storytellers",
+    "membership_expiry_date": null
   },
   {
-    id: "3",
-    first_name: "Charlie",
-    last_name: "Brown",
-    username: "charliebrown",
-    email: "charlie@example.com",
-    phone: "555-123-4567",
-    avatar: null,
-    address: "789 Oak St",
-    gender: "male",
-    dob: "1992-10-08",
-    id_proof: "IJKL9012",
-    club: "2",
-    occupation: "Architect",
-    membershipExpiryDate: "2024-03-22",
-  },
-  {
-    id: "4",
-    first_name: "Diana",
-    last_name: "Miller",
-    username: "dianamiller",
-    email: "diana@example.com",
-    phone: "333-888-9999",
-    avatar: null,
-    address: "101 Pine St",
-    gender: "female",
-    dob: "1988-04-30",
-    id_proof: "MNOP3456",
-    club: "1",
-    occupation: "Financial Analyst",
-    membershipExpiryDate: "2023-12-15",
-  },
-  {
-    id: "5",
-    first_name: "Edward",
-    last_name: "Garcia",
-    username: "edwardgarcia",
-    email: "edward@example.com",
-    phone: "777-222-3333",
-    avatar: null,
-    address: "202 Maple St",
-    gender: "male",
-    dob: "1995-11-12",
-    id_proof: "QRST7890",
-    club: "2",
-    occupation: "Teacher",
-    membershipExpiryDate: "2024-06-30",
-  },
+    "id": "a5bff85e-b680-469c-822d-6ebedcd1d830",
+    "username": "u002",
+    "name": "abc def",
+    "email": "u002@example.com",
+    "mobile": "9594548313",
+    "club_name": "XYZ Storytellers",
+    "membership_expiry_date": null
+  }
 ]
 
 const mockClubs = [
   {
-    id: "1",
+    id: "C0001",
     name: "Bhopal Storytellers",
     address:
       "First Floor, Bharat Storytellers, B-66, near Chetak Bridge, Housing Board Colony, Kasturba Nagar, Bhopal, Madhya Pradesh 462022",
@@ -182,7 +129,7 @@ const mockClubs = [
     phone: "123-456-7890",
   },
   {
-    id: "2",
+    id: "C0002",
     name: "Delhi Orators",
     address: "123 MG Road, Connaught Place, New Delhi",
     city: "New Delhi",
@@ -198,7 +145,7 @@ const mockClubs = [
     phone: "999-888-7777",
   },
   {
-    id: "3",
+    id: "C0003",
     name: "Mumbai Speakers",
     address: "Andheri West, Mumbai, Maharashtra",
     city: "Mumbai",
@@ -360,7 +307,7 @@ const mockEvents = [
         description: "Modern storytelling formats and interactive experiences",
       },
     ],
-    
+
     photos: [
       { url: "", alt: "Last year's storytelling session" },
       { url: "", alt: "Audience engagement" },
@@ -515,34 +462,120 @@ const mockRequests = [
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
 
-export const getMembers = async (clubId) => {
-  const endpoint = clubId ? `/members?club=${clubId}` : "/members"
-  return handleRequest(endpoint)
+export const getAllMembers = async () => {
+  // const endpoint = clubId ? `/members?club=${clubId}` : "/members"
+  //   return {
+  //     "count": 3,
+  //     "next": null,
+  //     "previous": null,
+  //     "results": [
+  //         {
+  //             "id": "fba36fee-077f-4a29-b6b9-ee8f35b211dc",
+  //             "username": "u000",
+  //             "name": "Vikikumar",
+  //             "email": "u000@example.com",
+  //             "mobile": "9594548313",
+  //             "club_name": "Bharat Storytellers",
+  //             "membership_expiry_date": null
+  //         },
+  //         {
+  //             "id": "e8f3240f-36ad-4dd9-a4a5-058323d271a0",
+  //             "username": "u001",
+  //             "name": "abc def",
+  //             "email": "u001@example.com",
+  //             "mobile": "9594548313",
+  //             "club_name": "Bharat Storytellers",
+  //             "membership_expiry_date": null
+  //         },
+  //         {
+  //             "id": "a5bff85e-b680-469c-822d-6ebedcd1d830",
+  //             "username": "u002",
+  //             "name": "abc def",
+  //             "email": "u002@example.com",
+  //             "mobile": "9594548313",
+  //             "club_name": "XYZ Storytellers",
+  //             "membership_expiry_date": null
+  //         }
+  //     ]
+  // }
 
-  //  const BASE_URL =  process.env.BACKEND_URL
-  //   const response = await fetch(`${BASE_URL}/api/members`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       credientials: "include",
-  //     },
-  //   })
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
 
-  //   console.log("response", response)
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to fetch members (${response.status}): ${errText}`);
+    }
 
-  //   return response.json()
+    return await response.json();
+
+  } catch (error) {
+    console.error("getMembers error:", error);
+    // re-throw so callers can handle/display it
+    throw error;
+  }
+
 }
 
-export const getMember = async (id) => {
-  return handleRequest(`/members/${id}`)
+export const getMember = async (username) => {
+  // return handleRequest(`/members/${username}`)
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/${username}/dashboard/`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to fetch member (${response.status}): ${errText}`);
+    }
+    return await response.json();
+
+  } catch (error) {
+    console.error("getMember error:", error);
+    throw error
+  }
+
 }
 
 export const createMember = async (data) => {
   return handleRequest("/members", "POST", data)
 }
 
-export const updateMember = async (id, data) => {
-  return handleRequest(`/members/${id}`, "PUT", data)
+export const updateMember = async (username, data) => {
+  // return handleRequest(`/members/${id}`, "PUT", data)
+
+  try {
+
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/${username}/`, {
+      method: "PUT",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`Failed to Update ${username}'s data ${response.status}, ${errText}`)
+    }
+
+  } catch (error) {
+    console.error("updateMember error:", error);
+    throw error
+  }
+
 }
 
 export const renewMember = async (id, expiryDate) => {
@@ -560,15 +593,13 @@ export const getClubs = async () => {
   return handleRequest("/clubs")
 
   try {
-
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
     })
-
 
     if (!response.ok) {
       const errText = await response.text();
@@ -576,30 +607,29 @@ export const getClubs = async () => {
     }
 
     return await response.json();
-
   } catch (error) {
     console.error("getClubs error:", error);
-    // re-throw so callers can handle/display it
     throw error;
   }
 
 }
 
 export const getClub = async (clubId) => {
-  // return handleRequest(`/clubs/${id}`)
+  return handleRequest(`/clubs/${clubId}`)
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${clubId}/`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
     })
 
     if (!response.ok) {
       const errText = await response.text();
       throw new Error(`Failed to fetch club (${response.status}): ${errText}`);
+
     }
     return await response.json();
 
@@ -616,8 +646,8 @@ export const getClubMembers = async (clubId) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
       },
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -634,17 +664,14 @@ export const getClubMembers = async (clubId) => {
 }
 
 
-export const createClub = async (data) => {
+export const createClub = async (formData) => {
   // return handleRequest("/clubs", "POST", data)
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/create/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify(data),
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
     })
 
     if (!response.ok) {
@@ -662,20 +689,21 @@ export const createClub = async (data) => {
 }
 
 
-export const updateClub = async (id, data) => {
-  // return handleRequest(`/clubs/${id}`, "PUT", data)
+export const updateClub = async (id, formData) => {
+  // return handleRequest(`/clubs/${id}`, "PUT", formData)
   try {
-    const response = await fetch(`/api/clubs/${params.id}`, {
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${id}/`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-      body: JSON.stringify(data),
+      credentials: "include",
+      body: formData,
     })
     if (!response.ok) {
-      throw new Error("Network response was not ok")
+      const errText = await response.text();
+      throw new Error(`Failed to update club (${response.status}): ${errText}`);
     }
+
+    return await response.json();
+
   } catch (error) {
     console.error("updateClub error:", error);
     throw error
@@ -683,68 +711,417 @@ export const updateClub = async (id, data) => {
 }
 
 
-// Events
-export const getEvents = async (clubId) => {
-  const endpoint = clubId ? `/events?club=${clubId}` : "/events"
-  return handleRequest(endpoint)
-
-  // try {
-  //   const response = await fetch(`http://127.0.0.1:8000/api/bst/events/`,{
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-
-  //   if(!response.ok){
-  //     const errText = await response.text();
-  //     throw new Error(`Failed to fetch events (${response.status}): ${errText}`);
-  //   }
-
-
-  //   return await response.json();
-
-  // } catch (error) {
-  //   console.error("getEvents error:", error);
-  //   throw error  // re-throw so callers can handle/display it
-  // }
-}
-
-
-
-export const getEvent = async (id) => {
-  return handleRequest(`/events/${id}`)
-}
-
-export const createEvent = async (data) => {
-  return handleRequest("/events", "POST", data)
+export const getAllAdmins = async (url = null) => {
 
   try {
-    
+    const response = await fetch('http://127.0.0.1:8000/api/accounts/admins/', {
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`failed to fetch Admins data`)
+    }
+
+    return await response.json();
+
   } catch (error) {
-    console.error("createEvent error:", error);
+
+    console.error("getAllAdmins", error)
     throw error
-    
   }
 
 }
+
+
+export const getAdmin = async (username) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/admins/${username}/`, {
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to fetch admin (${response.status}): ${errText}`);
+    }
+
+    return await response.json();
+
+  } catch (error) {
+    console.error("getAdmin error:", error);
+    throw error
+  }
+}
+
+export const updateAdmin = async (username, data) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/admins/${username}/`, {
+      method: "PUT",
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`Failed to update admin (${response.status}): ${errText}`)
+    }
+
+    return await response.json()
+
+  } catch (error) {
+    console.error("updateAdmin error:", error);
+    throw error
+  }
+}
+
+
+
+// Events
+export const getEvents = async () => {
+  // const endpoint = clubId ? `/events?club=${clubId}` : "/events"
+  // return handleRequest(endpoint)
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/`, {
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to fetch events (${response.status}): ${errText}`);
+    }
+
+
+    return await response.json();
+
+  } catch (error) {
+    console.error("getEvents error:", error);
+    throw error  // re-throw so callers can handle/display it
+  }
+}
+
+
+
+export const getEvent = async (event_id) => {
+  // return handleRequest(`/events/${id}`)
+
+  try {
+
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/${event_id}/`, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    if(!response.ok){
+      const errText = await response.text()
+      throw new Error(`Failed to fetch Event Data`)
+    }
+
+    return await response.json();
+
+  } catch (error) {    
+    console.error(`getEvent ${error}`)
+    throw error
+  }
+}
+
+export const createEvent = async (formData) => {
+  // const data = await handleRequest("/events", "POST", formData)
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/create/`, {
+      method: "POST",
+      credentials: 'include',
+      body: formData,
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`Failed to create event (${response.status}): ${errText}`)  
+    }
+    return await response.json()
+
+  } catch (error) {
+    console.error("createEvent error:", error);
+    throw error
+  }
+}
+
+
+export const getEventParticipants = async (event_id) => {
+
+  return [
+      {
+        "id": "P000001",
+        "event_id": "E000000",
+        "name": "Rajesh Kumar",
+        "email": "rajesh.kumar@example.com",
+        "phone": "9876543210",
+        "registration_date": "2023-11-20T14:30:45Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "Vegetarian",
+          "attendance_confirmed": true,
+          "referral_source": "Social Media"
+        }
+      },
+      {
+        "id": "P000002",
+        "event_id": "E000000",
+        "name": "Priya Sharma",
+        "email": "priya.sharma@example.com",
+        "phone": "8765432109",
+        "registration_date": "2023-11-21T10:15:22Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "No preferences",
+          "attendance_confirmed": true,
+          "referral_source": "Website"
+        }
+      },
+      {
+        "id": "P000003",
+        "event_id": "E000000",
+        "name": "Amit Patel",
+        "email": "amit.patel@example.com",
+        "phone": "7654321098",
+        "registration_date": "2023-11-22T09:45:11Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "Vegan",
+          "attendance_confirmed": false,
+          "referral_source": "Friend"
+        }
+      },
+      {
+        "id": "P000004",
+        "event_id": "E000000",
+        "name": "Sunita Gupta",
+        "email": "sunita.gupta@example.com",
+        "phone": "6543210987",
+        "registration_date": "2023-11-22T16:20:33Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "Vegetarian",
+          "attendance_confirmed": true,
+          "referral_source": "Email Newsletter"
+        }
+      },
+      {
+        "id": "P000005",
+        "event_id": "E000000",
+        "name": "Anand Verma",
+        "email": "anand.verma@example.com",
+        "phone": "5432109876",
+        "registration_date": "2023-11-23T11:05:42Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "No preferences",
+          "attendance_confirmed": true,
+          "referral_source": "Social Media"
+        }
+      },
+      {
+        "id": "P000006",
+        "event_id": "E000000",
+        "name": "Meera Joshi",
+        "email": "meera.joshi@example.com",
+        "phone": "9876543211",
+        "registration_date": "2023-11-24T14:30:15Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "Vegetarian",
+          "attendance_confirmed": false,
+          "referral_source": "Website"
+        }
+      },
+      {
+        "id": "P000007",
+        "event_id": "E000000",
+        "name": "Vikram Singh",
+        "email": "vikram.singh@example.com",
+        "phone": "8765432110",
+        "registration_date": "2023-11-25T09:40:26Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "No preferences",
+          "attendance_confirmed": true,
+          "referral_source": "Friend"
+        }
+      },
+      {
+        "id": "P000008",
+        "event_id": "E000000",
+        "name": "Anjali Mehta",
+        "email": "anjali.mehta@example.com",
+        "phone": "7654321099",
+        "registration_date": "2023-11-26T15:22:53Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "Vegetarian",
+          "attendance_confirmed": true,
+          "referral_source": "Email Newsletter"
+        }
+      },
+      {
+        "id": "P000009",
+        "event_id": "E000000",
+        "name": "Rahul Khanna",
+        "email": "rahul.khanna@example.com",
+        "phone": "6543210988",
+        "registration_date": "2023-11-27T10:11:38Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "No preferences",
+          "attendance_confirmed": false,
+          "referral_source": "Social Media"
+        }
+      },
+      {
+        "id": "P000010",
+        "event_id": "E000000",
+        "name": "Neha Kapoor",
+        "email": "neha.kapoor@example.com",
+        "phone": "5432109877",
+        "registration_date": "2023-11-28T13:45:21Z",
+        "ticket_type": "General",
+        "payment_status": "Paid",
+        "amount_paid": "₹0",
+        "additional_info": {
+          "dietary_preferences": "Vegetarian",
+          "attendance_confirmed": true,
+          "referral_source": "Website"
+        }
+      }
+    ]
+  
+
+  try {
+
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/${event_id}/register/`, {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`Failed to fetch Event Participants`)
+    }
+    return await response.json()
+    
+  } catch (error) {
+    console.error("getEventParticipants error:", error);
+    throw error    
+  }
+
+} 
+
+
+
 
 export const updateEvent = async (id, data) => {
   return handleRequest(`/events/${id}`, "PUT", data)
 }
 
+//TODO: add a function to removeHighlight for a club
 export const highlightEvent = async (id, highlighted) => {
   return handleRequest(`/events/${id}/highlight`, "POST", { highlighted })
+
+
 }
 
 export const deleteEvent = async (id) => {
-  return handleRequest(`/events/${id}`, "DELETE")
+  // return handleRequest(`/events/${id}`, "DELETE")
+
+  try {
+    
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/events/${id}/`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    // if (!response.ok) {
+    //   const errText = await response.text()
+    //   throw new Error(`Failed to delete Event with id ${id}`)
+    // }
+    
+    // return await response.json()
+
+  } catch (error) {
+    console.error("deleteEvent error:", error);
+    throw error 
+  }
+  
 }
 
 // Meetings
 export const getMeetings = async (clubId) => {
-  return handleRequest(`/meetings?club=${clubId}`)
+  // return handleRequest(`/meetings?club=${clubId}`)
+  
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/bst/meetings/weekly/`,{
+      method: "GET",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response.ok) {
+      const errText = await response.text()
+      throw new Error(`Failed to fetch Meetings`)
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error("getMeetings error:", error);
+    throw error
+  }
 }
+
+
 
 export const getMeeting = async (id) => {
   return handleRequest(`/meetings/${id}`)
@@ -752,6 +1129,7 @@ export const getMeeting = async (id) => {
 
 export const createMeeting = async (data) => {
   return handleRequest("/meetings", "POST", data)
+
 }
 
 export const updateMeeting = async (id, data) => {
@@ -805,8 +1183,8 @@ export const updateRequestStatus = async (id, status) => {
 }
 
 export default {
-  getMembers,
   getMember,
+  getAllMembers,
   createMember,
   updateMember,
   renewMember,
@@ -815,6 +1193,9 @@ export default {
   getClub,
   createClub,
   updateClub,
+  getAllAdmins,
+  getAdmin,
+  getClubMembers,
   getEvents,
   getEvent,
   createEvent,

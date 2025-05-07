@@ -14,30 +14,35 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Save } from "lucide-react";
 import Link from "next/link";
-// import { c } from "framer-motion/dist/types.d-6pKw1mTI";
 import { createClub } from "@/lib/api";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function AddClubPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    address: "",
+    club_name: "",
+    street: "",
     city: "",
-    meetingTime: "",
-    position: [0, 0],
-    dmsPosition: "",
+    state: "",
+    country: "",
+    postal_code: "",
+    map: "",
+    meeting_time: "",
     description: "",
-    Admin: "",
-    adminId: "",
-    inicative: "",
-    adminUsername: "",
+    initiative: "", // Fixed spelling from "inicative"
     email: "",
-    phone: "",
+    mobile: "",
+    image: "",
   });
 
   const handleChange = (e) => {
@@ -45,39 +50,56 @@ export default function AddClubPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handlePositionChange = (axis, value) => {
-    const newPosition = [...formData.position];
-    newPosition[axis] = Number.parseFloat(value) || 0;
-    setFormData((prev) => ({ ...prev, position: newPosition }));
+  // Handler for Select component since it doesn't use the standard event format
+  const handleSelectChange = (value, name) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handler for file input
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files && files[0]) {
+      // Handle file upload logic here
+      // For now, we'll just store the file name
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // In a real app, this would be an API call
-    // setTimeout(() => {
-    //   toast({
-    //     title: "Club Created",
-    //     description: "The club has been successfully created.",
-    //   })
-    //   router.push("/superadmin/clubs")
-    //   setIsLoading(false)
-    // }, 1500)
-
+  
     try {
-
-      const response = await createClub(formData);
-
-        toast({
-          title: "Club Created",
-          description: "The club has been successfully created.",
-          variant: "default", 
-        }); 
-
-        router.push("/superadmin/clubs");
-
-      
+      const formPayload = new FormData();
+  
+      // Append all the fields manually
+      formPayload.append("club_name", formData.club_name);
+      formPayload.append("street", formData.street);
+      formPayload.append("city", formData.city);
+      formPayload.append("state", formData.state);
+      formPayload.append("country", formData.country);
+      formPayload.append("postal_code", formData.postal_code);
+      formPayload.append("map", formData.map);
+      formPayload.append("meeting_time", formData.meeting_time);
+      formPayload.append("description", formData.description);
+      formPayload.append("initiative", formData.initiative);
+      formPayload.append("email", formData.email);
+      formPayload.append("mobile", formData.mobile);
+  
+      // For file (image) input
+      if (formData.image && formData.image[0]) {
+        formPayload.append("image", formData.image[0]);
+      }
+  
+      // Send FormData instead of plain object
+      const response = await createClub(formPayload);
+  
+      toast({
+        title: `${response?.club_name} Club Created`,
+        description: "The club has been successfully created.",
+        variant: "default",
+      });
+      router.push("/superadmin/clubs");
     } catch (error) {
       console.error("Error creating club:", error);
       toast({
@@ -89,9 +111,9 @@ export default function AddClubPage() {
       setIsLoading(false);
     }
   };
+  
 
   return (
-    //  <AdminLayout>
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
@@ -104,8 +126,7 @@ export default function AddClubPage() {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
               Add Club
             </h1>
-            <p className="text-gray-500">Create a new storyteller club</p>
-            <h5>you first need to create an admin</h5>
+            <p className="text-gray-500">Create new club</p>
           </div>
         </div>
       </div>
@@ -120,118 +141,110 @@ export default function AddClubPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Club Name *</Label>
+              <Label htmlFor="club_name">Club Name *</Label>
               <Input
-                id="name"
-                name="name"
+                id="club_name"
+                name="club_name"
                 type="text"
-                value={formData.name}
+                placeholder="e.g., Bhopal Storytellers"
+                value={formData.club_name}
                 onChange={handleChange}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="address">Address *</Label>
-              <Textarea
-                id="address"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="e.g., 123 Main St, Apt 4B"
-                rows={3}
-                required
-              />
-            </div>
-
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="city">City *</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="meetingTime">Meeting Time *</Label>
-                <Input
-                  id="meetingTime"
-                  name="meetingTime"
-                  placeholder="e.g., Tuesdays, 6:30 PM"
-                  value={formData.meetingTime}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="inicative">
-                </Label>
-                {/* <Input
-                    id="inicative"
-                    name="inicative"
-                    placeholder=""
-                    value={formData.meetingTime}
-                    onChange={handleChange}
-                    required
-                  /> */}
-
-                <Select
-                  id="inicative"
-                  name="inicative"
-                  value={formData.inicative}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <SelectTrigger className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <SelectValue placeholder="Select an Inicative" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Storytellers">Storytellers</SelectItem>
-                    <SelectItem value="Young Orater's">
-                      Young Orater's
-                    </SelectItem>
-                    <SelectItem value="Young Leaders">Young Leaders</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Label htmlFor="initiative">Initiative</Label>
+              <Select
+                onValueChange={(value) =>
+                  handleSelectChange(value, "initiative")
+                }
+                value={formData.initiative}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select an Initiative" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Bhopal Storytellers</SelectItem>
+                  <SelectItem value="Young Oraters">Young Oraters</SelectItem>
+                  <SelectItem value="Young Leaders">Young Leaders</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
-              <Label>Location Coordinates</Label>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="lat">Latitude</Label>
-                  <Input
-                    id="lat"
-                    value={formData.position[0]}
-                    onChange={(e) => handlePositionChange(0, e.target.value)}
-                    placeholder="e.g., 23.2339"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lng">Longitude</Label>
-                  <Input
-                    id="lng"
-                    value={formData.position[1]}
-                    onChange={(e) => handlePositionChange(1, e.target.value)}
-                    placeholder="e.g., 77.4401"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="dmsPosition">DMS Position (Optional)</Label>
+              <Label htmlFor="street">Street</Label>
               <Input
-                id="dmsPosition"
-                name="dmsPosition"
-                placeholder="e.g., 40°42'46.08&quot;N, 74°00'21.6&quot;W"
-                value={formData.dmsPosition}
+                id="street"
+                name="street"
+                value={formData.street}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="city">City</Label>
+              <Input
+                id="city"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="postal_code">Postal Code</Label>
+              <Input
+                id="postal_code"
+                name="postal_code"
+                value={formData.postal_code}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="state">State</Label>
+              <Input
+                id="state"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="country">Country</Label>
+              <Input
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="meeting_time">Meeting Time</Label>
+              <Input
+                id="meeting_time"
+                name="meeting_time"
+                value={formData.meeting_time}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="map">Google Map Iframe Link</Label>
+              <Textarea
+                id="map"
+                name="map"
+                placeholder="e.g., <iframe src='https://www.google.com/maps/embed?...'></iframe>"
+                value={formData.map}
                 onChange={handleChange}
               />
             </div>
@@ -247,47 +260,14 @@ export default function AddClubPage() {
                 required
               />
             </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Admin Information</CardTitle>
-            <CardDescription>
-              Contact details for the club administrator
-            </CardDescription>
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="Admin">Admin Name *</Label>
-              <Input
-                id="Admin"
-                name="Admin"
-                value={formData.Admin}
-                onChange={handleChange}
-                required
-              />
-            </div>
 
             <div className="space-y-2">
-              <Label htmlFor="adminId">Admin Id *</Label>
+              <Label htmlFor="image">Image </Label>
               <Input
-                id="adminId"
-                name="adminId"
-                value={formData.Admin}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="adminUsername">Admin Username *</Label>
-              <Input
-                id="adminUsername"
-                name="adminUsername"
-                value={formData.adminUsername}
-                onChange={handleChange}
+                id="image"
+                name="image"
+                type="file"
+                onChange={handleFileChange}
                 required
               />
             </div>
@@ -306,11 +286,11 @@ export default function AddClubPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone *</Label>
+                <Label htmlFor="mobile">Phone *</Label>
                 <Input
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
                   onChange={handleChange}
                   required
                 />
@@ -323,7 +303,6 @@ export default function AddClubPage() {
               type="button"
               variant="outline"
               onClick={() => router.push("/superadmin/clubs")}
-              className="border-gray-200 text-gray-700 hover:bg-gray-50"
             >
               Cancel
             </Button>
@@ -348,6 +327,5 @@ export default function AddClubPage() {
         </Card>
       </form>
     </div>
-    // </AdminLayout>
   );
 }

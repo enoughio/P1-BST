@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import AdminLayout from "@/components/admin-layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -89,7 +88,7 @@ export default function ProgramClubsPage() {
           },
           {
             id: "4",
-            name: "Bangalore storyteller",
+            name: "Bangalore Toastmasters",
             address: "MG Road, Bangalore, Karnataka",
             city: "Bangalore",
             meetingTime: "Mondays, 7:00 PM",

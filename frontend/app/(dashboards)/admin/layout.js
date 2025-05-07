@@ -1,3 +1,4 @@
+import AdminLayout from "@/components/admin-layout";
 import ProtectedRoutes from "@/components/protected-routes";
 
 
@@ -6,8 +7,9 @@ export default function Layout({ children }) {
         <div>
             {/* Add any layout-specific elements here */}
            <ProtectedRoutes allowedRoles={['admin']} >
-
+             <AdminLayout>
                 <main>{children}</main>
+            </AdminLayout>
            </ProtectedRoutes>
          
         </div>

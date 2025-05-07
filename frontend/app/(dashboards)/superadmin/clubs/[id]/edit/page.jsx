@@ -1,269 +1,313 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import AdminLayout from "@/components/admin-layout"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
-import { ArrowLeft, Loader2, Save } from "lucide-react"
-import Link from "next/link"
-import { updateClub } from "@/lib/api"
-// import { getClub } from "@/lib/api"
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
+import Link from "next/link";
+import { getClub, updateClub } from "@/lib/api";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-// name: "",
-// address: "",
-// city: "",
-// meetingTime: "",
-// position: [0, 0],
-// dmsPosition: "",
-// description: "",
-// Admin: "",
-// adminId: "",
-// inicative: "",
-// adminUsername: "",
-// email: "",
-// phone: "",
+export default function EditClubPage() {
+  const clubId = useParams().id;
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
+  const [clubData, setClubData] = useState({
+    club_name: "",
+    street: "",
+    city: "",
+    state: "",
+    country: "",
+    postal_code: "",
+    map: "",
+    meeting_time: "",
+    description: "",
+    initiative: "",
+    email: "",
+    mobile: "",
+    image: "",
+  });
+  const [newImage, setNewImage] = useState(null);
 
-let sampleData = {
+  // Fetch club data on component mount
+  useEffect(() => {
+    async function fetchClubData() {
+      try {
+        const data = await getClub(clubId);
+        if (data) {
+          setClubData({
+            club_name: data.club_name || "",
+            street: data.street || "",
+            city: data.city || "",
+            state: data.state || "",
+            country: data.country || "",
+            postal_code: data.postal_code || "",
+            map: data.map || "",
+            meeting_time: data.meeting_time || "",
+            description: data.description || "",
+            initiative: data.initiative || "",
+            email: data.email || "",
+            mobile: data.mobile || "",
+            image: data.image || "",
+          });
+        } else {
+          throw new Error("Club data is undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching club data:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load club information",
+          variant: "destructive",
+        });
+      } finally {
+        setIsFetching(false);
+      }
+    }
 
-  name: "Sample Club",
-  address: "123 Sample St, Sample City, SC 12345",
-  city: "Sample City",
-  meetingTime: "Every Tuesday at 6 PM",
-  position: [34.0522, -118.2437], // Sample coordinates (latitude, longitude)
-  dmsPosition: "34.0522° N, 118.2437° W",
-  description: "",
-  Admin: "",
-  adminId: "",
-  inicative: "",
-  adminUsername: "",
-  email: "",
-  phone: "",
-  
-} 
-
-
-export default function EditClubPage({clubData : sampleData}) {
-
-  const params = useParams()
-  const router = useRouter()
-  const { toast } = useToast()
-  const [club, setClub] = useState(clubData || null)
-  const [loading, setLoading] = useState(true)
-  const [isSaving, setIsSaving] = useState(false)
-
+    if (clubId) {
+      fetchClubData();
+    }
+  }, [clubId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setClub((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setClubData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handlePositionChange = (axis, value) => {
-    if (!club.position) {
-      const newPosition = [0, 0]
-      newPosition[axis] = Number.parseFloat(value) || 0
-      setClub((prev) => ({ ...prev, position: newPosition }))
-    } else {
-      const newPosition = [...club.position]
-      newPosition[axis] = Number.parseFloat(value) || 0
-      setClub((prev) => ({ ...prev, position: newPosition }))
+  // Handler for Select component
+  const handleSelectChange = (value, name) => {
+    setClubData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Handler for file input
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewImage(file);
     }
-  }
-
-
+    // if (files && files[0]) {
+    //   // For a real implementation, you'd likely want to handle file uploads
+    //   // differently, perhaps with clubData or a dedicated upload service
+    //   setNewImage(files[0]);
+    //   // setClubData((prev) => ({ ...prev, [name]: files[0] }));
+    // }
+  };  
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault()
-    setIsSaving(true)
-  
-
-    // TODO: complete this edit club function
-    try {
-      
-      const data = updateClub(params.id, club)
-
-      
-      console.log("Club updated successfully:")
-
+    if (!clubData || !clubData.club_name) {
       toast({
-        title: "Club Updated",
-        description: "The club has been successfully updated.",
-      })
-
-      router.push(`/superadmin/clubs/`)
-      setIsSaving(false)
-
-    } catch (error) {
-      console.error("Error updating club:", error)
-      toast({
-        title: "Error",
-        description: "Failed to update club details",
+        title: "Invalid Data",
+        description: "Club data is missing or invalid.",
         variant: "destructive",
-      })
-      setIsSaving(false)  
+      });
+      return;
     }
 
-  }
+    setIsLoading(true);
 
-  if (!club) {
+    try {
+      const formPayload = new FormData();
+
+      // Append all the fields manually
+      formPayload.append("club_name", clubData.club_name);
+      formPayload.append("street", clubData.street);
+      formPayload.append("city", clubData.city);
+      formPayload.append("state", clubData.state);
+      formPayload.append("country", clubData.country);
+      formPayload.append("postal_code", clubData.postal_code);
+      formPayload.append("map", clubData.map);
+      formPayload.append("meeting_time", clubData.meeting_time);
+      formPayload.append("description", clubData.description);
+      formPayload.append("initiative", clubData.initiative);
+      formPayload.append("email", clubData.email);
+      formPayload.append("mobile", clubData.mobile);
+
+      // For file (image) input
+      if (newImage) {
+        formPayload.append("image", newImage);
+      }
+      const response = await updateClub(clubId, formPayload);
+
+      toast({
+        title: `${response.club_name} Club data Updated`,
+        description: "The club has been successfully updated.",
+        variant: "default",
+      });
+      router.push("/superadmin/clubs");
+    } catch (error) {
+      console.error("Error updating club:", error);
+      toast({
+        title: "Error",
+        description: "An error occurred while updating the club.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isFetching) {
     return (
-        <div className="text-center py-12">
-          <h1 className="text-2xl font-bold mb-4">Club Not Found</h1>
-          <p className="text-gray-500 mb-6">The club you're looking for doesn't exist or has been removed.</p>
-          <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
-            <Link href="/superadmin/clubs">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Clubs
-            </Link>
-          </Button>
-        </div>
-    )
+      <div className="flex items-center justify-center h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="ml-2">Loading club data...</span>
+      </div>
+    );
   }
 
   return (
-
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href={`/superadmin/clubs/${params.id}`}>
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">Edit Club</h1>
-              <p className="text-gray-500">Update the details for {club.name}</p>
-            </div>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/superadmin/clubs">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Edit Club
+            </h1>
+            <p className="text-gray-500">Update club details</p>
           </div>
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit}>
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Club Information</CardTitle>
-              <CardDescription>Edit the basic details for this club</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
+      <form onSubmit={handleSubmit}>
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Club Information</CardTitle>
+            <CardDescription>Update the details for this club</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name">Club Name *</Label>
+              <Label htmlFor="club_name">Club Name *</Label>
               <Input
-                id="name"
-                name="name"
+                id="club_name"
+                name="club_name"
                 type="text"
-                value={club.name}
+                placeholder="e.g., Bhopal Storytellers"
+                value={clubData.club_name || ""}
                 onChange={handleChange}
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="address">Address *</Label>
-              <Textarea
-                id="address"
-                name="address"
-                value={club.address}
-                onChange={handleChange}
-                placeholder="e.g., 123 Main St, Apt 4B"
-                rows={3}
-                required
-              />
-            </div>
-
-            <div className="grid gap-6 sm:grid-cols-2">
-
-              <div className="space-y-2">
-                <Label htmlFor="city">City *</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  value={club.city}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="meetingTime">Meeting Time *</Label>
-                <Input
-                  id="meetingTime"
-                  name="meetingTime"
-                  placeholder="e.g., Tuesdays, 6:30 PM"
-                  value={club.meetingTime}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="inicative">
-                </Label>
-                {/* <Input
-                    id="inicative"
-                    name="inicative"
-                    placeholder=""
-                    value={club.meetingTime}
-                    onChange={handleChange}
-                    required
-                  /> */}
-
-                <Select
-                  id="inicative"
-                  name="inicative"
-                  value={club.inicative}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <SelectTrigger className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <SelectValue placeholder="Select an Inicative" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Storytellers">Storytellers</SelectItem>
-                    <SelectItem value="Young Orater's">
-                      Young Orater's
-                    </SelectItem>
-                    <SelectItem value="Young Leaders">Young Leaders</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
+              <Label htmlFor="initiative">Initiative</Label>
+              <Select
+                onValueChange={(value) =>
+                  handleSelectChange(value, "initiative")
+                }
+                value={clubData.initiative}
+                defaultValue={clubData.initiative}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select an Initiative" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">Storytellers</SelectItem>
+                  <SelectItem value="2">Young Oraters</SelectItem>
+                  <SelectItem value="3">Young Leaders</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
-              <Label>Location Coordinates</Label>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="lat">Latitude</Label>
-                  <Input
-                    id="lat"
-                    value={club.position[0]}
-                    onChange={(e) => handlePositionChange(0, e.target.value)}
-                    placeholder="e.g., 23.2339"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lng">Longitude</Label>
-                  <Input
-                    id="lng"
-                    value={club.position[1]}
-                    onChange={(e) => handlePositionChange(1, e.target.value)}
-                    placeholder="e.g., 77.4401"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="dmsPosition">DMS Position (Optional)</Label>
+              <Label htmlFor="street">Street</Label>
               <Input
-                id="dmsPosition"
-                name="dmsPosition"
-                placeholder="e.g., 40°42'46.08&quot;N, 74°00'21.6&quot;W"
-                value={club.dmsPosition}
+                id="street"
+                name="street"
+                value={clubData.street}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="city">City</Label>
+              <Input
+                id="city"
+                name="city"
+                value={clubData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="postal_code">Postal Code</Label>
+              <Input
+                id="postal_code"
+                name="postal_code"
+                value={clubData.postal_code}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="state">State</Label>
+              <Input
+                id="state"
+                name="state"
+                value={clubData.state}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="country">Country</Label>
+              <Input
+                id="country"
+                name="country"
+                value={clubData.country}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="meeting_time">Meeting Time</Label>
+              <Input
+                id="meeting_time"
+                name="meeting_time"
+                value={clubData.meeting_time}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="map">Google Map Iframe Link</Label>
+              <Textarea
+                id="map"
+                name="map"
+                placeholder="e.g., <iframe src='https://www.google.com/maps/embed?...'></iframe>"
+                value={clubData.map || ""}
                 onChange={handleChange}
               />
             </div>
@@ -273,39 +317,67 @@ export default function EditClubPage({clubData : sampleData}) {
               <Textarea
                 id="description"
                 name="description"
-                value={club.description}
+                value={clubData.description}
                 onChange={handleChange}
                 rows={4}
                 required
               />
             </div>
-          </CardContent>
-          </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Admin Information</CardTitle>
-              <CardDescription>Contact details for the club administrator</CardDescription>
-            </CardHeader>
-
-            <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="Admin">Admin Name *</Label>
+              <Label htmlFor="image">Image</Label>
+              {clubData.image && (
+                <div className="mb-2">
+                  <p className="text-sm text-gray-500">
+                    Current image: {clubData.image}
+                  </p>
+                </div>
+              )}
               <Input
-                id="Admin"
-                name="Admin"
-                value={club.Admin}
-                onChange={handleChange}
-                required
+                id="image"
+                name="image"
+                type="file"
+                onChange={handleFileChange}
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Leave empty to keep current image
+              </p>
             </div>
 
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email *</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={clubData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="mobile">Phone *</Label>
+                <Input
+                  id="mobile"
+                  name="mobile"
+                  value={clubData.mobile}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div>
+              {/* 
             <div className="space-y-2">
-              <Label htmlFor="adminId">Admin Id *</Label>
+              <Label htmlFor="admin">still under testing....</Label>
+              <Label htmlFor="Admin">Admin Name *</Label>
               <Input
-                id="adminId"
-                name="adminId"
-                value={club.Admin}
+                id="admin"
+                name="admin"
+                value={club.admin}
                 onChange={handleChange}
                 required
               />
@@ -320,63 +392,38 @@ export default function EditClubPage({clubData : sampleData}) {
                 onChange={handleChange}
                 required
               />
-            </div>
-
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={club.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone *</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  value={club.phone}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+            </div> */}
             </div>
           </CardContent>
 
-
-
-            <CardFooter className="flex justify-between">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.push(`/superadmin/clubs/${params.id}`)}
-                className="border-gray-200 text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isSaving} className="bg-blue-600 hover:bg-blue-700 text-white">
-                {isSaving ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Saving Changes...
-                  </>
-                ) : (
-                  <>
-                    <Save className="mr-2 h-4 w-4" />
-                    Save Changes
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </div>
-    
-  )
+          <CardFooter className="flex justify-between">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/superadmin/clubs")}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Updating Club...
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Update Club
+                </>
+              )}
+            </Button>
+          </CardFooter>
+        </Card>
+      </form>
+    </div>
+  );
 }
-
