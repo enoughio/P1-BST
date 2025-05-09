@@ -187,10 +187,10 @@ export default function SuperAdminDashboard() {
                   </div>
                   <div className="divide-y">
                     {clubs.map((club) => (
-                      <div key={club.id} className="grid grid-cols-4 p-4">
-                        <div className="font-medium">{club.name}</div>
+                      <div key={club.club_id} className="grid grid-cols-4 p-4">
+                        <div className="font-medium">{club.club_name}</div>
                         <div>{club.city}</div>
-                        <div>{club.Admin}</div>
+                        <div>{club.admin}</div>
                         <div>{club.members}</div>
                       </div>
                     ))}

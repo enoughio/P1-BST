@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
 import { getClub, updateClub } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,8 +9,9 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { Building, CalendarClock, Loader2, Mail, MapPin, Phone, Save, User, Users } from "lucide-react"
+import { Building, CalendarClock, Loader2, Mail, MapPin, Phone, Save, User, Users, Image as ImageIcon } from "lucide-react"
 import { useAuth } from "@/context/auth-context"
+import ExecutiveCommitteeManager from "@/components/executive-committee-manager" // Import the new component
 
 export default function ClubDetailsPage() {
   const [club, setClub] = useState(null)
@@ -30,6 +30,11 @@ export default function ClubDetailsPage() {
       } catch (error) {
         console.error("Error fetching club details:", error)
         setIsLoading(false)
+        toast({
+          title: "Error",
+          description: "Failed to load club details. Please refresh the page.",
+          variant: "destructive",
+        })
       }
     }
 
@@ -41,11 +46,11 @@ export default function ClubDetailsPage() {
     setClub((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSave = async () => {   // updates club details
+  const handleSave = async () => {
     setIsSaving(true)
 
     try {
-      await updateClub("1", club)       // updates club
+      await updateClub(club.club_id, club)
       setIsEditing(false)
 
       toast({
@@ -64,50 +69,53 @@ export default function ClubDetailsPage() {
     }
   }
 
+  // Handle updates from the ExecutiveCommitteeManager
+  const handleCommitteeUpdate = (updatedClub) => {
+    setClub(updatedClub)
+  }
+
   if (isLoading) {
     return (
-      // <AdminLayout>
-        <div className="flex items-center justify-center h-96">
-          <Loader2 className="h-8 w-8  text-muted-foreground" />
-        </div>
-      // </AdminLayout>
+      <div className="flex items-center justify-center h-96">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
     )
   }
 
   return (
-  //  <AdminLayout>
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Club Details</h1>
-            <p className="text-muted-foreground">View and manage your club's information.</p>
-          </div>
-          <div className="flex items-center gap-2">
-            {!isEditing ? (
-              <Button onClick={() => setIsEditing(true)}>Edit Details</Button>
-            ) : (
-              <>
-                <Button variant="outline" onClick={() => setIsEditing(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleSave} disabled={isSaving}>
-                  {isSaving ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    <>
-                      <Save className="mr-2 h-4 w-4" />
-                      Save Changes
-                    </>
-                  )}
-                </Button>
-              </>
-            )}
-          </div>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Club Details</h1>
+          <p className="text-muted-foreground">View and manage your club's information.</p>
         </div>
+        <div className="flex items-center gap-2">
+          {!isEditing ? (
+            <Button onClick={() => setIsEditing(true)}>Edit Details</Button>
+          ) : (
+            <>
+              <Button variant="outline" onClick={() => setIsEditing(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleSave} disabled={isSaving}>
+                {isSaving ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="mr-2 h-4 w-4" />
+                    Save Changes
+                  </>
+                )}
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
 
+      {club && (
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -115,15 +123,38 @@ export default function ClubDetailsPage() {
               <CardDescription>Basic information about your club.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              {club.image && (
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <ImageIcon className="h-4 w-4 mr-2 text-muted-foreground" />
+                    <Label>Club Image</Label>
+                  </div>
+                  <div className="overflow-hidden rounded-md border">
+                    <img 
+                      src={club.image} 
+                      alt={club.club_name} 
+                      className="h-48 w-full object-cover"
+                    />
+                  </div>
+                  {isEditing && (
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      // Note: You'll need to implement file upload logic
+                    />
+                  )}
+                </div>
+              )}
+
               <div className="space-y-2">
                 <div className="flex items-center">
                   <Building className="h-4 w-4 mr-2 text-muted-foreground" />
                   <Label>Club Name</Label>
                 </div>
                 {isEditing ? (
-                  <Input name="name" value={club.name} onChange={handleChange} />
+                  <Input name="club_name" value={club.club_name} onChange={handleChange} />
                 ) : (
-                  <p className="text-sm font-medium">{club.name}</p>
+                  <p className="text-sm font-medium">{club.club_name}</p>
                 )}
               </div>
 
@@ -157,9 +188,9 @@ export default function ClubDetailsPage() {
                   <Label>Meeting Time</Label>
                 </div>
                 {isEditing ? (
-                  <Input name="meetingTime" value={club.meetingTime} onChange={handleChange} />
+                  <Input name="meeting_time" value={club.meeting_time} onChange={handleChange} />
                 ) : (
-                  <p className="text-sm">{club.meetingTime}</p>
+                  <p className="text-sm">{club.meeting_time}</p>
                 )}
               </div>
 
@@ -170,6 +201,20 @@ export default function ClubDetailsPage() {
                 </div>
                 <p className="text-sm font-medium">{club.members}</p>
               </div>
+              
+              {club.initiative !== null && (
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                    <Label>Initiative</Label>
+                  </div>
+                  {isEditing ? (
+                    <Input name="initiative" value={club.initiative || ""} onChange={handleChange} />
+                  ) : (
+                    <p className="text-sm">{club.initiative || "N/A"}</p>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -184,11 +229,15 @@ export default function ClubDetailsPage() {
                   <User className="h-4 w-4 mr-2 text-muted-foreground" />
                   <Label>Admin Name</Label>
                 </div>
-                {isEditing ? (
-                  <Input name="Admin" value={club.Admin} onChange={handleChange} />
-                ) : (
-                  <p className="text-sm font-medium">{club.Admin}</p>
-                )}
+                <p className="text-sm font-medium">{club.admin}</p>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                  <Label>Admin Username</Label>
+                </div>
+                <p className="text-sm">{club.admin_username}</p>
               </div>
 
               <div className="space-y-2">
@@ -209,9 +258,9 @@ export default function ClubDetailsPage() {
                   <Label>Phone</Label>
                 </div>
                 {isEditing ? (
-                  <Input name="phone" value={club.phone} onChange={handleChange} />
+                  <Input name="mobile" value={club.mobile} onChange={handleChange} />
                 ) : (
-                  <p className="text-sm">{club.phone}</p>
+                  <p className="text-sm">{club.mobile}</p>
                 )}
               </div>
 
@@ -249,44 +298,27 @@ export default function ClubDetailsPage() {
               </div>
 
               {isEditing && (
-                <div className="grid gap-4 grid-cols-2 mt-4">
+                <div className="space-y-4 mt-4">
                   <div className="space-y-2">
-                    <Label htmlFor="lat">Latitude</Label>
-                    <Input
-                      id="lat"
-                      name="lat"
-                      value={club.position ? club.position[0] : ""}
-                      onChange={(e) => {
-                        const lat = Number.parseFloat(e.target.value) || 0
-                        setClub((prev) => ({
-                          ...prev,
-                          position: [lat, prev.position ? prev.position[1] : 0],
-                        }))
-                      }}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lng">Longitude</Label>
-                    <Input
-                      id="lng"
-                      name="lng"
-                      value={club.position ? club.position[1] : ""}
-                      onChange={(e) => {
-                        const lng = Number.parseFloat(e.target.value) || 0
-                        setClub((prev) => ({
-                          ...prev,
-                          position: [prev.position ? prev.position[0] : 0, lng],
-                        }))
-                      }}
+                    <Label htmlFor="map">Map Embed Code</Label>
+                    <Textarea 
+                      id="map" 
+                      name="map" 
+                      value={club.map || ""}
+                      onChange={handleChange}
+                      rows={3}
+                      placeholder="Enter Google Maps embed code or map URL"
                     />
                   </div>
                 </div>
               )}
             </CardContent>
           </Card>
+
+          {/* Executive Committee Manager Component */}
+          <ExecutiveCommitteeManager club={club} onUpdate={handleCommitteeUpdate} />
         </div>
-      </div>
-   // </AdminLayout>
+      )}
+    </div>
   )
 }
-

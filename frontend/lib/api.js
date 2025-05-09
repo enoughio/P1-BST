@@ -548,8 +548,32 @@ export const getMember = async (username) => {
 
 }
 
-export const createMember = async (data) => {
-  return handleRequest("/members", "POST", data)
+export const createMember = async (formData) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/accounts/members/create/`, {
+      method: "POST",
+      credentials: 'include',
+      // Don't set Content-Type header when using FormData
+      // browser will automatically set the correct Content-Type with boundary
+      body: formData,
+    })
+
+    // Check if the response is not ok (status not in range 200-299)
+    if (!response.ok) {
+      const errorData = await response.json();
+      // Format error messages for better display
+      const formattedErrors = Object.entries(errorData)
+        .map(([field, errors]) => `${field}: ${errors.join(', ')}`)
+        .join('; ');
+      
+      throw new Error(`Failed to create member: ${formattedErrors}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("createMember error:", error);
+    throw error;
+  }
 }
 
 export const updateMember = async (username, data) => {
@@ -590,7 +614,7 @@ export const reinstateMember = async (id) => {
 // Clubs
 export const getClubs = async () => {
 
-  return handleRequest("/clubs")
+  // return handleRequest("/clubs")
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/`, {
@@ -615,7 +639,7 @@ export const getClubs = async () => {
 }
 
 export const getClub = async (clubId) => {
-  return handleRequest(`/clubs/${clubId}`)
+  // return handleRequest(`/clubs/${clubId}`)
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${clubId}/`, {
