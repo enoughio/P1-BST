@@ -54,7 +54,7 @@ class Club(models.Model):
     
     meeting_time = models.CharField(max_length=100, default='Tuesdays, 6:30 PM') # "Tuesdays, 6:30 PM",
     
-    map = models.CharField(max_length=255, blank=True, null=True)
+    map = models.TextField(blank=True, null=True)
    
     # members = models.PositiveIntegerField(default=0)
     
