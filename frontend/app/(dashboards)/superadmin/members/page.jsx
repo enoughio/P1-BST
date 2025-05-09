@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { getMembers, getClubs } from "@/lib/api"
+import { getAllMembers } from "@/lib/api"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import {
   DropdownMenu,
@@ -18,35 +17,59 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronDown, Filter, MoreHorizontal, Search } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, Filter, MoreHorizontal, Search } from "lucide-react"
 import Link from "next/link"
 
 export default function AllMembersPage() {
   const [members, setMembers] = useState([])
-  const [clubs, setClubs] = useState([])
   const [filteredMembers, setFilteredMembers] = useState([])
+  const [clubs, setClubs] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedClub, setSelectedClub] = useState(null)
   const [loading, setLoading] = useState(true)
+  
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalMembers, setTotalMembers] = useState(0)
+  const [nextPageUrl, setNextPageUrl] = useState(null)
+  const [previousPageUrl, setPreviousPageUrl] = useState(null)
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const membersData = await getMembers()
-        const clubsData = await getClubs()
+    fetchMembers()
+  }, [currentPage])
 
-        setMembers(membersData)
-        setFilteredMembers(membersData)
-        setClubs(clubsData)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching members:", error)
-        setLoading(false)
-      }
+  const fetchMembers = async (url = null) => {
+    try {
+      setLoading(true)
+      const response = await getAllMembers(url)
+      
+      // Extract data from response
+      const membersData = response.results
+      setMembers(membersData)
+      setFilteredMembers(membersData)
+      setTotalMembers(membersData.length)
+      
+      // Set pagination data
+      setNextPageUrl(response.next)
+      setPreviousPageUrl(response.previous)
+      
+      // Calculate total pages (assuming a default page size if not specified)
+      const pageSize = membersData.length || 20
+      setTotalPages(Math.ceil(membersData.length / pageSize))
+      
+      // Extract unique clubs from the response
+      const uniqueClubs = [...new Set(membersData.map(member => member.club_name))]
+        .filter(club => club)
+        .map(club => ({ id: club, name: club }))
+      
+      setClubs(uniqueClubs)
+      setLoading(false)
+    } catch (error) {
+      console.error("Error fetching members:", error)
+      setLoading(false)
     }
-
-    fetchData()
-  }, [])
+  }
 
   useEffect(() => {
     applyFilters()
@@ -60,22 +83,40 @@ export default function AllMembersPage() {
       const term = searchTerm.toLowerCase()
       filtered = filtered.filter(
         (m) =>
-          m.first_name.toLowerCase().includes(term) ||
-          m.last_name.toLowerCase().includes(term) ||
-          m.email.toLowerCase().includes(term) ||
-          m.phone.includes(term),
+          (m.name && m.name.toLowerCase().includes(term)) ||
+          (m.email && m.email.toLowerCase().includes(term)) ||
+          (m.mobile && m.mobile.includes(term)) ||
+          (m.username && m.username.toLowerCase().includes(term))
       )
     }
 
     // Apply club filter
     if (selectedClub) {
-      filtered = filtered.filter((m) => m.club === selectedClub)
+      filtered = filtered.filter((m) => m.club_name === selectedClub)
     }
 
     setFilteredMembers(filtered)
   }
 
+  const handleNextPage = () => {
+    if (nextPageUrl) {
+      setCurrentPage(currentPage + 1)
+      fetchMembers(nextPageUrl)
+    }
+  }
+
+  const handlePreviousPage = () => {
+    if (previousPageUrl) {
+      setCurrentPage(currentPage - 1)
+      fetchMembers(previousPageUrl)
+    }
+  }
+
   const getMembershipStatus = (expiryDate) => {
+    if (!expiryDate) {
+      return { label: "No Expiry", variant: "secondary" }
+    }
+    
     const now = new Date()
     const expiry = new Date(expiryDate)
     const oneMonthFromNow = new Date()
@@ -88,17 +129,12 @@ export default function AllMembersPage() {
     } else {
       return { label: "Active", variant: "success" }
     }
+
   }
 
-  const getClubName = (clubId) => {
-    const club = clubs.find((c) => c.id === clubId)
-    return club ? club.name : clubId
-  }
 
-  // <//AdminLayout>
   return (
     <div>
-
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -120,7 +156,7 @@ export default function AllMembersPage() {
             </div>
 
             <div className="w-full sm:w-64">
-              <Select value={selectedClub || "all"} onValueChange={(value) => setSelectedClub(value || null)}>
+              <Select value={selectedClub || "all"} onValueChange={(value) => setSelectedClub(value === "all" ? null : value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Filter by club" />
                 </SelectTrigger>
@@ -151,7 +187,7 @@ export default function AllMembersPage() {
                   <DropdownMenuItem
                     onClick={() => {
                       const filtered = members.filter((m) => {
-                        const status = getMembershipStatus(m.membershipExpiryDate)
+                        const status = getMembershipStatus(m.membership_expiry_date)
                         return status.label === "Active"
                       })
                       setFilteredMembers(filtered)
@@ -162,7 +198,7 @@ export default function AllMembersPage() {
                   <DropdownMenuItem
                     onClick={() => {
                       const filtered = members.filter((m) => {
-                        const status = getMembershipStatus(m.membershipExpiryDate)
+                        const status = getMembershipStatus(m.membership_expiry_date)
                         return status.label === "Expiring Soon"
                       })
                       setFilteredMembers(filtered)
@@ -173,7 +209,7 @@ export default function AllMembersPage() {
                   <DropdownMenuItem
                     onClick={() => {
                       const filtered = members.filter((m) => {
-                        const status = getMembershipStatus(m.membershipExpiryDate)
+                        const status = getMembershipStatus(m.membership_expiry_date)
                         return status.label === "Expired"
                       })
                       setFilteredMembers(filtered)
@@ -192,11 +228,11 @@ export default function AllMembersPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
+                    <TableHead>Username</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Phone</TableHead>
                     <TableHead>Club</TableHead>
-                    <TableHead>Expiry Date</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>Membership Status</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -215,7 +251,10 @@ export default function AllMembersPage() {
                     </TableRow>
                   ) : (
                     filteredMembers.map((member) => {
-                      const status = getMembershipStatus(member.membershipExpiryDate)
+                      const status = getMembershipStatus(member.membership_expiry_date)
+                      const initials = member.name ? 
+                        member.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 
+                        member.username.substring(0, 2).toUpperCase();
 
                       return (
                         <TableRow key={member.id}>
@@ -224,22 +263,20 @@ export default function AllMembersPage() {
                               <Avatar>
                                 <AvatarImage src={member.avatar || ""} />
                                 <AvatarFallback>
-                                  {member.first_name[0]}
-                                  {member.last_name[0]}
+                                  {initials}
                                 </AvatarFallback>
                               </Avatar>
                               <div>
                                 <div className="font-medium">
-                                  {member.first_name} {member.last_name}
+                                  {member.name || "N/A"}
                                 </div>
-                                <div className="text-xs text-muted-foreground">{member.occupation || "Member"}</div>
                               </div>
                             </div>
                           </TableCell>
+                          <TableCell>{member.username}</TableCell>
                           <TableCell>{member.email}</TableCell>
-                          <TableCell>{member.phone}</TableCell>
-                          <TableCell>{getClubName(member.club)}</TableCell>
-                          <TableCell>{new Date(member.membershipExpiryDate).toLocaleDateString()}</TableCell>
+                          <TableCell>{member.mobile}</TableCell>
+                          <TableCell>{member.club_name}</TableCell>
                           <TableCell>
                             <Badge variant={status.variant}>{status.label}</Badge>
                           </TableCell>
@@ -255,10 +292,10 @@ export default function AllMembersPage() {
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/members/${member.id}`}>View Details</Link>
+                                  <Link href={`/superadmin/members/${member.username}`}>View Details</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>
-                                  <Link href={`/superadmin/members/${member.id}/edit`}>Edit Details</Link>
+                                  <Link href={`/superadmin/members/${member.username}/edit`}>Edit Details</Link>
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
@@ -270,16 +307,37 @@ export default function AllMembersPage() {
                 </TableBody>
               </Table>
             </CardContent>
-            <CardFooter className="flex justify-between py-4 border-t">
+            <CardFooter className="flex items-center justify-between py-4 border-t">
               <div className="text-sm text-muted-foreground">
-                Showing {filteredMembers.length} of {members.length} members
+                Showing {filteredMembers.length} of {totalMembers} members
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handlePreviousPage} 
+                  disabled={!previousPageUrl}
+                >
+                  <ChevronLeft className="h-4 w-4 mr-1" />
+                  Previous
+                </Button>
+                <div className="text-sm text-muted-foreground px-2">
+                  Page {currentPage} of {totalPages}
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleNextPage} 
+                  disabled={!nextPageUrl}
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
               </div>
             </CardFooter>
           </Card>
         </div>
       </div>
-      </div>
-    //</AdminLayout>
+    </div>
   )
 }
-

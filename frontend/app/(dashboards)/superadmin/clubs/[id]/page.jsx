@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import AdminLayout from "@/components/admin-layout"
-import { getClub, getClubMembers } from "@/lib/api"
+import { getClub, getClubMembers, getClubs } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -38,15 +38,15 @@ import Link from "next/link"
           address: "GTB NAGAR MONORAIL STATION, INDIRA NAGAR, KOLIWADA, SION, Mumbai, English, 400037, India",
           city: "Mumbai",
           meeting_time: null,
-          position: [],
-          dms_position: "",
+          map: "",
+          description: "A club for storytelling enthusiasts",
           members: 0,
           image: null,
           email: "c2@example.com",
-          mobile: "9594548313",
           executive_committee: [],
           admin: 'John Doe',
           admin_id: "A0001",
+          phone: "",
       }
 
 
@@ -66,7 +66,8 @@ export default function ClubDetailPage() {
       try {
         // In a real app, these would be separate API calls
         const clubData = await getClub(params.id)
-        const membersData = await getClubMembers(params.id) 
+
+        // const membersData = await getClubMembers(params.id) 
 
         // // Mock members data
         // const mockMembers = [

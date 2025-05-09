@@ -32,8 +32,11 @@ export default function EditClubAdminPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const clubData = await getClub(params.id)
-        const clubsData = await getClubs()
+
+        const [clubData, clubsData] = await Promise.all([
+          getClub(params.id),
+          getClubs(),
+        ])
 
         setClub(clubData)
         setClubs(clubsData)
@@ -72,15 +75,8 @@ export default function EditClubAdminPage() {
     e.preventDefault()
     setIsSaving(true)
 
-    // In a real app, this would be an API call
-    setTimeout(() => {
-      toast({
-        title: "Admin Updated",
-        description: "The club admin has been successfully updated.",
-      })
-      router.push("/superadmin/club-admins")
-      setIsSaving(false)
-    }, 1500)
+    // use updateAdmin() function to update the admin details
+    
   }
 
   if (loading) {
@@ -111,7 +107,7 @@ export default function EditClubAdminPage() {
   }
 
   return (
-   //  <AdminLayout>
+  //  <AdminLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
@@ -217,7 +213,6 @@ export default function EditClubAdminPage() {
           </Card>
         </form>
       </div>
-    // </AdminLayout>
+   // </AdminLayout>
   )
 }
-
