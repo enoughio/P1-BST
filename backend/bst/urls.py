@@ -21,13 +21,22 @@ from .views import (
     AwardAPIView,
 
     # Meeting Views
-    MeetingListAPIView,
-    WeeklyMeetingCreateAPIView, WeeklyMeetingRetrieveUpdateDestroyAPIView,
-    ExecutiveCommitteeMeetingCreateAPIView, ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView,
-    ExecutiveCommitteeMeetingListAPIView,
+    MeetingCreateAPIView,
+    MeetingListAPIView, 
+    WeeklyMeetingListAPIView, WeeklyMeetingRetrieveUpdateDestroyAPIView, 
+    ExecutiveCommitteeMeetingListAPIView, ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView,
+
+    ExecutiveCommitteeCreateAPIView,
+    ExecutiveCommitteeRetrieveUpdateDestroyAPIViewAPIView,
+
 
     # Initiative View
-    InitiativeAPIView,
+    InitiativeCreateAPIView,
+    InitiativeListAPIView,
+    InitiativeRetrieveUpdateDestroyAPIViewAPIView,
+
+
+    # CreatePaymentAPIView,
 )
 
 urlpatterns = [
@@ -36,11 +45,15 @@ urlpatterns = [
     path('clubs/create/', ClubCreateAPIView.as_view(), name='club-create'),
     path('clubs/<str:club_id>/', ClubRetrieveUpdateDestroyAPIView.as_view(), name='club-detail'),
 
+    path('executive-committee/create/', ExecutiveCommitteeCreateAPIView.as_view(), name='ec-create'),
+    path('executive-committee/<str:id>/', ExecutiveCommitteeRetrieveUpdateDestroyAPIViewAPIView.as_view(), name='ec-rud'),
+
     # Event URLs
     path('events/', EventListAPIView.as_view(), name='event-list'),
     path('events/create/', EventListCreateAPIView.as_view(), name='event-create'),
     path('events/<str:event_id>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='event-detail'),
     path('events/<str:event_id>/register/', EventRegisterAPIView.as_view(), name='event-register'),
+    # path('payments/create/<str:reg_id>/', CreatePaymentAPIView.as_view(), name='create-payment'),
 
     # Project URLs
     path('projects/', ProjectAPIView.as_view(), name='project-list-create'),
@@ -56,12 +69,12 @@ urlpatterns = [
     path('meetings/', MeetingListAPIView.as_view(), name='meeting-list'),
     
     # Weekly Meetings
-    path('meetings/weekly/create/', WeeklyMeetingCreateAPIView.as_view(), name='weekly-meeting-create'),
+    path('meetings/create/', MeetingCreateAPIView.as_view(), name='weekly-meeting-create'),
+    
+    path('meetings/weekly/', WeeklyMeetingListAPIView.as_view(), name='weekly-meeting-list'),
     path('meetings/weekly/<str:meeting_id>/', WeeklyMeetingRetrieveUpdateDestroyAPIView.as_view(), name='weekly-meeting-detail'),
 
-    # Executive Committee Meetings
     path('meetings/executive-committee/', ExecutiveCommitteeMeetingListAPIView.as_view(), name='executive-meeting-list'),
-    path('meetings/executive-committee/create/', ExecutiveCommitteeMeetingCreateAPIView.as_view(), name='executive-meeting-create'),
     path('meetings/executive-committee/<str:meeting_id>/', ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView.as_view(), name='executive-meeting-detail'),
 
     # Membership URLs
@@ -71,5 +84,7 @@ urlpatterns = [
     # path('membership/history/', MembershipHistoryListAPIView.as_view(), name='membership-history'),
 
     # Initiative URLs
-    path('initiatives/', InitiativeAPIView.as_view(), name='initiative-list'),
+    path('initiatives/', InitiativeListAPIView.as_view(), name='initiative-list'),
+    path('initiatives/create/', InitiativeCreateAPIView.as_view(), name='initiative-create'),
+    path('initiatives/<str:id>/', InitiativeRetrieveUpdateDestroyAPIViewAPIView.as_view(), name='initiative-rud'),
 ]

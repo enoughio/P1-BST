@@ -1,16 +1,34 @@
 from django.db import models
-from bst.models import club
+from accounts.models import Member
 
+
+from django.db import models
 
 class ExecutiveCommittee(models.Model):
-    name = models.CharField(max_length=255)
-    role = models.CharField(max_length=255, blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
-    mobile = models.CharField(max_length=10, blank=True, null=True)
-    avatar = models.ImageField(upload_to='profile_images/', default="default.jpg", blank=True)
+    ROLE_CHOICES = [
+        ('President', 'President'),
+        ('Vice President - Education', 'Vice President - Education'),
+        ('Vice President - Membership', 'Vice President - Membership'),
+        ('Vice President - Public Relations', 'Vice President - Public Relations'),
+        ('Secretary', 'Secretary'),
+        ('Sergeant at Arms', 'Sergeant at Arms'),
+    ]
 
-    club = models.ForeignKey(club.Club, on_delete=models.PROTECT)
+    member = models.ForeignKey(
+        Member,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
 
+    role = models.CharField(
+        max_length=50,
+        choices=ROLE_CHOICES,
+        default=ROLE_CHOICES[0][0]
+    )
 
     def __str__(self):
-        return self.name
+        member_name = self.member.get_full_name() if self.member else "Unassigned"
+        club_name = self.member.club.club_name if self.member else "No Club"
+        role_display = self.role
+        return f"{member_name} — {role_display} ({club_name})"

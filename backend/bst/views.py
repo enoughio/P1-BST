@@ -27,10 +27,13 @@ from bst.serializers import (ClubCreateSerializer, ClubSerializer,
                              InitiativeSerializer, 
 
                              MeetingSerializer,
-                             WeeklyMeetingCreateSerializer,
+                             MeetingCreateSerializer,
+                             WeeklyMeetingSerializer,
                              WeeklyMeetingRetrieveSerializer,
-                             ExecutiveCommitteeMeetingCreateSerializer,  
+                             ExecutiveCommitteeMeetingSerializer,  
                              ExecutiveCommitteeMeetingRetrieveSerializer,  
+
+                             ExecutiveCommitteeSerializer
 
                              )
 
@@ -145,11 +148,18 @@ class EventRegisterAPIView(generics.CreateAPIView):
         event_id = self.kwargs.get('event_id')
         try:
             evnt = event.Event.objects.get(event_id=event_id)
-            if evnt.date < timezone.now():
+            if evnt.date < timezone.now().date():
                 return Response({'error': "This event has already occurred"}, status=status.HTTP_400_BAD_REQUEST)
             serializer.save(event=evnt)
         except event.Event.DoesNotExist:
             raise Response({'error': "Event not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# payment integration steps for event_registration
+
+
+
+
 
 
 class ProjectAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
@@ -248,52 +258,52 @@ class AwardAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
 
 
 
-class WeeklyMeetingCreateAPIView(GenericAPIView, CreateModelMixin):
+
+class MeetingCreateAPIView(GenericAPIView, CreateModelMixin):
     queryset = meeting.Meeting.objects.all()
-    serializer_class = WeeklyMeetingCreateSerializer
+    serializer_class = MeetingCreateSerializer
+    permission_classes = [AdminLevelPermission]
 
     def post(self, request):
         return self.create(request)
-
-
-# class WeeklyMeetingListAPIView(GenericAPIView, ListModelMixin):
-#     serializer_class = WeeklyMeetingRetrieveSerializer
-
-#     def get_queryset(self):
-#         return meeting.Meeting.objects.filter(meeting_type='Weekly')
-
-#     def get(self, request):
-#         return self.list(request)
     
-
-class MeetingListAPIView(GenericAPIView, ListModelMixin):
+class MeetingListAPIView(generics.ListAPIView):
     queryset = meeting.Meeting.objects.all()
     serializer_class = MeetingSerializer
+    permission_classes = [AdminLevelPermission]
+
+    def get(self, request):
+        return self.list(request)
+    
+
+class WeeklyMeetingListAPIView(GenericAPIView, ListModelMixin):
+    serializer_class = WeeklyMeetingRetrieveSerializer
+    permission_classes = [AdminLevelPermission]
+
+    def get_queryset(self):
+        return meeting.Meeting.objects.filter(meeting_type='Weekly')
 
     def get(self, request):
         return self.list(request)
 
 
-class ExecutiveCommitteeMeetingCreateAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
-    queryset = meeting.Meeting.objects.all()
-    serializer_class = ExecutiveCommitteeMeetingCreateSerializer
-
-    def post(self, request):
-        return self.create(request)
-    
 class ExecutiveCommitteeMeetingListAPIView(GenericAPIView, ListModelMixin):
     serializer_class = ExecutiveCommitteeMeetingRetrieveSerializer
+    permission_classes = [AdminLevelPermission]
 
     def get_queryset(self):
         return meeting.Meeting.objects.filter(meeting_type='Executive Committee')
 
     def get(self, request):
         return self.list(request)
+    
 
+from .mixins import RoleAssignmentNotificationMixin
 
-class WeeklyMeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = WeeklyMeetingCreateSerializer
+class WeeklyMeetingRetrieveUpdateDestroyAPIView(RoleAssignmentNotificationMixin, generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = WeeklyMeetingSerializer
     lookup_field = 'meeting_id'
+    permission_classes = [AdminLevelPermission]
 
     def get_queryset(self):
         return meeting.Meeting.objects.filter(meeting_type='Weekly')
@@ -302,18 +312,73 @@ class WeeklyMeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAP
         return self.retrieve(request, *args, **kwargs)
     
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-    
+        instance = self.get_object()
+
+        role_fields = [
+            'moderator', 'speaker1', 'speaker2', 'speaker3',
+            'timekeeper', 'listener', 'filler_counter',
+            'speech_evaluator1', 'speech_evaluator2', 'coordinator',
+        ]
+        old_data = {field: getattr(instance, field) for field in role_fields}
+
+        response = self.update(request, *args, **kwargs)
+
+        # Handle notifications
+        self.track_and_notify_roles(instance, old_data, role_fields)
+
+        return response
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
     
 
-class ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ExecutiveCommitteeMeetingCreateSerializer
+class ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView(RoleAssignmentNotificationMixin, generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ExecutiveCommitteeMeetingSerializer
     lookup_field = 'meeting_id'
+    permission_classes = [AdminLevelPermission]
 
     def get_queryset(self):
         return meeting.Meeting.objects.filter(meeting_type='Executive Committee')
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        role_fields = [
+            'president', 'vice_president_education', 'vice_president_membership',
+            'vice_president_public_relations', 'secretary', 'sergeant_at_arms'
+        ]
+        old_data = {field: getattr(instance, field) for field in role_fields}
+
+        response = self.update(request, *args, **kwargs)
+
+        # Handle notifications
+        self.track_and_notify_roles(instance, old_data, role_fields)
+
+        return response
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+
+from bst.models.executive_committee import ExecutiveCommittee
+class ExecutiveCommitteeCreateAPIView(GenericAPIView, CreateModelMixin):
+    queryset = ExecutiveCommittee.objects.all()
+    serializer_class = ExecutiveCommitteeSerializer
+    permission_classes = [AdminLevelPermission]
+
+    def post(self, request):
+        return self.create(request)
+
+
+class ExecutiveCommitteeRetrieveUpdateDestroyAPIViewAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ExecutiveCommittee.objects.all()
+    serializer_class = ExecutiveCommitteeSerializer
+    lookup_field = 'id'
+    permission_classes = [AdminLevelPermission]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -325,9 +390,34 @@ class ExecutiveCommitteeMeetingRetrieveUpdateDestroyAPIView(generics.RetrieveUpd
         return self.destroy(request, *args, **kwargs)
 
 
-class InitiativeAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
+# Initiative API
+class InitiativeCreateAPIView(GenericAPIView, CreateModelMixin):
     queryset = club.Initiative.objects.all()
     serializer_class = InitiativeSerializer
+    permission_classes = [SuperAdminLevelPermission]
+
+    def post(self, request):
+        return self.create(request)
+
+class InitiativeListAPIView(GenericAPIView, ListModelMixin):
+    queryset = club.Initiative.objects.all()
+    serializer_class = InitiativeSerializer
+    permission_classes = [SuperAdminLevelPermission]
 
     def get(self, request):
         return self.list(request)
+    
+class InitiativeRetrieveUpdateDestroyAPIViewAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = club.Initiative.objects.all()
+    serializer_class = InitiativeSerializer
+    lookup_field = 'id'
+    permission_classes = [SuperAdminLevelPermission]
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
