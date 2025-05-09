@@ -5,12 +5,14 @@ import uuid
 from django.utils import timezone
 
 
+import string
+from django.utils.crypto import get_random_string
+
 def get_alphanumeric_id():
-    last_event = Event.objects.order_by("-event_id").first()
-    if not last_event:
-        return "E000000"
-    last_id = int(last_event.event_id[1:])
-    return f"E{last_id + 1:06d}"
+    while True:
+        custom_id = get_random_string(6, allowed_chars=string.ascii_uppercase + string.digits)
+        if not Event.objects.filter(event_id=custom_id).exists():
+            return custom_id
 
 
 class Speaker(models.Model):
@@ -42,7 +44,13 @@ class EventPhoto(models.Model):
 
 
 class Event(models.Model):
-    event_id = models.CharField(max_length=7, primary_key=True, default=get_alphanumeric_id, editable=False)
+    event_id = models.CharField(
+        max_length=6,
+        primary_key=True,
+        default=get_alphanumeric_id,
+        editable=False,
+        unique=True
+    )
     title = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     date = models.DateField()
@@ -53,7 +61,7 @@ class Event(models.Model):
     club = models.ForeignKey(Club, on_delete=models.CASCADE)
     attendees = models.PositiveIntegerField(default=0)
     max_capacity = models.PositiveIntegerField(default=0)
-    ticket_price = models.CharField(max_length=50, default="₹0")
+    ticket_price = models.CharField(max_length=50, default="0")
     categories = models.JSONField(blank=True, null=True)
 
     speakers = models.ManyToManyField(Speaker, blank=True)

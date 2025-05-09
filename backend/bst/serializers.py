@@ -226,14 +226,34 @@ class AwardSerializer(serializers.ModelSerializer):
 
 
 
-
 class MeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = meeting.Meeting
         fields = '__all__'
 
 
-class WeeklyMeetingCreateSerializer(serializers.ModelSerializer):
+class MeetingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = meeting.Meeting
+        fields = [
+            'meeting_id',
+            'title',
+            'date',
+            'start_time',
+            'end_time',
+            'description',
+            'meeting_type',
+        ]
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        if request:
+            admin = request.user
+            validated_data['club'] = admin.club
+        return super().create(validated_data)
+
+
+class WeeklyMeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = meeting.Meeting
         fields = [
@@ -274,12 +294,6 @@ class WeeklyMeetingCreateSerializer(serializers.ModelSerializer):
             for field in role_fields:
                 self.fields[field].queryset = club_members
 
-    def create(self, validated_data):
-        request = self.context.get('request')
-        if request:
-            admin = request.user
-            validated_data['club'] = admin.club
-        return super().create(validated_data)
 
 class WeeklyMeetingRetrieveSerializer(serializers.ModelSerializer):
     time = serializers.SerializerMethodField()
@@ -325,14 +339,20 @@ class WeeklyMeetingRetrieveSerializer(serializers.ModelSerializer):
 
     
 
-class ExecutiveCommitteeMeetingCreateSerializer(serializers.ModelSerializer):
+class ExecutiveCommitteeMeetingSerializer(serializers.ModelSerializer):
     class Meta:
         model = meeting.Meeting
         fields = [
-            'meeting_id', 'title', 'date', 
-            'start_time', 'end_time', 'description',
-            'president', 'vice_president_education', 'vice_president_membership',
-            'vice_president_public_relations', 'secretary', 'sergeant_at_arms'
+            'title', 
+            'date', 
+            'start_time', 'end_time', 
+            'description',
+            'president', 
+            'vice_president_education', 
+            'vice_president_membership',
+            'vice_president_public_relations', 
+            'secretary', 
+            'sergeant_at_arms'
         ]
     
     def __init__(self, *args, **kwargs):
@@ -351,13 +371,6 @@ class ExecutiveCommitteeMeetingCreateSerializer(serializers.ModelSerializer):
 
             for field in role_fields:
                 self.fields[field].queryset = club_members
-
-    def create(self, validated_data):
-        request = self.context.get('request')
-        if request:
-            admin = request.user
-            validated_data['club'] = admin.club
-        return super().create(validated_data)
 
 class ExecutiveCommitteeMeetingRetrieveSerializer(serializers.ModelSerializer):
     time = serializers.SerializerMethodField(read_only=True)
@@ -400,6 +413,44 @@ class ExecutiveCommitteeMeetingRetrieveSerializer(serializers.ModelSerializer):
 
     def get_location(self, obj):
         return obj.location
+
+
+
+class MemberPublicSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Member
+        fields = ['username', 'name', 'email', 'avatar']
+
+    def get_name(self, obj):
+        return obj.get_full_name()
+
+# Executive Committee main serializer
+class ExecutiveCommitteeSerializer(serializers.ModelSerializer):
+    member = serializers.PrimaryKeyRelatedField(
+        queryset=Member.objects.none(),
+        write_only=True
+    )
+    member_details = MemberPublicSerializer(source='member', read_only=True)
+
+    class Meta:
+        model = executive_committee.ExecutiveCommittee
+        fields = ['id', 'member', 'member_details', 'role']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request:
+            admin = request.user
+            self.fields['member'].queryset = Member.objects.filter(club=admin.club)
+
+
+
+
+
+
+
 
 
 
