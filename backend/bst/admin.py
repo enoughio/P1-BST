@@ -33,6 +33,7 @@ admin.site.register(event.Event)
 admin.site.register(event.Speaker)
 admin.site.register(event.ScheduleItem)
 admin.site.register(event.EventPhoto)
+admin.site.register(event_registration.EventRegistration)
 
 admin.site.register(membership.Membership, CustomAdminMembership)
 admin.site.register(membership_history.MembershipHistory, CustomAdminMembershipHistory)

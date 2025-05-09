@@ -4,12 +4,14 @@ from bst.models.event import Event
 from accounts.models import User
 
 
+import string
+from django.utils.crypto import get_random_string
+
 def get_alphanumeric_id():
-    last_evnt_reg = EventRegistration.objects.order_by('-reg_id').first()
-    if not last_evnt_reg:
-        return "reg_000000"
-    last_reg_id = int(last_evnt_reg.reg_id[4:])
-    return f"reg_{last_reg_id + 1:6d}"
+    while True:
+        custom_id = get_random_string(6, allowed_chars=string.ascii_uppercase + string.digits)
+        if not EventRegistration.objects.filter(reg_id=custom_id).exists():
+            return custom_id
 
 
 class EventRegistration(models.Model):
@@ -27,7 +29,13 @@ class EventRegistration(models.Model):
         ('Self Employeed', 'Self Employeed'),
     ]
     
-    reg_id = models.CharField(max_length=10, primary_key=True, default=get_alphanumeric_id, editable=False)
+    reg_id = models.CharField(
+        max_length=6,
+        primary_key=True,
+        default=get_alphanumeric_id,
+        editable=False,
+        unique=True
+    )
     event = models.ForeignKey(Event, related_name="event_model", on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=True,  null=True)
     email = models.EmailField(blank=True, null=True)
@@ -39,12 +47,12 @@ class EventRegistration(models.Model):
 
 
     def __str__(self):
-        return self.registration_id
+        return self.reg_id
     
 
     def save(self, *args, **kwargs):
-        if self.price == 0.00:
-            self.price = self.event.price
+        if self.fee == 0.00:
+            self.fee = self.event.ticket_price
         super().save(*args, **kwargs)
 
 
