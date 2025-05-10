@@ -1,6 +1,6 @@
 from django.urls import path
 
-from bst.views import MembershipActivateAPIView, MembershipHistoryListAPIView
+from bst.views import MembershipCreateRetrieveAPIView, MembershipDetailAPIView, MembershipHistoryListAPIView
 
 from .views import (MemberRemovalRequestCreateAPIView, PendingRemovalRequestsView, ApproveRejectRequestView, 
                     
@@ -42,7 +42,8 @@ urlpatterns = [
     path("members/<str:username>/membership-info/", MemberUpdateAdditionalInfoAPIView.as_view(), name="update-member-additional-info"),  # membership
 
     # [Admin] - Member Management (Read, Update, Assign)
-    path('members/<str:username>/activate-membership/', MembershipActivateAPIView.as_view(), name='activate-membership'),
+    path('members/<str:username>/create-membership/', MembershipCreateRetrieveAPIView.as_view(), name='create-membership'),
+    path('members/<str:username>/membership/', MembershipDetailAPIView.as_view(), name='membership-detail'),
     path('members/<str:username>/membership-history/', MembershipHistoryListAPIView.as_view(), name='list-membership'),
     path("members/assign-project/", MemberProjectAssignAPIView.as_view(), name="assign-project"),  # Assign Project (Admin)
     path("members/<str:username>/", MemberRetrieveUpdateAPIView.as_view(), name="member-detail"),  # Get/Update Member Details (Admin)

@@ -95,15 +95,15 @@ class ClubSerializer(serializers.ModelSerializer):
         return ", ".join(filter(None, address_parts))
     
     def get_executive_committee(self, obj):
-        committee_members = executive_committee.ExecutiveCommittee.objects.filter(club=obj)
+        committee_members = executive_committee.ExecutiveCommittee.objects.filter(member__club=obj)
         return [
             {
-                "id": member.id,
-                "name": member.name,
+                "id": member.member.id,
+                "username": member.member.username,
+                "name": member.member.get_full_name(),
+                "email": member.member.email,
+                "avatar": member.member.avatar.url,
                 "role": member.role,
-                "email": member.email,
-                "mobile": member.mobile,
-                "avatar": member.avatar.url
             } for member in committee_members
         ]
 
@@ -198,6 +198,9 @@ class MembershipSerializer(serializers.ModelSerializer):
 
 
 class MembershipActivateSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateField(format="%b %d, %Y")  # Jan. 10, 2025
+    end_date = serializers.DateField(format="%b %d, %Y")
+    
     class Meta:
         model = membership_history.MembershipHistory
         fields = '__all__'

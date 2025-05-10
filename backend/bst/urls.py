@@ -12,7 +12,8 @@ from .views import (
     ProjectAPIView, ProjectRetrieveUpdateAPIView,
 
     # Membership Views
-    MembershipAPIView, MembershipActivateAPIView, MembershipHistoryListAPIView,
+    MembershipAPIView, 
+    # MembershipActivateAPIView, MembershipHistoryListAPIView,
 
     # Member Views
     MembersByClubAPIView,

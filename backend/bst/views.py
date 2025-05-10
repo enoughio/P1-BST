@@ -204,19 +204,92 @@ class MembershipAPIView(GenericAPIView, CreateModelMixin, ListModelMixin):
         return self.list(request)
 
 
-class MembershipActivateAPIView(GenericAPIView, CreateModelMixin):
-    queryset = membership_history.MembershipHistory.objects.all()
+class MembershipCreateRetrieveAPIView(generics.CreateAPIView):
     serializer_class = MembershipActivateSerializer
 
+    def get_member(self, username):
+        return get_object_or_404(Member, username=username)
+
+    def get(self, request, username):
+        member = self.get_member(username)
+        membership = membership_history.MembershipHistory.objects.filter(member=member).order_by('-start_date').first()
+
+        if not membership:
+            return Response({"detail": "No membership found for this user."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(membership)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def post(self, request, username):
-        member = get_object_or_404(Member, username=username)  # Member ko database se fetch karna
-        serializer = self.get_serializer(data=request.data)
-        
+        member = self.get_member(username)
+        existing = membership_history.MembershipHistory.objects.filter(member=member).exists()
+
+        if existing:
+            return Response(
+                {"detail": "Membership already exists. Use update instead."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(data=request.data, context={'member': member})
         if serializer.is_valid():
-            serializer.save(member=member)  # Member ko automatically assign kiya
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+            new_record = serializer.save()
+            return Response(self.get_serializer(new_record).data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class MembershipDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = MembershipActivateSerializer
+
+    def get_object(self):
+        username = self.kwargs['username']
+        member = get_object_or_404(Member, username=username)
+        obj = get_object_or_404(
+            membership_history.MembershipHistory.objects.filter(member=member).order_by('-start_date'), 
+            member=member
+        )
+        return obj
+
+
+# class MembershipActivateAPIView(GenericAPIView, CreateModelMixin, UpdateModelMixin):
+#     queryset = membership_history.MembershipHistory.objects.all()
+#     serializer_class = MembershipActivateSerializer
+
+#     def post(self, request, username):
+#         member = get_object_or_404(Member, username=username)
+#         serializer = self.get_serializer(data=request.data)
+
+#         if serializer.is_valid():
+#             existing = membership_history.MembershipHistory.objects.filter(member=member).order_by('-start_date').first()
+
+#             if existing:
+#                 return Response(
+#                     {"detail": "Membership already exists. Use PUT to update."},
+#                     status=status.HTTP_400_BAD_REQUEST
+#                 )
+
+#             new_record = serializer.save(member=member)
+#             return Response(self.get_serializer(new_record).data, status=status.HTTP_201_CREATED)
+
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     def put(self, request, username):
+#         member = get_object_or_404(Member, username=username)
+#         existing = membership_history.MembershipHistory.objects.filter(member=member).order_by('-start_date').first()
+
+#         if not existing:
+#             return Response(
+#                 {"detail": "No membership found. Use POST to create one."},
+#                 status=status.HTTP_404_NOT_FOUND
+#             )
+
+#         serializer = self.get_serializer(existing, data=request.data, partial=True)
+
+#         if serializer.is_valid():
+#             updated = serializer.save()
+#             return Response(self.get_serializer(updated).data, status=status.HTTP_200_OK)
+
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MembershipHistoryListAPIView(GenericAPIView, ListModelMixin):
