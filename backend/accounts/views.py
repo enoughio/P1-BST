@@ -113,7 +113,12 @@ Agar tum token ko sirf response mein return karte ho, to token stealing ka risk 
 Isko mitigate karne ke liye, 
 humein token ko HTTP-only cookie mein store karna chahiye, taaki client-side JavaScript se access na ho.
 '''
+from rest_framework import serializers
 class LoginAPIView(APIView):
+    join_date = serializers.DateTimeField(format="%d-%b-%Y %I:%M %p")
+    membership_start_date = serializers.SerializerMethodField()
+    membership_expiry_date = serializers.SerializerMethodField()
+    
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
@@ -129,6 +134,15 @@ class LoginAPIView(APIView):
             # Set expiry time
             expiry_time = timezone.now() + timedelta(days=7)  # Token valid for 7 days
 
+            # Membership details
+            member = getattr(user, 'member', None)
+            membership_expiry = None
+            if member:
+                history = member.membershiphistory_set.order_by('-start_date').first()
+                if history:
+                    membership_expiry = history.end_date
+
+
             response = Response({
                 'message': 'Login successful!',
                 'data': {
@@ -143,6 +157,9 @@ class LoginAPIView(APIView):
                     'dob': user.dob,
                     'id_proof': user.id_proof.url if user.id_proof else None,
                     'club': user.club.club_name if user.club else None,
+                    'club_id': user.club.club_id if user.club else None,
+                    'join_date': user.join_date.strftime("%d-%b-%Y") if user.join_date else None,
+                    'membership_expiry_date': membership_expiry,
                     'role': user.member.role if hasattr(user, 'member') else user.admin.role if hasattr(user, 'admin') else "User",
                     'occupation': user.member.occupation if hasattr(user, 'member') else None
                 } 
