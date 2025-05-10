@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import AdminLayout from "@/components/admin-layout"
-import { getProjects, assignProject, completeProject } from "@/lib/api"
+import { getProjects, assignProject, completeProject, getClubMembers } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -29,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { CheckCircle, MoreHorizontal, Plus, User } from "lucide-react"
 import Link from "next/link"
-import { getMembers } from "@/lib/api"
+import { useAuth } from "@/context/auth-context"
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState([])
@@ -40,12 +39,13 @@ export default function ProjectsPage() {
   const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
   const [feedback, setFeedback] = useState("")
   const { toast } = useToast()
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const projectsData = await getProjects("1")
-        const membersData = await getMembers("1")
+        const membersData = await getClubMembers(user.clubId)
 
         setProjects(projectsData)
         setMembers(membersData)

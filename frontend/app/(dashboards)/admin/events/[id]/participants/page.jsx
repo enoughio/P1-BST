@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import AdminLayout from "@/components/admin-layout"
-import { getEvent, getEventParticipants, getCurrentUser } from "@/lib/api"
+import { getEvent, getEventParticipants } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Calendar, Download, Loader2, Mail, Phone, Search, User } from "lucide-react"
 import Link from "next/link"
+import { useAuth } from "@/context/auth-context"
 
 export default function EventParticipantsPage() {
   const params = useParams()
@@ -21,14 +21,11 @@ export default function EventParticipantsPage() {
   const [filteredParticipants, setFilteredParticipants] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(true)
-  const [currentUser, setCurrentUser] = useState(null)
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user = await getCurrentUser()
-        setCurrentUser(user)
-
         const eventData = await getEvent(params.id)
 
         // Check if this event belongs to the current admin

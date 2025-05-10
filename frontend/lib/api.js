@@ -516,7 +516,7 @@ export const getAllMembers = async () => {
     return await response.json();
 
   } catch (error) {
-    console.error("getMembers error:", error);
+    console.error("getAllMembers error:", error);
     // re-throw so callers can handle/display it
     throw error;
   }
@@ -614,7 +614,7 @@ export const reinstateMember = async (id) => {
 // Clubs
 export const getClubs = async () => {
 
-  // return handleRequest("/clubs")
+  return handleRequest("/clubs")
 
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/`, {
@@ -668,10 +668,10 @@ export const getClubMembers = async (clubId) => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/clubs/${clubId}/members/`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
     });
 
     if (!response.ok) {
@@ -734,6 +734,27 @@ export const updateClub = async (id, formData) => {
   }
 }
 
+export const createAdmin = async (formData) => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/accounts/admins/create/', {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json", // Important!
+      },
+      body: JSON.stringify(formData), // Convert JS object to JSON string
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Failed to create admin (${response.status}): ${errText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("createAdmin error:", error);
+    throw error;
+  }
+}
 
 export const getAllAdmins = async (url = null) => {
 
@@ -1127,7 +1148,7 @@ export const getMeetings = async (clubId) => {
   try {
     const response = await fetch(`http://127.0.0.1:8000/api/bst/meetings/weekly/`,{
       method: "GET",
-      credentials: 'include',
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -1135,9 +1156,10 @@ export const getMeetings = async (clubId) => {
 
     if (!response.ok) {
       const errText = await response.text()
-      throw new Error(`Failed to fetch Meetings`)
+      throw new Error(`Failed to fetch Meetings`, errText)
     }
 
+    
     return await response.json()
   } catch (error) {
     console.error("getMeetings error:", error);

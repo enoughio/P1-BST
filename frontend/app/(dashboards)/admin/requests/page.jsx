@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin-layout";
-import { getRequests, createRequest } from "@/lib/api";
+import { getRequests, createRequest, getClubMembers, getEvents } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -43,7 +43,7 @@ import {
   Send,
   UserMinus,
 } from "lucide-react";
-import { getMembers, getEvents } from "@/lib/api";
+import { useAuth } from "@/context/auth-context";
 
 export default function RequestsPage() {
   const [requests, setRequests] = useState([]);
@@ -61,13 +61,14 @@ export default function RequestsPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const requestsData = await getRequests("1");
-        const membersData = await getMembers("1");
-        const eventsData = await getEvents("1");
+        const requestsData = await getRequests(user.clubId);
+        const membersData = await getClubMembers(user.clubId);
+        const eventsData = await getEvents(user.clubId);
 
         setRequests(requestsData);
         setMembers(membersData);

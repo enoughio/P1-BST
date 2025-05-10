@@ -18,7 +18,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Calendar, Clock, Edit, Loader2, MapPin, Trash, User } from "lucide-react"
 import Link from "next/link"
-import { getMeeting, getMembers } from "@/lib/api"
+import { getClubMembers, getMeeting } from "@/lib/api"
+import { useAuth } from "@/context/auth-context"
 
 export default function MeetingDetailPage() {
   const params = useParams()
@@ -34,11 +35,14 @@ export default function MeetingDetailPage() {
   const [isRoleDialogOpen, setIsRoleDialogOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const { user } = useAuth()
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const meetingData = await getMeeting(params.id)
-        const membersData = await getMembers("1")
+        const membersData = await getClubMembers(user.clubId)
 
         setMeeting(meetingData)
         setMembers(membersData)

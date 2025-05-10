@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { createAdmin } from "@/lib/api"
 
 export default function AddClubAdminPage() {
   const router = useRouter()
@@ -48,6 +49,7 @@ export default function AddClubAdminPage() {
     e.preventDefault()
     setIsLoading(true)
 
+
     // Validate password match
     if (formData.password !== formData.confirmPassword) {
       toast({
@@ -59,15 +61,40 @@ export default function AddClubAdminPage() {
       return
     }
 
-    // Simulate API call
-    setTimeout(() => {
+    // real api call
+
+    try {
+      const response = await createAdmin(formData)
+  
+      if(!response.ok){
+        throw new Error("Failed to create admin")
+      }
       toast({
         title: "Club Admin Added",
         description: `${formData.firstName} ${formData.lastName} has been added as admin for the selected club.`,
       })
       router.push("/superadmin/club-admins")
       setIsLoading(false)
-    }, 1500)
+
+    } catch (error) {
+      console.error("Error adding club admin:", error)
+      toast({
+        title: "Error",
+        description: "There was an error adding the club admin. Please try again.",
+        variant: "destructive",
+      })
+      setIsLoading(false)
+    }
+
+    // // Simulate API call
+    // setTimeout(() => {
+    //   toast({
+    //     title: "Club Admin Added",
+    //     description: `${formData.firstName} ${formData.lastName} has been added as admin for the selected club.`,
+    //   })
+    //   router.push("/superadmin/club-admins")
+    //   setIsLoading(false)
+    // }, 1500)
   }
 
   return (

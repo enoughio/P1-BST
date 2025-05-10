@@ -10,7 +10,6 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { updateClubExecutive, getClubMembers } from "@/lib/api"
 import { useToast } from "@/hooks/use-toast"
@@ -22,6 +21,7 @@ import {
   User 
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useAuth } from "@/context/auth-context"
 
 export default function ExecutiveCommitteeManager({ club, onUpdate }) {
   const [executiveCommittee, setExecutiveCommittee] = useState([])
@@ -30,15 +30,15 @@ export default function ExecutiveCommitteeManager({ club, onUpdate }) {
   const [isSaving, setIsSaving] = useState(false)
   const [selectedMember, setSelectedMember] = useState("")
   const [position, setPosition] = useState("")
-  const [showPositionDropdown, setShowPositionDropdown] = useState(true) // State to track which input to show
   const { toast } = useToast()
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
         // Fetch club members
-        const membersData = await getClubMembers()
+        const membersData = await getClubMembers(user.clubId)
         setMembers(membersData)
         
         // Set executive committee from club data if available

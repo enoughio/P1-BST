@@ -232,6 +232,7 @@ export default function AddClubPage() {
               <Input
                 id="meeting_time"
                 name="meeting_time"
+                placeholder="Tuesdays, 6:30 PM"
                 value={formData.meeting_time}
                 onChange={handleChange}
                 required
