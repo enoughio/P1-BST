@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'first_name', 'last_name', 'username', 'email', 'phone', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation',)
+        fields = ('id', 'first_name', 'last_name', 'username', 'email', 'mobile', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation',)
         read_only_fields = ('id', 'username', 'email')
 
     def get_role(self, user):

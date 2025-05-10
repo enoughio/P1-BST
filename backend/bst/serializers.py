@@ -198,6 +198,9 @@ class MembershipSerializer(serializers.ModelSerializer):
 
 
 class MembershipActivateSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateField(format="%b %d, %Y")  # Jan. 10, 2025
+    end_date = serializers.DateField(format="%b %d, %Y")
+    
     class Meta:
         model = membership_history.MembershipHistory
         fields = '__all__'
