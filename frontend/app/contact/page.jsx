@@ -13,17 +13,17 @@ export default function Contact() {
       </Head>
       <main className="min-h-screen py-2 px-4 md:px-8 lg:px-16  ">
         <h1 className="text-4xl font-bold mb-2 flex items-center">
-          <span className="w-1 h-12 bg-pink-300 mr-4 inline-block"></span>
+          <span className="w-1 h-12 bg-red-300 mr-4 inline-block"></span>
           Contact Us
         </h1>
         
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Desktop layout */}
-          <div className="hidden lg:block lg:w-1/2 ">
-            <ContactImage />
-          </div>
+          {/* <div className="hidden lg:block lg:w-1/2 ">
+            {/* <ContactImage /> 
+          </div> */}
           
-          <div className="w-full  flex  flex-col md:flex-row justify-between border border-pink-200 rounded-lg p-6">
+          <div className="w-full  flex  flex-col md:flex-row justify-between border border-red-200 rounded-lg py-6 px-10 mb-28">
 
               <ContactForm />
               <ContactInfo />
