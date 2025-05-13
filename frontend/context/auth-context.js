@@ -62,13 +62,14 @@ export const AuthProvider = ({ children }) => {
             })
 
             const data = await response.json()
-
+            
             if (response.ok) {
                 setUser(data)
+                console.log("🔍 Login response:", data)
                 localStorage.setItem("user", JSON.stringify(data))
 
                 if (data.role) {
-                    router.push(`/${data.role}/dashboard`)
+                    router.push(`/${data.data.role}/dashboard`)
                 }
 
                 return { success: true }
