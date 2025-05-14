@@ -16,7 +16,21 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'first_name', 'last_name', 'username', 'email', 'mobile', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'club', 'role', 'occupation',)
+        fields = [
+            'id', 
+            'first_name', 
+            'last_name', 
+            'username', 
+            'email', 
+            'mobile', 
+            'avatar', 
+            'address', 
+            'gender', 
+            'dob', 
+            'id_proof', 
+            'club', 
+            'role', 
+            'occupation',]
         read_only_fields = ('id', 'username', 'email')
 
     def get_role(self, user):
@@ -24,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
             return user.member.role
         elif hasattr(user, 'admin'):
             return user.admin.role
-        return "User"
+        return "SuperAdmin"
 
     def get_occupation(self, user):
         if hasattr(user, 'member'):
@@ -68,7 +82,23 @@ class MemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Member
-        fields = ['name', 'username', 'email', 'mobile', 'club_name', 'join_date', 'membership_start_date', 'membership_expiry_date', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'occupation', 'completed_projects', 'active_projects', 'upcoming_meetings', 'achievements']
+        fields = [
+            'name', 
+            'username', 
+            'email', 
+            'mobile', 
+            'club_name', 
+            'join_date', 
+            'membership_start_date', 
+            'membership_expiry_date', 
+            'avatar', 
+            'address', 
+            'gender', 
+            'dob', 
+            'id_proof', 
+            'occupation', 
+            'completed_projects', 'active_projects', 
+            'upcoming_meetings', 'achievements']
     
     def get_name(self, obj):
         if obj.first_name or obj.last_name:
@@ -164,7 +194,20 @@ class AdminSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Admin
-        fields = ['first_name', 'last_name', 'username', 'email', 'mobile', 'avatar', 'address', 'gender', 'dob', 'id_proof', 'role', 'club', 'password']
+        fields = [
+            'first_name', 
+            'last_name', 
+            'username', 
+            'email', 
+            'mobile', 
+            'avatar', 
+            'address', 
+            'gender', 
+            'dob', 
+            'id_proof', 
+            'role', 
+            'club', 
+            'password']
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)

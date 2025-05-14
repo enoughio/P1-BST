@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'corsheaders',
+    
     'rest_framework',
     'rest_framework.authtoken', # DRF Token Authentication Enable
 
@@ -57,7 +59,6 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',  #postman like authentication ke liye
         'accounts.authentication.CookieTokenAuthentication',    # for cookie-based auth
 
         # for Token + Session
@@ -82,11 +83,32 @@ MIDDLEWARE = [
 ]
 
 
+
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React/Vue frontend URL
-    "https://bharatstorytellers.com",  # Production URL
-]
+
+if os.getenv("DJANGO_ENV") == "production":
+    CORS_ALLOWED_ORIGINS = [
+        "https://bharatstorytellers.com",
+        "https://www.bharatstorytellers.com",
+    ]
+
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = "None"
+
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = "None"
+
+else:
+    # Development settings
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",  # React/Vue dev frontend
+    ]
+
+    SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_SAMESITE = "None"
+
+    CSRF_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = "None"
 
 
 ROOT_URLCONF = 'bst_api.urls'
