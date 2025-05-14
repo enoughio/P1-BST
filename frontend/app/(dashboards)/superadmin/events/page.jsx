@@ -44,7 +44,6 @@ export default function SuperAdminEventsPage() {
     const fetchData = async () => {
       try {
         const [eventsData, clubsData] = await Promise.all([getEvents(), getClubs()])
-
         setItems(eventsData)
         setFilteredItems(eventsData)
         setClubs(clubsData)

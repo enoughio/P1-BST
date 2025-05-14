@@ -82,13 +82,13 @@ export default function ClubsPage() {
   };
 
   // Function to get initials from name
-  const getInitials = (name) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
-  };
+  // const getInitials = (name) => {
+  //   return name
+  //     .split(" ")
+  //     .map((n) => n[0])
+  //     .join("")
+  //     .toUpperCase();
+  // };
 
   return (
     <div className="flex flex-col gap-6">
@@ -143,7 +143,10 @@ export default function ClubsPage() {
                         <Avatar className="h-10 w-10">
                           <AvatarImage src={club.image} alt={club.club_name} />
                           <AvatarFallback className="bg-blue-100 text-blue-600">
-                            {getInitials(club.club_name)}
+                            {/* {getInitials(club.club_name)} */}
+                            {club.club_name
+                              ? club.club_name.charAt(0).toUpperCase()
+                              : ""}
                           </AvatarFallback>
                         </Avatar>
                         <div>

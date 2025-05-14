@@ -47,7 +47,6 @@ export default function MeetingsPage() {
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [selectedRoleIndex, setSelectedRoleIndex] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isAssigning, setIsAssigning] = useState(false);
   const { toast } = useToast();
   const { user: admin } = useAuth(); // Assuming you have a useAuth hook to get the current user
 

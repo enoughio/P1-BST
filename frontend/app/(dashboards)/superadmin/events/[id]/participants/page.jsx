@@ -14,7 +14,6 @@ import Link from "next/link"
 
 export default function SuperAdminEventParticipantsPage() {
   const params = useParams()
-  const router = useRouter()
   const { toast } = useToast()
   const [event, setEvent] = useState(null)
   const [clubs, setClubs] = useState([])

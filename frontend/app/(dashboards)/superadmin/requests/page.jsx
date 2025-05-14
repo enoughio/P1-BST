@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import AdminLayout from "@/components/admin-layout"
-import { getRequests, updateRequestStatus, getClubs, getMembers, getEvents } from "@/lib/api"
+import { getRequests, updateRequestStatus, getClubs, getEvents, getAllMembers } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -34,7 +34,7 @@ export default function RequestsPage() {
       try {
         const requestsData = await getRequests()
         const clubsData = await getClubs()
-        const membersData = await getMembers()
+        const membersData = await getAllMembers()
         const eventsData = await getEvents()
 
         setRequests(requestsData)

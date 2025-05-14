@@ -1,17 +1,23 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, ChevronLeft, ChevronRight, MapPin, Search, Star } from "lucide-react"
+import { 
+  Calendar, 
+  MapPin, 
+  Search, 
+  Star,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink 
+} from "lucide-react"
 import Link from "next/link"
 import { bhopalStorytellersImg, BISF } from "@/lib/data/images"
-import Image from "next/image"
 
 // Placeholder for getting events from API
 const getEvents = () => {
@@ -122,28 +128,13 @@ export default function EventsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [events, setEvents] = useState([])
-  const [highlightedEvents, setHighlightedEvents] = useState([])
   const [filteredEvents, setFilteredEvents] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [activeCategory, setActiveCategory] = useState("all")
   const [loading, setLoading] = useState(true)
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const carouselRef = useRef(null)
-  const autoPlayRef = useRef(null)
-
-  // Set up autoplay for carousel
-  useEffect(() => {
-    autoPlayRef.current = nextSlide
-  })
-
-  useEffect(() => {
-    const play = () => {
-      autoPlayRef.current()
-    }
-
-    const interval = setInterval(play, 5000)
-    return () => clearInterval(interval)
-  }, [])
+  const [sortField, setSortField] = useState("date")
+  const [sortDirection, setSortDirection] = useState("asc")
+  const [expandedEventId, setExpandedEventId] = useState(null)
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -163,7 +154,6 @@ export default function EventsPage() {
         }
 
         setEvents(data)
-        setHighlightedEvents(data.filter((event) => event.highlighted))
         setLoading(false)
       } catch (error) {
         console.error("Error fetching events:", error)
@@ -205,50 +195,25 @@ export default function EventsPage() {
       }
     }
 
-    // Sort by date (upcoming first, then past)
+    // Sort events
     filtered.sort((a, b) => {
-      const dateA = new Date(a.date)
-      const dateB = new Date(b.date)
-      const now = new Date()
-
-      // Both upcoming or both past
-      if ((dateA >= now && dateB >= now) || (dateA < now && dateB < now)) {
-        return dateA - dateB
+      let comparison = 0
+      
+      if (sortField === "date") {
+        comparison = new Date(a.date) - new Date(b.date)
+      } else if (sortField === "title") {
+        comparison = a.title.localeCompare(b.title)
+      } else if (sortField === "clubName") {
+        comparison = a.clubName.localeCompare(b.clubName)
+      } else if (sortField === "location") {
+        comparison = a.location.localeCompare(b.location)
       }
-
-      // A is upcoming, B is past
-      if (dateA >= now && dateB < now) {
-        return -1
-      }
-
-      // A is past, B is upcoming
-      return 1
+      
+      return sortDirection === "asc" ? comparison : -comparison
     })
 
     setFilteredEvents(filtered)
-  }, [events, searchTerm, activeCategory])
-
-  // Extract all unique categories from events
-  const allCategories = events.reduce((cats, event) => {
-    event.categories.forEach((cat) => {
-      if (!cats.includes(cat)) {
-        cats.push(cat)
-      }
-    })
-    return cats
-  }, [])
-
-  const nextSlide = () => {
-    if (highlightedEvents.length <= 1) return
-
-    setCurrentSlide((current) => (current === highlightedEvents.length - 1 ? 0 : current + 1))
-  }
-
-  const prevSlide = () => {
-    if (highlightedEvents.length <= 1) return
-
-    setCurrentSlide((current) => (current === 0 ? highlightedEvents.length - 1 : current - 1))
-  }
+  }, [events, searchTerm, activeCategory, sortField, sortDirection])
 
   const isEventUpcoming = (date) => {
     return new Date(date) >= new Date()
@@ -264,12 +229,29 @@ export default function EventsPage() {
     router.push(`/events?category=${encodeURIComponent(category)}`)
   }
 
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+    } else {
+      setSortField(field)
+      setSortDirection("asc")
+    }
+  }
+
+  const toggleEventDetails = (eventId) => {
+    if (expandedEventId === eventId) {
+      setExpandedEventId(null)
+    } else {
+      setExpandedEventId(eventId)
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-white">
         <div className="container mx-auto px-4 py-12">
           <div className="flex flex-col items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600"></div>
             <p className="mt-4 text-gray-500">Loading events...</p>
           </div>
         </div>
@@ -279,93 +261,6 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero section with auto-sliding carousel */}
-      {highlightedEvents.length > 0 && (
-        <div className="relative bg-gray-100 text-white overflow-hidden">
-          <div
-            ref={carouselRef}
-            className="relative h-[70vh] transition-all duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            <div className="absolute inset-0 flex">
-              {highlightedEvents.map((event, index) => (
-                <div
-                  key={event.id}
-                  className="relative min-w-full h-full flex items-center"
-                  style={{ left: `${index * 100}%` }}
-                >
-                  <div className="absolute inset-0   z-10"></div>
-                  <Image
-                    src={
-                      event.image || `/placeholder.svg?height=700&width=1400&text=${encodeURIComponent(event.title)}`
-                    }
-                    width={300}
-                    height={300}
-                    alt={event.title}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="container mx-auto px-4 md:px-8 relative z-20">
-                    <div className="max-w-3xl">
-                      <Badge className="bg-yellow-500 text-white mb-4">
-                        <Star className="mr-1 h-3 w-3" />
-                        Featured Event
-                      </Badge>
-                      <h1 className="text-3xl md:text-5xl font-bold mb-4">{event.title}</h1>
-                      <p className="text-lg md:text-xl mb-6 text-gray-100">{event.description}</p>
-                      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <div className="flex items-center">
-                          <Calendar className="h-5 w-5 mr-2" />
-                          <span>{event.formattedDate}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <MapPin className="h-5 w-5 mr-2" />
-                          <span>{event.location}</span>
-                        </div>
-                      </div>
-                      <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                        <Link href={`/events/${event.slug}`}>View Details</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Carousel controls */}
-          {highlightedEvents.length > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-30"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-30"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
-                {highlightedEvents.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-2 w-2 rounded-full ${currentSlide === index ? "bg-white" : "bg-white/50"}`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* Main content */}
       <div className="container mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold mb-8 text-gray-900">Events</h2>
 
@@ -382,7 +277,7 @@ export default function EventsPage() {
                   className="w-full pl-8 border-gray-200"
                 />
               </div>
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button type="submit" className="bg-slate-600 hover:bg-slate-800 text-white">
                 Search
               </Button>
             </form>
@@ -391,33 +286,24 @@ export default function EventsPage() {
           <div className="flex-grow overflow-x-auto">
             <Tabs value={activeCategory} onValueChange={handleCategoryChange} className="w-full">
               <TabsList className="flex justify-start h-10 bg-transparent">
-                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+                <TabsTrigger value="all" className="data-[state=active]:bg-slate-600 data-[state=active]:text-white">
                   All Events
                 </TabsTrigger>
                 <TabsTrigger
                   value="upcoming"
-                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                  className="data-[state=active]:bg-gray-600 data-[state=active]:text-white"
                 >
                   Upcoming
                 </TabsTrigger>
-                <TabsTrigger value="past" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+                <TabsTrigger value="past" className="data-[state=active]:bg-slate-600 400 data-[state=active]:text-white">
                   Past Events
                 </TabsTrigger>
-                {allCategories.map((category) => (
-                  <TabsTrigger
-                    key={category}
-                    value={category.toLowerCase()}
-                    className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
-                  >
-                    {category}
-                  </TabsTrigger>
-                ))}
               </TabsList>
             </Tabs>
           </div>
         </div>
 
-        {/* Events listing */}
+        {/* Events listing as a table */}
         {filteredEvents.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg">
             <p className="text-gray-500 mb-4">No events found matching your criteria.</p>
@@ -427,119 +313,154 @@ export default function EventsPage() {
                 setActiveCategory("all")
                 router.push("/events")
               }}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-gray-600 hover:bg-gray-700 text-white"
             >
               Clear Filters
             </Button>
           </div>
         ) : (
-          <div className="space-y-8">
-            {/* Upcoming Events Section */}
-            {filteredEvents.some((event) => isEventUpcoming(event.date)) && (
-              <div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Upcoming Events</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredEvents
-                    .filter((event) => isEventUpcoming(event.date))
-                    .map((event) => (
-                      <Link key={event.id} href={`/events/${event.slug}`} className="group">
-                        <Card className="h-full overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="relative aspect-video bg-gray-100">
-                            <img
-                              src={
-                                event.image ||
-                                `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(event.title)}`
-                              }
-                              alt={event.title}
-                              className="w-full h-full object-cover"
-                            />
-                            {event.highlighted && (
-                              <div className="absolute top-2 right-2">
-                                <Badge className="bg-yellow-500 text-white">
-                                  <Star className="mr-1 h-3 w-3" />
-                                  Featured
-                                </Badge>
-                              </div>
-                            )}
-                          </div>
-                          <div className="p-4">
-                            <h4 className="font-bold text-lg mb-2 text-gray-900 group-hover:text-blue-600">
-                              {event.title}
-                            </h4>
-                            <div className="flex flex-col gap-1 mb-2 text-sm text-gray-500">
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-1" />
-                                {event.formattedDate} • {event.time}
-                              </div>
-                              <div className="flex items-center">
-                                <MapPin className="h-4 w-4 mr-1" />
-                                {event.location}
-                              </div>
-                            </div>
-                            <p className="text-sm text-gray-600 line-clamp-2 mb-4">{event.description}</p>
-                            <div className="flex items-center justify-between">
-                              <div className="text-sm text-gray-500">{event.clubName}</div>
-                              <div className="text-sm font-medium text-blue-600">View Details →</div>
-                            </div>
-                          </div>
-                        </Card>
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            )}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th 
+                    className="px-4 py-3 text-left font-semibold text-gray-700 cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSort("title")}
+                  >
+                    <div className="flex items-center">
+                      Event Name
+                      {sortField === "title" && (
+                        sortDirection === "asc" ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                      )}
+                    </div>
+                  </th>
+                  <th 
+                    className="px-4 py-3 text-left font-semibold text-gray-700 cursor-pointer hover:bg-gray-200"
+                    onClick={() => handleSort("date")}
+                  >
+                    <div className="flex items-center">
+                      Date
+                      {sortField === "date" && (
+                        sortDirection === "asc" ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                      )}
+                    </div>
+                  </th>
+                  <th 
+                    className="px-4 py-3 text-left font-semibold text-gray-700 cursor-pointer hover:bg-gray-200 hidden lg:table-cell"
+                    onClick={() => handleSort("clubName")}
+                  >
+                    <div className="flex items-center">
+                      Organizer
+                      {sortField === "clubName" && (
+                        sortDirection === "asc" ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                      )}
+                    </div>
+                  </th>
+                  {/* <th className="px-4 py-3 text-center font-semibold text-gray-700">Actions</th> */}
+                </tr>
+              </thead>
 
-            {/* Past Events Section */}
-            {filteredEvents.some((event) => !isEventUpcoming(event.date)) && (
-              <div>
-                <Separator className="my-8" />
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Past Events</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredEvents
-                    .filter((event) => !isEventUpcoming(event.date))
-                    .map((event) => (
-                      <Link key={event.id} href={`/events/${event.slug}`} className="group">
-                        <Card className="h-full overflow-hidden hover:shadow-md transition-shadow opacity-90">
-                          <div className="relative aspect-video bg-gray-100">
-                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center text-white font-bold">
-                              Past Event
+              <tbody>
+                {filteredEvents.map((event) => (
+                  <>
+                  {/* <Link href={`/events/${event.slug}`}> */}
+                    <tr 
+                      key={event.id} onClick={() => router.push(`/events/${event.slug}`)}
+                      className={`border-b hover:bg-gray-50 cursor-pointer ${!isEventUpcoming(event.date) ? 'opacity-75' : ''}`}
+                    >
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-2">
+
+                          <div className="font-medium">{event.title}</div>
+                          {event.highlighted && (
+                            <Badge className="bg-yellow-500 text-white h-6">
+                              <Star className=" h-2 w-2" />
+                            </Badge>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex items-center">
+                          <Calendar className="h-4 w-4 mr-1 text-gray-500" />
+                          <span>{event.formattedDate}</span>
+                        </div>
+                        <div className="text-sm text-gray-500">{event.time}</div>
+                      </td>
+                      <td className="px-4 py-4 hidden lg:table-cell">
+                        <span className="text-gray-800">{event.clubName}</span>
+                      </td>
+                      {/* <td className="px-4 py-4 text-center">
+                        <div className="flex justify-center gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => toggleEventDetails(event.id)}
+                            className="text-gray-600 hover:text-gray-800 border-gray-600"
+                          >
+                            {expandedEventId === event.id ? "Hide" : "Details"}
+                          </Button>
+                          <Link href={`/events/${event.slug}`}>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="text-gray-800 hover:text-gray-600 border-gray-800"
+                            >
+                              <ExternalLink size={14} className="mr-1" />
+                              View
+                            </Button>
+                          </Link>
+                        </div>
+                      </td> */}
+                    </tr>
+                    {expandedEventId === event.id && (
+                      <tr className="bg-gray-50">
+                        <td colSpan="5" className="px-6 py-4">
+                          <div className="flex gap-4">
+                            <div className="w-24 h-24 bg-gray-200 rounded-md shrink-0">
+                              <img
+                                src={event.image || `/placeholder.svg?text=${encodeURIComponent(event.title)}`}
+                                alt={event.title}
+                                className="w-full h-full object-cover rounded-md"
+                              />
                             </div>
-                            <img
-                              src={
-                                event.image ||
-                                `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(event.title)}`
-                              }
-                              alt={event.title}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="p-4">
-                            <h4 className="font-bold text-lg mb-2 text-gray-800 group-hover:text-blue-600">
-                              {event.title}
-                            </h4>
-                            <div className="flex flex-col gap-1 mb-2 text-sm text-gray-500">
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-1" />
-                                {event.formattedDate} • {event.time}
+                            <div className="flex-grow">
+                              <p className="text-gray-700 mb-2">{event.description}</p>
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                {event.categories.map((category, index) => (
+                                  <Badge key={index} className="bg-blue-100 text-blue-800 hover:bg-blue-200">
+                                    {category}
+                                  </Badge>
+                                ))}
                               </div>
-                              <div className="flex items-center">
-                                <MapPin className="h-4 w-4 mr-1" />
-                                {event.location}
+                              <div className="flex flex-wrap gap-6 mt-3 text-sm">
+                                <div>
+                                  <span className="font-medium">Price:</span> {event.ticketPrice}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Capacity:</span> {event.attendees}/{event.maxCapacity}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Status:</span>{" "}
+                                  {isEventUpcoming(event.date) ? (
+                                    <span className="text-green-600">Upcoming</span>
+                                  ) : (
+                                    <span className="text-gray-500">Past</span>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <p className="text-sm text-gray-600 line-clamp-2 mb-4">{event.description}</p>
-                            <div className="text-sm text-gray-500">{event.clubName}</div>
                           </div>
-                        </Card>
-                      </Link>
-                    ))}
-                </div>
-              </div>
-            )}
+                        </td>
+                      </tr>
+                    )}
+                {/* </Link> */}
+                  </>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
     </div>
   )
 }
-
