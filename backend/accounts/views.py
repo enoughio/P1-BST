@@ -169,9 +169,9 @@ class LoginAPIView(APIView):
             response.set_cookie(
                 key='auth_token', 
                 value=token.key, 
-                httponly=True,     # JS se access nahi ho payega ab
-                secure=True if os.getenv("DJANGO_ENV") == "production" else False,       # HTTPS use karte ho to need to enable this (production mein zaruri hai)
-                samesite='None',    # CSRF attacks se bachane ke liye
+                httponly=True,  # JS se access nahi ho payega ab
+                secure=os.getenv("DJANGO_ENV") == "production", # HTTPS (production) use karte ho to need to set it True (but for development -> False)
+                samesite='None' if os.getenv("DJANGO_ENV") == "production" else 'lax',  # CSRF attacks se bachane ke liye (production -> 'None', development -> 'lax')
                 expires=expiry_time
             )
             return response
