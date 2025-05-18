@@ -83,35 +83,6 @@ MIDDLEWARE = [
 ]
 
 
-
-CORS_ALLOW_CREDENTIALS = True
-
-if os.getenv("DJANGO_ENV") == "production":
-    CORS_ALLOWED_ORIGINS = [
-        "https://bharatstorytellers.com",
-        "https://www.bharatstorytellers.com",
-    ]
-
-    SESSION_COOKIE_SECURE = True
-    SESSION_COOKIE_SAMESITE = "None"
-
-    CSRF_COOKIE_SECURE = True
-    CSRF_COOKIE_SAMESITE = "None"
-
-else:
-    # Development settings
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:3000",  # React/Vue dev frontend
-    ]
-
-    SESSION_COOKIE_SECURE = False
-    SESSION_COOKIE_SAMESITE = "None"
-
-    CSRF_COOKIE_SECURE = False
-    CSRF_COOKIE_SAMESITE = "None"
-
-
-ROOT_URLCONF = 'bst_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -199,6 +170,8 @@ USE_I18N = True
 USE_TZ = True
 
 
+# STATIC and MEDIA settings
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
@@ -210,15 +183,42 @@ MEDIA_URLS ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# for custom user
+# for custom user need to AUTH_USER_MODEL = 'appname.CustomUserModel'
 AUTH_USER_MODEL = 'accounts.User'
 
+ROOT_URLCONF = 'bst_api.urls'
 
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CORS_ALLOW_CREDENTIALS = True
+
+if os.getenv("DJANGO_ENV") == "production":
+    # production settings
+    CORS_ALLOWED_ORIGINS = [
+        "https://bharatstorytellers.com",
+        "https://www.bharatstorytellers.com",
+    ]
+
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = "None"
+
+    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = "None"
+
+else:
+    # development settings
+    CORS_ALLOWED_ORIGINS = [
+        "http://localhost:3000",  # React/Vue dev frontend
+    ]
+
+    SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_SAMESITE = "None"
+
+    CSRF_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = "None"
 
 
 
+# for email integration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -229,5 +229,11 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
+# for razorpay integration
 RAZORPAY_KEY_ID = config("RAZORPAY_KEY_ID")
 RAZORPAY_KEY_SECRET = config("RAZORPAY_KEY_SECRET")
+
+
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
