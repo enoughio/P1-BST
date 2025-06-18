@@ -22,9 +22,7 @@ from bst_api import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('api-auth/', include('rest_framework.urls')), # postman like authentication ke liye (auto login-btn aayenge, when needed auth)
-
+    
     path('api/accounts/', include('accounts.urls')),
     path('api/bst/', include('bst.urls')),
     path('api/razorpay/', include('razorpay_backend.urls')),

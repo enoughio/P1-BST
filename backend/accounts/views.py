@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from django.utils import timezone
 from rest_framework.response import Response
@@ -73,7 +74,6 @@ def get_current_user(request):
 # permissions
 class AdminLevelPermission(BasePermission):
     def has_permission(self, request, view):
-        # print(ContentType.objects.get_for_model(request.user)) # isse bhi kiska instance h mil jayega
         return request.user and isinstance(get_real_instance(request.user), Admin) # isinstance(object, classinfo)
 
 class SuperAdminLevelPermission(BasePermission):
@@ -160,7 +160,7 @@ class LoginAPIView(APIView):
                     'club_id': user.club.club_id if user.club else None,
                     'join_date': user.join_date.strftime("%d-%b-%Y") if user.join_date else None,
                     'membership_expiry_date': membership_expiry,
-                    'role': user.member.role if hasattr(user, 'member') else user.admin.role if hasattr(user, 'admin') else "User",
+                    'role': user.member.role if hasattr(user, 'member') else user.admin.role if hasattr(user, 'admin') else "SuperAdmin",
                     'occupation': user.member.occupation if hasattr(user, 'member') else None
                 } 
             }, status=status.HTTP_200_OK)
@@ -169,9 +169,9 @@ class LoginAPIView(APIView):
             response.set_cookie(
                 key='auth_token', 
                 value=token.key, 
-                httponly=True,     # JS se access nahi ho payega ab
-                secure=True,       # HTTPS use karte ho to need to enable this (production mein zaruri hai)
-                samesite='Lax',    # CSRF attacks se bachane ke liye
+                httponly=True,  # JS se access nahi ho payega ab
+                secure=os.getenv("DJANGO_ENV") == "production", # HTTPS (production) use karte ho to need to set it True (but for development -> False)
+                samesite='None' if os.getenv("DJANGO_ENV") == "production" else 'lax',  # CSRF attacks se bachane ke liye (production -> 'None', development -> 'lax')
                 expires=expiry_time
             )
             return response
@@ -316,7 +316,7 @@ class AdminUpdateBasicInfoAPIView(generics.RetrieveUpdateAPIView):
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
 
