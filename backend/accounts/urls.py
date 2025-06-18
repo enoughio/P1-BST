@@ -44,7 +44,7 @@ urlpatterns = [
     # [Admin] - Member Management (Read, Update, Assign)
     path('members/<str:username>/create-membership/', MembershipCreateRetrieveAPIView.as_view(), name='create-membership'),
     path('members/<str:username>/membership/', MembershipDetailAPIView.as_view(), name='membership-detail'),
-    path('members/<str:username>/membership-history/', MembershipHistoryListAPIView.as_view(), name='list-membership'),
+    path('members/<str:username>/embership-history/', MembershipHistoryListAPIView.as_view(), name='list-membership'),
     path("members/assign-project/", MemberProjectAssignAPIView.as_view(), name="assign-project"),  # Assign Project (Admin)
     path("members/<str:username>/", MemberRetrieveUpdateAPIView.as_view(), name="member-detail"),  # Get/Update Member Details (Admin)
 
