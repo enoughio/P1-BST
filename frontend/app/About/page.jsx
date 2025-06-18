@@ -11,7 +11,7 @@ const About = () => {
   return (
     <div className='mx-4 md:mx-10'>
         
-        <Header />
+        {/* <Header /> */}
         <AboutUs />
         <Mission />
         <OurStory />

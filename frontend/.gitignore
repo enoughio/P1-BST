@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+node_modules/
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+# next.js build output
+.next/
+# next.js static export
+out/
+# next.js cache
+.next/cache
+# next.js serverless functions
+.next/serverless
+# next.js static 

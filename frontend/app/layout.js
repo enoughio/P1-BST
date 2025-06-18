@@ -1,10 +1,9 @@
 import { Roboto } from 'next/font/google'
 import { MainNav } from "@/components/ui/NavBar";
 import { AuthProvider } from '@/context/auth-context';
-import { Analytics } from "@vercel/analytics/next"
 import Fotter from '@/components/Fotter';
 import "./globals.css";
-
+ 
 const roboto = Roboto({
   weight: ['400', '300', '100', '500', '900', '700'],
   subsets: ['latin'],
@@ -19,13 +18,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased bg-[#FAF9F9] `}>
-        <AuthProvider>
-          <Analytics >
-            <MainNav />
-            {children}
-            <Fotter />
-          </Analytics>
-        </AuthProvider>
+      <AuthProvider>
+        <MainNav />
+        {children}
+        <Fotter />
+      </AuthProvider>
       </body>
     </html>
   );
