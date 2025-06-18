@@ -523,12 +523,6 @@ export const getAllMembers = async () => {
 
 }
 
-
-export const updateClubExecutive = async (username, data) => {
-  return handleRequest(`/members/${id}`, "PUT", data)
-
-}
-
 export const getMember = async (username) => {
   // return handleRequest(`/members/${username}`)
 

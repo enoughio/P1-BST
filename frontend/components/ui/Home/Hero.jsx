@@ -12,7 +12,7 @@ export default function Hero() {
       <section className="relative overflow-hidden  lg:py-5 px-2 min-h-screen">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
-            <div className="left_container flex flex-col justify-centet gap-2">
+            <div className="left_container flex flex-col justify-between">
               <div className="text-center flex flex-col justify-center items-end">
                 <div className="relative text-right pr-3 md:py-2 flex gap-1">
                   <h1 className="text-[2.2rem] font-bold  leading-[2.2rem] text-wrap sm:text-5xl sm:leading-[2.7rem] xl:text-[3rem] md:mt-3">
@@ -28,24 +28,18 @@ export default function Hero() {
                 </p>
               </div>
 
-              <div className="flex gap-2 justify-end mx-3 md:mx-10 ">
-                 <Link href="https://twitter.com/BharatStorytels" target="_blank">
-                <div className="flex justify-center items-center border-[2px] rounded-full border-gray-90000 w-8 h-8 sm:w-12 sm:h-12 cursor-pointer">
+              <div className="flex gap-2 mx-3 md:mx-10 ">
+                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000 w-8 h-8 sm:w-10 sm:h-10">
                   <FaFacebookF className=" w-5 h-5 sm:h-5 sm:w-6" />
                 </div>
-                 </Link>
 
-                <Link href="https://www.linkedin.com/company/bharat-storytellers/" target="_blank">
-                <div className="flex justify-center items-center border-[2px] rounded-full border-gray-90000  w-8 h-8 sm:w-12 sm:h-12 cursor-pointer">
+                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000  w-8 h-8 sm:w-10 sm:h-10">
                   <CiLinkedin className=" w-5 h-5 sm:h-5 sm:w-6" />
                 </div>
-                </Link>
 
-                <Link href="https://www.instagram.com/bharatstorytellers/" target="_blank">
-                <div className="flex justify-center items-center border-[2px] rounded-full border-gray-90000  w-8 h-8 sm:w-12 sm:h-12 cursor-pointer">
+                <div className="flex justify-center items-center border-[1px] rounded-full border-gray-90000  w-8 h-8 sm:w-10 sm:h-10">
                   <FaInstagram className=" w-5 h-5 sm:h-5 sm:w-6" />
                 </div>
-                </Link>
               </div>
 
               {/* Hero Image for mobile and tab view */}
