@@ -12,10 +12,10 @@ export default function Hero() {
       <section className="relative overflow-hidden  lg:py-5 px-2 min-h-screen">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
-            <div className="left_container flex flex-col justify-between">
+            <div className="left_container flex flex-col justify-center">
               <div className="text-center flex flex-col justify-center items-end">
                 <div className="relative text-right pr-3 md:py-2 flex gap-1">
-                  <h1 className="text-[2.2rem] font-bold  leading-[2.2rem] text-wrap sm:text-5xl sm:leading-[2.7rem] xl:text-[3rem] md:mt-3">
+                  <h1 className="text-[2.2rem] font-bold  leading-[2.2rem] text-wrap sm:text-5xl sm:leading-[2.8rem] xl:text-[3rem] md:mt-3 lg:text-6xl">
                     We help you become everyone's favorite speaker!
                   </h1>
                   <div className=" mt-2 w-2.5 h-[87.1%] mx-auto md:w-5 md:h-[91%] bg-[#F1D2D4]"></div>
