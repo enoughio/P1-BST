@@ -4,7 +4,7 @@ import { BubbleCard } from "../BubbleCard";
 
 const OurPrograms = () => {
   return (
-    <div className="mb-14 mt-4">
+    <div className="mb-14 mt-4 ">
       <section className="wrapper md:h-screen bg-[#FAF9F9] flex flex-col w-[92%] mx-auto">
         <div className="Header text-center flex flex-col items-center mb-2">
           <div className="flex flex-col justify-end">
@@ -23,7 +23,7 @@ const OurPrograms = () => {
           </div>
         </div>
 
-        <div className="Programs">
+        <div className="Programs ">
           <div className="flex w-full items-center justify-center">
             <div className="grid w-full gap-4 p-2 grid-cols-4 grid-rows-6 md:grid-cols-6 md:grid-rows-4 rounded-lg shadow-md">
               {programsData.map((program, index) => (
