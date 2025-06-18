@@ -82,7 +82,7 @@ const ClubCard = () => (
         "w-36 h-36 absolute bottom-6 md:bottom-4 md:left-4 left-0 z-10"
       }
     >
-      <Image src={findAClubImg} alt={"someting "} layout="fill" />
+      <Image src={findAClubImg} alt={"someting "} fill />
     </div>
     <>
       <div

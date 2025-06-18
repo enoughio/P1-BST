@@ -128,8 +128,8 @@ const CoachingCarousel = () => {
                       <Image 
                         src={card.imageSrc}
                         alt={card.title}
-                        layout="fill"
-                        objectFit="cover"
+                        fill
+                        className='object-cover rounded-sm'
                       />
                 
                     </div>
@@ -168,7 +168,7 @@ const CoachingCarousel = () => {
                   src={card.imageSrc}
                   alt={card.title}
                   fill
-                  objectFit="cover"
+                  className='object-cover rounded-sm'
                 />
                
               </div>

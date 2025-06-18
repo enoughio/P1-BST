@@ -37,8 +37,8 @@ const MembershipSection = () => {
               <Image 
                 src={findAClubImg} 
                 alt="People shaking hands in a business meeting" 
-                layout="fill"
-                objectFit="cover"
+                fill
+                className='object-cover rounded-sm'
               />
             </div>
             {/* Overlay icons */}
@@ -64,8 +64,8 @@ const MembershipSection = () => {
             <Image 
               src={findAClubImg} 
               alt="Business meeting handshake" 
-              layout="fill"
-              objectFit="cover"
+              fill
+              className='object-cover rounded-sm'
             />
           </div>
           {/* Overlay icons - simplified for mobile */}

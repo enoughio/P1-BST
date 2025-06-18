@@ -10,7 +10,7 @@ const roboto = Roboto({
 })
 
 export const metadata = {
-  title: "Bhartat StoryTellers",
+  title: "Bharat Storytellers",
   description: "Bharat storytellers is an community learning platform for storytellers, where they can share their stories and learn from others.",
 };
 

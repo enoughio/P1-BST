@@ -25,7 +25,7 @@ const OurStory = () => {
         <div className="row-span-1 relative rounded-lg overflow-hidden bg-teal-100">
           <Image
             src={grid4}
-            objectFit="cover"
+            className='object-cover rounded-sm'
             width={200}
             height={200}
             alt="Person with microphone"
@@ -37,7 +37,7 @@ const OurStory = () => {
         <div className="row-span-1 relative rounded-lg overflow-hidden bg-purple-100">
           <Image
             src={grid3}
-            objectFit="cover"
+            className='object-cover rounded-sm'
             width={200}
             height={200}
             alt="Child with book"
@@ -52,7 +52,7 @@ const OurStory = () => {
           src={grid1}
           width={200}
           height={200}
-          objectFit="cover"
+          className='object-cover rounded-sm'
           alt="Speaker on stage"
           className=" object-cover"
         />
@@ -66,7 +66,7 @@ const OurStory = () => {
             src={grid5}
             width={200}
             height={200}
-            objectFit="cover"
+            className='object-cover rounded-sm'
             alt="Person with microphone"
             className=" "
           />

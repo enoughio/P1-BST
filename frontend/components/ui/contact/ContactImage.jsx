@@ -9,7 +9,7 @@ export default function ContactImage() {
         src={contactUs}
         alt="Customer Support Representative"
         fill
-        objectFit="cover"
+        className='object-cover rounded-sm'
         className="object-center"
         priority
       />
