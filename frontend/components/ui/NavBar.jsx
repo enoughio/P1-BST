@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Menu } from "lucide-react";
+import { CircleUser, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { grid1, logo } from "@/lib/data/images";
@@ -50,13 +50,17 @@ export function MainNav() {
               href="/login"
               className="hidden md:flex items-center space-x-4"
             >
-              <Image
-                src={grid1}
+              {/* <Image
+                src={}
                 alt="Profile"
                 width={40}
                 height={40}
                 className="h-10 w-10 rounded-full"
-              />
+              /> */}
+              <div>
+                <CircleUser className="h-10 w-10 text-gray-500" />
+              </div>
+
             </Link>
 
             {/* Mobile Menu */}
