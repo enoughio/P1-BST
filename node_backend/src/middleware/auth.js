@@ -39,7 +39,12 @@ const hasRequiredRole = (userRole, requiredRole) => {
 // Base authentication middleware
 export const auth = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    // Check for token in cookies first, then Authorization header
+    let token = req.cookies?.authToken;
+    
+    if (!token) {
+      token = req.header('Authorization')?.replace('Bearer ', '');
+    }
 
     if (!token) {
       return res.status(401).json({ 

@@ -4,7 +4,21 @@ import { useRouter } from "next/navigation" // Changed from next/router
 import { useContext, createContext, useState, useEffect } from "react"
 
 // Missing BASE_URL definition
-const BASE_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000"
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000"
+
+// Helper function to determine user role
+const getUserRole = (user) => {
+    if (user.isSuperuser) {
+        return 'superadmin';
+    }
+    if (user.isStaff || (user.admins && user.admins.length > 0)) {
+        return 'admin';
+    }
+    if (user.members && user.members.length > 0) {
+        return 'member';
+    }
+    return 'member'; // Default to member
+};
 
 const AuthContext = createContext()
 
@@ -39,69 +53,111 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const checkUserAuthentication = async () => {
-
         try {
+          // Check if we have user data in localStorage first
+          const storedUser = localStorage.getItem("user");
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          }
+
+          // Verify with server using cookie authentication
           const response = await fetch(`${BASE_URL}/api/accounts/me`, {
-            credentials: "include",
+            credentials: "include", // This sends the HTTP-only cookie
           })
 
           if (response.ok) {
             const data = await response.json()
-            setUser(data)
-            localStorage.setItem("user", JSON.stringify(data))
+            setUser(data.data.user)
+            localStorage.setItem("user", JSON.stringify(data.data.user))
           } else {
+            // Clear user data if authentication fails
             setUser(null)
+            localStorage.removeItem("user")
           }
         } catch (error) {
           console.log("Auth check failed", error)
           setUser(null)
+          localStorage.removeItem("user")
         } finally {
           setLoading(false)
         }
-
-        // setLoading(false);
-        // setUser(dummy)
     }
 
     const login = async (credentials) => {
         try {
-            const response = await fetch(`${BASE_URL}/api/accounts/login/`, {
+            const response = await fetch(`${BASE_URL}/api/accounts/login`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // Ensure the server knows it's receiving JSON
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(credentials) // Ensure credentials is an object with { username, password }
+                credentials: 'include', // Important: This sends cookies
+                body: JSON.stringify(credentials)
             });
-
-            console.log("Login failed try again", data)
 
             if (response.ok) {
                 const data = await response.json()
-
-                setUser(data);
-                if (data.role) {
-                    router.push(`/${data.role}/dashboard`)
+                
+                // Set user data from response
+                setUser(data.data.user);
+                
+                // Store user data in localStorage for persistence across tabs
+                localStorage.setItem("user", JSON.stringify(data.data.user));
+                
+                // Determine user role and redirect
+                const userRole = getUserRole(data.data.user);
+                if (userRole) {
+                    router.push(`/${userRole}/dashboard`);
                 }
-                setUser(dummy)
-                return { success: true } 
+                
+                return { success: true, data: data.data.user } 
             } else {
                 const error = await response.json()
-                return { success: false, error } // Changed from returning success: true on error
+                return { success: false, error }
             }
         } catch (error) {
-            console.error("Login failed try again")
+            console.error("Login failed:", error)
             return { success: false, error: "Login failed" }
         }
-
-        // setUser(dummy)
     }
 
+    // Automatic token refresh
+    const refreshToken = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/api/accounts/refresh`, {
+                method: "POST",
+                credentials: "include"
+            });
+
+            if (response.ok) {
+                return true;
+            } else {
+                // If refresh fails, logout user
+                logout();
+                return false;
+            }
+        } catch (error) {
+            console.error("Token refresh failed", error);
+            logout();
+            return false;
+        }
+    };
+
+    // Auto-refresh token every 24 hours
+    useEffect(() => {
+        if (user) {
+            const interval = setInterval(() => {
+                refreshToken();
+            }, 24 * 60 * 60 * 1000); // 24 hours
+
+            return () => clearInterval(interval);
+        }
+    }, [user]);
 
     const logout = async () => {
         try {
-            await fetch(`${BASE_URL}/api/auth/logout`, {
+            await fetch(`${BASE_URL}/api/accounts/logout`, {
                 method: "POST",
-                credentials: "include"
+                credentials: "include" // Important: This sends cookies
             })
 
             localStorage.removeItem("user")
@@ -110,11 +166,22 @@ export const AuthProvider = ({ children }) => {
 
         } catch (error) {
             console.error("Error while Logout", error)
+            // Even if logout request fails, clear local state
+            localStorage.removeItem("user")
+            setUser(null)
+            router.push("/")
         }
     }
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, checkUserAuthentication }} >
+        <AuthContext.Provider value={{ 
+            user, 
+            loading, 
+            login, 
+            logout, 
+            refreshToken,
+            checkUserAuthentication 
+        }} >
             {children}
         </AuthContext.Provider>
     )

@@ -14,6 +14,29 @@ const generateToken = (userId) => {
   });
 };
 
+// Handle trailing slash for Django compatibility
+// router.get('/login/', (req, res) => res.redirect('/api/accounts/login'));
+// router.post('/login/', (req, res) => res.redirect(307, '/api/accounts/login'));
+
+// @route   GET /api/auth/login
+// @desc    Login endpoint info (for compatibility)
+// @access  Public
+router.get('/login', (req, res) => {
+  res.status(405).json({
+    success: false,
+    message: 'Method not allowed. Use POST to login.',
+    allowedMethods: ['POST'],
+    example: {
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'user@example.com',
+        password: 'password'
+      }
+    }
+  });
+});
+
 // @route   POST /api/auth/login
 // @desc    Login user (equivalent to Django LoginAPIView)
 // @access  Public
@@ -94,6 +117,17 @@ router.post('/login', [
     // Generate token
     const token = generateToken(user.id);
 
+    // Set secure HTTP-only cookie
+    const cookieOptions = {
+      httpOnly: true, // Prevents XSS attacks
+      secure: process.env.NODE_ENV === 'production', // HTTPS in production
+      sameSite: 'lax', // CSRF protection
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      path: '/' // Available across the entire domain
+    };
+
+    res.cookie('authToken', token, cookieOptions);
+
     // Remove password from response
     const { password: userPassword, ...userWithoutPassword } = user;
 
@@ -101,8 +135,8 @@ router.post('/login', [
       success: true,
       message: 'Login successful',
       data: {
-        user: userWithoutPassword,
-        token
+        user: userWithoutPassword
+        // Note: We don't send the token in response anymore for security
       }
     });
 
@@ -120,8 +154,14 @@ router.post('/login', [
 // @access  Private
 router.post('/logout', auth, async (req, res) => {
   try {
-    // In a real app, you might want to blacklist the token
-    // For now, we'll just return success
+    // Clear the auth cookie
+    res.clearCookie('authToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/'
+    });
+
     res.json({
       success: true,
       message: 'Logout successful'
@@ -318,12 +358,23 @@ router.post('/members/create', [
     // Generate token
     const token = generateToken(result.user.id);
 
+    // Set secure HTTP-only cookie
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      path: '/'
+    };
+
+    res.cookie('authToken', token, cookieOptions);
+
     res.status(201).json({
       success: true,
       message: 'Member registered successfully',
       data: {
-        user: userData,
-        token
+        user: userData
+        // Note: Token is now in HTTP-only cookie
       }
     });
 
@@ -458,6 +509,39 @@ router.post('/admins/create', [
     res.status(500).json({
       success: false,
       message: 'Server error during registration'
+    });
+  }
+});
+
+// @route   POST /api/auth/refresh
+// @desc    Refresh authentication token
+// @access  Private
+router.post('/refresh', auth, async (req, res) => {
+  try {
+    // Generate new token
+    const newToken = generateToken(req.user.id);
+
+    // Set new secure HTTP-only cookie
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      path: '/'
+    };
+
+    res.cookie('authToken', newToken, cookieOptions);
+
+    res.json({
+      success: true,
+      message: 'Token refreshed successfully'
+    });
+
+  } catch (error) {
+    console.error('Token refresh error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during token refresh'
     });
   }
 });
