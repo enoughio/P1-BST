@@ -1,0 +1,482 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output = "./generated-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// User models (equivalent to Django AbstractUser and related models)
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  username    String   @unique
+  password    String
+  firstName   String?  @map("first_name")
+  lastName    String?  @map("last_name")
+  mobile      String?  @db.VarChar(10)
+  avatar      String?  @default("default.jpg")
+  address     String?
+  gender      Gender   @default(MALE)
+  dob         DateTime @default(now()) @db.Date
+  idProof     String?  @map("id_proof")
+  isActive    Boolean  @default(true) @map("is_active")
+  isStaff     Boolean  @default(false) @map("is_staff")
+  isSuperuser Boolean  @default(false) @map("is_superuser")
+  dateJoined  DateTime @default(now()) @map("date_joined")
+  lastLogin   DateTime? @map("last_login")
+  
+  // Foreign key relationships
+  clubId      String?  @map("club_id")
+  club        Club?    @relation(fields: [clubId], references: [clubId])
+  
+  // Related models
+  members     Member[]
+  admins      Admin[]
+  
+  @@map("auth_user")
+}
+
+model Member {
+  id         String     @id @default(uuid())
+  userId     String     @unique @map("user_id")
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       String     @default("Member")
+  occupation Occupation @default(STUDENT)
+  
+  // Relationships
+  awards                    MemberAward[]
+  executiveCommittee        ExecutiveCommittee[]
+  membershipHistory         MembershipHistory[]
+  removalRequests           MemberRemovalRequest[] @relation("MemberRemovalRequests")
+  
+  // Meeting roles
+  mocMeetings               Meeting[] @relation("MOCMeetings")
+  omcMeetings               Meeting[] @relation("OMCMeetings")
+  moderatorMeetings         Meeting[] @relation("ModeratorMeetings")
+  coordinatorMeetings       Meeting[] @relation("CoordinatorMeetings")
+  timekeeperMeetings        Meeting[] @relation("TimekeeperMeetings")
+  listenerMeetings          Meeting[] @relation("ListenerMeetings")
+  fillerCounterMeetings     Meeting[] @relation("FillerCounterMeetings")
+  speaker1Meetings          Meeting[] @relation("Speaker1Meetings")
+  speaker2Meetings          Meeting[] @relation("Speaker2Meetings")
+  speaker3Meetings          Meeting[] @relation("Speaker3Meetings")
+  speechEvaluator1Meetings  Meeting[] @relation("SpeechEvaluator1Meetings")
+  speechEvaluator2Meetings  Meeting[] @relation("SpeechEvaluator2Meetings")
+  presidentMeetings         Meeting[] @relation("PresidentMeetings")
+  vpeEducationMeetings      Meeting[] @relation("VPEMeetings")
+  vpeMembershipMeetings     Meeting[] @relation("VPMMeetings")
+  vpePublicRelationsMeetings Meeting[] @relation("VPPRMeetings")
+  secretaryMeetings         Meeting[] @relation("SecretaryMeetings")
+  sergeantAtArmsMeetings    Meeting[] @relation("SAAMeetings")
+  
+  // Project assignments
+  projectAssignments        ProjectAssignment[]
+  
+  @@map("accounts_member")
+}
+
+model Admin {
+  id         String    @id @default(uuid())
+  userId     String    @unique @map("user_id")
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       AdminRole @default(ADMIN)
+  
+  // Relations
+  removalRequestsCreated MemberRemovalRequest[] @relation("AdminRemovalRequests")
+  
+  @@map("accounts_admin")
+}
+
+model MemberRemovalRequest {
+  id          Int       @id @default(autoincrement())
+  memberId    String    @map("member_id")
+  member      Member    @relation("MemberRemovalRequests", fields: [memberId], references: [id], onDelete: Cascade)
+  requestedById String  @map("requested_by_id")
+  requestedBy Admin     @relation("AdminRemovalRequests", fields: [requestedById], references: [id], onDelete: Cascade)
+  reason      String?
+  status      RequestStatus @default(PENDING)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  
+  @@map("accounts_memberremovalrequest")
+}
+
+// Club and Initiative models
+model Initiative {
+  id           Int     @id @default(autoincrement())
+  title        String?
+  eligibleAge  String? @map("eligible_age") @db.VarChar(10)
+  description  String?
+  maxClubSize  Int     @default(0) @map("max_club_size")
+  
+  // Foreign key
+  membershipId String? @map("membership_id")
+  membership   Membership? @relation(fields: [membershipId], references: [id])
+  
+  // Relations
+  clubs        Club[]
+  
+  @@map("bst_initiative")
+}
+
+model Club {
+  clubId      String  @id @default(cuid()) @map("club_id") @db.VarChar(5)
+  clubName    String  @default("Bharat Storytellers") @map("club_name")
+  street      String?
+  city        String
+  state       String
+  postalCode  String  @map("postal_code") @db.VarChar(20)
+  country     String
+  meetingTime String  @default("Tuesdays, 6:30 PM") @map("meeting_time")
+  map         String?
+  image       String?
+  description String?
+  email       String?
+  mobile      String? @db.VarChar(20)
+  
+  // Foreign key
+  initiativeId Int?    @map("initiative_id")
+  initiative   Initiative? @relation(fields: [initiativeId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  users       User[]
+  events      Event[]
+  meetings    Meeting[]
+  
+  @@map("bst_club")
+}
+
+// Membership models
+model Membership {
+  id               String @id @default(cuid()) @db.VarChar(4)
+  name             String @unique @db.VarChar(150)
+  fee              Decimal @default(0.00) @db.Decimal(10, 2)
+  durationInMonths Int    @default(6) @map("duration_in_months")
+  
+  // Relations
+  initiatives      Initiative[]
+  membershipHistory MembershipHistory[]
+  
+  @@map("bst_membership")
+}
+
+model MembershipHistory {
+  id             Int        @id @default(autoincrement())
+  memberId       String     @map("member_id")
+  member         Member     @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  membershipTypeId String   @map("membership_type_id")
+  membershipType Membership @relation(fields: [membershipTypeId], references: [id], onDelete: Cascade)
+  startDate      DateTime?  @default(now()) @map("start_date") @db.Date
+  endDate        DateTime?  @map("end_date") @db.Date
+  
+  @@map("bst_membershiphistory")
+}
+
+// Award models
+model Award {
+  id      Int      @id @default(autoincrement())
+  title   String?
+  date    DateTime @default(now()) @db.Date
+  type    String?  @db.VarChar(100)
+  
+  // Relations
+  members MemberAward[]
+  
+  @@map("bst_award")
+}
+
+model MemberAward {
+  memberId String @map("member_id")
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  awardId  Int    @map("award_id")
+  award    Award  @relation(fields: [awardId], references: [id], onDelete: Cascade)
+  
+  @@id([memberId, awardId])
+  @@map("accounts_member_awards")
+}
+
+// Event models
+model Event {
+  eventId     String   @id @map("event_id") @db.VarChar(6)
+  title       String?
+  description String?
+  date        DateTime @db.Date
+  time        DateTime @default(now()) @db.Time
+  location    String?
+  image       String?
+  highlighted Boolean  @default(false)
+  attendees   Int      @default(0)
+  maxCapacity Int      @default(0) @map("max_capacity")
+  ticketPrice String   @default("0") @map("ticket_price") @db.VarChar(50)
+  categories  Json?
+  
+  // Foreign key
+  clubId      String   @map("club_id")
+  club        Club     @relation(fields: [clubId], references: [clubId], onDelete: Cascade)
+  
+  // Relations
+  speakers         EventSpeaker[]
+  scheduleItems    EventScheduleItem[]
+  photos           EventPhotoLink[]
+  registrations    EventRegistration[]
+  
+  @@map("bst_event")
+}
+
+model Speaker {
+  id    Int     @id @default(autoincrement())
+  name  String
+  role  String
+  bio   String
+  image String?
+  
+  // Relations
+  events EventSpeaker[]
+  
+  @@map("bst_speaker")
+}
+
+model EventSpeaker {
+  eventId   String  @map("event_id")
+  event     Event   @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  speakerId Int     @map("speaker_id")
+  speaker   Speaker @relation(fields: [speakerId], references: [id], onDelete: Cascade)
+  
+  @@id([eventId, speakerId])
+  @@map("bst_event_speakers")
+}
+
+model ScheduleItem {
+  id          Int    @id @default(autoincrement())
+  time        String @db.VarChar(100)
+  title       String
+  description String?
+  
+  // Relations
+  events      EventScheduleItem[]
+  
+  @@map("bst_scheduleitem")
+}
+
+model EventScheduleItem {
+  eventId        String       @map("event_id")
+  event          Event        @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  scheduleItemId Int          @map("scheduleitem_id")
+  scheduleItem   ScheduleItem @relation(fields: [scheduleItemId], references: [id], onDelete: Cascade)
+  
+  @@id([eventId, scheduleItemId])
+  @@map("bst_event_schedule")
+}
+
+model EventPhoto {
+  id    Int     @id @default(autoincrement())
+  image String?
+  alt   String? @default("")
+  
+  // Relations
+  events EventPhotoLink[]
+  
+  @@map("bst_eventphoto")
+}
+
+model EventPhotoLink {
+  eventId      String     @map("event_id")
+  event        Event      @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  eventPhotoId Int        @map("eventphoto_id")
+  eventPhoto   EventPhoto @relation(fields: [eventPhotoId], references: [id], onDelete: Cascade)
+  
+  @@id([eventId, eventPhotoId])
+  @@map("bst_event_photos")
+}
+
+// Event Registration models
+model EventRegistration {
+  regId       String      @id @default(cuid()) @map("reg_id") @db.VarChar(6)
+  eventId     String      @map("event_id")
+  event       Event       @relation(fields: [eventId], references: [eventId], onDelete: Cascade)
+  name        String?
+  email       String?
+  phoneNumber String?     @map("phone_number") @db.VarChar(10)
+  address     String?
+  gender      Gender      @default(MALE)
+  occupation  Occupation  @default(STUDENT)
+  fee         Decimal     @default(0.00) @db.Decimal(10, 2)
+  
+  // Relations
+  payment     Payment?
+  
+  @@map("bst_eventregistration")
+}
+
+model Payment {
+  id             Int               @id @default(autoincrement())
+  registrationId String            @unique @map("registration_id")
+  registration   EventRegistration @relation(fields: [registrationId], references: [regId], onDelete: Cascade)
+  paymentId      String?           @map("payment_id") @db.VarChar(100)
+  orderId        String?           @map("order_id") @db.VarChar(100)
+  signature      String?           @db.VarChar(200)
+  amount         Decimal           @db.Decimal(10, 2)
+  currency       String            @default("INR") @db.VarChar(3)
+  status         PaymentStatus     @default(CREATED)
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+  
+  @@map("bst_payment")
+}
+
+// Executive Committee model
+model ExecutiveCommittee {
+  id       Int            @id @default(autoincrement())
+  memberId String?        @map("member_id")
+  member   Member?        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  role     ExecutiveRole  @default(PRESIDENT)
+  
+  @@map("bst_executivecommittee")
+}
+
+// Meeting models
+model Meeting {
+  meetingId   Int         @id @default(autoincrement()) @map("meeting_id")
+  title       String?
+  date        DateTime    @default(now()) @db.Date
+  startTime   DateTime    @default(now()) @map("start_time") @db.Time
+  endTime     DateTime    @default(now()) @map("end_time") @db.Time
+  description String?
+  meetingType MeetingType @default(WEEKLY) @map("meeting_type")
+  createdAt   DateTime?   @default(now()) @map("created_at") @db.Date
+  
+  // Foreign key
+  clubId      String      @map("club_id")
+  club        Club        @relation(fields: [clubId], references: [clubId], onDelete: Cascade)
+  
+  // Meeting roles (all optional)
+  mocId                      String? @map("moc_id")
+  moc                        Member? @relation("MOCMeetings", fields: [mocId], references: [id], onDelete: SetNull)
+  omcId                      String? @map("omc_id")
+  omc                        Member? @relation("OMCMeetings", fields: [omcId], references: [id], onDelete: SetNull)
+  moderatorId                String? @map("moderator_id")
+  moderator                  Member? @relation("ModeratorMeetings", fields: [moderatorId], references: [id], onDelete: SetNull)
+  coordinatorId              String? @map("coordinator_id")
+  coordinator                Member? @relation("CoordinatorMeetings", fields: [coordinatorId], references: [id], onDelete: SetNull)
+  timekeeperId               String? @map("timekeeper_id")
+  timekeeper                 Member? @relation("TimekeeperMeetings", fields: [timekeeperId], references: [id], onDelete: SetNull)
+  listenerId                 String? @map("listener_id")
+  listener                   Member? @relation("ListenerMeetings", fields: [listenerId], references: [id], onDelete: SetNull)
+  fillerCounterId            String? @map("filler_counter_id")
+  fillerCounter              Member? @relation("FillerCounterMeetings", fields: [fillerCounterId], references: [id], onDelete: SetNull)
+  speaker1Id                 String? @map("speaker1_id")
+  speaker1                   Member? @relation("Speaker1Meetings", fields: [speaker1Id], references: [id], onDelete: SetNull)
+  speaker2Id                 String? @map("speaker2_id")
+  speaker2                   Member? @relation("Speaker2Meetings", fields: [speaker2Id], references: [id], onDelete: SetNull)
+  speaker3Id                 String? @map("speaker3_id")
+  speaker3                   Member? @relation("Speaker3Meetings", fields: [speaker3Id], references: [id], onDelete: SetNull)
+  speechEvaluator1Id         String? @map("speech_evaluator1_id")
+  speechEvaluator1           Member? @relation("SpeechEvaluator1Meetings", fields: [speechEvaluator1Id], references: [id], onDelete: SetNull)
+  speechEvaluator2Id         String? @map("speech_evaluator2_id")
+  speechEvaluator2           Member? @relation("SpeechEvaluator2Meetings", fields: [speechEvaluator2Id], references: [id], onDelete: SetNull)
+  presidentId                String? @map("president_id")
+  president                  Member? @relation("PresidentMeetings", fields: [presidentId], references: [id], onDelete: SetNull)
+  vicePresidentEducationId   String? @map("vice_president_education_id")
+  vicePresidentEducation     Member? @relation("VPEMeetings", fields: [vicePresidentEducationId], references: [id], onDelete: SetNull)
+  vicePresidentMembershipId  String? @map("vice_president_membership_id")
+  vicePresidentMembership    Member? @relation("VPMMeetings", fields: [vicePresidentMembershipId], references: [id], onDelete: SetNull)
+  vicePresidentPublicRelationsId String? @map("vice_president_public_relations_id")
+  vicePresidentPublicRelations   Member? @relation("VPPRMeetings", fields: [vicePresidentPublicRelationsId], references: [id], onDelete: SetNull)
+  secretaryId                String? @map("secretary_id")
+  secretary                  Member? @relation("SecretaryMeetings", fields: [secretaryId], references: [id], onDelete: SetNull)
+  sergeantAtArmsId           String? @map("sergeant_at_arms_id")
+  sergeantAtArms             Member? @relation("SAAMeetings", fields: [sergeantAtArmsId], references: [id], onDelete: SetNull)
+  
+  @@map("bst_meeting")
+}
+
+// Project models
+model Project {
+  projectId   Int                 @id @default(autoincrement()) @map("project_id")
+  title       String
+  description String?
+  
+  // Relations
+  assignments ProjectAssignment[]
+  
+  @@map("bst_project")
+}
+
+model ProjectAssignment {
+  id           Int       @id @default(autoincrement())
+  memberId     String    @map("member_id")
+  member       Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  projectId    Int       @map("project_id")
+  project      Project   @relation(fields: [projectId], references: [projectId], onDelete: Cascade)
+  assignedDate DateTime? @map("assigned_date")
+  deadline     DateTime?
+  
+  @@map("bst_projectassignment")
+}
+
+// Razorpay Transaction model
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  paymentId String   @map("payment_id") @db.VarChar(200)
+  orderId   String   @map("order_id") @db.VarChar(200)
+  signature String?  @db.VarChar(500)
+  amount    Int
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  @@map("razorpay_backend_transaction")
+}
+
+// Enums
+enum Gender {
+  MALE   @map("Male")
+  FEMALE @map("Female")
+  OTHER  @map("Other")
+}
+
+enum Occupation {
+  STUDENT        @map("Student")
+  EMPLOYEE       @map("Employee")
+  BUSINESS       @map("Business")
+  SELF_EMPLOYED  @map("Self Employed")
+}
+
+enum AdminRole {
+  ADMIN       @map("Admin")
+  SUPER_ADMIN @map("SuperAdmin")
+}
+
+enum RequestStatus {
+  PENDING  @map("Pending")
+  APPROVED @map("Approved")
+  REJECTED @map("Rejected")
+}
+
+enum PaymentStatus {
+  CREATED  @map("CREATED")
+  CAPTURED @map("CAPTURED")
+  FAILED   @map("FAILED")
+}
+
+enum ExecutiveRole {
+  PRESIDENT                        @map("President")
+  VICE_PRESIDENT_EDUCATION         @map("Vice President - Education")
+  VICE_PRESIDENT_MEMBERSHIP        @map("Vice President - Membership")
+  VICE_PRESIDENT_PUBLIC_RELATIONS  @map("Vice President - Public Relations")
+  SECRETARY                        @map("Secretary")
+  SERGEANT_AT_ARMS                 @map("Sergeant at Arms")
+}
+
+enum MeetingType {
+  WEEKLY              @map("Weekly")
+  EXECUTIVE_COMMITTEE @map("Executive Committee")
+}
