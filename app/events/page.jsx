@@ -1,16 +1,12 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
 import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, MapPin, Search, Star } from "lucide-react"
+import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, MapPin, Star } from "lucide-react"
 import Link from "next/link"
-import { bhopalStorytellersImg, BISF } from "@/lib/data/images"
+import { bhopalStorytellersImg } from "@/lib/data/images"
 import Image from "next/image"
 
 // Placeholder for getting events from API
@@ -18,100 +14,120 @@ const getEvents = () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
+        // {
+        //   id: "1",
+        //   title: "Bhopal International Storytelling Fest",
+        //   slug: "BISF",
+        //   description:
+        //     "Join us for an evening of captivating stories that bridge cultures and generations. Our expert storytellers will take you on a journey through time and tradition.",
+        //   date: "2025-3-23",
+        //   formattedDate: "March 23, 2025",
+        //   time: "6:00 PM - 9:00 PM",
+        //   location: "Cultural Center, New Delhi",
+        //   image: BISF,
+        //   highlighted: true,
+        //   club: "1",
+        //   clubName: "Bhopal Storytellers",
+        //   attendees: 120,
+        //   maxCapacity: 200,
+        //   ticketPrice: "₹500-1500",
+        //   categories: ["Cultural", "Performance", "Educational"],
+        // },
+        // {
+        //   id: "2",
+        //   title: "Leadership Workshop",
+        //   slug: "leadership-workshop-2023",
+        //   description:
+        //     "An intensive workshop focusing on essential leadership skills for today's professionals. Learn how to inspire teams and navigate challenges effectively.",
+        //   date: "2023-11-20",
+        //   formattedDate: "November 20, 2023",
+        //   time: "9:00 AM - 5:00 PM",
+        //   location: "Conference Hall, Bangalore",
+        //   image: bhopalStorytellersImg,
+        //   highlighted: false,
+        //   club: "2",
+        //   clubName: "Delhi Orators",
+        //   attendees: 85,
+        //   maxCapacity: 100,
+        //   ticketPrice: "₹1000",
+        //   categories: ["Workshop", "Professional Development", "Leadership"],
+        // },
+        // {
+        //   id: "3",
+        //   title: "Public Speaking Championship",
+        //   slug: "speaking-championship-2024",
+        //   description:
+        //     "The annual competition where the best speakers compete for recognition and prizes. Categories include prepared speeches, impromptu speaking, and storytelling.",
+        //   date: "2024-01-30",
+        //   formattedDate: "January 30, 2024",
+        //   time: "10:00 AM - 6:00 PM",
+        //   location: "Auditorium, Mumbai",
+        //   image: bhopalStorytellersImg,
+        //   highlighted: true,
+        //   club: "3",
+        //   clubName: "Mumbai Speakers",
+        //   attendees: 0,
+        //   maxCapacity: 300,
+        //   ticketPrice: "₹750",
+        //   categories: ["Competition", "Speaking", "Awards"],
+        // },
+        // {
+        //   id: "4",
+        //   title: "Effective Communication Seminar",
+        //   slug: "effective-communication-2023",
+        //   description:
+        //     "Learn practical techniques to enhance your communication skills in professional settings. This seminar covers verbal and non-verbal communication, active listening, and handling difficult conversations.",
+        //   date: "2023-10-05",
+        //   formattedDate: "October 5, 2023",
+        //   time: "2:00 PM - 6:00 PM",
+        //   location: "Business Center, Hyderabad",
+        //   image: bhopalStorytellersImg,
+        //   highlighted: false,
+        //   club: "2",
+        //   clubName: "Delhi Orators",
+        //   attendees: 120,
+        //   maxCapacity: 120,
+        //   ticketPrice: "₹800",
+        //   categories: ["Seminar", "Communication", "Professional Development"],
+        // },
+        // {
+        //   id: "5",
+        //   title: "Annual Storytelling Conference 2023",
+        //   slug: "annual-conference-2023",
+        //   description:
+        //     "Join us for the annual Storytelling conference featuring keynote speakers, workshops, networking opportunities, and the grand finals of our speaking competitions.",
+        //   date: "2023-09-15",
+        //   formattedDate: "September 15, 2023",
+        //   time: "9:00 AM - 8:00 PM",
+        //   location: "Grand Hotel, Chennai",
+        //   image: bhopalStorytellersImg,
+        //   highlighted: true,
+        //   club: "1",
+        //   clubName: "Bhopal Storytellers",
+        //   attendees: 250,
+        //   maxCapacity: 300,
+        //   ticketPrice: "₹1500-2500",
+        //   categories: ["Conference", "Networking", "Competition"],
+        // },
         {
-          id: "1",
-          title: "Bhopal International Storytelling Fest",
-          slug: "BISF",
+          id: "bhopal-storytelling-championship-2026",
+          title: "Bhopal Storytelling Championship - 2026",
+          slug: "bhopal-storytelling-championship-2026",
           description:
-            "Join us for an evening of captivating stories that bridge cultures and generations. Our expert storytellers will take you on a journey through time and tradition.",
-          date: "2025-3-23",
-          formattedDate: "March 23, 2025",
-          time: "6:00 PM - 9:00 PM",
-          location: "Cultural Center, New Delhi",
-          image: BISF,
-          highlighted: true,
-          club: "1",
-          clubName: "Bhopal Storytellers",
-          attendees: 120,
-          maxCapacity: 200,
-          ticketPrice: "₹500-1500",
-          categories: ["Cultural", "Performance", "Educational"],
-        },
-        {
-          id: "2",
-          title: "Leadership Workshop",
-          slug: "leadership-workshop-2023",
-          description:
-            "An intensive workshop focusing on essential leadership skills for today's professionals. Learn how to inspire teams and navigate challenges effectively.",
-          date: "2023-11-20",
-          formattedDate: "November 20, 2023",
-          time: "9:00 AM - 5:00 PM",
-          location: "Conference Hall, Bangalore",
+            "The Search for the City's Best Young Storyteller. A four-phase mentorship championship for 1,000+ students, culminating in a grand finale in Bhopal.",
+          partner: "Indian Society for Training and Development (ISTD)",
+          date: "2026-04-26",
+          formattedDate: "April 26, 2026",
+          time: "All day",
+          location: "Bhopal, Madhya Pradesh",
           image: bhopalStorytellersImg,
-          highlighted: false,
-          club: "2",
-          clubName: "Delhi Orators",
-          attendees: 85,
-          maxCapacity: 100,
-          ticketPrice: "₹1000",
-          categories: ["Workshop", "Professional Development", "Leadership"],
-        },
-        {
-          id: "3",
-          title: "Public Speaking Championship",
-          slug: "speaking-championship-2024",
-          description:
-            "The annual competition where the best speakers compete for recognition and prizes. Categories include prepared speeches, impromptu speaking, and storytelling.",
-          date: "2024-01-30",
-          formattedDate: "January 30, 2024",
-          time: "10:00 AM - 6:00 PM",
-          location: "Auditorium, Mumbai",
-          image: bhopalStorytellersImg,
           highlighted: true,
-          club: "3",
-          clubName: "Mumbai Speakers",
+          club: "bhopal-storytellers-foundation",
+          clubName: "Bharat Storytellers Foundation",
           attendees: 0,
-          maxCapacity: 300,
-          ticketPrice: "₹750",
-          categories: ["Competition", "Speaking", "Awards"],
-        },
-        {
-          id: "4",
-          title: "Effective Communication Seminar",
-          slug: "effective-communication-2023",
-          description:
-            "Learn practical techniques to enhance your communication skills in professional settings. This seminar covers verbal and non-verbal communication, active listening, and handling difficult conversations.",
-          date: "2023-10-05",
-          formattedDate: "October 5, 2023",
-          time: "2:00 PM - 6:00 PM",
-          location: "Business Center, Hyderabad",
-          image: bhopalStorytellersImg,
-          highlighted: false,
-          club: "2",
-          clubName: "Delhi Orators",
-          attendees: 120,
-          maxCapacity: 120,
-          ticketPrice: "₹800",
-          categories: ["Seminar", "Communication", "Professional Development"],
-        },
-        {
-          id: "5",
-          title: "Annual Storytelling Conference 2023",
-          slug: "annual-conference-2023",
-          description:
-            "Join us for the annual Storytelling conference featuring keynote speakers, workshops, networking opportunities, and the grand finals of our speaking competitions.",
-          date: "2023-09-15",
-          formattedDate: "September 15, 2023",
-          time: "9:00 AM - 8:00 PM",
-          location: "Grand Hotel, Chennai",
-          image: bhopalStorytellersImg,
-          highlighted: true,
-          club: "1",
-          clubName: "Bhopal Storytellers",
-          attendees: 250,
-          maxCapacity: 300,
-          ticketPrice: "₹1500-2500",
-          categories: ["Conference", "Networking", "Competition"],
+          maxCapacity: 1000,
+          ticketPrice: "₹350",
+          categories: ["Championship", "Youth", "Storytelling", "Mentorship"],
         },
       ])
     }, 0)
@@ -119,13 +135,8 @@ const getEvents = () => {
 }
 
 export default function EventsPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
   const [events, setEvents] = useState([])
   const [highlightedEvents, setHighlightedEvents] = useState([])
-  const [filteredEvents, setFilteredEvents] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [activeCategory, setActiveCategory] = useState("all")
   const [loading, setLoading] = useState(true)
   const [currentSlide, setCurrentSlide] = useState(0)
   const carouselRef = useRef(null)
@@ -149,19 +160,6 @@ export default function EventsPage() {
     const fetchEvents = async () => {
       try {
         const data = await getEvents()
-
-        // Parse url params if any
-        const category = searchParams.get("category")
-        const search = searchParams.get("search")
-
-        if (search) {
-          setSearchTerm(search)
-        }
-
-        if (category && category !== "all") {
-          setActiveCategory(category)
-        }
-
         setEvents(data)
         setHighlightedEvents(data.filter((event) => event.highlighted))
         setLoading(false)
@@ -172,70 +170,6 @@ export default function EventsPage() {
     }
 
     fetchEvents()
-  }, [searchParams])
-
-  // Filter events based on search term and active category
-  useEffect(() => {
-    let filtered = [...events]
-
-    // Apply search filter
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase()
-      filtered = filtered.filter(
-        (event) =>
-          event.title.toLowerCase().includes(term) ||
-          event.description.toLowerCase().includes(term) ||
-          event.location.toLowerCase().includes(term) ||
-          event.clubName.toLowerCase().includes(term) ||
-          event.categories.some((cat) => cat.toLowerCase().includes(term)),
-      )
-    }
-
-    // Apply category filter
-    if (activeCategory !== "all") {
-      if (activeCategory === "upcoming") {
-        filtered = filtered.filter((event) => new Date(event.date) >= new Date())
-      } else if (activeCategory === "past") {
-        filtered = filtered.filter((event) => new Date(event.date) < new Date())
-      } else {
-        // Filter by specific category
-        filtered = filtered.filter((event) =>
-          event.categories.some((cat) => cat.toLowerCase() === activeCategory.toLowerCase()),
-        )
-      }
-    }
-
-    // Sort by date (upcoming first, then past)
-    filtered.sort((a, b) => {
-      const dateA = new Date(a.date)
-      const dateB = new Date(b.date)
-      const now = new Date()
-
-      // Both upcoming or both past
-      if ((dateA >= now && dateB >= now) || (dateA < now && dateB < now)) {
-        return dateA - dateB
-      }
-
-      // A is upcoming, B is past
-      if (dateA >= now && dateB < now) {
-        return -1
-      }
-
-      // A is past, B is upcoming
-      return 1
-    })
-
-    setFilteredEvents(filtered)
-  }, [events, searchTerm, activeCategory])
-
-  // Extract all unique categories from events
-  const allCategories = events.reduce((cats, event) => {
-    event.categories.forEach((cat) => {
-      if (!cats.includes(cat)) {
-        cats.push(cat)
-      }
-    })
-    return cats
   }, [])
 
   const nextSlide = () => {
@@ -250,24 +184,8 @@ export default function EventsPage() {
     setCurrentSlide((current) => (current === 0 ? highlightedEvents.length - 1 : current - 1))
   }
 
-  const isEventUpcoming = (date) => {
-    return new Date(date) >= new Date()
-  }
-
   const totalEvents = events.length
-  const upcomingCount = events.filter((event) => isEventUpcoming(event.date)).length
-  const pastCount = totalEvents - upcomingCount
   const clubCount = new Set(events.map((event) => event.clubName)).size
-
-  const handleSearch = (e) => {
-    e.preventDefault()
-    router.push(`/events?search=${encodeURIComponent(searchTerm)}`)
-  }
-
-  const handleCategoryChange = (category) => {
-    setActiveCategory(category)
-    router.push(`/events?category=${encodeURIComponent(category)}`)
-  }
 
   if (loading) {
     return (
@@ -310,18 +228,10 @@ export default function EventsPage() {
                   </Button>
                 </div>
               </div>
-              <div className="grid w-full max-w-md grid-cols-2 gap-3 text-sm">
+              <div className="grid w-full max-w-sm grid-cols-2 gap-3 text-sm">
                 <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
                   <div className="text-2xl font-semibold font-serif">{totalEvents}</div>
                   <p className="text-[#6E5C4C]">Total events</p>
-                </div>
-                <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
-                  <div className="text-2xl font-semibold font-serif">{upcomingCount}</div>
-                  <p className="text-[#6E5C4C]">Upcoming gatherings</p>
-                </div>
-                <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
-                  <div className="text-2xl font-semibold font-serif">{pastCount}</div>
-                  <p className="text-[#6E5C4C]">Past highlights</p>
                 </div>
                 <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
                   <div className="text-2xl font-semibold font-serif">{clubCount}</div>
@@ -430,205 +340,84 @@ export default function EventsPage() {
             <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl font-serif">Find your next stage</h2>
           </div>
           <div className="text-sm text-[#6E5C4C]">
-            {filteredEvents.length} event{filteredEvents.length === 1 ? "" : "s"} match your filters.
+            {events.length} event{events.length === 1 ? "" : "s"} available.
           </div>
         </div>
 
-        <div className="mt-8 rounded-3xl border border-[#E7DCCF] bg-white/80 p-6 shadow-sm backdrop-blur">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <form onSubmit={handleSearch} className="flex w-full max-w-xl gap-3">
-              <div className="relative flex-grow">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8A6D4D]" />
-                <Input
-                  placeholder="Search by event, club, city, or category"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="h-11 w-full rounded-full border-[#E7DCCF] bg-white/90 pl-10 text-sm"
-                />
-              </div>
-              <Button type="submit" className="h-11 rounded-full bg-[#1F1B16] text-white hover:bg-[#2A231D]">
-                Search
-              </Button>
-            </form>
-
-            <div className="w-full overflow-x-auto">
-              <Tabs value={activeCategory} onValueChange={handleCategoryChange} className="w-full">
-                <TabsList className="flex w-max gap-2 bg-transparent p-0">
-                  <TabsTrigger
-                    value="all"
-                    className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
-                  >
-                    All Events
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="upcoming"
-                    className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
-                  >
-                    Upcoming
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="past"
-                    className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
-                  >
-                    Past Events
-                  </TabsTrigger>
-                  {allCategories.map((category) => (
-                    <TabsTrigger
-                      key={category}
-                      value={category.toLowerCase()}
-                      className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
-                    >
-                      {category}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
-            </div>
-          </div>
-        </div>
-
-        {filteredEvents.length === 0 ? (
+        {events.length === 0 ? (
           <div className="mt-10 rounded-3xl border border-dashed border-[#E7DCCF] bg-white/70 p-10 text-center">
-            <p className="text-[#6E5C4C]">No events found matching your criteria.</p>
-            <Button
-              onClick={() => {
-                setSearchTerm("")
-                setActiveCategory("all")
-                router.push("/events")
-              }}
-              className="mt-6 rounded-full bg-[#1F1B16] text-white hover:bg-[#2A231D]"
-            >
-              Clear Filters
-            </Button>
+            <p className="text-[#6E5C4C]">No events available right now.</p>
           </div>
         ) : (
-          <div className="mt-10 space-y-12">
-            {filteredEvents.some((event) => isEventUpcoming(event.date)) && (
-              <section>
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-semibold tracking-tight font-serif">Upcoming Events</h3>
-                  <span className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Stay ahead</span>
-                </div>
-                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {filteredEvents
-                    .filter((event) => isEventUpcoming(event.date))
-                    .map((event) => (
-                      <Link key={event.id} href={`/events/${event.slug}`} className="group">
-                        <Card className="h-full overflow-hidden rounded-3xl border border-[#EFE4D6] bg-white/90 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                          <div className="relative aspect-[16/10]">
-                            <Image
-                              src={
-                                event.image ||
-                                `/placeholder.svg?height=260&width=460&text=${encodeURIComponent(event.title)}`
-                              }
-                              alt={event.title}
-                              fill
-                              className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                            <div className="absolute left-5 bottom-5 flex flex-wrap gap-2">
-                              {event.categories.slice(0, 2).map((category) => (
-                                <span
-                                  key={category}
-                                  className="rounded-full bg-white/80 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-[#1F1B16]"
-                                >
-                                  {category}
-                                </span>
-                              ))}
-                            </div>
-                            {event.highlighted && (
-                              <div className="absolute top-4 right-4">
-                                <Badge className="rounded-full bg-[#F3C969] text-[#1F1B16]">
-                                  <Star className="mr-1 h-3 w-3" />
-                                  Featured
-                                </Badge>
-                              </div>
-                            )}
-                          </div>
-                          <div className="p-6">
-                            <h4 className="text-lg font-semibold tracking-tight text-[#1F1B16] group-hover:text-[#5B3B1D]">
-                              {event.title}
-                            </h4>
-                            <div className="mt-3 space-y-2 text-sm text-[#6E5C4C]">
-                              <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4" />
-                                <span>
-                                  {event.formattedDate} • {event.time}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <MapPin className="h-4 w-4" />
-                                <span>{event.location}</span>
-                              </div>
-                            </div>
-                            <p className="mt-4 text-sm text-[#5B4E44] line-clamp-2">{event.description}</p>
-                            <div className="mt-6 flex items-center justify-between text-sm">
-                              <span className="text-[#6E5C4C]">{event.clubName}</span>
-                              <span className="inline-flex items-center gap-2 font-medium text-[#1F1B16]">
-                                View Details <ArrowUpRight className="h-4 w-4" />
-                              </span>
-                            </div>
-                          </div>
-                        </Card>
-                      </Link>
-                    ))}
-                </div>
-              </section>
-            )}
-
-            {filteredEvents.some((event) => !isEventUpcoming(event.date)) && (
-              <section>
-                <Separator className="my-8 bg-[#E7DCCF]" />
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-semibold tracking-tight font-serif">Past Events</h3>
-                  <span className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Highlights</span>
-                </div>
-                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {filteredEvents
-                    .filter((event) => !isEventUpcoming(event.date))
-                    .map((event) => (
-                      <Link key={event.id} href={`/events/${event.slug}`} className="group">
-                        <Card className="h-full overflow-hidden rounded-3xl border border-[#EFE4D6] bg-white/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                          <div className="relative aspect-[16/10]">
-                            <Image
-                              src={
-                                event.image ||
-                                `/placeholder.svg?height=260&width=460&text=${encodeURIComponent(event.title)}`
-                              }
-                              alt={event.title}
-                              fill
-                              className="object-cover grayscale transition duration-500 group-hover:grayscale-0"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
-                            <div className="absolute left-5 bottom-5 text-xs uppercase tracking-[0.3em] text-white/80">
-                              Past Event
-                            </div>
-                          </div>
-                          <div className="p-6">
-                            <h4 className="text-lg font-semibold tracking-tight text-[#1F1B16] group-hover:text-[#5B3B1D]">
-                              {event.title}
-                            </h4>
-                            <div className="mt-3 space-y-2 text-sm text-[#6E5C4C]">
-                              <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4" />
-                                <span>
-                                  {event.formattedDate} • {event.time}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <MapPin className="h-4 w-4" />
-                                <span>{event.location}</span>
-                              </div>
-                            </div>
-                            <p className="mt-4 text-sm text-[#5B4E44] line-clamp-2">{event.description}</p>
-                            <div className="mt-6 text-sm text-[#6E5C4C]">{event.clubName}</div>
-                          </div>
-                        </Card>
-                      </Link>
-                    ))}
-                </div>
-              </section>
-            )}
+          <div className="mt-10 space-y-6">
+            {events.map((event) => (
+              <Link key={event.id} href={`/events/${event.slug}`} className="group block">
+                <Card className="overflow-hidden rounded-3xl border border-[#EFE4D6] bg-white/90 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                  <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+                    <div className="relative h-56 md:h-full">
+                      <Image
+                        src={
+                          event.image || `/placeholder.svg?height=260&width=460&text=${encodeURIComponent(event.title)}`
+                        }
+                        alt={event.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                      <div className="absolute left-5 bottom-5 flex flex-wrap gap-2">
+                        {event.categories.slice(0, 2).map((category) => (
+                          <span
+                            key={category}
+                            className="rounded-full bg-white/80 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-[#1F1B16]"
+                          >
+                            {category}
+                          </span>
+                        ))}
+                      </div>
+                      {event.highlighted && (
+                        <div className="absolute top-4 right-4">
+                          <Badge className="rounded-full bg-[#F3C969] text-[#1F1B16]">
+                            <Star className="mr-1 h-3 w-3" />
+                            Featured
+                          </Badge>
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-6">
+                      <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-[#8A6D4D]">
+                        <span>{event.clubName}</span>
+                        <span className="h-1 w-1 rounded-full bg-[#D9C7B4]" />
+                        <span>{event.ticketPrice}</span>
+                      </div>
+                      {event.partner && (
+                        <div className="mt-2 text-sm text-[#6E5C4C]">
+                          <span className="font-medium text-[#5B4E44]">Partner:</span> {event.partner}
+                        </div>
+                      )}
+                      <h4 className="mt-3 text-2xl font-semibold tracking-tight text-[#1F1B16] group-hover:text-[#5B3B1D]">
+                        {event.title}
+                      </h4>
+                      <p className="mt-3 text-sm text-[#5B4E44] line-clamp-3">{event.description}</p>
+                      <div className="mt-5 flex flex-wrap gap-4 text-sm text-[#6E5C4C]">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-4 w-4" />
+                          <span>
+                            {event.formattedDate} • {event.time}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4" />
+                          <span>{event.location}</span>
+                        </div>
+                      </div>
+                      <div className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#1F1B16]">
+                        View Details <ArrowUpRight className="h-4 w-4" />
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            ))}
           </div>
         )}
       </div>
