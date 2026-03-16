@@ -2,6 +2,7 @@ import { Roboto } from 'next/font/google'
 import { MainNav } from "@/components/ui/NavBar";
 import { AuthProvider } from '@/context/auth-context';
 import Fotter from '@/components/Fotter';
+import { Analytics } from '@vercel/analytics/react';
 import EventAnnouncementBar from '@/components/EventAnnouncementBar';
 import "./globals.css";
  
@@ -19,6 +20,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased bg-[#FAF9F9] `}>
+        <Analytics />
       <AuthProvider>
         <MainNav />
         <EventAnnouncementBar />
