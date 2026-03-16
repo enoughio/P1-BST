@@ -2,6 +2,7 @@ import { Roboto } from 'next/font/google'
 import { MainNav } from "@/components/ui/NavBar";
 import { AuthProvider } from '@/context/auth-context';
 import Fotter from '@/components/Fotter';
+import EventAnnouncementBar from '@/components/EventAnnouncementBar';
 import "./globals.css";
  
 const roboto = Roboto({
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
       <body className={`${roboto.className} antialiased bg-[#FAF9F9] `}>
       <AuthProvider>
         <MainNav />
+        <EventAnnouncementBar />
         {children}
         <Fotter />
       </AuthProvider>
