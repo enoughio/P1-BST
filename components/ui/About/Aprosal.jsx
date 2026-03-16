@@ -1,42 +1,48 @@
-"use client";
-import { groupPhoto, storyTellingImage } from "@/lib/data/images";
+import { groupPhoto } from "@/lib/data/images";
 import Image from "next/image";
-import React from 'react';
+import React from "react";
 
 const StorytellingCommunitySection = () => {
   return (
-    <div className="w-full bg-pink-50 p-4 md:p-6 lg:p-8 rounded-lg">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-4 md:gap-6 lg:gap-8">
-        {/* Image Section */}
-        <div className="w-full md:w-1/2 rounded-lg overflow-hidden max-h-[40vh] md:max-h-[40vh]">
-          <Image
-            src={groupPhoto} 
-            alt="Teacher reading to children"
-            width={600}
-            height={400}
-            className="w-full h-full object-left-top rounded-lg"
-          />
+    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 p-6 shadow-sm md:p-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 md:flex-row md:items-center">
+        <div className="w-full md:w-1/2">
+          <div className="rounded-3xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/85 to-blue-100/60 p-3 shadow-sm">
+            <Image
+              src={groupPhoto}
+              alt="Teacher reading to children"
+              width={640}
+              height={420}
+              className="w-full rounded-2xl object-cover"
+            />
+          </div>
         </div>
-        
-        {/* Content Section */}
-        <div className="w-full md:w-1/2 py-4 md:py-6 px-2 md:px-4">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 md:mb-4">
-            Become Part of Our Storytelling Community!
+
+        <div className="w-full md:w-1/2 space-y-4">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Community</p>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#1F1B16] font-serif">
+            Become part of our storytelling community.
           </h2>
-          
-          <p className="text-sm md:text-base text-gray-700 mb-6">
-            At obcaecati consequatur ut aliquam architecto qui esse ducimus et omnis quia quo nisi quasi et accusamus doloribus. Id dolores temporibus et tempora iste et provident explicabo est omnis earum At perspiciatis nesciunt.
+          <p className="text-sm md:text-base text-[#5B4E44]">
+            At obcaecati consequatur ut aliquam architecto qui esse ducimus et omnis quia quo nisi quasi
+            et accusamus doloribus. Id dolores temporibus et tempora iste et provident explicabo est omnis
+            earum At perspiciatis nesciunt.
           </p>
-          
-          <button className="bg-pink-200 hover:bg-pink-300 text-gray-800 font-medium py-2 px-4 md:px-6 rounded-full flex items-center transition duration-300">
+          <button className="mt-2 inline-flex items-center gap-2 rounded-full border border-[#1F1B16] bg-[#1F1B16] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#2A231D]">
             BECOME A MEMBER
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

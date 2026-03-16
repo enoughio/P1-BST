@@ -23,7 +23,7 @@ const CoachingCarousel = () => {
   ];
 
   return (
-    <section className="w-full rounded-[28px] border border-[#E7DCCF] bg-[#FBF4EA] px-6 py-10 shadow-sm">
+    <section className="w-full rounded-[28px] border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 px-6 py-10 shadow-sm">
       <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-start">
         <div className="space-y-4">
           <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Why we are different</p>
@@ -34,14 +34,14 @@ const CoachingCarousel = () => {
             We believe the best way to improve your public speaking is through practice, feedback, and hard
             work. Our coaching sessions are designed to build skills you can use immediately.
           </p>
-          <div className="rounded-2xl border border-[#EFE4D6] bg-white/90 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
+          <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-r from-red-100/60 to-blue-100/60 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
             Focused practice. Real audiences. Repeatable growth.
           </div>
         </div>
 
         <ol className="space-y-4">
           {cards.map((card, index) => (
-            <li key={card.id} className="rounded-2xl border border-[#EFE4D6] bg-white/95 p-5 shadow-sm">
+            <li key={card.id} className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-blue-50/70 p-5 shadow-sm">
               <div className="flex items-start gap-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E7DCCF] text-sm font-semibold text-[#1F1B16]">
                   0{index + 1}

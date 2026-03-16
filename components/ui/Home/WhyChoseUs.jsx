@@ -30,8 +30,8 @@ const features = [
 export function WhyChooseUs() {
   return (
     <section className="mx-auto my-8 flex w-full flex-col gap-8 md:w-[93%]">
-      <div className="relative overflow-hidden rounded-[36px] border border-[#E7DCCF] bg-[#FBF4EA] px-6 py-12 shadow-sm sm:px-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(232,216,198,0.8),transparent_55%),radial-gradient(circle_at_85%_0%,rgba(201,220,247,0.6),transparent_50%)]" />
+      <div className="relative overflow-hidden rounded-[36px] border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 px-6 py-12 shadow-sm sm:px-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(255,220,220,0.8),transparent_55%),radial-gradient(circle_at_85%_0%,rgba(200,220,255,0.7),transparent_50%)]" />
         <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
           <div>
             <p className="text-xs uppercase tracking-[0.32em] text-[#8A6D4D]">Why Choose Us</p>
@@ -58,7 +58,7 @@ export function WhyChooseUs() {
               {features.map((feature) => (
                 <div
                   key={feature.title}
-                  className="rounded-2xl border border-white/70 bg-white/80 p-4 text-sm text-[#5B4E44] shadow-sm"
+                  className="rounded-2xl border border-white/70 bg-gradient-to-br from-white via-white/90 to-blue-50/70 p-4 text-sm text-[#5B4E44] shadow-sm"
                 >
                   <h3 className="text-base font-semibold tracking-tight text-[#1F1B16]">{feature.title}</h3>
                   <p className="mt-2 text-xs leading-relaxed">{feature.description}</p>
@@ -67,7 +67,7 @@ export function WhyChooseUs() {
             </div>
           </div>
           <div className="grid gap-4">
-            <div className="rounded-2xl border border-[#EFE4D6] bg-white/80 p-6 shadow-sm">
+            <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-red-50/60 p-6 shadow-sm">
               <h2 className="text-sm uppercase tracking-[0.25em] text-[#8A6D4D]">Coaching Snapshot</h2>
               <div className="mt-4 space-y-3 text-sm text-[#5B4E44]">
                 <p>Expert coaches who guide your voice, structure, and stage presence.</p>
@@ -75,7 +75,7 @@ export function WhyChooseUs() {
                 <p>Personalized pathways that adapt to your goals.</p>
               </div>
             </div>
-            <div className="rounded-2xl border border-[#EFE4D6] bg-white/90 p-6 shadow-sm">
+            <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-blue-50/70 p-6 shadow-sm">
               <h2 className="text-sm uppercase tracking-[0.25em] text-[#8A6D4D]">What You Get</h2>
               <ul className="mt-4 space-y-3 text-sm text-[#5B4E44]">
                 <li>Weekly practice circles with guided feedback.</li>
@@ -87,7 +87,7 @@ export function WhyChooseUs() {
         </div>
       </div>
 
-      <div className="rounded-3xl border border-[#E7DCCF] bg-white/80 p-6 shadow-sm">
+      <div className="rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-50/60 via-white to-blue-50/60 p-6 shadow-sm">
         <CoachingCarousel />
       </div>
     </section>

@@ -25,17 +25,17 @@ const PublicSpeakingSection = () => {
   ];
 
   return (
-    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-white px-4 py-10 shadow-sm md:mx-12 md:px-8">
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(251,244,234,0.85),rgba(255,255,255,0.7))]" />
+    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 px-4 py-10 shadow-sm md:mx-12 md:px-8">
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,240,240,0.85),rgba(240,248,255,0.75))]" />
       <div className="relative container mx-auto">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="space-y-4 rounded-2xl border border-[#EFE4D6] bg-[#FBF4EA] p-6 shadow-sm">
+          <div className="space-y-4 rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-red-50/80 via-white to-blue-50/80 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Skill Focus</p>
             <h2 className="text-3xl font-semibold tracking-tight text-[#1F1B16] md:text-4xl font-serif">
               {title}
             </h2>
             <p className="text-sm leading-relaxed text-[#5B4E44] md:text-base">{description}</p>
-            <div className="rounded-xl border border-[#E7DCCF] bg-white/80 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
+            <div className="rounded-xl border border-[#E7DCCF] bg-gradient-to-r from-red-100/60 to-blue-100/60 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
               Confidence is a practiced skill.
             </div>
           </div>
@@ -44,7 +44,7 @@ const PublicSpeakingSection = () => {
             {items.map((item, index) => (
               <div
                 key={item.title}
-                className="relative overflow-hidden rounded-2xl border border-[#EFE4D6] bg-white/95 p-5 shadow-sm"
+                className="relative overflow-hidden rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-blue-50/70 p-5 shadow-sm"
               >
                 <span className="absolute -right-6 -top-6 text-6xl font-semibold text-[#F2E6D8]">{index + 1}</span>
                 <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Benefit</p>
