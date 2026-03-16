@@ -30,25 +30,45 @@ const WhyStorytelling = () => {
   ];
 
   return (
-    <section className="my-2 py-4 md:mt-10 mx-2 md:mx-12 border-t-2 border-gray-200 shadow-md rounded-lg bg-gradient-to-b from-[#E6F7FF]/20 to-[#F1D2D4]">
-      <div className="container mx-auto px-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 text-start">{title}</h2>
-        <p className="text-gray-600 text-start mb-5 max-w-3xl leading-5">{description}</p>
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5">
+    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-white px-4 py-10 shadow-sm md:mx-12 md:px-8">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(243,231,216,0.7),transparent_55%),radial-gradient(circle_at_80%_10%,rgba(230,247,255,0.6),transparent_50%)]" />
+      <div className="relative container mx-auto">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Narrative Power</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#1F1B16] md:text-4xl font-serif">
+              {title}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#5B4E44] md:text-base">{description}</p>
+          </div>
+          <div className="rounded-full border border-[#E7DCCF] bg-white/80 px-5 py-2 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
+            Stories that stay
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-2 md:p-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col max-h-[350px] items-center text-center"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#EFE4D6] bg-white/90 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              <Image
-                src={item.image}
-                alt={item.title}
-                className="w-full h-40 object-cover mb-4 pt-2 rounded"
-                width={150}
-                height={150}
-              />
-              <h3 className="text-lg font-semibold  mb-2 leading-5">{item.title}</h3>
-              <p className="text-gray-600 text-sm">{item.description}</p>
+              <div className="relative h-40">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  width={220}
+                  height={160}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
+                <span className="absolute right-4 top-4 rounded-full bg-white/80 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-[#1F1B16]">
+                  Insight {index + 1}
+                </span>
+              </div>
+              <div className="flex flex-1 flex-col gap-2 p-5">
+                <h3 className="text-base font-semibold tracking-tight text-[#1F1B16]">{item.title}</h3>
+                <p className="text-sm text-[#5B4E44]">{item.description}</p>
+              </div>
             </div>
           ))}
         </div>

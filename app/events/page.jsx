@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, ChevronLeft, ChevronRight, MapPin, Search, Star } from "lucide-react"
+import { ArrowUpRight, Calendar, ChevronLeft, ChevronRight, MapPin, Search, Star } from "lucide-react"
 import Link from "next/link"
 import { bhopalStorytellersImg, BISF } from "@/lib/data/images"
 import Image from "next/image"
@@ -254,6 +254,11 @@ export default function EventsPage() {
     return new Date(date) >= new Date()
   }
 
+  const totalEvents = events.length
+  const upcomingCount = events.filter((event) => isEventUpcoming(event.date)).length
+  const pastCount = totalEvents - upcomingCount
+  const clubCount = new Set(events.map((event) => event.clubName)).size
+
   const handleSearch = (e) => {
     e.preventDefault()
     router.push(`/events?search=${encodeURIComponent(searchTerm)}`)
@@ -278,263 +283,351 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero section with auto-sliding carousel */}
+    <div className="min-h-screen bg-[#FAF6EF] text-[#1F1B16]">
       {highlightedEvents.length > 0 && (
-        <div className="relative bg-gray-100 text-white overflow-hidden">
-          <div
-            ref={carouselRef}
-            className="relative h-[70vh] transition-all duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            <div className="absolute inset-0 flex">
-              {highlightedEvents.map((event, index) => (
-                <div
-                  key={event.id}
-                  className="relative min-w-full h-full flex items-center"
-                  style={{ left: `${index * 100}%` }}
-                >
-                  <div className="absolute inset-0   z-10"></div>
-                  <Image
-                    src={
-                      event.image || `/placeholder.svg?height=700&width=1400&text=${encodeURIComponent(event.title)}`
-                    }
-                    width={300}
-                    height={300}
-                    alt={event.title}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  <div className="container mx-auto px-4 md:px-8 relative z-20">
-                    <div className="max-w-3xl">
-                      <Badge className="bg-yellow-500 text-white mb-4">
-                        <Star className="mr-1 h-3 w-3" />
-                        Featured Event
-                      </Badge>
-                      <h1 className="text-3xl md:text-5xl font-bold mb-4">{event.title}</h1>
-                      <p className="text-lg md:text-xl mb-6 text-gray-100">{event.description}</p>
-                      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <div className="flex items-center">
-                          <Calendar className="h-5 w-5 mr-2" />
-                          <span>{event.formattedDate}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <MapPin className="h-5 w-5 mr-2" />
-                          <span>{event.location}</span>
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute -top-24 right-10 h-72 w-72 rounded-full bg-[#E8D8C6] blur-3xl opacity-60" />
+            <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#F3E7D8] blur-3xl opacity-80" />
+            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/80 to-transparent" />
+          </div>
+          <div className="relative container mx-auto px-4 py-14">
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Bharat Storytellers</p>
+                <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl font-serif">
+                  Events designed to move an audience
+                </h1>
+                <p className="mt-4 text-base text-[#5B4E44] sm:text-lg">
+                  Discover workshops, festivals, and competitions crafted by leading storyteller clubs across India.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Button asChild className="rounded-full bg-[#1F1B16] text-white hover:bg-[#2A231D]">
+                    <Link href="/events?category=upcoming">Browse Upcoming</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="rounded-full border-[#1F1B16] text-[#1F1B16]">
+                    <Link href="/events">View All Events</Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="grid w-full max-w-md grid-cols-2 gap-3 text-sm">
+                <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
+                  <div className="text-2xl font-semibold font-serif">{totalEvents}</div>
+                  <p className="text-[#6E5C4C]">Total events</p>
+                </div>
+                <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
+                  <div className="text-2xl font-semibold font-serif">{upcomingCount}</div>
+                  <p className="text-[#6E5C4C]">Upcoming gatherings</p>
+                </div>
+                <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
+                  <div className="text-2xl font-semibold font-serif">{pastCount}</div>
+                  <p className="text-[#6E5C4C]">Past highlights</p>
+                </div>
+                <div className="rounded-2xl border border-[#E7DCCF] bg-white/80 p-4 shadow-sm backdrop-blur">
+                  <div className="text-2xl font-semibold font-serif">{clubCount}</div>
+                  <p className="text-[#6E5C4C]">Active clubs</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative mt-12 overflow-hidden rounded-[32px] border border-white/70 bg-white/60 shadow-2xl">
+              <div
+                ref={carouselRef}
+                className="relative h-[60vh] min-h-[420px] transition-all duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                <div className="absolute inset-0 flex">
+                  {highlightedEvents.map((event, index) => (
+                    <div
+                      key={event.id}
+                      className="relative min-w-full h-full flex items-center"
+                      style={{ left: `${index * 100}%` }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#1F1B16]/80 via-[#1F1B16]/40 to-transparent z-10" />
+                      <Image
+                        src={
+                          event.image || `/placeholder.svg?height=700&width=1400&text=${encodeURIComponent(event.title)}`
+                        }
+                        width={1400}
+                        height={700}
+                        alt={event.title}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        priority={index === 0}
+                      />
+                      <div className="container mx-auto px-6 relative z-20">
+                        <div className="max-w-2xl text-white">
+                          <Badge className="mb-4 rounded-full bg-[#F3C969] text-[#1F1B16]">
+                            <Star className="mr-1 h-3 w-3" />
+                            Featured Event
+                          </Badge>
+                          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl font-serif">
+                            {event.title}
+                          </h2>
+                          <p className="mt-4 text-base text-white/85 sm:text-lg">{event.description}</p>
+                          <div className="mt-6 flex flex-wrap gap-4 text-sm text-white/80">
+                            <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+                              <Calendar className="h-4 w-4" />
+                              <span>{event.formattedDate}</span>
+                            </div>
+                            <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2">
+                              <MapPin className="h-4 w-4" />
+                              <span>{event.location}</span>
+                            </div>
+                          </div>
+                          <div className="mt-6 flex items-center gap-4">
+                            <Button asChild className="rounded-full bg-white text-[#1F1B16] hover:bg-white/90">
+                              <Link href={`/events/${event.slug}`}>View Details</Link>
+                            </Button>
+                            <div className="text-sm text-white/70">Hosted by {event.clubName}</div>
+                          </div>
                         </div>
                       </div>
-                      <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                        <Link href={`/events/${event.slug}`}>View Details</Link>
-                      </Button>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {highlightedEvents.length > 1 && (
+                <>
+                  <button
+                    onClick={prevSlide}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/70 p-2 text-[#1F1B16] shadow hover:bg-white"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={nextSlide}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/70 p-2 text-[#1F1B16] shadow hover:bg-white"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+
+                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
+                    {highlightedEvents.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`h-2 w-8 rounded-full transition-all ${
+                          currentSlide === index ? "bg-white" : "bg-white/50"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
-
-          {/* Carousel controls */}
-          {highlightedEvents.length > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-30"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 z-30"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
-                {highlightedEvents.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-2 w-2 rounded-full ${currentSlide === index ? "bg-white" : "bg-white/50"}`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
+        </section>
       )}
 
-      {/* Main content */}
-      <div className="container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold mb-8 text-gray-900">Events</h2>
+      <div className="container mx-auto px-4 py-14">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">All Events</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl font-serif">Find your next stage</h2>
+          </div>
+          <div className="text-sm text-[#6E5C4C]">
+            {filteredEvents.length} event{filteredEvents.length === 1 ? "" : "s"} match your filters.
+          </div>
+        </div>
 
-        {/* Search and filter section */}
-        <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <div className="md:w-96">
-            <form onSubmit={handleSearch} className="flex gap-2">
+        <div className="mt-8 rounded-3xl border border-[#E7DCCF] bg-white/80 p-6 shadow-sm backdrop-blur">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <form onSubmit={handleSearch} className="flex w-full max-w-xl gap-3">
               <div className="relative flex-grow">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8A6D4D]" />
                 <Input
-                  placeholder="Search events..."
+                  placeholder="Search by event, club, city, or category"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-8 border-gray-200"
+                  className="h-11 w-full rounded-full border-[#E7DCCF] bg-white/90 pl-10 text-sm"
                 />
               </div>
-              <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button type="submit" className="h-11 rounded-full bg-[#1F1B16] text-white hover:bg-[#2A231D]">
                 Search
               </Button>
             </form>
-          </div>
 
-          <div className="flex-grow overflow-x-auto">
-            <Tabs value={activeCategory} onValueChange={handleCategoryChange} className="w-full">
-              <TabsList className="flex justify-start h-10 bg-transparent">
-                <TabsTrigger value="all" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  All Events
-                </TabsTrigger>
-                <TabsTrigger
-                  value="upcoming"
-                  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
-                >
-                  Upcoming
-                </TabsTrigger>
-                <TabsTrigger value="past" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                  Past Events
-                </TabsTrigger>
-                {allCategories.map((category) => (
+            <div className="w-full overflow-x-auto">
+              <Tabs value={activeCategory} onValueChange={handleCategoryChange} className="w-full">
+                <TabsList className="flex w-max gap-2 bg-transparent p-0">
                   <TabsTrigger
-                    key={category}
-                    value={category.toLowerCase()}
-                    className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                    value="all"
+                    className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
                   >
-                    {category}
+                    All Events
                   </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
+                  <TabsTrigger
+                    value="upcoming"
+                    className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
+                  >
+                    Upcoming
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="past"
+                    className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
+                  >
+                    Past Events
+                  </TabsTrigger>
+                  {allCategories.map((category) => (
+                    <TabsTrigger
+                      key={category}
+                      value={category.toLowerCase()}
+                      className="rounded-full border border-transparent bg-[#F5EEE6] px-4 py-2 text-xs uppercase tracking-[0.15em] text-[#6E5C4C] data-[state=active]:border-[#1F1B16] data-[state=active]:bg-white data-[state=active]:text-[#1F1B16]"
+                    >
+                      {category}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+            </div>
           </div>
         </div>
 
-        {/* Events listing */}
         {filteredEvents.length === 0 ? (
-          <div className="text-center py-12 bg-gray-50 rounded-lg">
-            <p className="text-gray-500 mb-4">No events found matching your criteria.</p>
+          <div className="mt-10 rounded-3xl border border-dashed border-[#E7DCCF] bg-white/70 p-10 text-center">
+            <p className="text-[#6E5C4C]">No events found matching your criteria.</p>
             <Button
               onClick={() => {
                 setSearchTerm("")
                 setActiveCategory("all")
                 router.push("/events")
               }}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="mt-6 rounded-full bg-[#1F1B16] text-white hover:bg-[#2A231D]"
             >
               Clear Filters
             </Button>
           </div>
         ) : (
-          <div className="space-y-8">
-            {/* Upcoming Events Section */}
+          <div className="mt-10 space-y-12">
             {filteredEvents.some((event) => isEventUpcoming(event.date)) && (
-              <div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Upcoming Events</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <section>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-semibold tracking-tight font-serif">Upcoming Events</h3>
+                  <span className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Stay ahead</span>
+                </div>
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                   {filteredEvents
                     .filter((event) => isEventUpcoming(event.date))
                     .map((event) => (
                       <Link key={event.id} href={`/events/${event.slug}`} className="group">
-                        <Card className="h-full overflow-hidden hover:shadow-md transition-shadow">
-                          <div className="relative aspect-video bg-gray-100">
-                            <img
+                        <Card className="h-full overflow-hidden rounded-3xl border border-[#EFE4D6] bg-white/90 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                          <div className="relative aspect-[16/10]">
+                            <Image
                               src={
                                 event.image ||
-                                `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(event.title)}`
+                                `/placeholder.svg?height=260&width=460&text=${encodeURIComponent(event.title)}`
                               }
                               alt={event.title}
-                              className="w-full h-full object-cover"
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-105"
                             />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                            <div className="absolute left-5 bottom-5 flex flex-wrap gap-2">
+                              {event.categories.slice(0, 2).map((category) => (
+                                <span
+                                  key={category}
+                                  className="rounded-full bg-white/80 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-[#1F1B16]"
+                                >
+                                  {category}
+                                </span>
+                              ))}
+                            </div>
                             {event.highlighted && (
-                              <div className="absolute top-2 right-2">
-                                <Badge className="bg-yellow-500 text-white">
+                              <div className="absolute top-4 right-4">
+                                <Badge className="rounded-full bg-[#F3C969] text-[#1F1B16]">
                                   <Star className="mr-1 h-3 w-3" />
                                   Featured
                                 </Badge>
                               </div>
                             )}
                           </div>
-                          <div className="p-4">
-                            <h4 className="font-bold text-lg mb-2 text-gray-900 group-hover:text-blue-600">
+                          <div className="p-6">
+                            <h4 className="text-lg font-semibold tracking-tight text-[#1F1B16] group-hover:text-[#5B3B1D]">
                               {event.title}
                             </h4>
-                            <div className="flex flex-col gap-1 mb-2 text-sm text-gray-500">
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-1" />
-                                {event.formattedDate} • {event.time}
+                            <div className="mt-3 space-y-2 text-sm text-[#6E5C4C]">
+                              <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4" />
+                                <span>
+                                  {event.formattedDate} • {event.time}
+                                </span>
                               </div>
-                              <div className="flex items-center">
-                                <MapPin className="h-4 w-4 mr-1" />
-                                {event.location}
+                              <div className="flex items-center gap-2">
+                                <MapPin className="h-4 w-4" />
+                                <span>{event.location}</span>
                               </div>
                             </div>
-                            <p className="text-sm text-gray-600 line-clamp-2 mb-4">{event.description}</p>
-                            <div className="flex items-center justify-between">
-                              <div className="text-sm text-gray-500">{event.clubName}</div>
-                              <div className="text-sm font-medium text-blue-600">View Details →</div>
+                            <p className="mt-4 text-sm text-[#5B4E44] line-clamp-2">{event.description}</p>
+                            <div className="mt-6 flex items-center justify-between text-sm">
+                              <span className="text-[#6E5C4C]">{event.clubName}</span>
+                              <span className="inline-flex items-center gap-2 font-medium text-[#1F1B16]">
+                                View Details <ArrowUpRight className="h-4 w-4" />
+                              </span>
                             </div>
                           </div>
                         </Card>
                       </Link>
                     ))}
                 </div>
-              </div>
+              </section>
             )}
 
-            {/* Past Events Section */}
             {filteredEvents.some((event) => !isEventUpcoming(event.date)) && (
-              <div>
-                <Separator className="my-8" />
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">Past Events</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <section>
+                <Separator className="my-8 bg-[#E7DCCF]" />
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-semibold tracking-tight font-serif">Past Events</h3>
+                  <span className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Highlights</span>
+                </div>
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                   {filteredEvents
                     .filter((event) => !isEventUpcoming(event.date))
                     .map((event) => (
                       <Link key={event.id} href={`/events/${event.slug}`} className="group">
-                        <Card className="h-full overflow-hidden hover:shadow-md transition-shadow opacity-90">
-                          <div className="relative aspect-video bg-gray-100">
-                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center text-white font-bold">
-                              Past Event
-                            </div>
-                            <img
+                        <Card className="h-full overflow-hidden rounded-3xl border border-[#EFE4D6] bg-white/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                          <div className="relative aspect-[16/10]">
+                            <Image
                               src={
                                 event.image ||
-                                `/placeholder.svg?height=200&width=400&text=${encodeURIComponent(event.title)}`
+                                `/placeholder.svg?height=260&width=460&text=${encodeURIComponent(event.title)}`
                               }
                               alt={event.title}
-                              className="w-full h-full object-cover"
+                              fill
+                              className="object-cover grayscale transition duration-500 group-hover:grayscale-0"
                             />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
+                            <div className="absolute left-5 bottom-5 text-xs uppercase tracking-[0.3em] text-white/80">
+                              Past Event
+                            </div>
                           </div>
-                          <div className="p-4">
-                            <h4 className="font-bold text-lg mb-2 text-gray-800 group-hover:text-blue-600">
+                          <div className="p-6">
+                            <h4 className="text-lg font-semibold tracking-tight text-[#1F1B16] group-hover:text-[#5B3B1D]">
                               {event.title}
                             </h4>
-                            <div className="flex flex-col gap-1 mb-2 text-sm text-gray-500">
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-1" />
-                                {event.formattedDate} • {event.time}
+                            <div className="mt-3 space-y-2 text-sm text-[#6E5C4C]">
+                              <div className="flex items-center gap-2">
+                                <Calendar className="h-4 w-4" />
+                                <span>
+                                  {event.formattedDate} • {event.time}
+                                </span>
                               </div>
-                              <div className="flex items-center">
-                                <MapPin className="h-4 w-4 mr-1" />
-                                {event.location}
+                              <div className="flex items-center gap-2">
+                                <MapPin className="h-4 w-4" />
+                                <span>{event.location}</span>
                               </div>
                             </div>
-                            <p className="text-sm text-gray-600 line-clamp-2 mb-4">{event.description}</p>
-                            <div className="text-sm text-gray-500">{event.clubName}</div>
+                            <p className="mt-4 text-sm text-[#5B4E44] line-clamp-2">{event.description}</p>
+                            <div className="mt-6 text-sm text-[#6E5C4C]">{event.clubName}</div>
                           </div>
                         </Card>
                       </Link>
                     ))}
                 </div>
-              </div>
+              </section>
             )}
           </div>
         )}

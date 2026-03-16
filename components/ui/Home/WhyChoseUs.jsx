@@ -29,62 +29,47 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className=" flex flex-col w-full md:w-[93%] mx-auto shadow-md my-2 border-t-4 border-gray-100">
-      <div className="p-5">
-        <div className="w-[90%] md:w-full mx-auto mb-2 border-t-2  py-4  border-gray-200  rounded-xl ">
-          <div
-            className="rounded-lg p-10  flex flex-col items-start justify-start gap-5 "
-            style={{
-              // backgroundImage: `url(/features/whyhero.svg)`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundColor: "rgba(92, 149, 255, .2)",
-              backgroundBlendMode: "darken",
-            }}
-          >
-            <h1 className="font-bold text-4xl">Speak With Confidence</h1>
-            <p className="text-base leading-none">
-              Level up your public speaking skills with expert coaching and
-              real-world practice. We're here to help you turn your next
-              presentation into a performance
+    <section className="mx-auto my-6 flex w-full flex-col gap-8 md:w-[93%]">
+      <div className="relative overflow-hidden rounded-3xl border border-[#E7DCCF] bg-[#FAF6EF] px-6 py-10 shadow-sm sm:px-10">
+        <div className="absolute -left-10 top-8 h-32 w-32 rounded-full bg-[#E8D8C6] blur-3xl opacity-70" />
+        <div className="absolute -right-10 bottom-0 h-40 w-40 rounded-full bg-[#C9DCF7] blur-3xl opacity-60" />
+        <div className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Why Choose Us</p>
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[#1F1B16] sm:text-5xl font-serif">
+              Speak with confidence, backed by coaching that sticks.
+            </h1>
+            <p className="mt-4 text-sm leading-relaxed text-[#5B4E44] sm:text-base">
+              Level up your public speaking skills with expert coaching and real-world practice. We are
+              here to help you turn your next presentation into a performance.
             </p>
-
-            <Button
-              asChild
-              variant="outline"
-              className=" w-1/2 md:min-w-[250px]  md:max-w-[350px] h-12 sm:h-20 rounded-3xl  relative overflow-hidden"
-              size="lg"
-              style={{
-                backgroundColor: "rgba(92, 149, 255, .2)",
-              }}
-            >
-              <div>
-                {/* bubbles */}
-                <>
-                  <div
-                    className="absolute -top-2 -right-8 w-16 h-16  rounded-full"
-                    style={{
-                      backgroundColor: "rgba(92, 149, 255, .2)",
-                    }}
-                  ></div>
-                  <div
-                    className="absolute -bottom-5 -right-2 w-16 h-16  rounded-full"
-                    style={{
-                      backgroundColor: "rgba(92, 149, 255, .2)",
-                    }}
-                  ></div>
-                </>
-
-                <Link href="/membership" className="md:text-2xl z-10">
-                  Register Now
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild className="rounded-full bg-[#1F1B16] text-white hover:bg-[#2A231D]">
+                <Link href="/membership">
+                  <span className="relative z-10">Register Now</span>
+                  <span className="pointer-events-none absolute -right-3 -top-3 h-10 w-10 rounded-full bg-white/10" />
+                  <span className="pointer-events-none absolute -bottom-4 right-6 h-12 w-12 rounded-full bg-white/10" />
                 </Link>
-              </div>
-            </Button>
+              </Button>
+              <Button asChild variant="outline" className="rounded-full border-[#1F1B16] text-[#1F1B16]">
+                <Link href="/membership">View Membership</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[#EFE4D6] bg-white/80 p-6 shadow-sm">
+            <h2 className="text-sm uppercase tracking-[0.25em] text-[#8A6D4D]">Coaching Snapshot</h2>
+            <div className="mt-4 space-y-3 text-sm text-[#5B4E44]">
+              <p>Expert coaches who guide your voice, structure, and stage presence.</p>
+              <p>Real-world practice with supportive feedback loops.</p>
+              <p>Personalized pathways that adapt to your goals.</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <CoachingCarousel />
+      <div className="rounded-3xl border border-[#E7DCCF] bg-white/80 p-6 shadow-sm">
+        <CoachingCarousel />
+      </div>
     </section>
   );
 }
