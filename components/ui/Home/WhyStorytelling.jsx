@@ -1,5 +1,3 @@
-import { AdvanceCareer, BostConfidence, DeliverSpeeches, ImproveNetworking } from '@/lib/data/images';
-import Image from 'next/image';
 import React from 'react';
 
 const WhyStorytelling = () => {
@@ -9,68 +7,59 @@ const WhyStorytelling = () => {
   const items = [
     {
       title: "Make Information Stick",
-      image: BostConfidence,
       description: "Stories activate multiple brain areas, making content 22x more memorable than facts alone.",
     },
     {
       title: "Build Connections",
-      image: AdvanceCareer,
       description: "Stories trigger empathy and emotion, creating authentic bonds with your audience.",
     },
     {
       title: "Simplify Complexity",
-      image: ImproveNetworking,
       description: "Turn complicated ideas into clear, relatable messages through narrative.",
     },
     {
       title: "Inspire Action",
-      image: DeliverSpeeches,
       description: "Facts tell but stories sell. Master narratives that motivate people to act.",
     },
   ];
 
   return (
-    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-white px-4 py-10 shadow-sm md:mx-12 md:px-8">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(243,231,216,0.7),transparent_55%),radial-gradient(circle_at_80%_10%,rgba(230,247,255,0.6),transparent_50%)]" />
+    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-[#FDF8F1] px-4 py-10 shadow-sm md:mx-12 md:px-8">
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.7),rgba(243,231,216,0.5))]" />
       <div className="relative container mx-auto">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="space-y-4">
             <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Narrative Power</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#1F1B16] md:text-4xl font-serif">
+            <h2 className="text-3xl font-semibold tracking-tight text-[#1F1B16] md:text-4xl font-serif">
               {title}
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#5B4E44] md:text-base">{description}</p>
-          </div>
-          <div className="rounded-full border border-[#E7DCCF] bg-white/80 px-5 py-2 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
-            Stories that stay
-          </div>
-        </div>
-
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map((item, index) => (
-            <div
-              key={index}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#EFE4D6] bg-white/90 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-            >
-              <div className="relative h-40">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  width={220}
-                  height={160}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
-                <span className="absolute right-4 top-4 rounded-full bg-white/80 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-[#1F1B16]">
-                  Insight {index + 1}
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col gap-2 p-5">
-                <h3 className="text-base font-semibold tracking-tight text-[#1F1B16]">{item.title}</h3>
-                <p className="text-sm text-[#5B4E44]">{item.description}</p>
-              </div>
+            <p className="text-sm leading-relaxed text-[#5B4E44] md:text-base">{description}</p>
+            <div className="rounded-2xl border border-[#EFE4D6] bg-white/90 p-5 text-sm text-[#5B4E44]">
+              Stories are the shortest path from idea to emotion to action.
             </div>
-          ))}
+            <div className="rounded-2xl border border-[#EFE4D6] bg-[#FBF4EA] p-5 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
+              Remembered longer. Shared faster.
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute left-3 top-0 h-full w-px bg-[#E7DCCF]" />
+            <div className="space-y-6 pl-10">
+              {items.map((item, index) => (
+                <div key={item.title} className="relative rounded-2xl border border-[#EFE4D6] bg-white/95 p-5 shadow-sm">
+                  <span className="absolute -left-10 top-6 flex h-7 w-7 items-center justify-center rounded-full bg-[#1F1B16] text-xs text-white">
+                    {index + 1}
+                  </span>
+                  <h3 className="text-base font-semibold tracking-tight text-[#1F1B16]">{item.title}</h3>
+                  <p className="mt-2 text-sm text-[#5B4E44]">{item.description}</p>
+                  <div className="mt-4 flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#8A6D4D]">
+                    <span className="h-1 w-6 bg-[#8A6D4D]" />
+                    Story craft
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
