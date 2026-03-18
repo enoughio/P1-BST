@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { ChevronRightIcon } from 'lucide-react';
 import { DeliverSpeeches, ExpertCoaches, PersonalizedFeedback, RealWorldPractice } from '@/lib/data/images';
 
@@ -96,6 +97,17 @@ const MembershipBenefits = () => {
       }
     };
   }, [isMobile]);
+
+  const slideRef = useRef(null);
+
+  useGSAP(() => {
+    if (isMobile && slideRef.current) {
+      gsap.fromTo(slideRef.current,
+        { opacity: 0, x: 50 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }
+      );
+    }
+  }, [activeIndex, isMobile]);
   
   const goToSlide = (index) => {
     setActiveIndex(index);
@@ -160,13 +172,9 @@ const MembershipBenefits = () => {
         {/* Mobile Carousel */}
         <div className={`${isMobile ? 'block' : 'hidden'} relative`}>
           <div className="overflow-hidden py-4">
-            <AnimatePresence mode="wait">
-              <motion.div
+              <div
+                ref={slideRef}
                 key={activeIndex}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -50 }}
-                transition={{ duration: 0.4 }}
                 className={`p-6 rounded-xl ${benefits[activeIndex].color}`}
               >
                 <div className="flex flex-col items-center text-center">
@@ -184,8 +192,7 @@ const MembershipBenefits = () => {
                   <h3 className="text-xl font-bold mb-3 text-gray-800">{benefits[activeIndex].title}</h3>
                   <p className="text-gray-700">{benefits[activeIndex].description}</p>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
           </div>
 
           {/* Navigation indicators */}

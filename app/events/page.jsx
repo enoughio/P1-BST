@@ -240,7 +240,7 @@ export default function EventsPage() {
               </div>
             </div>
 
-            <div className="relative mt-12 overflow-hidden rounded-[32px] border border-white/70 bg-white/60 shadow-2xl">
+            {/* <div className="relative mt-12 overflow-hidden rounded-[32px] border border-white/70 bg-white/60 shadow-2xl">
               <div
                 ref={carouselRef}
                 className="relative h-[60vh] min-h-[420px] transition-all duration-500 ease-in-out"
@@ -328,7 +328,7 @@ export default function EventsPage() {
                   </div>
                 </>
               )}
-            </div>
+            </div> */}
 
             
           </div>
