@@ -8,7 +8,7 @@ import Link from "next/link";
 const MemberCard = ({ subHeading, title }) => (
   <div
     className=" h-[300px] md:w-[55%] w-full relative overflow-hidden rounded-lg shadow-md flex items-start justify-between flex-col gap-8 p-5 hover:scale-[1.05] transition-transform duration-300 ease-in-out"
-    style={{ background: "rgba(193, 18, 31, .15)" }}
+    style={{ background: "rgba(92, 149, 255, 0.3)" }}
   >
     <div className="flex flex-col items-start justify-start">
       <p className="text-lg font-extralight">{subHeading}</p>
@@ -16,20 +16,20 @@ const MemberCard = ({ subHeading, title }) => (
     </div>
     <Button
       asChild
-      className=" text-black w-1/2 md:min-w-[250px] border-2 shadow-md border-gray-100 md:max-w-[300px] hover:bg-pink-200 h-12 md:h-16 rounded-3xl m-0 p-0 relative overflow-hidden"
+      className=" text-black w-1/2 md:min-w-[250px] border-2 shadow-md border-gray-100 md:max-w-[300px] hover:bg-[#C7D9FB] h-12 md:h-16 rounded-3xl m-0 p-0 relative overflow-hidden"
       size="lg"
-      style={{ background: "rgba(193, 18, 31, .12)" }}
+      style={{ background: "rgba(92, 149, 255, 0.3)" }}
     >
       <div>
         {/* bubbles */}
         <>
           <div
             className="absolute -top-2 -right-8 w-16 h-16  rounded-full"
-            style={{ background: "rgba(193, 18, 31, .12)" }}
+            style={{ background: "rgba(92, 149, 255, 0.3)" }}
           ></div>
           <div
             className="absolute -bottom-5 -right-2 w-16 h-16  rounded-full"
-            style={{ background: "rgba(193, 18, 31, .12)" }}
+            style={{ background: "rgba(92, 149, 255, 0.3)" }}
           ></div>
         </>
 
@@ -41,19 +41,19 @@ const MemberCard = ({ subHeading, title }) => (
     <>
       <div
         className="absolute inline-block md:hidden md:right-6 -right-10 top-20 md:top-20 bottom-14 w-14 h-14 md:w-20 md:h-20 rounded-full"
-        style={{ background: "rgba(193, 18, 31, .08)" }}
+        style={{ background: "rgba(92, 149, 255, 0.22)" }}
       ></div>
       <div
         className="absolute hidden md:inline-block md:top-20 top-24 -right-10 md:right-10 w-20 h-20 md:w-32 md:h-32 rounded-full"
-        style={{ background: "rgba(193, 18, 31, .08)" }}
+        style={{ background: "rgba(92, 149, 255, 0.22)" }}
       ></div>
       <div
         className="absolute  -right-20 md:top-0 top-28 w-40 h-40 rounded-full"
-        style={{ background: "rgba(193, 18, 31, .08)" }}
+        style={{ background: "rgba(92, 149, 255, 0.22)" }}
       ></div>
       <div
         className="absolute -right-2 -bottom-16 w-48 h-48 rounded-full"
-        style={{ background: "rgba(193, 18, 31, .08)" }}
+        style={{ background: "rgba(92, 149, 255, 0.22)" }}
       ></div>
     </>
   </div>

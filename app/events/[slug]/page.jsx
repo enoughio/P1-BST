@@ -818,7 +818,7 @@ export default function EventDetailPage() {
                 <p>Available Seats: {event.maxCapacity - event.attendees}</p>
               </div>
               {submitStatus.message && (
-                <div className="text-sm text-red-600">{submitStatus.message}</div>
+                <div className="text-sm text-[#8A6D4D]">{submitStatus.message}</div>
               )}
             </div>
             <DialogFooter>

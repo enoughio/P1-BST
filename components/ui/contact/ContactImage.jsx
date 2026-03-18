@@ -10,7 +10,6 @@ export default function ContactImage() {
         alt="Customer Support Representative"
         fill
         className='object-cover rounded-sm'
-        className="object-center"
         priority
       />
     </div>

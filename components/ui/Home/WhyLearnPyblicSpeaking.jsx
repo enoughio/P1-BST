@@ -25,17 +25,17 @@ const PublicSpeakingSection = () => {
   ];
 
   return (
-    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 px-4 py-10 shadow-sm md:mx-12 md:px-8">
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,240,240,0.85),rgba(240,248,255,0.75))]" />
+    <section className="relative my-6 overflow-hidden rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-[#F6EFE5] via-white to-[#E6EFF7] px-4 py-10 shadow-sm md:mx-12 md:px-8">
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(246,239,229,0.85),rgba(230,239,247,0.75))]" />
       <div className="relative container mx-auto">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="space-y-4 rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-red-50/80 via-white to-blue-50/80 p-6 shadow-sm">
+          <div className="space-y-4 rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-[#EAD9C8]/60 via-white to-[#E6EFF7]/70 p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Skill Focus</p>
             <h2 className="text-3xl font-semibold tracking-tight text-[#1F1B16] md:text-4xl font-serif">
               {title}
             </h2>
             <p className="text-sm leading-relaxed text-[#5B4E44] md:text-base">{description}</p>
-            <div className="rounded-xl border border-[#E7DCCF] bg-gradient-to-r from-red-100/60 to-blue-100/60 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
+            <div className="rounded-xl border border-[#E7DCCF] bg-gradient-to-r from-[#EAD9C8]/60 to-[#E6EFF7]/60 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
               Confidence is a practiced skill.
             </div>
           </div>

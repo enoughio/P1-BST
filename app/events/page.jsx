@@ -329,11 +329,13 @@ export default function EventsPage() {
                 </>
               )}
             </div>
+
+            
           </div>
         </section>
       )}
 
-      <div className="container mx-auto px-4 py-14">
+      <div className="container mx-auto px-4 py-14 pb-[30vh]  ">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">All Events</p>

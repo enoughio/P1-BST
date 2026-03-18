@@ -46,7 +46,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 mb-8 w-full mr-5">
+    <form onSubmit={handleSubmit} className="space-y-4 mb-8 w-full mr-5">
       <div>
         <label htmlFor="fullName" className="block text-gray-800 font-medium mb-2">
           Full name
@@ -57,7 +57,7 @@ export default function ContactForm() {
           name="fullName"
           value={formData.fullName}
           onChange={handleChange}
-          className="w-full border-b border-pink-200 focus:border-pink-500 outline-none py-2"
+          className="w-full border-b border-[#D9C7B4] focus:border-[#1F1B16] outline-none py-2"
           required
         />
       </div>
@@ -72,7 +72,7 @@ export default function ContactForm() {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full border-b border-pink-200 focus:border-pink-500 outline-none py-2"
+          className="w-full border-b border-[#D9C7B4] focus:border-[#1F1B16] outline-none py-2"
           required
         />
       </div>
@@ -87,7 +87,7 @@ export default function ContactForm() {
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          className="w-full border-b border-pink-200 focus:border-pink-500 outline-none py-2"
+          className="w-full border-b border-[#D9C7B4] focus:border-[#1F1B16] outline-none py-2"
         />
       </div>
 
@@ -101,7 +101,7 @@ export default function ContactForm() {
           name="subject"
           value={formData.subject}
           onChange={handleChange}
-          className="w-full border-b border-pink-200 focus:border-pink-500 outline-none py-2"
+          className="w-full border-b border-[#D9C7B4] focus:border-[#1F1B16] outline-none py-2"
         />
       </div>
 
@@ -114,7 +114,7 @@ export default function ContactForm() {
           name="message"
           value={formData.message}
           onChange={handleChange}
-          className="w-full border-b border-pink-200 focus:border-pink-500 outline-none py-2 min-h-[100px]"
+          className="w-full border-b border-[#D9C7B4] focus:border-[#1F1B16] outline-none py-2 min-h-[100px]"
           required
         />
       </div>
@@ -122,7 +122,7 @@ export default function ContactForm() {
       {status.message && (
         <div
           className={
-            status.type === "success" ? "text-sm text-emerald-600" : "text-sm text-red-600"
+            status.type === "success" ? "text-sm text-emerald-600" : "text-sm text-[#8A6D4D]"
           }
         >
           {status.message}
@@ -132,7 +132,7 @@ export default function ContactForm() {
       <div>
         <button 
           type="submit" 
-          className="bg-pink-200 hover:bg-pink-300 text-gray-800 font-medium py-3 px-6 rounded-full transition-colors flex items-center disabled:opacity-60 disabled:cursor-not-allowed"
+          className="bg-[#E7D8C6] hover:bg-[#D9C7B4] text-[#1F1B16] font-medium py-3 px-6 rounded-full transition-colors flex items-center disabled:opacity-60 disabled:cursor-not-allowed"
           disabled={isSubmitting}
         >
           {isSubmitting ? "SENDING..." : "SEND MESSAGE"}

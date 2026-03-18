@@ -213,7 +213,7 @@ const EnquiryForm = () => {
           
           {/* Submission Message */}
           {submitMessage && (
-            <div className={`mt-4 p-3 rounded text-center ${submitMessage.includes('error') ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+            <div className={`mt-4 p-3 rounded text-center ${submitMessage.includes('error') ? 'bg-[#F6EDE2] text-[#7A5E3A]' : 'bg-green-100 text-green-800'}`}>
               {submitMessage}
             </div>
           )}

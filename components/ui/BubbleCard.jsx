@@ -150,7 +150,7 @@ const BubbleCard = React.forwardRef(
         </DialogTrigger>
 
         {type !== "resources" && (
-          <DialogContent className="sm:max-w-lg md:w-full h-screen bg-red-200 overscroll-auto">
+          <DialogContent className="sm:max-w-lg md:w-full h-screen bg-[#F6F1E7] overscroll-auto">
             <DialogHeader>
               <DialogTitle>{title}</DialogTitle>
             </DialogHeader>

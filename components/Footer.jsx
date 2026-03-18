@@ -7,106 +7,77 @@ import { Linkedin, Facebook, Instagram, YoutubeIcon } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <div className="flex flex-col justify-around bg-gradient-to-b from-[#F7EBEC]/20 to-[#F1D2D4] gap-2 min-h-[50vh]">
-      <div className="w-full flex flex-col md:flex-row justify-around items-start">
-        <div
-          id="left"
-          className="flex flex-col items-start justify-between gap-5 md:w-[50%] px-5"
-        >
-          <div className="w-fit">
-            <h1 className="text-6xl leading-none">Speak</h1>
-            <div className="bg-red-300 w-[90%] h-2"></div>
+    <footer className="border-t border-[#E7DCCF] bg-gradient-to-b from-[#F6F1E7]/60 to-[#E7D8C6]">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.6fr]">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-4xl font-semibold tracking-tight">Speak</h2>
+              <div className="mt-2 h-1 w-20 rounded-full bg-[#D1BFA9]" />
+            </div>
+            <p className="text-sm text-[#5B4E44] max-w-md">
+              Bharat Storytellers helps people find their voice through storytelling, practice, and community.
+              Join the platform that turns ideas into confident delivery.
+            </p>
+            <div className="w-full max-w-sm overflow-hidden rounded-2xl border border-[#EFE4D6] bg-white/80">
+              <Image
+                src={groupPhoto}
+                width={420}
+                height={200}
+                className="h-36 w-full object-cover"
+                alt="Community on stage"
+              />
+            </div>
           </div>
-          <div className=" w-full md:w-[400px] h-[150px] object-cover overflow-hidden rounded-xl">
-            <Image
-              src={groupPhoto}
-              width={400}
-              height={100}
-              className="object-cover"
-              alt="a image showing the stage"
-            />
-          </div>
-          <h5 className="font-thin text-xs">
-            CopyRight @ Bharat Storytellers{" "}
-          </h5>
-        </div>
 
-        <div id="right" className="my-4 w-full md:w-[30%] px-5 py-2 md:py-0">
-          <div className="flex flex-col justify-start gap-3    md:px-10 pb-5 px-3">
-            <h1 className="text-3xl font-medium">Quick Links</h1>
-
-            <div className="flex justify-between items-start gap-10 w-full ">
-              <ul className=" leading-4 text-sm">
-                <li className="hover:underline">
-                  <Link href="/">Home</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/about">About Us</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/programs">Programs</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/join">Join Us</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/contact">Contact</Link>
-                </li>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6D4D]">Quick Links</h3>
+              <ul className="mt-4 space-y-2 text-sm text-[#5B4E44]">
+                <li><Link className="hover:text-[#1F1B16]" href="/">Home</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/about">About Us</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/programs">Programs</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/events">Events</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/contact">Contact</Link></li>
               </ul>
-              <ul className=" leading-4 text-sm">
-                <li className="hover:underline">
-                  <Link href="/membership">Become a member</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/findaclub">Find a Club</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/sponsorship">Sponsorship</Link>
-                </li>
-                <li className="hover:underline">
-                  <Link href="/events">Events</Link>
-                </li>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6D4D]">Community</h3>
+              <ul className="mt-4 space-y-2 text-sm text-[#5B4E44]">
+                <li><Link className="hover:text-[#1F1B16]" href="/membership">Become a member</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/findaclub">Find a Club</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/resources">Resources</Link></li>
+                <li><Link className="hover:text-[#1F1B16]" href="/sponsorship">Sponsorship</Link></li>
               </ul>
             </div>
           </div>
 
-          <div className="w-full h-auto rounded-2xl bg-red-50 py-2 px-5">
-            <h1>Socials</h1>
-
-            <div className="flex gap-8 my-2 ">
-
-              <Link href="https://www.facebook.com/bharatstorytellers/">
-                <Facebook className="h-6 w-6" />
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#8A6D4D]">Connect</h3>
+            <div className="flex gap-4">
+              <Link href="https://www.facebook.com/bharatstorytellers/" aria-label="Facebook">
+                <Facebook className="h-5 w-5 text-[#1F1B16]" />
               </Link>
-              <Link href="https://www.linkedin.com/company/bharat-storytellers/posts/?feedView=all">
-                <Linkedin className="h-6 w-6" />
+              <Link href="https://www.linkedin.com/company/bharat-storytellers/posts/?feedView=all" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5 text-[#1F1B16]" />
               </Link>
-              <Link href="https://www.instagram.com/bhopalstorytellers/">
-                <Instagram className="h-6 w-6" />
+              <Link href="https://www.instagram.com/bhopalstorytellers/" aria-label="Instagram">
+                <Instagram className="h-5 w-5 text-[#1F1B16]" />
               </Link>
-              <Link href="/home">
-                <YoutubeIcon className="h-6 w-6 " />
+              <Link href="/home" aria-label="YouTube">
+                <YoutubeIcon className="h-5 w-5 text-[#1F1B16]" />
               </Link>
             </div>
-
-            <h3 className="text-sm mt-3">
-              contact@Bharatstorytellers.com
-            </h3>
+            <p className="text-sm text-[#5B4E44]">contact@Bharatstorytellers.com</p>
           </div>
         </div>
-      </div>
-      <div id="outro" className="text-center flex flex-col w-[90%] mx-auto">
-        <div className="w-full h-[1px] bg-gray-500"></div>
-        <div className="text-[12px] font-thin">
-          Made with 💗 in India{" "}
-          <span>
-            <Link href="#" className="font-extralight text-gray-400 underline">
-              Details
-            </Link>
-          </span>
+
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-[#E1D3C1] pt-6 text-xs text-[#7A6B5B] md:flex-row">
+          <p>Copyright © Bharat Storytellers. All rights reserved.</p>
+          <p>Made with ♥ in India.</p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

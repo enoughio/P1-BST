@@ -10,7 +10,7 @@ const OurPrograms = () => {
           <div className="flex flex-col justify-end">
             <h1 className="text-4xl font-bold">
               Our{" "}
-              <span className="decoration-red-300 underline decoration-[5px]">
+              <span className="decoration-[#D1BFA9] underline decoration-[5px]">
                 Programs
               </span>
             </h1>

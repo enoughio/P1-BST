@@ -44,7 +44,7 @@ export default function Login() {
         </div>
         
         {error && (
-          <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+          <div className="p-4 mb-4 text-sm text-[#7A5E3A] bg-[#F6F1E7] rounded-lg" role="alert">
             {error}
           </div>
         )}

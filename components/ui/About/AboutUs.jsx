@@ -4,7 +4,7 @@ import React from "react";
 
 const AboutUs = () => {
   return (
-    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 p-5 shadow-sm md:p-8">
+    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-[#F6EFE5] via-white to-[#E6EFF7] p-5 shadow-sm md:p-8">
       <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div className="space-y-6">
           <div className="flex items-center gap-3">
@@ -32,7 +32,7 @@ const AboutUs = () => {
               className="inline-block ml-3 align-bottom"
             />
           </div>
-          <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/85 to-red-100/70 p-5 text-sm text-[#5B4E44]">
+          <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/85 to-[#EAD9C8]/70 p-5 text-sm text-[#5B4E44]">
             <p>
               Bharat Storytellers helps individuals master communication. Conquer public speaking fears,
               refine storytelling, or connect with like-minded individuals. Through workshops, sessions,

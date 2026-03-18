@@ -15,12 +15,15 @@ export default function EventAnnouncementBar() {
 
   return (
     <Link href={eventUrl} className="block bg-[#F3E7D8] text-[#1F1B16]">
-      <div className="container mx-auto flex flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="container mx-auto flex items-center justify-between gap-3 px-4 py-3">
         <div className="text-sm sm:text-base">
-          <span className="font-semibold">Bhopal Storytelling Championship 2026</span> — The search for the city's best
-          young storyteller. Registrations open now.
+          <span className="font-semibold">Bhopal Storytelling Championship 2026</span>
+          <span className="hidden sm:inline">
+            {" "}
+            — The search for the city's best young storyteller. Registrations open now.
+          </span>
           <span className="ml-3 inline-flex items-center rounded-full bg-[#1F1B16] px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
-            View details
+            View<span className="hidden sm:inline-block">_details</span>
           </span>
         </div>
         <button
@@ -31,9 +34,9 @@ export default function EventAnnouncementBar() {
             setIsVisible(false)
           }}
           aria-label="Dismiss announcement"
-          className="self-start text-xs text-[#8A6D4D] underline underline-offset-4 hover:text-[#1F1B16] sm:self-auto"
+          className="self-start inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#1F1B16]/10 text-xs font-semibold text-[#8A6D4D] hover:bg-[#1F1B16] hover:text-white sm:self-auto"
         >
-          Close
+          X
         </button>
       </div>
     </Link>

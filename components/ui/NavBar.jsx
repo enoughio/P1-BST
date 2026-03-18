@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { CircleUser, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { grid1, logo } from "@/lib/data/images";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {  logo } from "@/lib/data/images";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -18,21 +18,26 @@ export function MainNav() {
   return (
     <header className="border-b bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="grid h-16 grid-cols-[auto_1fr_auto] items-center">
           {/* Logo Section */}
 
-          <div className="flex items-center space-x-2 justify-center">
-            <Image
-              src={logo}
-              alt="Bharat Storytellers Logo"
-              width={100}
-              height={60}
-              className="opject-cover"
-            />
-          </div>
+          <Link
+            href="/"
+            className="flex items-center space-x-2 hover:cursor-pointer"
+          >
+            <div className="flex items-center space-x-2 justify-center">
+              <Image
+                src={logo}
+                alt="Bharat Storytellers Logo"
+                width={100}
+                height={60}
+                className="opject-cover"
+              />
+            </div>
+          </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden space-x-8 md:flex">
+          <nav className="hidden justify-center space-x-8 md:flex">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -44,25 +49,7 @@ export function MainNav() {
             ))}
           </nav>
 
-          {/* Profile Image */}
-          <div className="flex items-center space-x-4">
-            <Link
-              href="/login"
-              className="hidden md:flex items-center space-x-4"
-            >
-              {/* <Image
-                src={}
-                alt="Profile"
-                width={40}
-                height={40}
-                className="h-10 w-10 rounded-full"
-              /> */}
-              <div>
-                <CircleUser className="h-10 w-10 text-gray-500" />
-              </div>
-
-            </Link>
-
+          <div className="flex justify-end justify-self-end ml-auto">
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
@@ -74,13 +61,11 @@ export function MainNav() {
               <SheetContent side="right">
                 <nav className="flex flex-col ">
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="text-lg font-medium"
-                    >
-                      {item.name}
-                    </Link>
+                    <SheetClose asChild key={item.name}>
+                      <Link href={item.href} className="text-lg font-medium">
+                        {item.name}
+                      </Link>
+                    </SheetClose>
                   ))}
                 </nav>
               </SheetContent>

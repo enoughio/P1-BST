@@ -4,7 +4,7 @@ import React from "react";
 
 const StorytellingCommunitySection = () => {
   return (
-    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-100 via-white to-blue-100 p-6 shadow-sm md:p-8">
+    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-[#F6EFE5] via-white to-[#E6EFF7] p-6 shadow-sm md:p-8">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 md:flex-row md:items-center">
         <div className="w-full md:w-1/2">
           <div className="rounded-3xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/85 to-blue-100/60 p-3 shadow-sm">

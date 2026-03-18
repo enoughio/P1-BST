@@ -27,7 +27,7 @@ const ImageGrid = () => {
       </div>
 
       {/* Top right - Purple background woman */}
-      <div className="rounded-xl overflow-hidden bg-purple-600">
+      <div className="rounded-xl overflow-hidden bg-slate-600">
         <Image
           src="#"
           alt="Woman in yellow outfit speaking"
@@ -38,18 +38,18 @@ const ImageGrid = () => {
       </div>
 
       {/* Bottom left - Purple background child */}
-      <div className="rounded-xl overflow-hidden bg-purple-400">
+      <div className="rounded-xl overflow-hidden bg-slate-400">
         <Image
           src="#"
-          alt="Child with a pink notebook"
+          alt="Child with a notebook"
           width={400}
           height={320}
           className="w-full h-full object-cover"
         />
       </div>
 
-      {/* Bottom right - Pink background girl */}
-      <div className="rounded-xl overflow-hidden bg-pink-200">
+      {/* Bottom right - Warm background girl */}
+      <div className="rounded-xl overflow-hidden bg-[#E7D8C6]">
         <Image
           src="#"
           alt="Girl writing in a notebook"

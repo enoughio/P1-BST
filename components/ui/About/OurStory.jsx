@@ -4,7 +4,7 @@ import { grid1, grid2, grid3, grid4, grid5, grid8 } from "@/lib/data/images";
 
 const OurStory = () => {
   return (
-    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-red-200 via-white to-blue-100 p-6 shadow-sm md:p-8">
+    <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-[#EAD9C8] via-white to-[#E6EFF7] p-6 shadow-sm md:p-8">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <div className="lg:w-[45%] space-y-4">
           <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Our Story</p>
@@ -28,15 +28,15 @@ const OurStory = () => {
               members can shape their ideas, refine their delivery, and build the confidence to lead.
             </p>
           </div>
-          <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-r from-red-200 to-blue-100 p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
+          <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-r from-[#EAD9C8] to-[#E6EFF7] p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
             From small circles to national stages.
           </div>
           <div className="hidden md:grid grid-cols-3 gap-3 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
             <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-blue-100/60 p-3 text-center">Weekly circles</div>
-            <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-red-200/60 p-3 text-center">Mentor led</div>
+            <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-[#EAD9C8]/60 p-3 text-center">Mentor led</div>
             <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-blue-100/60 p-3 text-center">Nationwide</div>
           </div>
-          <div className="hidden md:block rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-red-200/60 p-5 text-sm text-[#5B4E44]">
+          <div className="hidden md:block rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-[#EAD9C8]/60 p-5 text-sm text-[#5B4E44]">
             <span className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Community Note</span>
             <p className="mt-3">
               Every gathering ends with one simple question: “What story will you take forward?” It keeps

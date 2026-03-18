@@ -9,18 +9,20 @@ import { CiLinkedin } from "react-icons/ci";
 export default function Hero() {
   return (
     <>
-      <section className="relative overflow-hidden  lg:py-5 px-2 min-h-screen">
+      <section className="relative overflow-hidden  lg:py-5 px-2 mt-7 max-h-screen">
         <div className="container relative mx-auto">
           <div className="grid gap-3 sm:gap-5 lg:grid-cols-2 ">
             <div className="left_container flex flex-col justify-center">
               <div className="text-center flex flex-col justify-center items-end">
-                <div className="relative text-right pr-3 md:py-2 flex gap-1">
+                
+                <div className="relative text-right pr-3 mb-5 md:py-2 flex gap-1">
                   <h1 className="text-[2.2rem] font-bold  leading-[2.2rem] text-wrap sm:text-5xl sm:leading-[2.8rem] xl:text-[3rem] md:mt-3 lg:text-6xl">
                     We help you become everyone's favorite speaker!
                   </h1>
-                  <div className=" mt-2 w-2.5 h-[87.1%] mx-auto md:w-5 md:h-[91%] bg-[#F1D2D4]"></div>
+                  <div className=" mt-2 w-2.5 h-[87.1%] mx-auto md:w-5 md:h-[91%] bg-[#E7D8C6]"></div>
                   <div className="absolute -bottom-2 right-6  mt-2 h-1.5 md:h-2 w-[82%] bg-[#C7D9FB]"></div>
                 </div>
+
                 <p className="max-w-[600px] text-muted-foreground  md:text-right font-normal leading-tight  md:leading-[30px] text-left ml-4 my-3 md:my-5 ">
                   Discover the art of storytelling, public speaking and communication with
                   Bharat Storytellers. Gain confidence, refine your skills, and

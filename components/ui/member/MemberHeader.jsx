@@ -12,7 +12,7 @@ const MembershipSection = () => {
         {/* Left column with title and description */}
         <div className="w-full md:w-1/3 p-4 flex flex-col">
           <div className="flex items-start mb-6">
-            <div className="w-1 h-16 bg-pink-300 mr-3"></div>
+            <div className="w-1 h-16 bg-[#D1BFA9] mr-3"></div>
             <h2 className="text-4xl font-bold">Become a Member</h2>
           </div>
           
@@ -21,7 +21,7 @@ const MembershipSection = () => {
           </p>
             
           <Link href="/findaclub" passHref>
-            <button className="bg-pink-200 text-black py-2 px-6 rounded-full flex items-center max-w-xs">
+            <button className="bg-[#E7D8C6] text-[#1F1B16] py-2 px-6 rounded-full flex items-center max-w-xs">
               Find A Club
               <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -81,7 +81,7 @@ const MembershipSection = () => {
         
         {/* Right column with additional info */}
         <div className="w-full md:w-1/3 p-4 mt-4 md:mt-0">
-          <div className="bg-white border border-pink-100 rounded-lg p-6">
+          <div className="bg-white border border-[#E7D8C6] rounded-lg p-6">
             <p className="text-gray-700">
             Public speaking is the art of confidently expressing ideas to an audience, engaging them with clarity and persuasion. It builds leadership, boosts confidence, and enhances communication skills for personal and professional growth.
             </p>

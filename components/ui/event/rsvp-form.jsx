@@ -164,7 +164,7 @@ export default function RsvpForm({ eventId }) {
             onChange={handleChange}
           />
           {errors.firstName && (
-            <p className="text-sm text-red-500 mt-1">{errors.firstName}</p>
+            <p className="text-sm text-[#8A6D4D] mt-1">{errors.firstName}</p>
           )}
         </div>
         
@@ -177,7 +177,7 @@ export default function RsvpForm({ eventId }) {
             onChange={handleChange}
           />
           {errors.lastName && (
-            <p className="text-sm text-red-500 mt-1">{errors.lastName}</p>
+            <p className="text-sm text-[#8A6D4D] mt-1">{errors.lastName}</p>
           )}
         </div>
       </div>
@@ -193,7 +193,7 @@ export default function RsvpForm({ eventId }) {
             onChange={handleChange}
           />
           {errors.email && (
-            <p className="text-sm text-red-500 mt-1">{errors.email}</p>
+            <p className="text-sm text-[#8A6D4D] mt-1">{errors.email}</p>
           )}
         </div>
         
@@ -206,7 +206,7 @@ export default function RsvpForm({ eventId }) {
             onChange={handleChange}
           />
           {errors.phone && (
-            <p className="text-sm text-red-500 mt-1">{errors.phone}</p>
+            <p className="text-sm text-[#8A6D4D] mt-1">{errors.phone}</p>
           )}
         </div>
       </div>
@@ -232,7 +232,7 @@ export default function RsvpForm({ eventId }) {
           </div>
         </RadioGroup>
         {errors.ticketType && (
-          <p className="text-sm text-red-500 mt-1">{errors.ticketType}</p>
+          <p className="text-sm text-[#8A6D4D] mt-1">{errors.ticketType}</p>
         )}
       </div>
 
@@ -281,7 +281,7 @@ export default function RsvpForm({ eventId }) {
             </a>.
           </p>
           {errors.termsAccepted && (
-            <p className="text-sm text-red-500">{errors.termsAccepted}</p>
+            <p className="text-sm text-[#8A6D4D]">{errors.termsAccepted}</p>
           )}
         </div>
       </div>
