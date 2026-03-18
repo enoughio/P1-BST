@@ -50,6 +50,7 @@ export default function Hero() {
                   src={HeroImage}
                   alt="Hero image"
                   fill
+                  priority
                   // sizes="(max-width: 640px) 85vw, (max-width: 768px) 80vw, 70vw"
                   style={{
                     objectFit: "contain",
@@ -125,6 +126,7 @@ export default function Hero() {
                 alt="Hero image"
                 className="object-cover "
                 fill
+                priority
                 sizes="(max-width: 640px) 85vw, (max-width: 768px) 80vw, 70vw"
               />
             </div>
