@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
         <Analytics />
       <AuthProvider>
         <MainNav />
-        <EventAnnouncementBar />
+        {/* <EventAnnouncementBar /> */}
         {children}
         <Footer />
       </AuthProvider>
