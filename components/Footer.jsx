@@ -1,11 +1,20 @@
+"use client";
+
 import { groupPhoto } from "@/lib/data/images";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { Linkedin, Facebook, Instagram, YoutubeIcon } from 'lucide-react';
 
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  if (pathname === "/vanguard" || pathname.startsWith("/vanguard/")) {
+    return null;
+  }
+
   return (
     <footer className="border-t border-[#E7DCCF] bg-gradient-to-b from-[#F6F1E7]/60 to-[#E7D8C6]">
       <div className="container mx-auto px-4 py-12">

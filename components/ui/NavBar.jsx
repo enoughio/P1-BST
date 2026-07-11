@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -15,6 +18,12 @@ const navigation = [
 ];
 
 export function MainNav() {
+  const pathname = usePathname();
+
+  if (pathname === "/vanguard" || pathname.startsWith("/vanguard/")) {
+    return null;
+  }
+
   return (
     <header className="border-b bg-white">
       <div className="container mx-auto px-4">

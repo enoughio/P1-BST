@@ -21,12 +21,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${roboto.className} antialiased bg-[#FAF9F9] `}>
         <Analytics />
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <MainNav />
         {/* <EventAnnouncementBar /> */}
         {children}
         <Footer />
-      </AuthProvider>
+      {/* </AuthProvider> */}
       </body>
     </html>
   );
