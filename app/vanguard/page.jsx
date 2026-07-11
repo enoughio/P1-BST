@@ -10,7 +10,7 @@ import { useEffect } from "react";
  * Empty photos render as a styled placeholder tile.
  */
 
-const SPONSOR_LOGO = ""; // e.g. "/images/mgu-logo.png"
+const SPONSOR_LOGO = "/events/vanguard/mansoravor-logo.png"; // e.g. "/images/mgu-logo.png"
 
 const PILLARS = [
   {
