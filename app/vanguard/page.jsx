@@ -451,6 +451,7 @@ const CSS = `
   @media(max-width:640px){
     .hero{padding:72px 0 86px;}
     .hero h1 .yr{color:#fff !important;}
+    .hero .kicker b{color:#fff !important;}
     .hero-sponsor-top{margin-top:0px; gap:10px; align-items:flex-start;}
     .hero-sponsor-top .lbl{font-size:11px;letter-spacing:.22em;}
     .hero-sponsor-top .chip{padding:10px 16px;min-width:124px;min-height:54px;}
