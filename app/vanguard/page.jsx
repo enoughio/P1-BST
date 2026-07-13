@@ -177,6 +177,12 @@ export default function Vanguard2026() {
           <div className="kicker">
             <b>Young Leaders&apos; Club</b> presents · A Young Leaders&apos; Conference
           </div>
+          <div className="hero-sponsor hero-sponsor-top">
+            <span className="lbl">Brought to you by</span>
+            <span className="chip">
+              {SPONSOR_LOGO && <img src={SPONSOR_LOGO} alt="Mansarovar Global University" />}
+            </span>
+          </div>
           <h1 className="display">
             VANGUARD<br />
             <span className="yr">2026</span>
@@ -208,12 +214,12 @@ export default function Vanguard2026() {
             <a href="#speakers" className="btn-ghost">See the speakers</a>
           </div>
 
-          <div className="hero-sponsor">
+          {/* <div className="hero-sponsor">
             <span className="lbl">Brought to you by</span>
             <span className="chip">
               {SPONSOR_LOGO && <img src={SPONSOR_LOGO} alt="Mansarovar Global University" />}
             </span>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -442,19 +448,43 @@ const CSS = `
   .nav-cta{background:var(--yellow);color:var(--indigo)!important;padding:9px 18px;border-radius:24px;font-weight:800!important;font-size:13.5px!important;transition:transform .15s;}
   .nav-cta:hover{transform:translateY(-1px);}
   @media(max-width:820px){.nav-links a:not(.nav-cta){display:none}}
+  @media(max-width:640px){
+    .hero{padding:72px 0 86px;}
+    .hero h1 .yr{color:#fff !important;}
+    .hero-sponsor-top{margin-top:0px; gap:10px; align-items:flex-start;}
+    .hero-sponsor-top .lbl{font-size:11px;letter-spacing:.22em;}
+    .hero-sponsor-top .chip{padding:10px 16px;min-width:124px;min-height:54px;}
+    .hero-sponsor-top .chip img{height:30px;}
+    .hero-facts{margin-top:14px !important;}
+    .hero-facts{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important;align-items:start !important;}
+    .hero-facts .hero-fact{padding:10px 12px;align-items:flex-start;gap:8px;min-height:66px;}
+    .hero-facts .hero-fact:nth-child(1),
+    .hero-facts .hero-fact:nth-child(2),
+    .hero-facts .hero-fact:nth-child(3){flex:initial;}
+    .hero-facts .hero-fact:nth-child(1),
+    .hero-facts .hero-fact:nth-child(2){grid-column:auto !important; width:100%; min-width:0;}
+    .hero-facts .hero-fact:nth-child(3){grid-column:1 / -1 !important; width:100%;}
+    .hero-facts .hero-fact svg{width:18px;height:18px;}
+    .hero-facts .fv{font-size:11px;line-height:1.2;}
+    .hero-facts .fv small{font-size:9px;line-height:1.15;}
+  }
 
   /* HERO */
-  .hero{position:relative;background:var(--indigo);color:#fff;overflow:hidden;padding:80px 0 96px;}
+  .hero{position:relative;background:var(--indigo);color:#fff;overflow:hidden;padding:26px 0 96px;}
   .hero .disc{position:absolute;top:-160px;right:-140px;width:520px;height:520px;border-radius:50%;background:var(--yellow);opacity:1;}
   .hero .disc2{position:absolute;top:-80px;right:-60px;width:300px;height:300px;border-radius:50%;background:var(--coral);}
   .hero .ring{position:absolute;bottom:-140px;left:-120px;width:360px;height:360px;border-radius:50%;border:44px solid rgba(78,205,196,.18);}
-  .hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 18px;}
   .hero .kicker{font-size:14px;font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.72);margin-bottom:10px;}
   .hero .kicker b{color:var(--yellow);font-weight:700;}
   .hero h1{font-size:clamp(64px,13vw,150px);line-height:.84;}
   .hero h1 .yr{color:var(--yellow);}
-  .hero .conf{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(18px,2.6vw,26px);margin-top:18px;color:#fff;}
-  .hero .theme{display:inline-block;margin-top:22px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:10px 20px;font-size:15px;font-weight:600;}
+  .hero-sponsor-top{margin-top:1px;gap:1px;align-items:center;}
+  .hero-sponsor-top .lbl{font-size:13px;letter-spacing:.26em;}
+  .hero-sponsor-top .chip{padding:14px 22px;min-width:140px;min-height:64px;border:1px solid rgba(255,255,255,.18);box-shadow:0 16px 34px -20px rgba(0,0,0,.5);}
+  .hero-sponsor-top .chip img{height:38px;}
+  .hero .conf{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(12px,2.6vw,26px);margin-top:18px;color:#fff;}
+  .hero .theme{display:inline-block;margin-top:22px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:10px 20px;font-size:10px;font-weight:600;}
   .hero .theme b{color:var(--yellow);}
   .hero-facts{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
   .hero-fact{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 18px;}
@@ -466,8 +496,8 @@ const CSS = `
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(255,210,63,.6);}
   .btn-ghost{border:1.5px solid rgba(255,255,255,.35);color:#fff;font-weight:700;font-size:15px;padding:14px 26px;border-radius:30px;transition:border-color .2s,background .2s;}
   .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08);}
-  .hero-sponsor{margin-top:44px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-  .hero-sponsor .lbl{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);}
+  .hero-sponsor{margin-top:4px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .hero-sponsor .lbl{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase; }
   .hero-sponsor .chip{background:#fff;border-radius:12px;padding:12px 20px;display:flex;align-items:center;min-width:120px;min-height:58px;}
   .hero-sponsor .chip img{height:34px;width:auto;}
 
