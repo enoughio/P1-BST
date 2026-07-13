@@ -11,6 +11,8 @@ import { useEffect } from "react";
  */
 
 const SPONSOR_LOGO = "/events/vanguard/mansoravor-logo.png"; // e.g. "/images/mgu-logo.png"
+const REGISTRATION_URL = "https://rzp.io/rzp/V4LMMHNH";
+const REGISTRATION_QR = "/events/vanguard/qr.jpeg";
 
 const PILLARS = [
   {
@@ -200,7 +202,9 @@ export default function Vanguard2026() {
           </div>
 
           <div className="hero-cta">
-            <a href="#register" className="btn-primary">Register your seat</a>
+            <a href={REGISTRATION_URL} className="btn-primary" target="_blank" rel="noreferrer">
+              Register your seat
+            </a>
             <a href="#speakers" className="btn-ghost">See the speakers</a>
           </div>
 
@@ -348,8 +352,19 @@ export default function Vanguard2026() {
             <p>
               VANGUARD 2026 is a ticketed event for students aged 10–17. Seats are limited — reserve yours and join a day built by Bhopal&apos;s youngest leaders.
             </p>
+            <div className="qr-block">
+              <div className="qr-copy">
+                <span className="qr-label">Scan to register</span>
+                <span className="qr-text">Use the QR code or the button below to complete your booking on Razorpay.</span>
+              </div>
+              <div className="qr-card">
+                <img src={REGISTRATION_QR} alt="VANGUARD 2026 registration QR code" />
+              </div>
+            </div>
             <div className="cta-actions">
-              <a href="#" className="btn-indigo" id="register-link">Register now</a>
+              <a href={REGISTRATION_URL} className="btn-indigo" id="register-link" target="_blank" rel="noreferrer">
+                Register now
+              </a>
               <a
                 href="https://instagram.com/youngleaders.club"
                 className="btn-ghost"
@@ -544,6 +559,12 @@ const CSS = `
   .cta-card h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4.5vw,42px);letter-spacing:-.02em;position:relative;}
   .cta-card h2 .hl{color:var(--indigo);}
   .cta-card p{font-size:16.5px;color:var(--grey);margin-top:14px;max-width:560px;margin-left:auto;margin-right:auto;position:relative;}
+  .qr-block{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:28px;position:relative;}
+  .qr-copy{max-width:320px;text-align:left;}
+  .qr-label{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--indigo);}
+  .qr-text{display:block;font-size:14px;line-height:1.6;color:var(--grey);margin-top:8px;}
+  .qr-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 18px 40px -28px rgba(46,49,146,.35);}
+  .qr-card img{width:170px;height:170px;object-fit:cover;border-radius:12px;}
   .cta-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:30px;position:relative;}
   .btn-indigo{background:var(--indigo);color:#fff;font-weight:800;font-size:15px;padding:15px 32px;border-radius:30px;transition:transform .15s;}
   .btn-indigo:hover{transform:translateY(-2px);}
