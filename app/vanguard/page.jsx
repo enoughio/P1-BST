@@ -487,7 +487,7 @@ const CSS = `
     .hero .conf{color:#fff;}
     .hero .theme{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.1);}
     .test { 
-    display : inline-block; text-aligh : right; font-size : 12px; color : #3a74b6; padding-left: 26px;
+    display : inline-block; font-size : 12px; color : #3a74b6; padding-left: 26px; letter-spacing: .10em; padding-top : 3px;
     }
     .hero .theme b{color: #ffff; font : 12px }
     .hero-fact{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);}
