@@ -177,15 +177,17 @@ export default function Vanguard2026() {
           <div className="kicker">
             <b>Young Leaders&apos; Club</b> presents · A Young Leaders&apos; Conference
           </div>
-          <div className="hero-sponsor hero-sponsor-top">
-            <span className="lbl">Brought to you by</span>
-            <span className="chip">
-              {SPONSOR_LOGO && <img src={SPONSOR_LOGO} alt="Mansarovar Global University" />}
-            </span>
-          </div>
           <h1 className="display">
             VANGUARD<br />
-            <span className="yr">2026</span>
+            <span className="yr-wrap">
+              <span className="yr">2026</span>
+              
+              <div className="flex flex-col pt-1">
+
+              {SPONSOR_LOGO && <img className="yr-logo" src={SPONSOR_LOGO} alt="Mansarovar Global University" />}
+              <div className="test ">Brought to you by</div>
+            </div>
+            </span>
           </h1>
           <div className="conf">One day. The city&apos;s young leaders, on the stage.</div>
           <div className="theme">
@@ -208,18 +210,16 @@ export default function Vanguard2026() {
           </div>
 
           <div className="hero-cta">
-            <a href={REGISTRATION_URL} className="btn-primary" target="_blank" rel="noreferrer">
-              Register your seat
-            </a>
+            <a href="#register" className="btn-primary">Register your seat</a>
             <a href="#speakers" className="btn-ghost">See the speakers</a>
           </div>
 
-          {/* <div className="hero-sponsor">
+          <div className="hero-sponsor">
             <span className="lbl">Brought to you by</span>
             <span className="chip">
               {SPONSOR_LOGO && <img src={SPONSOR_LOGO} alt="Mansarovar Global University" />}
             </span>
-          </div> */}
+          </div>
         </div>
       </section>
 
@@ -358,19 +358,8 @@ export default function Vanguard2026() {
             <p>
               VANGUARD 2026 is a ticketed event for students aged 10–17. Seats are limited — reserve yours and join a day built by Bhopal&apos;s youngest leaders.
             </p>
-            <div className="qr-block">
-              <div className="qr-copy">
-                <span className="qr-label">Scan to register</span>
-                <span className="qr-text">Use the QR code or the button below to complete your booking on Razorpay.</span>
-              </div>
-              <div className="qr-card">
-                <img src={REGISTRATION_QR} alt="VANGUARD 2026 registration QR code" />
-              </div>
-            </div>
             <div className="cta-actions">
-              <a href={REGISTRATION_URL} className="btn-indigo" id="register-link" target="_blank" rel="noreferrer">
-                Register now
-              </a>
+                <a href={REGISTRATION_URL} target="_blank" rel="noreferrer" className="btn-indigo" id="register-link">Register now</a>
               <a
                 href="https://instagram.com/youngleaders.club"
                 className="btn-ghost"
@@ -379,10 +368,17 @@ export default function Vanguard2026() {
                 Follow @youngleaders.club
               </a>
             </div>
+              <div className="cta-qr">
+                <a href={REGISTRATION_URL} target="_blank" rel="noreferrer" className="cta-qr-box">
+                  <img src={REGISTRATION_QR} alt="Registration QR code" />
+                </a>
+                <p className="cta-qr-text">Scan the QR code to register instantly.</p>
+              </div>
             <p className="cta-meta">Sunday, 26 July 2026 · 8:30 AM – 3:30 PM · Ravindra Bhawan, Bhopal</p>
           </div>
         </div>
       </section>
+     
 
       {/* FOOTER */}
       <footer className="foot">
@@ -448,44 +444,24 @@ const CSS = `
   .nav-cta{background:var(--yellow);color:var(--indigo)!important;padding:9px 18px;border-radius:24px;font-weight:800!important;font-size:13.5px!important;transition:transform .15s;}
   .nav-cta:hover{transform:translateY(-1px);}
   @media(max-width:820px){.nav-links a:not(.nav-cta){display:none}}
-  @media(max-width:640px){
-    .hero{padding:72px 0 86px;}
-    .hero h1 .yr{color:#fff !important;}
-    .hero .kicker b{color:#fff !important;}
-    .hero-sponsor-top{margin-top:0px; gap:10px; align-items:flex-start;}
-    .hero-sponsor-top .lbl{font-size:11px;letter-spacing:.22em;}
-    .hero-sponsor-top .chip{padding:10px 16px;min-width:124px;min-height:54px;}
-    .hero-sponsor-top .chip img{height:30px;}
-    .hero-facts{margin-top:14px !important;}
-    .hero-facts{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important;align-items:start !important;}
-    .hero-facts .hero-fact{padding:10px 12px;align-items:flex-start;gap:8px;min-height:66px;}
-    .hero-facts .hero-fact:nth-child(1),
-    .hero-facts .hero-fact:nth-child(2),
-    .hero-facts .hero-fact:nth-child(3){flex:initial;}
-    .hero-facts .hero-fact:nth-child(1),
-    .hero-facts .hero-fact:nth-child(2){grid-column:auto !important; width:100%; min-width:0;}
-    .hero-facts .hero-fact:nth-child(3){grid-column:1 / -1 !important; width:100%;}
-    .hero-facts .hero-fact svg{width:18px;height:18px;}
-    .hero-facts .fv{font-size:11px;line-height:1.2;}
-    .hero-facts .fv small{font-size:9px;line-height:1.15;}
-  }
 
   /* HERO */
-  .hero{position:relative;background:var(--indigo);color:#fff;overflow:hidden;padding:26px 0 96px;}
+  .hero{position:relative;background:var(--indigo);color:#fff;overflow:hidden;padding:20px 0 96px;}
   .hero .disc{position:absolute;top:-160px;right:-140px;width:520px;height:520px;border-radius:50%;background:var(--yellow);opacity:1;}
   .hero .disc2{position:absolute;top:-80px;right:-60px;width:300px;height:300px;border-radius:50%;background:var(--coral);}
   .hero .ring{position:absolute;bottom:-140px;left:-120px;width:360px;height:360px;border-radius:50%;border:44px solid rgba(78,205,196,.18);}
-  .hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 18px;}
+  .hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding:0 24px;}
   .hero .kicker{font-size:14px;font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.72);margin-bottom:10px;}
   .hero .kicker b{color:var(--yellow);font-weight:700;}
-  .hero h1{font-size:clamp(64px,13vw,150px);line-height:.84;}
+  .hero h1{font-size:clamp(58px,11.7vw,135px);line-height:.84;}
+  .hero h1 .yr-wrap{display:inline-flex;align-items:center;gap:16px;flex-wrap:wrap;}
   .hero h1 .yr{color:var(--yellow);}
-  .hero-sponsor-top{margin-top:1px;gap:1px;align-items:center;}
-  .hero-sponsor-top .lbl{font-size:13px;letter-spacing:.26em;}
-  .hero-sponsor-top .chip{padding:14px 22px;min-width:140px;min-height:64px;border:1px solid rgba(255,255,255,.18);box-shadow:0 16px 34px -20px rgba(0,0,0,.5);}
-  .hero-sponsor-top .chip img{height:38px;}
-  .hero .conf{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(12px,2.6vw,26px);margin-top:18px;color:#fff;}
-  .hero .theme{display:inline-block;margin-top:22px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:10px 20px;font-size:10px;font-weight:600;}
+  .hero h1 .yr-logo{display:none;height:44px;width:auto;object-fit:contain;vertical-align:middle;}
+  .test {
+  display:none;
+  }
+  .hero .conf{font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:clamp(18px,2.6vw,26px);margin-top:18px;color:#fff;}
+  .hero .theme{display:inline-block;margin-top:22px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:30px;padding:10px 20px;font-size:15px;font-weight:600;}
   .hero .theme b{color:var(--yellow);}
   .hero-facts{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
   .hero-fact{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px 18px;}
@@ -497,10 +473,31 @@ const CSS = `
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(255,210,63,.6);}
   .btn-ghost{border:1.5px solid rgba(255,255,255,.35);color:#fff;font-weight:700;font-size:15px;padding:14px 26px;border-radius:30px;transition:border-color .2s,background .2s;}
   .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08);}
-  .hero-sponsor{margin-top:4px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-  .hero-sponsor .lbl{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase; }
+  .hero-sponsor{margin-top:44px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .hero-sponsor .lbl{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow);}
   .hero-sponsor .chip{background:#fff;border-radius:12px;padding:12px 20px;display:flex;align-items:center;min-width:120px;min-height:58px;}
   .hero-sponsor .chip img{height:34px;width:auto;}
+  @media(max-width:640px){
+    .hero{color:#fff;}
+    .hero .kicker{color:#ffff;}
+    .hero .kicker b{color: #ffff ;}
+    .hero h1 .yr-wrap{gap:10px;}
+    .hero h1 .yr{color: #ffff;}
+    .hero h1 .yr-logo{display:inline-block; padding-left: 26px; padding-top : 5px ; }
+    .hero .conf{color:#fff;}
+    .hero .theme{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.1);}
+    .test { 
+    display : inline-block; text-aligh : right; font-size : 12px; color : #3a74b6; padding-left: 26px;
+    }
+    .hero .theme b{color: #ffff; font : 12px }
+    .hero-fact{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);}
+    .hero-fact svg{stroke:var(--yellow);}
+    .hero-fact .fv small{color:rgba(255,255,255,.65);}
+    .btn-ghost{border-color:rgba(255,255,255,.35);color:#fff;}
+    .btn-ghost:hover{background:rgba(255,255,255,.08);}
+    .hero-sponsor .lbl{color:var(--yellow);}
+    .hero-sponsor{display:none;}
+  }
 
   /* ABOUT */
   .about{padding:88px 0;}
@@ -590,15 +587,13 @@ const CSS = `
   .cta-card h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4.5vw,42px);letter-spacing:-.02em;position:relative;}
   .cta-card h2 .hl{color:var(--indigo);}
   .cta-card p{font-size:16.5px;color:var(--grey);margin-top:14px;max-width:560px;margin-left:auto;margin-right:auto;position:relative;}
-  .qr-block{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:28px;position:relative;}
-  .qr-copy{max-width:320px;text-align:left;}
-  .qr-label{display:block;font-family:'Bricolage Grotesque',sans-serif;font-size:13px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--indigo);}
-  .qr-text{display:block;font-size:14px;line-height:1.6;color:var(--grey);margin-top:8px;}
-  .qr-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 18px 40px -28px rgba(46,49,146,.35);}
-  .qr-card img{width:170px;height:170px;object-fit:cover;border-radius:12px;}
   .cta-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:30px;position:relative;}
   .btn-indigo{background:var(--indigo);color:#fff;font-weight:800;font-size:15px;padding:15px 32px;border-radius:30px;transition:transform .15s;}
   .btn-indigo:hover{transform:translateY(-2px);}
+  .cta-qr{margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;}
+  .cta-qr-box{display:inline-flex;padding:12px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 34px -24px rgba(46,49,146,.35);}
+  .cta-qr-box img{width:160px;height:160px;object-fit:cover;}
+  .cta-qr-text{font-size:14px;color:var(--grey);font-weight:600;}
   .cta-meta{margin-top:26px;font-size:14px;color:var(--grey);position:relative;}
 
   /* FOOTER */
