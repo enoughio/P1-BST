@@ -28,7 +28,7 @@ export default function BookPage() {
             <p className="book-intro">
               What if nature has already solved many of the problems we struggle with every day?
             </p>
-            <p className="book-edition">Kindle edition · ₹296 · Pre-orders deliver 17 October 2026</p>
+            <p className="book-edition">Hardcover · ₹559 · Kindle edition · ₹296 · Pre-orders deliver 17 October 2026</p>
             <div className="book-actions">
               <a className="book-button" href={amazonUrl} target="_blank" rel="noreferrer">
                 Find the book on Amazon <span aria-hidden="true">↗</span>
@@ -47,7 +47,7 @@ export default function BookPage() {
               height={1024}
               priority
             />
-            <p className="book-cover-note">Kindle edition · Pratap Verma</p>
+            <p className="book-cover-note">Hardcover ₹559 · Kindle ₹296 · Pratap Verma</p>
           </div>    
         </div>
       </section>
@@ -134,8 +134,13 @@ export default function BookPage() {
             <p>
               Send us your details and our team will follow up to confirm your pre-booking and delivery arrangements.
             </p>
+            <p className="book-institutional-contact">
+              Institutional / bulk orders: <a href="tel:+918871317382">+91 8871317382</a>
+            </p>
             <div className="prebooking-summary">
               <div><span>Book</span><strong>The Decoy Principle</strong></div>
+              <div><span>Hardcover</span><strong>₹559</strong></div>
+              <div><span>Kindle</span><strong>₹296</strong></div>
               <div><span>Delivery</span><strong>₹40 extra</strong></div>
               <div><span>Release</span><strong>17 October 2026</strong></div>
             </div>
