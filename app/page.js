@@ -7,9 +7,6 @@ import PublicSpeakingCard from "@/components/ui/Home/WhyLearnPyblicSpeaking";
 import {WhyChooseUs}  from "@/components/ui/Home/WhyChoseUs";
 import WhyStorytelling from "@/components/ui/Home/WhyStorytelling";
 
-
-// TODO: fix why chose us Section
-
 export default function Home() {
   return (
     <div className="w-full ">

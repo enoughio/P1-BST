@@ -29,7 +29,7 @@ const StorytellingCommunitySection = () => {
             earum At perspiciatis nesciunt.
           </p>
           <button className="mt-2 inline-flex items-center gap-2 rounded-full border border-[#1F1B16] bg-[#1F1B16] px-5 py-2 text-sm font-medium text-white transition hover:bg-[#2A231D]">
-            BECOME A MEMBER
+            Request a call
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"

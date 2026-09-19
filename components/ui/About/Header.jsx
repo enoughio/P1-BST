@@ -9,11 +9,13 @@ const Header = () => {
         <div className="relative">
           <p className="text-xs uppercase tracking-[0.35em] text-[#8A6D4D]">About</p>
           <h1 className="mt-4 text-3xl font-semibold tracking-tight text-[#1F1B16] sm:text-4xl lg:text-5xl font-serif">
-            Our story, vision, and values.
+            {/* Our story, vision, and values. */}
+            Bharat Storytellers Foundation 
           </h1>
           <p className="mt-4 text-sm leading-relaxed text-[#5B4E44] sm:text-base max-w-3xl">
-            We are a community that helps people find their voice through storytelling, practice, and
-            purposeful connection.
+            A Section 8 Registered Non-Profit Organisation  ·  Bhopal, Madhya Pradesh, India 
+            {/* We are a community that helps people find their voice through storytelling, practice, and
+            purposeful connection. */}
           </p>
         </div>
       </div>

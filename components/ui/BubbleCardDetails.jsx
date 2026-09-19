@@ -33,7 +33,15 @@ const BubbleCardDetails = ({ details }) => {
       </p>
 
       {/* Description */}
-      <p className="text-sm mb-4">{description}</p>
+      {Array.isArray(description) ? (
+        description.map((paragraph, index) => (
+          <p key={index} className="text-sm mb-4 last:mb-0">
+            {paragraph}
+          </p>
+        ))
+      ) : (
+        <p className="text-sm mb-4">{description}</p>
+      )}
 
       {/* Additional Details */}
       {additionalDetails && (

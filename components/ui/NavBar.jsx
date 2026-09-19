@@ -82,6 +82,11 @@ export function MainNav() {
           </div>
         </div>
       </div>
+      <Link href="/book" className="book-nav-strip">
+        <span>New from Bharat Storytellers</span>
+        <strong>The Decoy Principle by Pratap Verma</strong>
+        <span>Pre-book now <b aria-hidden="true">↗</b></span>
+      </Link>
     </header>
   );
 }

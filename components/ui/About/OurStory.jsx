@@ -7,37 +7,28 @@ const OurStory = () => {
     <section className="w-full rounded-3xl border border-[#E7DCCF] bg-gradient-to-br from-[#EAD9C8] via-white to-[#E6EFF7] p-6 shadow-sm md:p-8">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <div className="lg:w-[45%] space-y-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Our Story</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Future Goals</p>
           <h3 className="text-3xl font-semibold tracking-tight text-[#1F1B16] font-serif">
-            This is how we started.
+            The Road Ahead 
           </h3>
-          <div className="space-y-4 text-sm text-[#5B4E44]">
+          <div className="space-y-4  text-[#5B4E44]">
             <p>
-              Over time, our small gathering transformed into a thriving network of passionate individuals
-              from across India. Through storytelling, we have built connections, fostered learning, and
-              encouraged self-expression, making our community a place of growth and inspiration.
+             Looking ahead, the Foundation is committed to expanding the reach of the Young Leaders’ Club. Our vision is to make this programme affordable and accessible to students across the country, and especially to those studying in government schools and belonging to the underserved sections of society, so that the confidence and leadership it builds are within reach of every young person, regardless of means. 
             </p>
 
             <p>
-              Our journey is a testament to the power of stories and the bonds they create. As we continue
-              to expand, we remain committed to providing a platform where individuals can express
-              themselves, share their narratives, and inspire others along the way.
+              Alongside this, BSF continues to develop new institutional programmes dedicated to the craft of storytelling and influence, and to strengthen its governance, partnerships, and community, in pursuit of a single enduring ambition: a lasting culture of storytelling across India.
             </p>
-            <p className="hidden md:block">
-              Today, our circles host voices from every background, pairing mentorship with practice so
-              members can shape their ideas, refine their delivery, and build the confidence to lead.
-            </p>
+   
           </div>
-          <div className="rounded-2xl border border-[#EFE4D6] bg-gradient-to-r from-[#EAD9C8] to-[#E6EFF7] p-4 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
-            From small circles to national stages.
-          </div>
+       
           <div className="hidden md:grid grid-cols-3 gap-3 text-xs uppercase tracking-[0.25em] text-[#6E5C4C]">
             <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-blue-100/60 p-3 text-center">Weekly circles</div>
             <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-[#EAD9C8]/60 p-3 text-center">Mentor led</div>
             <div className="rounded-xl border border-[#EFE4D6] bg-gradient-to-br from-white to-blue-100/60 p-3 text-center">Nationwide</div>
           </div>
-          <div className="hidden md:block rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-[#EAD9C8]/60 p-5 text-sm text-[#5B4E44]">
-            <span className="text-xs uppercase tracking-[0.3em] text-[#8A6D4D]">Community Note</span>
+          <div className="hidden md:block rounded-2xl border border-[#EFE4D6] bg-gradient-to-br from-white via-white/90 to-[#EAD9C8]/60 p-5  text-[#5B4E44]">
+            <span className=" uppercase tracking-[0.3em] text-[#8A6D4D]">Community Note</span>
             <p className="mt-3">
               Every gathering ends with one simple question: “What story will you take forward?” It keeps
               us grounded, curious, and connected.
