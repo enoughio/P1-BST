@@ -139,7 +139,8 @@ export default function BookPage() {
             </p>
             <div className="prebooking-summary">
               <div><span>Book</span><strong>The Decoy Principle</strong></div>
-              <div><span>Hardcover</span><strong>₹559</strong></div>
+              <div><span>Hardcover</span><strong>₹549</strong></div>
+              <div><span>Paperback</span><strong>449</strong></div>
               <div><span>Kindle</span><strong>₹296</strong></div>
               <div><span>Delivery</span><strong>₹40 extra</strong></div>
               <div><span>Release</span><strong>17 October 2026</strong></div>
