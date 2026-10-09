@@ -8,7 +8,7 @@ const features = [
   {
     title: "Expert Coaches",
     description:
-      "Learn for our expert coaches who have years of experience in public speaking",
+      "Learn from our expert coaches who have years of experience in public speaking",
     image: "/features/why2.jpeg",
   },
   {
